@@ -1,0 +1,55 @@
+This document includes all supported implementations of
+Typeset::Construct in order to evaluate the layout and
+stylistic outcome.
+
+Accents:
+⁜→⏴x⏵, ⁜ă⏴x⏵, ⁜ȧ⏴x⏵, ⁜ä⏴x⏵, ⁜⋯⏴x⏵, ⁜â⏴x⏵, ⁜ā⏴x⏵, ⁜ã⏴x⏵
+⁜→⏴A⏵, ⁜ă⏴A⏵, ⁜ȧ⏴A⏵, ⁜ä⏴A⏵, ⁜⋯⏴A⏵, ⁜â⏴A⏵, ⁜ā⏴A⏵, ⁜ã⏴A⏵
+⁜→⏴ab⏵, ⁜ă⏴ab⏵, ⁜ȧ⏴ab⏵, ⁜ä⏴ab⏵, ⁜⋯⏴ab⏵, ⁜â⏴ab⏵, ⁜ā⏴ab⏵, ⁜ã⏴ab⏵
+⁜ȧ⏴⁜→⏴x⏵⏵, ⁜ȧ⏴⁜ā⏴x⏵⏵
+
+Big Operators:
+⁜∑  ⁜∑⏴i⏵ ⁜∑⏴i=1⏵⏴n⏵
+⁜∏  ⁜∏⏴i⏵ ⁜∏⏴i=1⏵⏴n⏵
+⁜∐  ⁜∐⏴i⏵ ⁜∐⏴i=1⏵⏴n⏵
+⁜⋂  ⁜⋂⏴i⏵ ⁜⋂⏴i=1⏵⏴n⏵
+⁜⋃  ⁜⋃⏴i⏵ ⁜⋃⏴i=1⏵⏴n⏵
+⁜⨄  ⁜⨄⏴i⏵ ⁜⨄⏴i=1⏵⏴n⏵
+
+Binomial Coefficients:
+⁜b⏴n⏵⏴k⏵ ≔ n!/(k!(n-k)!)
+
+Conditional Value:
+δ(x) ≔ ⁜c⏴1⏵⏴x=0⏵⏴0⏵⏴x≠0⏵,    sat(x) ≔ ⁜c⏴x⏵⏴-1 < x < 1⏵⏴1⏵⏴x ≥ 1⏵⏴-1⏵⏴x ≤ -1⏵
+
+Empty SubPhrase:
+⁜→⏴⏵,  ⁜∑⏴⏵⏴⏵,  x = ⁜c⏴⏵⏴⏵⏴⏵⏴⏵
+
+Fractions:
+d arctan(x)/dx = ⁜f⏴1⏵⏴x^2 + 1⏵
+
+Groupings:
+⁜()⏴x⏵, ⁜[]⏴x⏵, ⁜{}⏴x⏵, ⁜||⏴x⏵, ⁜‖‖⏴x⏵, ⁜┊|⏴x⏵,
+⁜⟨⟩⏴x⏵, ⁜⌈⌉⏴x⏵, ⁜⌊⌋⏴x⏵, ⁜⟪⟫⏴x⏵, ⁜⟦⟧⏴x⏵
+⁜()⏴⁜f⏴1⏵⏴2⏵⏵, ⁜[]⏴⁜f⏴1⏵⏴2⏵⏵, ⁜{}⏴⁜f⏴1⏵⏴2⏵⏵, ⁜||⏴⁜f⏴1⏵⏴2⏵⏵, ⁜‖‖⏴⁜f⏴1⏵⏴2⏵⏵, ⁜┊|⏴⁜f⏴1⏵⏴2⏵⏵,
+⁜⟨⟩⏴⁜f⏴1⏵⏴2⏵⏵, ⁜⌈⌉⏴⁜f⏴1⏵⏴2⏵⏵, ⁜⌊⌋⏴⁜f⏴1⏵⏴2⏵⏵, ⁜⟪⟫⏴⁜f⏴1⏵⏴2⏵⏵, ⁜⟦⟧⏴⁜f⏴1⏵⏴2⏵⏵
+
+Integrals:
+⁜∫ (1/x) dx = ln(x)
+⁜∮⏴S⏵E⋅dA = Q/ε0
+⁜∫⏴a⏵⏴b⏵ x dx = (b^2 - a^2)/2
+
+Matrices:
+Rz(θ) ≔ ⁜⊞⏴3⏵⏴3⏵⏴cθ⏵⏴-sθ⏵⏴0⏵⏴cθ⏵⏴sθ⏵⏴0⏵⏴0⏵⏴0⏵⏴1⏵
+⁜⊞⏴2⏵⏴1⏵⏴x'⏵⏴y⏵ = ⁜⊞⏴2⏵⏴2⏵⏴A⏵⏴B⏵⏴C⏵⏴D⏵ ⁜⊞⏴2⏵⏴1⏵⏴x⏵⏴u⏵
+
+Roots:
+i ≔ ⁜√⏴-1⏵, ⁜√⏴8⏵⏴3⏵ = 2
+
+Scripts:
+⁜_⏴x⏵⏴2⏵, ⁜^⏴x⏵⏴2⏵, ⁜Δ⏴x⏵⏴2⏵⏴2⏵
+⁜ā⏴x⏵ ≔ ⁜∑⏴i⏵⁜_⏴x⏵⏴i⏵
+⁜^⏴I⏵⏴2⏵ ≡ ⁜^⏴⁜⊞⏴3⏵⏴3⏵⏴1⏵⏴0⏵⏴0⏵⏴0⏵⏴1⏵⏴0⏵⏴0⏵⏴0⏵⏴1⏵⏵⏴2⏵
+
+Underscripted Functions:
+⁜w⏴lim⏵⏴x→1⏵(x^2 - 1)/(x - 1) = 2

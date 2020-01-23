@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Font/Quivira.otf</file>
+		<file>test.txt</file>
+    </qresource>
+</RCC>

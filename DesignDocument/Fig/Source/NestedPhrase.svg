@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="50cm" height="20cm" viewBox="-99 621 988 400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="230.674" y="637.17">
+    <tspan x="230.674" y="637.17">Data structure for x = \frac{1}{\sqrt{2}}</tspan>
+  </text>
+  <g>
+    <rect style="fill: #e6e6fa" x="-97.1346" y="655.218" width="985.851" height="364.328"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-97.1346" y="655.218" width="985.851" height="364.328"/>
+  </g>
+  <g>
+    <rect style="fill: #1e90ff" x="-77.1606" y="836.484" width="60.25" height="54"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-77.1606" y="836.484" width="60.25" height="54"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-47.0356" y="859.384">
+      <tspan x="-47.0356" y="859.384">Text</tspan>
+      <tspan x="-47.0356" y="875.384">"x = "</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #1e90ff" x="806.554" y="836.484" width="60.25" height="54"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="806.554" y="836.484" width="60.25" height="54"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="836.679" y="859.384">
+      <tspan x="836.679" y="859.384">Text</tspan>
+      <tspan x="836.679" y="875.384">""</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <path style="fill: #96ff96" d="M 147.495 721.174 L 635.315,721.174 C 702.669,721.174 757.27,784.889 757.27,863.485 C 757.27,942.081 702.669,1005.8 635.315,1005.8 L 147.495,1005.8 C 80.1415,1005.8 25.5404,942.081 25.5404,863.485 C 25.5404,784.889 80.1415,721.174 147.495,721.174z"/>
+      <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 147.495 721.174 L 635.315,721.174 C 702.669,721.174 757.27,784.889 757.27,863.485 C 757.27,942.081 702.669,1005.8 635.315,1005.8 L 147.495,1005.8 C 80.1415,1005.8 25.5404,942.081 25.5404,863.485 C 25.5404,784.889 80.1415,721.174 147.495,721.174"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="391.405" y="867.485">
+        <tspan x="391.405" y="867.485"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #e6e6fa" x="406.946" y="727" width="67.9" height="82.4"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="406.946" y="727" width="67.9" height="82.4"/>
+    </g>
+    <g>
+      <rect style="fill: #e6e6fa" x="205.946" y="835.676" width="472" height="150.49"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="205.946" y="835.676" width="472" height="150.49"/>
+    </g>
+    <g>
+      <rect style="fill: #1e90ff" x="209.846" y="884.2" width="60.25" height="54"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="209.846" y="884.2" width="60.25" height="54"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="239.971" y="907.1">
+        <tspan x="239.971" y="907.1">Text</tspan>
+        <tspan x="239.971" y="923.1">""</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #1e90ff" x="610.846" y="884.2" width="60.25" height="54"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="610.846" y="884.2" width="60.25" height="54"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="640.971" y="907.1">
+        <tspan x="640.971" y="907.1">Text</tspan>
+        <tspan x="640.971" y="923.1">""</tspan>
+      </text>
+    </g>
+    <g>
+      <g>
+        <path style="fill: #00ff00" d="M 353.277 845.4 L 526.611,845.4 C 550.543,845.4 569.944,874.86 569.944,911.2 C 569.944,947.54 550.543,977 526.611,977 L 353.277,977 C 329.345,977 309.944,947.54 309.944,911.2 C 309.944,874.86 329.345,845.4 353.277,845.4z"/>
+        <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 353.277 845.4 L 526.611,845.4 C 550.543,845.4 569.944,874.86 569.944,911.2 C 569.944,947.54 550.543,977 526.611,977 L 353.277,977 C 329.345,977 309.944,947.54 309.944,911.2 C 309.944,874.86 329.345,845.4 353.277,845.4"/>
+        <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="439.944" y="915.2">
+          <tspan x="439.944" y="915.2"></tspan>
+        </text>
+      </g>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="340.844" y="916.8">
+        <tspan x="340.844" y="916.8">Phrase* child</tspan>
+      </text>
+      <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="341.844" y="867.4">
+        <tspan x="341.844" y="867.4">Root : InlineConstruct</tspan>
+      </text>
+      <g>
+        <g>
+          <rect style="fill: #e6e6fa" x="467.944" y="879.234" width="75" height="89.7333"/>
+          <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="467.944" y="879.234" width="75" height="89.7333"/>
+          <text font-size="13.5467" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="476.944" y="902.834">
+            <tspan x="476.944" y="902.834">Phrase</tspan>
+            <tspan x="476.944" y="919.767"></tspan>
+            <tspan x="476.944" y="936.701"></tspan>
+            <tspan x="476.944" y="953.634"></tspan>
+          </text>
+        </g>
+        <g>
+          <rect style="fill: #1e90ff" x="476.012" y="911.4" width="60.25" height="54"/>
+          <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="476.012" y="911.4" width="60.25" height="54"/>
+          <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="506.137" y="934.3">
+            <tspan x="506.137" y="934.3">Text</tspan>
+            <tspan x="506.137" y="950.3">"2"</tspan>
+          </text>
+        </g>
+      </g>
+      <g>
+        <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="429.944" y1="912" x2="454.475" y2="911.154"/>
+        <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="446.888,916.419 456.709,911.077 446.543,906.425 "/>
+      </g>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="275.552" y1="911.2" x2="305.472" y2="911.2"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="283.316,906.2 273.316,911.2 283.316,916.2 "/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="297.708,916.2 307.708,911.2 297.708,906.2 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="574.416" y1="911.2" x2="605.39" y2="911.2"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="582.18,906.2 572.18,911.2 582.18,916.2 "/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="597.626,916.2 607.626,911.2 597.626,906.2 "/>
+    </g>
+    <text font-size="13.5467" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="214.946" y="857">
+      <tspan x="214.946" y="857">Phrase</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="269.846" y="786.976">
+      <tspan x="269.846" y="786.976">Phrase* num</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="68.7468" y="917.1">
+      <tspan x="68.7468" y="917.1">Phrase* den</tspan>
+    </text>
+    <line style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #000000" x1="196.196" y1="822.918" x2="683.96" y2="823.404"/>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="355.846" y1="783.576" x2="387.177" y2="783.035"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="379.5,788.168 389.412,782.997 379.327,778.17 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="153.847" y1="912.4" x2="184.151" y2="912.489"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="176.373,917.466 186.388,912.495 176.402,907.466 "/>
+    </g>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="120.214" y="745.26">
+      <tspan x="120.214" y="745.26">Fraction : InlineConstruct</tspan>
+    </text>
+    <g>
+      <rect style="fill: #1e90ff" x="410.846" y="750.4" width="60.25" height="54"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="410.846" y="750.4" width="60.25" height="54"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="440.971" y="773.3">
+        <tspan x="440.971" y="773.3">Text</tspan>
+        <tspan x="440.971" y="789.3">"1"</tspan>
+      </text>
+    </g>
+    <text font-size="13.5467" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="416.846" y="742">
+      <tspan x="416.846" y="742">Phrase</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="-11.4345" y1="863.484" x2="21.0595" y2="863.484"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-3.67059,858.484 -13.6706,863.484 -3.67061,868.484 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="13.2956,868.484 23.2956,863.484 13.2956,858.484 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="761.756" y1="863.484" x2="801.082" y2="863.484"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="769.52,858.484 759.52,863.484 769.52,868.484 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="793.318,868.484 803.318,863.484 793.318,858.484 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="354.764" y="688.946">
+    <tspan x="354.764" y="688.946">Phrase</tspan>
+  </text>
+</svg>

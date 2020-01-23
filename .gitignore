@@ -1,0 +1,14 @@
+#Qt
+*.pro.user*
+build*
+
+#LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdfsync
+
+#Dia
+*.dia~

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="28cm" height="11cm" viewBox="252 124 554 214" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <path style="fill: #00ff00" d="M 431.25 125.6 L 628.65,125.6 C 655.905,125.6 678,172.834 678,231.1 C 678,289.366 655.905,336.6 628.65,336.6 L 431.25,336.6 C 403.995,336.6 381.9,289.366 381.9,231.1 C 381.9,172.834 403.995,125.6 431.25,125.6z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 431.25 125.6 L 628.65,125.6 C 655.905,125.6 678,172.834 678,231.1 C 678,289.366 655.905,336.6 628.65,336.6 L 431.25,336.6 C 403.995,336.6 381.9,289.366 381.9,231.1 C 381.9,172.834 403.995,125.6 431.25,125.6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="529.95" y="235.1">
+      <tspan x="529.95" y="235.1"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #e6e6fa" x="551.774" y="199.4" width="65.45" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="551.774" y="199.4" width="65.45" height="38"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="584.499" y="222.3">
+      <tspan x="584.499" y="222.3">Phrase</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #e6e6fa" x="551.774" y="288.8" width="65.45" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="551.774" y="288.8" width="65.45" height="38"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="584.499" y="311.7">
+      <tspan x="584.499" y="311.7">Phrase</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="427" y="223">
+    <tspan x="427" y="223">Phrase* num</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="430.9" y="312.3">
+    <tspan x="430.9" y="312.3">Phrase* den</tspan>
+  </text>
+  <line style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #000000" x1="538" y1="263.1" x2="631" y2="263.1"/>
+  <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="475" y="258.6">
+    <tspan x="475" y="258.6">bar drawn by</tspan>
+    <tspan x="475" y="274.6">paint() method</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="515" y1="219.6" x2="546.33" y2="219.059"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="538.654,224.192 548.566,219.02 538.481,214.194 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="516" y1="307.6" x2="546.304" y2="307.688"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="538.526,312.666 548.54,307.695 538.555,302.666 "/>
+  </g>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="422" y="160.6">
+    <tspan x="422" y="160.6">Fraction : InlineConstruct</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="380.983" y1="232.935" x2="331.472" y2="233.545"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="339.174,228.45 329.236,233.572 339.297,238.449 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="678.983" y1="230.729" x2="726.528" y2="230.611"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="718.776,235.63 728.764,230.606 718.752,225.63 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="252" y="238.6">
+    <tspan x="252" y="238.6">Text* prev</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="738" y="234.6">
+    <tspan x="738" y="234.6">Text* next</tspan>
+  </text>
+</svg>

@@ -24,8 +24,6 @@ class MainWindow : public QMainWindow{
 private:
     Ui::MainWindow* ui;
     Typeset::Edit typeset_edit;
-    Typeset::Document* typeset_document;
-    QString doc_title = "untitled";
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
@@ -57,7 +55,6 @@ private slots:
 
 private:
     void load(const QString& filename);
-    void save(const QString& filename);
     NO_RETURN(void testForMemoryLeaks())
     bool lineNumbersShown() const;
 };

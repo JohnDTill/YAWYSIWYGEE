@@ -19,6 +19,7 @@ class Document : public QGraphicsScene{
     Q_OBJECT
 
 public:
+    QString save_path;
     Line* front;
     Line* back;
     Cursor* cursor;
@@ -42,13 +43,18 @@ private:
     qreal w;
 
 public:
-    Document(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr);
-    void deletePostorder();
+    Document(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr, QString save_path = "");
+    ~Document() override;
+    void save();
+    void saveAs(QString save_path);
+    void savePrompt();
+    void printSvgPrompt();
     void setLineNumbersVisible(bool show);
     void updateTheme();
     void write(QTextStream& out) const;
     void updateCursorView();
     void updateSize();
+    void copyAsPng();
 
 protected:
     virtual void drawBackground(QPainter* painter, const QRectF& rect) override final;

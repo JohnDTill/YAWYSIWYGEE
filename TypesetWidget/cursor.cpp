@@ -702,9 +702,9 @@ void Cursor::checkSlashSub(){
 
                     word.replace("vec", "→");
                     word.replace("breve", "ă");
-                    word.replace("dot", "ȧ");
-                    word.replace("ddot", "ä");
                     word.replace("dddot", "⋯");
+                    word.replace("ddot", "ä");
+                    word.replace("dot", "ȧ");
                     word.replace("hat", "â");
                     word.replace("bar", "ā");
                     word.replace("tilde", "ã");
@@ -725,9 +725,9 @@ void Cursor::checkSlashSub(){
                     word.replace("bar", "┊|");
                     word.replace("abs", "||");
                     word.replace("norm", "‖‖");
-                    word.replace("int", "∫");
-                    word.replace("iint", "∬");
                     word.replace("iiint", "∭");
+                    word.replace("iint", "∬");
+                    word.replace("int", "∫");
                     word.replace("oint", "∮");
                     word.replace("oiint", "∯");
                     word.replace("oiiint", "∰");

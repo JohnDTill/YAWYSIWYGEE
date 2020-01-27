@@ -5,18 +5,25 @@
 #include "cursor.h"
 #include "globals.h"
 #include "line.h"
+#include "parser.h"
 #include "text.h"
 #include <QCursor>
+#include <QFile>
+#include <QFileDialog>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QMessageBox>
 #include <QPainter>
+#include <QtMath>
+#include <QtSvg/QSvgGenerator>
 
 namespace Typeset{
 
-Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b)
-    : front(f),
+Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b, QString save_path)
+    : save_path(save_path),
+      front(f),
       back(b),
       allow_write(allow_write) {
     setBackgroundBrush(Globals::background_brush);
@@ -44,7 +51,7 @@ Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b)
     undo_stack = new QUndoStack();
 }
 
-void Document::deletePostorder(){
+Document::~Document(){
     while(undo_stack->canRedo()) //QUndoStack deletion is FIFO, which causes crashes undo() is called
         undo_stack->redo();      //so that a latter redo() depends on data from an earlier one.
     delete undo_stack;
@@ -57,7 +64,58 @@ void Document::deletePostorder(){
         curr = curr->prev;
         prev->deletePostorder();
     }
-    delete this;
+}
+
+void Document::save(){
+    if(save_path.isEmpty()) savePrompt();
+    else saveAs(save_path);
+}
+
+void Document::saveAs(QString save_path){
+    this->save_path = save_path;
+    QFile file(save_path);
+
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "Error", "Could not open \"" + save_path + "\" to write.");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    write(out);
+}
+
+void Document::savePrompt(){
+    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Save File"),
+                                save_path.isEmpty() ? "./untitled" : save_path,
+                                tr("Text (*.txt)"));
+
+    if(!file_name.isEmpty()) saveAs(file_name);
+}
+
+void Document::printSvgPrompt(){
+    QString prompt_name = "./" + save_path + ".svg";
+    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Export PDF"),
+                                prompt_name,
+                                tr("SVG (*.svg)"));
+
+    if(file_name.isEmpty()) return;
+
+    QRectF bounds = sceneRect();
+    int x = qCeil(bounds.x());
+    int y = qCeil(bounds.y());
+    int w = qCeil(bounds.width());
+    int h = qCeil(bounds.height());
+
+    QSvgGenerator svgGen;
+    svgGen.setFileName(file_name);
+    svgGen.setSize(QSize(w, h));
+    svgGen.setViewBox(QRect(x, y, w, h));
+
+    QPainter painter(&svgGen);
+    render(&painter, bounds);
 }
 
 void Document::setLineNumbersVisible(bool show){
@@ -101,6 +159,16 @@ void Document::updateSize(){
     qreal left_width = show_line_nums ? linebox_width+linebox_offet : horizontal_scroll_padding;
     w += horizontal_scroll_padding + left_width;
     setSceneRect(QRectF(-left_width, -margin_top, w, h));
+}
+
+void Document::copyAsPng(){
+    constexpr qreal upscale = 3;
+    QImage image(upscale*sceneRect().size().toSize(), QImage::Format_RGB16);
+    image.fill(Qt::transparent);
+
+    QPainter painter(&image);
+    render(&painter);
+    QApplication::clipboard()->setImage(image, QClipboard::Clipboard);
 }
 
 void Document::drawBackground(QPainter* painter, const QRectF& rect){

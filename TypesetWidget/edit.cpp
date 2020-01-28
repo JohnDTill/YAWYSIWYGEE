@@ -210,13 +210,13 @@ void Edit::keyPressEvent(QKeyEvent* e){
     else if(MATCH(MoveToPreviousPage)) doc->cursor->moveToPreviousPage( heightInSceneCoordinates() );
     else if(MATCH(SelectNextPage))     doc->cursor->selectNextPage( heightInSceneCoordinates() );
     else if(MATCH(SelectPreviousPage)) doc->cursor->selectPreviousPage( heightInSceneCoordinates() );
-    else if(MATCH(New)) DO_THIS( "New" )
-    else if(MATCH(Open)) DO_THIS( "Open" )
-    else if(MATCH(Save)) DO_THIS( "Save" )
-    else if(MATCH(SaveAs)) DO_THIS( "SaveAs" )
+    else if(MATCH(New) && doc->allow_write) newDocument(true, doc->show_line_nums);
+    else if(MATCH(Open) && doc->allow_write) loadPrompt(true, doc->show_line_nums);
+    else if(MATCH(Save)) save();
+    else if(MATCH(SaveAs)) savePrompt();
     else if(MATCH(Refresh)) DO_THIS( "Refresh" )
-    else if(MATCH(Open)) DO_THIS( "Close" )
-    else if(MATCH(Print)) DO_THIS( "Print" )
+    else if(MATCH(Close)) DO_THIS( "Close" )
+    else if(MATCH(Print)) printSvgPrompt();
     else QGraphicsView::keyPressEvent(e);
 
     doc->updateCursorView();

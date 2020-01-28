@@ -15,7 +15,8 @@ An initial proof of concept is implemented, but there are memory errors which ca
 This project aims to create a Qt widget for inline editing of equations. The target is a code editor style rather than a document editor style (think Notepad++ with equations versus MS Word or LyX). Such an equation code editor could be used for:
 
 * Computer algebra systems
-* Symbolic math languages
+* Symbolic math
+* Scientific computing languages
 * Mathematical scratchpads
 * Online forums by compiling to WebAssembly
 

@@ -147,5 +147,5 @@ bool MainWindow::lineNumbersShown() const{
 }
 
 void MainWindow::on_actionCopy_as_PNG_triggered(){
-    typeset_edit.copyAsPng();
+    typeset_edit.copySelectionAsPng();
 }

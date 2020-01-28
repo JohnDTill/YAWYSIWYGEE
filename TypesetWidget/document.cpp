@@ -161,14 +161,23 @@ void Document::updateSize(){
     setSceneRect(QRectF(-left_width, -margin_top, w, h));
 }
 
-void Document::copyAsPng(){
-    constexpr qreal upscale = 3;
+void Document::copyAsPng(qreal upscale){
     QImage image(upscale*sceneRect().size().toSize(), QImage::Format_RGB16);
-    image.fill(Qt::transparent);
+    image.fill(Globals::background_brush.color());
 
     QPainter painter(&image);
     render(&painter);
     QApplication::clipboard()->setImage(image, QClipboard::Clipboard);
+}
+
+void Document::copySelectionAsPng(qreal upscale){
+    if(!cursor->hasSelection()) return;
+
+    cursor->copy();
+
+    Document doc(true, false);
+    doc.paste();
+    doc.copyAsPng(upscale);
 }
 
 void Document::drawBackground(QPainter* painter, const QRectF& rect){
@@ -334,12 +343,15 @@ void Document::contextClick(QGraphicsSceneMouseEvent* e){
     menu.addSeparator();
     QAction* cutAction = menu.addAction("Cut");
     QAction* copyAction = menu.addAction("Copy");
+    QAction* copyImageAction = menu.addAction("Copy as PNG");
     QAction* pasteAction = menu.addAction("Paste");
     connect(cutAction,SIGNAL(triggered()),this,SLOT(cutSelection()));
     connect(copyAction,SIGNAL(triggered()),this,SLOT(copySelection()));
+    connect(copyImageAction,SIGNAL(triggered()),this,SLOT(copySelectionAsPng()));
     connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
     cutAction->setEnabled(clicked_on_selection);
     copyAction->setEnabled(clicked_on_selection);
+    copyImageAction->setEnabled(clicked_on_selection);
 
     menu.addSeparator();
     QAction* selectAllAction = menu.addAction("Select All");

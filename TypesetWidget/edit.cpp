@@ -72,8 +72,8 @@ void Edit::setCode(QString& code){
     if(focus_item) focus_item->setFocus();
 }
 
-void Edit::copyAsPng(){
-    doc->copyAsPng();
+void Edit::copySelectionAsPng(qreal upscale){
+    doc->copySelectionAsPng(upscale);
 }
 
 void Edit::updateTheme(){

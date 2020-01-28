@@ -22,7 +22,7 @@ public:
     void setDocument(Document* scene);
     QString toCode() const;
     void setCode(QString& code);
-    void copyAsPng();
+    void copySelectionAsPng(qreal upscale = 3);
     void updateTheme();
 
 public slots:

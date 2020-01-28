@@ -73,7 +73,7 @@ bool Algorithm::contains(const Text& tL, QTextCursor cL, const Text& tR, QTextCu
         if(p.y() < yU || p.y() > yD) return false;
 
         qreal x = p.x() - p_phrase.x();
-        return (x >= cursorOffset(tL, cL) && x <= cursorOffset(tR, cR));
+        return (x >= tL.x() + cursorOffset(tL, cL) && x <= tR.x() + cursorOffset(tR, cR));
     }else{
         Q_ASSERT(tL.parent->isLine());
         Q_ASSERT(tR.parent->isLine());
@@ -87,8 +87,8 @@ bool Algorithm::contains(const Text& tL, QTextCursor cL, const Text& tR, QTextCu
         qreal yRD = yRU + tR.parent->h();
         if(p.y() < yLU || p.y() > yRD) return false;
         else if(p.y() > yLD && p.y() < yRU) return true;
-        else if(p.y() < yLD) return p.x() > cursorOffset(tL, cL);
-        else return p.x() < cursorOffset(tR, cR);
+        else if(p.y() < yLD) return p.x() > tL.scenePos().x() + cursorOffset(tL, cL);
+        else return p.x() < tR.scenePos().x() + cursorOffset(tR, cR);
     }
 }
 

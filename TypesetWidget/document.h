@@ -54,7 +54,10 @@ public:
     void write(QTextStream& out) const;
     void updateCursorView();
     void updateSize();
-    void copyAsPng();
+    void copyAsPng(qreal upscale = 3);
+
+public slots:
+    void copySelectionAsPng(qreal upscale = 3);
 
 protected:
     virtual void drawBackground(QPainter* painter, const QRectF& rect) override final;

@@ -19,11 +19,8 @@ private:
 
 public:
     Edit(bool allow_write = true, bool show_line_numbers = true);
-    void setDocument(Document* scene);
     QString toCode() const;
     void setCode(QString& code);
-    void copySelectionAsPng(qreal upscale = 3);
-    void updateTheme();
 
 public slots:
     void newDocument(bool allow_write = true, bool show_line_numbers = true);
@@ -33,18 +30,23 @@ public slots:
     void saveAs(QString save_path);
     void savePrompt();
     void printSvgPrompt();
-    void zoomIn();
-    void zoomOut();
+    void zoomIn(qreal scale_factor = scale_in_factor);
+    void zoomOut(qreal scale_factor = scale_out_factor);
     void resetZoom();
     void setLineNumbersVisible(bool show);
+    void copySelectionAsPng(qreal upscale = 3);
     void undo();
     void redo();
+
+public:
+    Q_DECL_DEPRECATED void updateTheme();
 
 signals:
     void undoAvailable(bool available);
     void redoAvailable(bool available);
 
 private:
+    void setDocument(Document* scene);
     qreal heightInSceneCoordinates() const;
 
 protected:

@@ -8,7 +8,7 @@ Qt widget for editing documents with inline equations.
 
 ## WORK IN PROGRESS
 
-An initial proof of concept is implemented, but there are memory errors which cause the occasional crash. Public method signatures <i>will</i> change. Code has only been tested on Windows 10. I am sharing the codebase in its current state to receive input and to focus on immediate career decisions.
+The Typeset::Edit public method signatures are mostly stable, but in general public method signatures are subject to change.
 
 ## Purpose
 
@@ -21,6 +21,8 @@ This project aims to create a Qt widget for inline editing of equations. The tar
 * Online forums by compiling to WebAssembly
 
 The name is perhaps overly self-deprecating; although there are many inline equation editors, there is not an abundance of open source options, and a Qt widget should be useful.
+
+Probably the easiest way to interact with a Typeset::Edit in a separate project is to use the toCode() and setCode() methods. See the wiki page on [String Representation](https://github.com/JohnDTill/YAWYSIWYGEE/wiki/String-Representation) for an overview of the serialized format.
 
 ## Prerequisites
 

@@ -24,23 +24,6 @@ Edit::Edit(bool allow_write, bool show_line_numbers){
     setDocument(doc);
 }
 
-void Edit::setDocument(Document* scene){
-    if(QGraphicsView::scene()){
-        disconnect(QGraphicsView::scene(),SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
-                   this,SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
-    }
-
-    QGraphicsView::setScene(scene);
-
-    if(scene){
-        connect(scene,SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
-                this,SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
-
-        connect(doc->undo_stack, SIGNAL(canUndoChanged(bool)), this, SLOT(passUndo(bool)));
-        connect(doc->undo_stack, SIGNAL(canRedoChanged(bool)), this, SLOT(passRedo(bool)));
-    }
-}
-
 QString Edit::toCode() const{
     QString str;
     QTextStream out(&str);
@@ -142,8 +125,8 @@ void Edit::printSvgPrompt(){
     doc->printSvgPrompt();
 }
 
-void Edit::zoomIn(){
-    qreal candidate = transform().m11() * scale_in_factor;
+void Edit::zoomIn(qreal scale_factor){
+    qreal candidate = transform().m11() * scale_factor;
 
     if(candidate > max_scale){
         qreal scale_to_max = max_scale / transform().m11();
@@ -153,14 +136,14 @@ void Edit::zoomIn(){
     }
 }
 
-void Edit::zoomOut(){
-    qreal candidate = transform().m11() * scale_out_factor;
+void Edit::zoomOut(qreal scale_factor){
+    qreal candidate = transform().m11() * scale_factor;
 
     if(candidate < min_scale){
         qreal scale_to_min = min_scale / transform().m11();
         scale(scale_to_min, scale_to_min);
     }else{
-        scale(scale_out_factor, scale_out_factor);
+        scale(scale_factor, scale_factor);
     }
 }
 
@@ -178,6 +161,23 @@ void Edit::undo(){
 
 void Edit::redo(){
     doc->undo_stack->redo();
+}
+
+void Edit::setDocument(Document* scene){
+    if(QGraphicsView::scene()){
+        disconnect(QGraphicsView::scene(),SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
+                   this,SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
+    }
+
+    QGraphicsView::setScene(scene);
+
+    if(scene){
+        connect(scene,SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
+                this,SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
+
+        connect(doc->undo_stack, SIGNAL(canUndoChanged(bool)), this, SLOT(passUndo(bool)));
+        connect(doc->undo_stack, SIGNAL(canRedoChanged(bool)), this, SLOT(passRedo(bool)));
+    }
 }
 
 qreal Edit::heightInSceneCoordinates() const {

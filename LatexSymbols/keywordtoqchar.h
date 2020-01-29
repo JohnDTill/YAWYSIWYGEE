@@ -1,9 +1,10 @@
 #include <string>
 #include <QChar>
 #include <QHash>
+#include <QMap>
 
 namespace LatexSymbols{
-const QHash<QString, QChar> keyword_to_qchar = {
+const QMap<QString, QChar> keyword_to_qchar = {
     { "|" , 8214 },
     { "adots" , 8944 },
     { "aleph" , 8501 },

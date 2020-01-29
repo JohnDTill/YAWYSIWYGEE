@@ -2,5 +2,13 @@
     <qresource prefix="/">
         <file>Font/Quivira.otf</file>
 		<file>test.txt</file>
+		<file>Toolbar/bigint.png</file>
+		<file>Toolbar/bigsum.png</file>
+		<file>Toolbar/binom.png</file>
+		<file>Toolbar/cases.png</file>
+		<file>Toolbar/frac.png</file>
+		<file>Toolbar/mat.png</file>
+		<file>Toolbar/lim.png</file>
+		<file>Toolbar/root.png</file>
     </qresource>
 </RCC>

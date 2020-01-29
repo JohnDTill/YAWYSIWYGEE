@@ -3,7 +3,9 @@
 
 #include "globals.h"
 #include "parser.h"
+#include "../LatexSymbols/keywordtoqchar.h"
 #include <QClipboard>
+#include <QComboBox>
 #include <QFile>
 #include <QFileDialog>
 #include <QtMath>
@@ -24,6 +26,23 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(&typeset_edit, SIGNAL(undoAvailable(bool)), ui->actionUndo, SLOT(setEnabled(bool)));
     connect(&typeset_edit, SIGNAL(redoAvailable(bool)), ui->actionRedo, SLOT(setEnabled(bool)));
+
+    connect(ui->actionCut, SIGNAL(triggered()), &typeset_edit, SLOT(cut()));
+    connect(ui->actionCopy, SIGNAL(triggered()), &typeset_edit, SLOT(copy()));
+    connect(ui->actionPaste, SIGNAL(triggered()), &typeset_edit, SLOT(paste()));
+
+    // Spacer
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    ui->mainToolBar->insertWidget(ui->actionFraction, &symbol_box);
+    ui->mainToolBar->insertWidget(ui->actionFraction, spacer);
+
+    QMap<QString, QChar>::const_iterator i;
+    for(i = LatexSymbols::keyword_to_qchar.begin(); i != LatexSymbols::keyword_to_qchar.end(); i++){
+        symbol_box.addItem(QString(i.value()) + "  (\\" + i.key() + ')');
+    }
+
+    connect(&symbol_box, SIGNAL(activated(const QString&)), this, SLOT(insertChar(const QString&)));
 }
 
 #include <QTextEdit>
@@ -69,7 +88,7 @@ void MainWindow::on_actionSave_As_Test_txt_triggered(){
 }
 
 void MainWindow::on_actionLoad_Test_txt_triggered(){
-    load(":/test.txt");
+    typeset_edit.load(":/test.txt");
 }
 
 void MainWindow::on_actionTest_for_Memory_Leaks_triggered(){
@@ -134,10 +153,6 @@ void MainWindow::on_actionChalkboard_triggered(){
     typeset_edit.updateTheme();
 }
 
-void MainWindow::load(const QString& filename){
-    typeset_edit.load(filename);
-}
-
 void MainWindow::testForMemoryLeaks(){
     for(;;) on_actionLoad_Test_txt_triggered();
 }
@@ -148,4 +163,41 @@ bool MainWindow::lineNumbersShown() const{
 
 void MainWindow::on_actionCopy_as_PNG_triggered(){
     typeset_edit.copySelectionAsPng();
+}
+
+void MainWindow::on_actionFraction_triggered(){
+    typeset_edit.paste("⁜f");
+}
+
+void MainWindow::on_actionMatrix_triggered(){
+    typeset_edit.paste("⁜⊞⏴2⏵⏴2⏵");
+}
+
+void MainWindow::on_actionCases_triggered(){
+    typeset_edit.paste("⁜c");
+}
+
+void MainWindow::on_actionBinom_triggered(){
+    typeset_edit.paste("⁜b");
+}
+
+void MainWindow::on_actionLim_triggered(){
+    typeset_edit.paste("⁜w⏴lim⏵");
+}
+
+void MainWindow::on_actionRoot_triggered(){
+    typeset_edit.paste("⁜√");
+}
+
+void MainWindow::on_actionBigint_triggered(){
+    typeset_edit.paste("⁜∫");
+}
+
+void MainWindow::on_actionBigsum_triggered(){
+    typeset_edit.paste("⁜∑");
+}
+
+void MainWindow::insertChar(const QString& text){
+    typeset_edit.paste(text.front());
+    typeset_edit.setFocus();
 }

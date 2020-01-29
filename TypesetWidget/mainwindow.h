@@ -5,6 +5,7 @@
 
 #include "edit.h"
 #include "document.h"
+#include <QComboBox>
 
 #ifdef _MSC_VER
 #define NO_RETURN(method) \
@@ -24,6 +25,7 @@ class MainWindow : public QMainWindow{
 private:
     Ui::MainWindow* ui;
     Typeset::Edit typeset_edit;
+    QComboBox symbol_box;
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
@@ -50,11 +52,20 @@ private slots:
     void on_actionShow_Line_Numbers_toggled(bool show);
     void on_actionVanilla_triggered();
     void on_actionChalkboard_triggered();
-
     void on_actionCopy_as_PNG_triggered();
 
+    void on_actionFraction_triggered();
+    void on_actionMatrix_triggered();
+    void on_actionCases_triggered();
+    void on_actionBinom_triggered();
+    void on_actionLim_triggered();
+    void on_actionRoot_triggered();
+    void on_actionBigint_triggered();
+    void on_actionBigsum_triggered();
+
+    void insertChar(const QString& text);
+
 private:
-    void load(const QString& filename);
     NO_RETURN(void testForMemoryLeaks())
     bool lineNumbersShown() const;
 };

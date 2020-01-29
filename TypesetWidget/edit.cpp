@@ -163,6 +163,25 @@ void Edit::redo(){
     doc->undo_stack->redo();
 }
 
+void Edit::cut(){
+    doc->cursor->cut();
+    doc->updateCursorView();
+}
+
+void Edit::copy(){
+    doc->cursor->copy();
+}
+
+void Edit::paste(){
+    doc->cursor->paste();
+    doc->updateCursorView();
+}
+
+void Edit::paste(const QString& str){
+    doc->cursor->paste(str);
+    doc->updateCursorView();
+}
+
 void Edit::setDocument(Document* scene){
     if(QGraphicsView::scene()){
         disconnect(QGraphicsView::scene(),SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),

@@ -71,7 +71,11 @@
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionCopy"/>
     <addaction name="actionCopy_as_PNG"/>
+    <addaction name="actionPaste"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -79,12 +83,37 @@
    <addaction name="menuWindow"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="font">
+    <font>
+     <stylestrategy>PreferDefault</stylestrategy>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionFraction"/>
+   <addaction name="actionMatrix"/>
+   <addaction name="actionCases"/>
+   <addaction name="actionBinom"/>
+   <addaction name="actionLim"/>
+   <addaction name="actionRoot"/>
+   <addaction name="actionBigsum"/>
+   <addaction name="actionBigint"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSave_As">
@@ -210,8 +239,121 @@
     <string>Copy as PNG</string>
    </property>
   </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionFraction">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/frac.png</normaloff>:/Toolbar/frac.png</iconset>
+   </property>
+   <property name="text">
+    <string>Frac</string>
+   </property>
+   <property name="toolTip">
+    <string>\frac</string>
+   </property>
+  </action>
+  <action name="actionMatrix">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/mat.png</normaloff>:/Toolbar/mat.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mat</string>
+   </property>
+   <property name="toolTip">
+    <string>\mat</string>
+   </property>
+  </action>
+  <action name="actionCases">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/cases.png</normaloff>:/Toolbar/cases.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cases</string>
+   </property>
+   <property name="toolTip">
+    <string>\cases</string>
+   </property>
+  </action>
+  <action name="actionBinom">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/binom.png</normaloff>:/Toolbar/binom.png</iconset>
+   </property>
+   <property name="text">
+    <string>Binom</string>
+   </property>
+   <property name="toolTip">
+    <string>\binom</string>
+   </property>
+  </action>
+  <action name="actionLim">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/lim.png</normaloff>:/Toolbar/lim.png</iconset>
+   </property>
+   <property name="text">
+    <string>Lim</string>
+   </property>
+   <property name="toolTip">
+    <string>\lim</string>
+   </property>
+  </action>
+  <action name="actionRoot">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/root.png</normaloff>:/Toolbar/root.png</iconset>
+   </property>
+   <property name="text">
+    <string>Root</string>
+   </property>
+   <property name="toolTip">
+    <string>\root</string>
+   </property>
+  </action>
+  <action name="actionBigint">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/bigint.png</normaloff>:/Toolbar/bigint.png</iconset>
+   </property>
+   <property name="text">
+    <string>Int</string>
+   </property>
+   <property name="toolTip">
+    <string>\bigint</string>
+   </property>
+  </action>
+  <action name="actionBigsum">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/bigsum.png</normaloff>:/Toolbar/bigsum.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sum</string>
+   </property>
+   <property name="toolTip">
+    <string>\bigsum</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="qtypesetobjectresource.qrc"/>
+ </resources>
  <connections/>
 </ui>

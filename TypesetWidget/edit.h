@@ -37,6 +37,10 @@ public slots:
     void copySelectionAsPng(qreal upscale = 3);
     void undo();
     void redo();
+    void cut();
+    void copy();
+    void paste();
+    void paste(const QString& str);
 
 public:
     Q_DECL_DEPRECATED void updateTheme();

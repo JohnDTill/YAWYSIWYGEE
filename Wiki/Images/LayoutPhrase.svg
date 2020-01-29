@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="37cm" height="16cm" viewBox="29 82 739 308" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #efefef" x="118.633" y="114.885" width="589.062" height="238.419"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x="118.633" y="114.885" width="589.062" height="238.419"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="413.164" y="237.994">
+      <tspan x="413.164" y="237.994"></tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke-dasharray: 4; stroke: #000000" x1="48.2714" y1="234.676" x2="766.548" y2="235.098"/>
+  <g>
+    <rect style="fill: #bfbfbf" x="387" y="116.935" width="159.129" height="166.065"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="387" y="116.935" width="159.129" height="166.065"/>
+    <text font-size="19.1911" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="466.564" y="205.773">
+      <tspan x="466.564" y="205.773">e</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="382.112" y1="283.244" x2="360.104" y2="283.244"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="386.88" y1="286.918" x2="387.13" y2="303.918"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="546.878" y1="287.418" x2="546.628" y2="302.918"/>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="393.116" y1="295.168" x2="541.142" y2="295.168"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="401.998,290.168 391.998,295.168 401.998,300.168 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="532.26,300.168 542.26,295.168 532.26,290.168 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="371.718" y1="225.494" x2="371.718" y2="122.979"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="366.718,216.612 371.718,226.612 376.718,216.612 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="376.718,131.861 371.718,121.861 366.718,131.861 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="371.13" y1="240.654" x2="371.13" y2="277.432"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="376.13,249.536 371.13,239.536 366.13,249.536 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="366.13,268.55 371.13,278.55 376.13,268.55 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="459.258" y="311.748">
+    <tspan x="459.258" y="311.748">w</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="348.216" y="182.845">
+    <tspan x="348.216" y="182.845">u</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="342.028" y="265.116">
+    <tspan x="342.028" y="265.116">d</tspan>
+  </text>
+  <g>
+    <rect style="fill: #bfbfbf" x="119.368" y="199.246" width="179.192" height="70.4075"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="119.368" y="199.246" width="179.192" height="70.4075"/>
+    <text font-size="19.1911" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="208.964" y="240.255">
+      <tspan x="208.964" y="240.255">e</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="113.556" y1="197.687" x2="90.288" y2="198.509"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="111.508" y1="270.506" x2="89.4998" y2="270.506"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="119.775" y1="277.18" x2="120.025" y2="294.18"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="298.774" y1="277.68" x2="298.524" y2="293.18"/>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="126.011" y1="285.429" x2="292.136" y2="285.333"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="134.89,280.424 124.893,285.429 134.896,290.424 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="283.257,290.338 293.254,285.333 283.251,280.338 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="100.883" y1="200.569" x2="101.014" y2="228.444"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="105.925,209.427 100.878,199.451 95.9249,209.474 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="95.9724,219.586 101.019,229.562 105.972,219.539 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="100.504" y1="238.416" x2="100.249" y2="265.596"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="105.42,247.344 100.514,237.298 95.4207,247.251 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="95.3325,256.668 100.239,266.714 105.332,256.761 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="198.653" y="302.008">
+    <tspan x="198.653" y="302.008">w</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="73.7764" y="216.526">
+    <tspan x="73.7764" y="216.526">u</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="73.9228" y="257.878">
+    <tspan x="73.9228" y="257.878">d</tspan>
+  </text>
+  <g>
+    <rect style="fill: #bfbfbf" x="625.234" y="195.773" width="82.4958" height="156.065"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="625.234" y="195.773" width="82.4958" height="156.065"/>
+    <text font-size="19.1911" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="666.482" y="279.611">
+      <tspan x="666.482" y="279.611">e</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="619.988" y1="195.729" x2="597.98" y2="195.729"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="626.004" y1="357.64" x2="626.254" y2="374.64"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="708.004" y1="358.14" x2="707.754" y2="373.64"/>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="632.24" y1="365.888" x2="699.816" y2="365.82"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="641.117,360.879 631.122,365.889 641.127,370.879 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="690.939,370.829 700.934,365.819 690.929,360.829 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="608.066" y1="200.569" x2="608.24" y2="228.418"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="613.121,209.419 608.059,199.451 603.122,209.482 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="603.185,219.567 608.247,229.536 613.184,219.505 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="607.76" y1="240.984" x2="608.044" y2="347.224"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="612.784,249.853 607.757,239.866 602.784,249.879 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="603.02,338.355 608.047,348.342 613.02,338.329 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="657.882" y="382.468">
+    <tspan x="657.882" y="382.468">w</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="581.506" y="217.5">
+    <tspan x="581.506" y="217.5">u</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="586.314" y="300.066">
+    <tspan x="586.314" y="300.066">d</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="673.734" y="386.516">
+    <tspan x="673.734" y="386.516">2</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="214.44" y="245.122">
+    <tspan x="214.44" y="245.122">0</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="213.296" y="307.858">
+    <tspan x="213.296" y="307.858">0</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="85.1782" y="221.882">
+    <tspan x="85.1782" y="221.882">0</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="85.1782" y="262.882">
+    <tspan x="85.1782" y="262.882">0</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="474.498" y="316.332">
+    <tspan x="474.498" y="316.332">1</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="472.448" y="212.462">
+    <tspan x="472.448" y="212.462">1</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="359.636" y="185.517">
+    <tspan x="359.636" y="185.517">1</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="353.948" y="268.882">
+    <tspan x="353.948" y="268.882">1</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="672.502" y="284.91">
+    <tspan x="672.502" y="284.91">2</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="593.002" y="223.382">
+    <tspan x="593.002" y="223.382">2</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="597.666" y="305.598">
+    <tspan x="597.666" y="305.598">2</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="121.048" y="190.039">
+    <tspan x="121.048" y="190.039">(x , y )</tspan>
+  </text>
+  <g>
+    <ellipse style="fill: #000000" cx="119.114" cy="199.98" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="119.114" cy="199.98" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="119.114" cy="199.98" rx="3.15334" ry="3.15334"/>
+  </g>
+  <g>
+    <ellipse style="fill: #000000" cx="387.975" cy="115.862" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="387.975" cy="115.862" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="387.975" cy="115.862" rx="3.15334" ry="3.15334"/>
+  </g>
+  <g>
+    <ellipse style="fill: #000000" cx="625.507" cy="195.299" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="625.507" cy="195.299" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="625.507" cy="195.299" rx="3.15334" ry="3.15334"/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="138.9" y="195.819">
+    <tspan x="138.9" y="195.819">0</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="168.331" y="195.398">
+    <tspan x="168.331" y="195.398">0</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="374.35" y="102.65">
+    <tspan x="374.35" y="102.65">(x , y )</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="392.008" y="107.552">
+    <tspan x="392.008" y="107.552">1</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="423.12" y="107.552">
+    <tspan x="423.12" y="107.552">1</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="609.502" y="181.667">
+    <tspan x="609.502" y="181.667">(x , y )</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="628.002" y="185.308">
+    <tspan x="628.002" y="185.308">2</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="657.854" y="186.149">
+    <tspan x="657.854" y="186.149">2</tspan>
+  </text>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="94.7334" y="100.67">
+    <tspan x="94.7334" y="100.67">(x , y )</tspan>
+  </text>
+  <g>
+    <ellipse style="fill: #000000" cx="118.364" cy="114.484" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="118.364" cy="114.484" rx="3.15334" ry="3.15334"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" cx="118.364" cy="114.484" rx="3.15334" ry="3.15334"/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="112.484" y="105.816">
+    <tspan x="112.484" y="105.816">p</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="141.619" y="105.221">
+    <tspan x="141.619" y="105.221">p</tspan>
+  </text>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="106.707" y1="114.281" x2="43.9794" y2="114.126"/>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="54.91" y1="120.334" x2="54.9968" y2="225.498"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="59.9174,129.212 54.9091,119.216 49.9174,129.22 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="49.9894,216.62 54.9977,226.616 59.9894,216.612 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="29.6878" y="172.737">
+    <tspan x="29.6878" y="172.737">u</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="41.9306" y="173.889">
+    <tspan x="41.9306" y="173.889">p</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="54.8391" y1="242.496" x2="54.9953" y2="347.428"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="59.8523,251.371 54.8375,241.378 49.8523,251.385 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="49.9821,338.553 54.9969,348.546 59.9821,338.539 "/>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="110.523" y1="351.872" x2="43.642" y2="352.098"/>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="32.2106" y="298.472">
+    <tspan x="32.2106" y="298.472">d</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="43.142" y="302.954">
+    <tspan x="43.142" y="302.954">p</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="379.132" y1="295.473" x2="308.606" y2="295.943"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="370.284,300.532 380.25,295.465 370.217,290.532 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="317.454,290.884 307.488,295.951 317.521,300.884 "/>
+  </g>
+  <text font-size="19.7556" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="337.32" y="314.958">
+    <tspan x="337.32" y="314.958">Δ</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="351.132" y="318.008">
+    <tspan x="351.132" y="318.008">p</tspan>
+  </text>
+</svg>

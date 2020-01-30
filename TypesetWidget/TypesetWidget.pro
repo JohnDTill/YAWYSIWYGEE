@@ -8,8 +8,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-SUBDIRS += \
-           ../LatexSymbols
+SUBDIRS += ../LatexSymbols
 
 SOURCES += \
     accent.cpp \
@@ -49,7 +48,6 @@ SOURCES += \
     underscriptedword.cpp
 
 HEADERS += \
-    ../LatexSymbols/keywordtoqchar.h \
     accent.h \
     algorithm.h \
     bigqchar.h \
@@ -82,18 +80,17 @@ HEADERS += \
     root.h \
     script.h \
     subphrase.h \
+    substitutions.h \
     text.h \
     underscriptedword.h
 
-FORMS += \
-        mainwindow.ui
+FORMS += mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    qtypesetobjectresource.qrc
+RESOURCES += qtypesetobjectresource.qrc
 
 RC_ICONS += lambda.ico

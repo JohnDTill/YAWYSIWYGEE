@@ -16,8 +16,8 @@
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
+#include "substitutions.h"
 #include "text.h"
-#include "../LatexSymbols/keywordtoqchar.h"
 #include <QPainter>
 
 namespace Typeset{
@@ -694,8 +694,8 @@ void Cursor::checkSlashSub(){
                 temp_cursor.movePosition(QTextCursor::Right);
                 temp_cursor.setPosition(word_end, QTextCursor::KeepAnchor);
                 QString word = temp_cursor.selectedText();
-                auto lookup = LatexSymbols::keyword_to_qchar.find(word);
-                if(lookup == LatexSymbols::keyword_to_qchar.end()){
+                auto lookup = keyword_to_qchar.find(word);
+                if(lookup == keyword_to_qchar.end()){
                     word.replace('{', OPEN);
                     word.replace('}', CLOSE);
                     word.prepend(ESCAPE);

@@ -9,17 +9,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-SOURCES += \
-        main.cpp
+SOURCES += main.cpp
 
-HEADERS += \
-        keywordtoqstring.h \
-        keywordtoqchar.h \
-        qchartokeyword.h \
-    latexreplace.h
-
-FORMS += \
-        mainwindow.ui
+HEADERS += ../substitutions.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

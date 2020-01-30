@@ -3,7 +3,7 @@
 
 #include "globals.h"
 #include "parser.h"
-#include "../LatexSymbols/keywordtoqchar.h"
+#include "substitutions.h"
 #include <QClipboard>
 #include <QComboBox>
 #include <QFile>
@@ -38,17 +38,15 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->mainToolBar->insertWidget(ui->actionFraction, spacer);
 
     QMap<QString, QChar>::const_iterator i;
-    for(i = LatexSymbols::keyword_to_qchar.begin(); i != LatexSymbols::keyword_to_qchar.end(); i++){
+    for(i = Typeset::keyword_to_qchar.begin(); i != Typeset::keyword_to_qchar.end(); i++){
         symbol_box.addItem(QString(i.value()) + "  (\\" + i.key() + ')');
     }
 
     connect(&symbol_box, SIGNAL(activated(const QString&)), this, SLOT(insertChar(const QString&)));
 }
 
-#include <QTextEdit>
 MainWindow::~MainWindow(){
     delete ui;
-    QTextEdit e;
 }
 
 void MainWindow::on_actionNew_triggered(){

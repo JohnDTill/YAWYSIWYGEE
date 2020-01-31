@@ -17,6 +17,7 @@ class Text;
 class Parser{
 
 public:
+    static bool containsConstruct(const QString& source);
     static bool isValidCode(const QString& source);
     static bool isValidCode(QTextStream& source);
     static bool shouldParseAsCode(const QString& source);
@@ -24,10 +25,9 @@ public:
     static std::pair<Text*,Text*> parsePhrase(const QString& source, uint8_t script_level = 0);
     static std::pair<Line*,Line*> parseMultiline(const QString& source, uint32_t line_num = 1);
     static QString applyEscapes(QString& text);
-
-private:
     static QString removeEscapes(QString& text);
 
+private:
     static void consume(const QString& source, QString::size_type& curr, QChar c);
     static bool match(const QString& source, QString::size_type& curr, QChar c);
     static bool peek(const QString& source, const QString::size_type& curr, QChar c);

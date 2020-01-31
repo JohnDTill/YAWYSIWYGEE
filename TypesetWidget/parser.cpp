@@ -40,6 +40,20 @@ static const QStringList underscripted_word_whitelist = {"lim", "max", "min", "s
 
 //DO THIS: better error handling in parser, e.g. error messages for failed isValidCode,
 //         line numbers, error highlighting, etc...
+bool Parser::containsConstruct(const QString& source){
+    for(QString::size_type curr = 0; curr < source.size(); curr++){
+        if(source[curr] == ESCAPE){
+            if(++curr >= source.size()) return false;
+            else if(source[curr] == ESCAPE) continue;
+            else if(source[curr] == OPEN) continue;
+            else if(source[curr] == CLOSE) continue;
+            else return true;
+        }
+    }
+
+    return false;
+}
+
 bool Parser::isValidCode(const QString& source){
     QStringList lines = source.split('\n');
     if(lines.last().isEmpty()) lines.removeLast();
@@ -67,7 +81,7 @@ bool Parser::isValidCode(QTextStream& source){
 }
 
 bool Parser::shouldParseAsCode(const QString& source){
-    return source.contains(ESCAPE) && isValidCode(source);
+    return containsConstruct(source) && isValidCode(source);
 }
 
 Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
@@ -249,6 +263,8 @@ bool Parser::validateLine(const QString& source, QString::size_type& curr){
         if( match(source, curr, ESCAPE) && !matchEscapeChar(source, curr) ){
             if( !validateConstruct(source, curr) ) return false;
         }else if(match(source, curr, OPEN)){
+            return false;
+        }else if(match(source, curr, CLOSE)){
             return false;
         }else{
             curr++;
@@ -457,6 +473,7 @@ Text* Parser::parseTextInLine(const QString& source, QString::size_type& curr, u
     while(curr < source.size()){
         if(peek(source, curr, ESCAPE) && !matchEscapeSequence(source, curr)) break;
         else if(peek(source, curr, OPEN)) PARSER_ERROR("unexpected '" + OPEN + "' in code")
+        else if(peek(source, curr, CLOSE)) PARSER_ERROR("unexpected '" + CLOSE + "' in code")
         else curr++;
     }
 

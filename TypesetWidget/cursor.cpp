@@ -338,14 +338,20 @@ void Cursor::paste(const QString& str){
         commands.push_back( deleteSelection() );
         commands[0]->redo();
         if(Parser::shouldParseAsCode(str)) commands.push_back(evaluate(str));
-        else commands.push_back(insert(str));
+        else{
+            QString unescape = str;
+            commands.push_back(insert(Parser::removeEscapes(unescape)));
+        }
         commands[1]->redo();
         commands[1]->undo();
         commands[0]->undo();
         doc.undo_stack->push( new CommandList(commands) );
     }else{
         if(Parser::shouldParseAsCode(str)) doc.undo_stack->push(evaluate(str));
-        else doc.undo_stack->push(insert(str));
+        else{
+            QString unescape = str;
+            doc.undo_stack->push(insert(Parser::removeEscapes(unescape)));
+        }
     }
 }
 
@@ -695,7 +701,7 @@ void Cursor::checkSlashSub(){
                     word.replace("inf", QString("w") + OPEN + "inf" + CLOSE);
                     word.replace("lim", QString("w") + OPEN + "lim" + CLOSE);
 
-                    if(Parser::isValidCode(word)){
+                    if(Parser::shouldParseAsCode(word)){
                         cursor.setPosition(temp_cursor.position() + 1);
                         anchor_cursor.setPosition(temp_cursor.anchor() - 1);
                         paste(word);

@@ -11,9 +11,9 @@ void createIncludes(QTextStream& out){
            "//This file is generated from subfolder \"meta\".\n"
            "//Changes to this file must be made in the meta project.\n"
            "\n"
-           "#include <string>\n"
            "#include <QString>\n"
            "#include <QHash>\n"
+           "#include <QMap>\n"
            "\n"
            "namespace Typeset{\n\n";
 }
@@ -53,7 +53,7 @@ void createSubstitutionMap(QFile& table_file, QTextStream& out){
 
 void createLatexMap(QFile& table_file, QTextStream& out){
     skipHeader(table_file);
-    out << "static const QHash<QChar, std::string> qchar_to_latex = {\n";
+    out << "static const QHash<QChar, QString> qchar_to_latex = {\n";
 
     while(!table_file.atEnd()){
         QString line_str = table_file.readLine();
@@ -75,31 +75,102 @@ void createLatexMap(QFile& table_file, QTextStream& out){
     table_file.reset();
 }
 
+void createAdhocSwitch(QFile& table_file, QTextStream& out){
+    skipHeader(table_file);
+    out << "//CODE-GEN FILE\n"
+           "//This file is generated from subfolder \"meta\".\n"
+           "//Changes to this file must be made in the meta project.\n"
+           "\n"
+           "#include \"cursor.h\"\n"
+           "\n"
+           "namespace Typeset{\n"
+           "\n"
+           "template<ushort indicator, ushort sub>\n"
+           "static void checkTwoCharSub(Cursor& c, QTextCursor cursor){\n"
+           "    cursor.movePosition(QTextCursor::Left);\n"
+           "    cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);\n"
+           "    if(cursor.selectedText() == indicator){\n"
+           "        c.selectPreviousChar();\n"
+           "        c.selectPreviousChar();\n"
+           "        c.keystroke(QChar(sub));\n"
+           "    }\n"
+           "}\n"
+           "\n"
+           "void Cursor::checkForSubstitution(const QChar& c){\n"
+           "    if(cursor.position() < 2) return;\n"
+           "\n"
+           "    switch(c.unicode()){\n"
+           "        case ' ':\n"
+           "            checkSlashSub();\n"
+           "            break;\n";
+
+    ushort curr = 0;
+    while(!table_file.atEnd()){
+        QString line_str = table_file.readLine();
+        QList<QString> entries = line_str.split(',');
+
+        if(entries.at(1).front().unicode() != curr){
+            if(curr != 0) out << "            break;\n";
+
+            curr = entries.at(1).front().unicode();
+            QString code = QChar(curr);
+            if(code == '\\') code = "\\\\";
+            out << "        case '" << code << "':\n";
+        }
+
+        out << "            checkTwoCharSub<" << entries.at(0).front().unicode() << ',' <<
+               entries.at(2).front().unicode() << ">(*this, cursor);\n";
+    }
+
+    out << "    }\n"
+           "}\n"
+           "\n"
+           "}\n";
+
+    table_file.reset();
+}
+
 int main(int, char**){
-    QFile table_file(":/Table.csv");
-    if(!table_file.open(QIODevice::ReadOnly)){
-        qDebug() << table_file.errorString();
+    QFile keyword_table(":/TableKeywords.csv");
+    if(!keyword_table.open(QIODevice::ReadOnly)){
+        qDebug() << keyword_table.errorString();
         return 0;
     }
 
-    if(table_file.atEnd()){
+    if(keyword_table.atEnd()){
         qDebug() << "File is empty.";
         return 0;
     }
 
-    QFile gen_file("../substitutions.h");
-    if(!gen_file.open(QIODevice::WriteOnly)){
-        qDebug() << gen_file.errorString();
+    QFile adhoc_table(":/TableAdhocSymbols.csv");
+    if(!adhoc_table.open(QIODevice::ReadOnly)){
+        qDebug() << adhoc_table.errorString();
         return 0;
     }
 
-    QTextStream out(&gen_file);
-    out.setCodec(QTextCodec::codecForMib(106)); //UTF8
-    createIncludes(out);
-    createSubstitutionMap(table_file, out);
-    createLatexMap(table_file, out);
-    out << "}\n";
-    gen_file.close();
+    QFile keyword_gen_file("../substitutions.h");
+    if(!keyword_gen_file.open(QIODevice::WriteOnly)){
+        qDebug() << keyword_gen_file.errorString();
+        return 0;
+    }
+
+    QFile adhoc_gen_file("../cursor_adhoc_sub.cpp");
+    if(!adhoc_gen_file.open(QIODevice::WriteOnly)){
+        qDebug() << adhoc_gen_file.errorString();
+        return 0;
+    }
+
+    QTextStream out_keyword(&keyword_gen_file);
+    out_keyword.setCodec(QTextCodec::codecForMib(106)); //UTF8
+    createIncludes(out_keyword);
+    createSubstitutionMap(keyword_table, out_keyword);
+    //createLatexMap(table_file, out);
+    out_keyword << "}\n";
+    keyword_gen_file.close();
+
+    QTextStream out_adhoc(&adhoc_gen_file);
+    createAdhocSwitch(adhoc_table, out_adhoc);
+    adhoc_gen_file.close();
 
     return 0;
 }

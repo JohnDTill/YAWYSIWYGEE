@@ -635,51 +635,6 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new CommandEvalPhrase(*this, source, text, cursor);
 }
 
-template<ushort indicator, ushort sub>
-static void checkTwoCharSub(Cursor& c, QTextCursor cursor){
-    cursor.movePosition(QTextCursor::Left);
-    cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
-    if(cursor.selectedText() == indicator){
-        c.selectPreviousChar();
-        c.selectPreviousChar();
-        c.keystroke(QChar(sub));
-    }
-}
-
-void Cursor::checkForSubstitution(const QChar& c){
-    if(cursor.position() < 2) return;
-
-    switch(c.unicode()){
-        case ' ':
-            checkSlashSub();
-            break;
-        case '-':
-            checkTwoCharSub<'<', 8592>(*this, cursor);
-            checkTwoCharSub<'|', 8866>(*this, cursor);
-            break;
-        case '|':
-            checkTwoCharSub<'|', 8214>(*this, cursor);
-            break;
-        case '=':
-            checkTwoCharSub<'<', 8656>(*this, cursor);
-            checkTwoCharSub<':', 8788>(*this, cursor);
-            break;
-        case '>':
-            checkTwoCharSub<8866, 8614>(*this, cursor);
-            checkTwoCharSub<'-', 8594>(*this, cursor);
-            checkTwoCharSub<'=', 8658>(*this, cursor);
-            checkTwoCharSub<8592, 8596>(*this, cursor);
-            checkTwoCharSub<8656, 8660>(*this, cursor);
-            break;
-        case ':':
-            checkTwoCharSub<':', 8759>(*this, cursor);
-            break;
-        case '!':
-            checkTwoCharSub<'!', 8252>(*this, cursor);
-            break;
-    }
-}
-
 void Cursor::checkSlashSub(){
     if(cursor.position() < 3) return;
 

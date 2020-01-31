@@ -28,6 +28,7 @@ SOURCES += \
     commandlist.cpp \
     construct.cpp \
     cursor.cpp \
+    cursor_adhoc_sub.cpp \
     cursorview.cpp \
     document.cpp \
     edit.cpp \

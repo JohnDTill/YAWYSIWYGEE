@@ -18,6 +18,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += Table.csv
+DISTFILES += TableKeywords.csv \
+             TableAdhocSymbols.csv \
+             ../cursor_adhoc_sub.cpp
 
-RESOURCES += Table.csv
+RESOURCES += TableKeywords.csv \
+             TableAdhocSymbols.csv

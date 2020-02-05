@@ -55,6 +55,10 @@ void Edit::setCode(QString& code){
     if(focus_item) focus_item->setFocus();
 }
 
+QString Edit::selectedCode() const{
+    return doc->cursor->selectedCode();
+}
+
 void Edit::copySelectionAsPng(qreal upscale){
     doc->copySelectionAsPng(upscale);
 }

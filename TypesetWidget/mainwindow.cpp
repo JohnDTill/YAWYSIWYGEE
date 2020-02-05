@@ -164,7 +164,7 @@ void MainWindow::on_actionCopy_as_PNG_triggered(){
 }
 
 void MainWindow::on_actionFraction_triggered(){
-    typeset_edit.paste("⁜f");
+    typeset_edit.paste("⁜f⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
 }
 
 void MainWindow::on_actionMatrix_triggered(){
@@ -184,7 +184,7 @@ void MainWindow::on_actionLim_triggered(){
 }
 
 void MainWindow::on_actionRoot_triggered(){
-    typeset_edit.paste("⁜√");
+    typeset_edit.paste("⁜√⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionBigint_triggered(){

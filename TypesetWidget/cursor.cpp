@@ -309,6 +309,18 @@ void Cursor::insertParagraphSeparator(){
     doc.undo_stack->push( insert("\n") );
 }
 
+QString Cursor::selectedCode() const{
+    QString str;
+    if(!hasSelection()) return str;
+
+    QTextStream out(&str);
+
+    if(forward()) Algorithm::write(*anchor_text, anchor_cursor, *text, cursor, out);
+    else Algorithm::write(*text, cursor, *anchor_text, anchor_cursor, out);
+
+    return str;
+}
+
 void Cursor::copy() const{
     if(!hasSelection()) return;
 
@@ -683,7 +695,7 @@ void Cursor::checkSlashSub(){
                     word.replace("floor", "⌊⌋");
                     word.replace("dangle","⟪⟫");
                     word.replace("dbracket", "⟦⟧");
-                    word.replace("bar", "┊|");
+                    word.replace("eval", "┊|");
                     word.replace("abs", "||");
                     word.replace("norm", "‖‖");
                     word.replace("iiint", "∭");

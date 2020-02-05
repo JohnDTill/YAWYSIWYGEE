@@ -9,7 +9,7 @@
 
 #ifdef _MSC_VER
 #define NO_RETURN(method) \
-    method;
+    __declspec(noreturn) method;
 #else
 #define NO_RETURN(method) \
     method __attribute__((noreturn));

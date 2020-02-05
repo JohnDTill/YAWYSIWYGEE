@@ -69,6 +69,7 @@ public:
     void deleteCompleteLine(){DO_THIS( "DeleteCompleteLine" )}
     void insertParagraphSeparator();
     void insertLineSeparator(){insertParagraphSeparator();} //This is shift-Enter
+    QString selectedCode() const;
     void copy() const;
     void cut();
     void paste();

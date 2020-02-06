@@ -34,8 +34,8 @@ MainWindow::MainWindow(QWidget* parent) :
     // Spacer
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    ui->mainToolBar->insertWidget(ui->actionFraction, &symbol_box);
-    ui->mainToolBar->insertWidget(ui->actionFraction, spacer);
+    ui->mainToolBar->insertWidget(ui->actionSubscript, &symbol_box);
+    ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
 
     QMap<QString, QChar>::const_iterator i;
     for(i = Typeset::keyword_to_qchar.begin(); i != Typeset::keyword_to_qchar.end(); i++){
@@ -43,6 +43,27 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
     connect(&symbol_box, SIGNAL(activated(const QString&)), this, SLOT(insertChar(const QString&)));
+
+    ui->mainToolBar->insertWidget(ui->actionFraction, ui->toolButton);
+    ui->toolButton->addAction(ui->actionAccentarrow);
+    ui->toolButton->addAction(ui->actionAccentbar);
+    ui->toolButton->addAction(ui->actionAccentbreve);
+    ui->toolButton->addAction(ui->actionAccentdot);
+    ui->toolButton->addAction(ui->actionAccentddot);
+    ui->toolButton->addAction(ui->actionAccentdddot);
+    ui->toolButton->addAction(ui->actionAccenthat);
+    ui->toolButton->addAction(ui->actionAccenttilde);
+    ui->toolButton->setDefaultAction(ui->actionAccentarrow);
+
+    ui->mainToolBar->addWidget(ui->groupButton);
+    ui->groupButton->addAction(ui->actionGroupingabs);
+    ui->groupButton->addAction(ui->actionGroupnorm);
+    ui->groupButton->addAction(ui->actionGroupingangle);
+    ui->groupButton->addAction(ui->actionGroupingdangle);
+    ui->groupButton->addAction(ui->actionGroupingceil);
+    ui->groupButton->addAction(ui->actionGroupingfloor);
+    ui->groupButton->addAction(ui->actionEval);
+    ui->groupButton->setDefaultAction(ui->actionGroupnorm);
 }
 
 MainWindow::~MainWindow(){
@@ -198,4 +219,84 @@ void MainWindow::on_actionBigsum_triggered(){
 void MainWindow::insertChar(const QString& text){
     typeset_edit.paste(text.front());
     typeset_edit.setFocus();
+}
+
+void MainWindow::on_actionSubscript_triggered(){
+    typeset_edit.paste("⁜_⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+}
+
+void MainWindow::on_actionSuperscript_triggered(){
+    typeset_edit.paste("⁜^⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+}
+
+void MainWindow::on_actionDualscript_triggered(){
+    typeset_edit.paste("⁜Δ⏴" + typeset_edit.selectedCode() + "⏵⏴⏵⏴⏵");
+}
+
+void MainWindow::on_actionAccentarrow_triggered(){
+    typeset_edit.paste("⁜→⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccentbar_triggered(){
+    typeset_edit.paste("⁜ā⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccentbreve_triggered(){
+    typeset_edit.paste("⁜ă⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccentdot_triggered(){
+    typeset_edit.paste("⁜ȧ⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccentddot_triggered(){
+    typeset_edit.paste("⁜ä⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccentdddot_triggered(){
+    typeset_edit.paste("⁜⋯⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccenthat_triggered(){
+    typeset_edit.paste("⁜â⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionAccenttilde_triggered(){
+    typeset_edit.paste("⁜ã⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_toolButton_triggered(QAction* action){
+    ui->toolButton->setDefaultAction(action);
+}
+
+void MainWindow::on_actionGroupnorm_triggered(){
+    typeset_edit.paste("⁜‖‖⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionGroupingabs_triggered(){
+    typeset_edit.paste("⁜||⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionGroupingangle_triggered(){
+    typeset_edit.paste("⁜⟨⟩⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionGroupingdangle_triggered(){
+    typeset_edit.paste("⁜⟪⟫⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionGroupingceil_triggered(){
+    typeset_edit.paste("⁜⌈⌉⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionGroupingfloor_triggered(){
+    typeset_edit.paste("⁜⌊⌋⏴" + typeset_edit.selectedCode() + "⏵");
+}
+
+void MainWindow::on_actionEval_triggered(){
+    typeset_edit.paste("⁜Δ⏴⁜┊|⏴" + typeset_edit.selectedCode() + "⏵⏵⏴⏵⏴⏵");
+}
+
+void MainWindow::on_groupButton_triggered(QAction* action){
+    ui->groupButton->setDefaultAction(action);
 }

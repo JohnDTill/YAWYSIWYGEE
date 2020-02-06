@@ -65,6 +65,36 @@ private slots:
 
     void insertChar(const QString& text);
 
+    void on_actionSubscript_triggered();
+    void on_actionSuperscript_triggered();
+    void on_actionDualscript_triggered();
+    void on_actionAccentarrow_triggered();
+    void on_actionAccentbar_triggered();
+    void on_actionAccentbreve_triggered();
+    void on_actionAccentdot_triggered();
+    void on_actionAccentddot_triggered();
+    void on_actionAccentdddot_triggered();
+    void on_actionAccenthat_triggered();
+    void on_actionAccenttilde_triggered();
+
+    void on_toolButton_triggered(QAction *arg1);
+
+    void on_actionGroupnorm_triggered();
+
+    void on_actionGroupingabs_triggered();
+
+    void on_actionGroupingangle_triggered();
+
+    void on_actionGroupingdangle_triggered();
+
+    void on_actionGroupingceil_triggered();
+
+    void on_actionGroupingfloor_triggered();
+
+    void on_actionEval_triggered();
+
+    void on_groupButton_triggered(QAction *arg1);
+
 private:
     NO_RETURN(void testForMemoryLeaks())
     bool lineNumbersShown() const;

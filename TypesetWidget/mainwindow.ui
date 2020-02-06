@@ -14,7 +14,34 @@
    <string>YAWYSIWYGEE</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2"/>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QToolButton" name="groupButton">
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::MenuButtonPopup</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="toolButton">
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::MenuButtonPopup</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -22,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>30</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -106,6 +133,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSubscript"/>
+   <addaction name="actionSuperscript"/>
+   <addaction name="actionDualscript"/>
    <addaction name="actionFraction"/>
    <addaction name="actionMatrix"/>
    <addaction name="actionCases"/>
@@ -257,7 +287,7 @@
   <action name="actionFraction">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/frac.png</normaloff>:/Toolbar/frac.png</iconset>
+     <normaloff>:/Toolbar/frac.ico</normaloff>:/Toolbar/frac.ico</iconset>
    </property>
    <property name="text">
     <string>Frac</string>
@@ -269,7 +299,7 @@
   <action name="actionMatrix">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/mat.png</normaloff>:/Toolbar/mat.png</iconset>
+     <normaloff>:/Toolbar/mat.ico</normaloff>:/Toolbar/mat.ico</iconset>
    </property>
    <property name="text">
     <string>Mat</string>
@@ -281,7 +311,7 @@
   <action name="actionCases">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/cases.png</normaloff>:/Toolbar/cases.png</iconset>
+     <normaloff>:/Toolbar/cases.ico</normaloff>:/Toolbar/cases.ico</iconset>
    </property>
    <property name="text">
     <string>Cases</string>
@@ -293,7 +323,7 @@
   <action name="actionBinom">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/binom.png</normaloff>:/Toolbar/binom.png</iconset>
+     <normaloff>:/Toolbar/binom.ico</normaloff>:/Toolbar/binom.ico</iconset>
    </property>
    <property name="text">
     <string>Binom</string>
@@ -305,7 +335,7 @@
   <action name="actionLim">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/lim.png</normaloff>:/Toolbar/lim.png</iconset>
+     <normaloff>:/Toolbar/lim.ico</normaloff>:/Toolbar/lim.ico</iconset>
    </property>
    <property name="text">
     <string>Lim</string>
@@ -317,7 +347,7 @@
   <action name="actionRoot">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/root.png</normaloff>:/Toolbar/root.png</iconset>
+     <normaloff>:/Toolbar/root.ico</normaloff>:/Toolbar/root.ico</iconset>
    </property>
    <property name="text">
     <string>Root</string>
@@ -329,7 +359,7 @@
   <action name="actionBigint">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/bigint.png</normaloff>:/Toolbar/bigint.png</iconset>
+     <normaloff>:/Toolbar/bigint.ico</normaloff>:/Toolbar/bigint.ico</iconset>
    </property>
    <property name="text">
     <string>Int</string>
@@ -341,13 +371,220 @@
   <action name="actionBigsum">
    <property name="icon">
     <iconset resource="qtypesetobjectresource.qrc">
-     <normaloff>:/Toolbar/bigsum.png</normaloff>:/Toolbar/bigsum.png</iconset>
+     <normaloff>:/Toolbar/bigsum.ico</normaloff>:/Toolbar/bigsum.ico</iconset>
    </property>
    <property name="text">
     <string>Sum</string>
    </property>
    <property name="toolTip">
     <string>\bigsum</string>
+   </property>
+  </action>
+  <action name="actionSubscript">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/subscript.ico</normaloff>:/Toolbar/subscript.ico</iconset>
+   </property>
+   <property name="text">
+    <string>subscript</string>
+   </property>
+   <property name="toolTip">
+    <string>\_{body}{subscript}</string>
+   </property>
+  </action>
+  <action name="actionSuperscript">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/superscript.ico</normaloff>:/Toolbar/superscript.ico</iconset>
+   </property>
+   <property name="text">
+    <string>superscript</string>
+   </property>
+   <property name="toolTip">
+    <string>\^{body}{superscript}</string>
+   </property>
+  </action>
+  <action name="actionDualscript">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/dualscript.ico</normaloff>:/Toolbar/dualscript.ico</iconset>
+   </property>
+   <property name="text">
+    <string>dualscript</string>
+   </property>
+   <property name="toolTip">
+    <string>\_^{body}{subscript}{superscript}</string>
+   </property>
+  </action>
+  <action name="actionAccentarrow">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentarrow.ico</normaloff>:/Toolbar/accentarrow.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentarrow</string>
+   </property>
+   <property name="toolTip">
+    <string>\vec</string>
+   </property>
+  </action>
+  <action name="actionAccentbar">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentbar.ico</normaloff>:/Toolbar/accentbar.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentbar</string>
+   </property>
+   <property name="toolTip">
+    <string>\bar</string>
+   </property>
+  </action>
+  <action name="actionAccentbreve">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentbreve.ico</normaloff>:/Toolbar/accentbreve.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentbreve</string>
+   </property>
+   <property name="toolTip">
+    <string>\breve</string>
+   </property>
+  </action>
+  <action name="actionAccentdot">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentdot.ico</normaloff>:/Toolbar/accentdot.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentdot</string>
+   </property>
+   <property name="toolTip">
+    <string>\dot</string>
+   </property>
+  </action>
+  <action name="actionAccentddot">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentddot.ico</normaloff>:/Toolbar/accentddot.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentddot</string>
+   </property>
+   <property name="toolTip">
+    <string>\ddot</string>
+   </property>
+  </action>
+  <action name="actionAccentdddot">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accentdddot.ico</normaloff>:/Toolbar/accentdddot.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accentdddot</string>
+   </property>
+   <property name="toolTip">
+    <string>\dddot</string>
+   </property>
+  </action>
+  <action name="actionAccenthat">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accenthat.ico</normaloff>:/Toolbar/accenthat.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accenthat</string>
+   </property>
+   <property name="toolTip">
+    <string>\hat</string>
+   </property>
+  </action>
+  <action name="actionAccenttilde">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/accenttilde.ico</normaloff>:/Toolbar/accenttilde.ico</iconset>
+   </property>
+   <property name="text">
+    <string>accenttilde</string>
+   </property>
+   <property name="toolTip">
+    <string>\tilde</string>
+   </property>
+  </action>
+  <action name="actionGroupnorm">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingnorm.ico</normaloff>:/Toolbar/groupingnorm.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupnorm</string>
+   </property>
+   <property name="toolTip">
+    <string>\norm</string>
+   </property>
+  </action>
+  <action name="actionGroupingabs">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingabs.ico</normaloff>:/Toolbar/groupingabs.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupingabs</string>
+   </property>
+   <property name="toolTip">
+    <string>\abs</string>
+   </property>
+  </action>
+  <action name="actionGroupingangle">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingangle.ico</normaloff>:/Toolbar/groupingangle.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupingangle</string>
+   </property>
+  </action>
+  <action name="actionGroupingdangle">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingdangle.ico</normaloff>:/Toolbar/groupingdangle.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupingdangle</string>
+   </property>
+  </action>
+  <action name="actionGroupingceil">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingceil.ico</normaloff>:/Toolbar/groupingceil.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupingceil</string>
+   </property>
+   <property name="toolTip">
+    <string>\ceil</string>
+   </property>
+  </action>
+  <action name="actionGroupingfloor">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/groupingfloor.ico</normaloff>:/Toolbar/groupingfloor.ico</iconset>
+   </property>
+   <property name="text">
+    <string>groupingfloor</string>
+   </property>
+   <property name="toolTip">
+    <string>\floor</string>
+   </property>
+  </action>
+  <action name="actionEval">
+   <property name="icon">
+    <iconset resource="qtypesetobjectresource.qrc">
+     <normaloff>:/Toolbar/eval.ico</normaloff>:/Toolbar/eval.ico</iconset>
+   </property>
+   <property name="text">
+    <string>eval</string>
    </property>
   </action>
  </widget>

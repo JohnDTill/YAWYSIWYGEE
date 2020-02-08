@@ -607,11 +607,13 @@ void Cursor::anchorTextFromRight(Text* t){
 }
 
 void Cursor::enterConstructFromLeft(Construct* c){
-    enterTextFromLeft(c->front()->front);
+    if(SubPhrase* front = c->front()) enterTextFromLeft(front->front);
+    else enterTextFromLeft(c->next);
 }
 
 void Cursor::enterConstructFromRight(Construct* c){
-    enterTextFromRight(c->back()->back);
+    if(SubPhrase* back = c->back()) enterTextFromRight(back->back);
+    else enterTextFromRight(c->prev);
 }
 
 void Cursor::clearSetpoint(){

@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "globals.h"
-#include "parser.h"
-#include "substitutions.h"
+#include <globals.h>
+#include <parser.h>
+#include <substitutions.h>
 #include <QClipboard>
 #include <QComboBox>
 #include <QFile>

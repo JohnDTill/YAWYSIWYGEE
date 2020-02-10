@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+		<file>Toolbar/accentarrow.ico</file>
+		<file>Toolbar/accentbar.ico</file>
+		<file>Toolbar/accentbreve.ico</file>
+		<file>Toolbar/accentdddot.ico</file>
+		<file>Toolbar/accentddot.ico</file>
+		<file>Toolbar/accentdot.ico</file>
+		<file>Toolbar/accenthat.ico</file>
+		<file>Toolbar/accenttilde.ico</file>
+		<file>Toolbar/bigint.ico</file>
+		<file>Toolbar/bigsum.ico</file>
+		<file>Toolbar/binom.ico</file>
+		<file>Toolbar/cases.ico</file>
+		<file>Toolbar/dualscript.ico</file>
+		<file>Toolbar/eval.ico</file>
+		<file>Toolbar/frac.ico</file>
+		<file>Toolbar/groupingabs.ico</file>
+		<file>Toolbar/groupingangle.ico</file>
+		<file>Toolbar/groupingceil.ico</file>
+		<file>Toolbar/groupingdangle.ico</file>
+		<file>Toolbar/groupingfloor.ico</file>
+		<file>Toolbar/groupingnorm.ico</file>
+		<file>Toolbar/lim.ico</file>
+		<file>Toolbar/mat.ico</file>
+		<file>Toolbar/root.ico</file>
+		<file>Toolbar/subscript.ico</file>
+		<file>Toolbar/superscript.ico</file>
+    </qresource>
+</RCC>

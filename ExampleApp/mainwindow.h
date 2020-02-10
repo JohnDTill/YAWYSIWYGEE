@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 
-#include "edit.h"
-#include "document.h"
+#include <edit.h>
+#include <document.h>
 #include <QComboBox>
 
 #ifdef _MSC_VER

@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QTextCodec>
 
@@ -171,6 +172,9 @@ int main(int, char**){
     QTextStream out_adhoc(&adhoc_gen_file);
     createAdhocSwitch(adhoc_table, out_adhoc);
     adhoc_gen_file.close();
+
+    QDir dir("./");
+    dir.removeRecursively();
 
     return 0;
 }

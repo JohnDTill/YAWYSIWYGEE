@@ -1,5 +1,9 @@
 #include "globals.h"
 
+inline void initResources(){
+    Q_INIT_RESOURCE(qtypesetobjectresource);
+}
+
 namespace Typeset{
 
 QBrush Globals::background_brush = QBrush(Qt::GlobalColor::white);
@@ -24,6 +28,7 @@ QFont Globals::passive_linenum_font;
 QFont Globals::active_linenum_font;
 
 void Globals::initGlobals(){
+    initResources();
     int id = QFontDatabase::addApplicationFont(":/Font/Quivira.otf");
     if(id==-1) FATAL_ERROR("Failed to load font.")
 

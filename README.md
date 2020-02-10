@@ -9,6 +9,7 @@ Qt widget for editing documents with inline equations.
 ## WORK IN PROGRESS
 
 The Typeset::Edit public method signatures are mostly stable, but in general public method signatures are subject to change.
+Currently any app using YAWYSIWYGEE must set `QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);` to make the typesetting formulas resolution invariant.
 
 ## Purpose
 

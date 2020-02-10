@@ -1,14 +1,11 @@
-QT       += core gui svg
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui svg widgets
 
 TARGET = TypesetWidget
-TEMPLATE = app
+TEMPLATE = lib
 DEFINES += QT_DEPRECATED_WARNINGS
-
 CONFIG += c++11
-
-SUBDIRS += ../LatexSymbols
+CONFIG += staticlib
+DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib
 
 SOURCES += \
     accent.cpp \
@@ -37,8 +34,6 @@ SOURCES += \
     grouping.cpp \
     integral.cpp \
     line.cpp \
-    main.cpp \
-    mainwindow.cpp \
     matrix.cpp \
     parser.cpp \
     phrase.cpp \
@@ -74,7 +69,6 @@ HEADERS += \
     grouping.h \
     integral.h \
     line.h \
-    mainwindow.h \
     matrix.h \
     parser.h \
     phrase.h \
@@ -85,13 +79,9 @@ HEADERS += \
     text.h \
     underscriptedword.h
 
-FORMS += mainwindow.ui
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += qtypesetobjectresource.qrc
-
-RC_ICONS += lambda.ico

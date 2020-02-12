@@ -5,7 +5,6 @@
 
 #include <edit.h>
 #include <document.h>
-#include <QComboBox>
 #include <QTableWidgetItem>
 
 #ifdef _MSC_VER

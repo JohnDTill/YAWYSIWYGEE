@@ -100,8 +100,6 @@ void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCurs
 }
 
 CursorView::SelectionMask::SelectionMask(const QRectF& r){
-    setFlag(GraphicsItemFlag::ItemIsSelectable, false);
-    setFlag(QGraphicsItem::ItemIsFocusable, false);
     if(!Globals::invert_selection_textcolor) setFlag(GraphicsItemFlag::ItemStacksBehindParent);
     region = QRectF(r.x(), r.y()-margin, r.width()+margin, r.height()+2*margin);
 }
@@ -113,7 +111,7 @@ void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraph
     QBrush b = option->palette.highlight();
     painter->setBrush(b);
     QPen p(option->palette.background().color());
-    p.setWidth(-1);
+    p.setWidth(0);
     painter->setPen(p);
     painter->drawRect(region);
 }

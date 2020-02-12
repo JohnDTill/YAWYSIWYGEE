@@ -2,6 +2,10 @@
 *.pro.user*
 build*
 
+#C++
+*.lib
+*.a
+
 #LaTeX
 *.aux
 *.bbl

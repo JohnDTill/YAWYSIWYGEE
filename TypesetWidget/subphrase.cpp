@@ -65,6 +65,10 @@ void SubPhrase::write(QTextStream& out) const{
     out << CLOSE;
 }
 
+bool SubPhrase::isEmpty() const{
+    return (front == back) && front->isEmpty();
+}
+
 void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
     if(isEmpty()){
         painter->setPen(Globals::empty_box_pen);
@@ -84,10 +88,6 @@ void SubPhrase::calculateSize(){
         Phrase::calculateSize();
     }
 
-}
-
-bool SubPhrase::isEmpty() const{
-    return (front == back) && front->isEmpty();
 }
 
 }

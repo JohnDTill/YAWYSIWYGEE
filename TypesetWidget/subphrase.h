@@ -36,14 +36,12 @@ public:
     virtual Line& getLine() override final;
     virtual void populateMenu(QMenu& menu) override final;
     virtual void write(QTextStream& out) const override final;
+    bool isEmpty() const;
 
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
     virtual QRectF boundingRect() const override final;
     virtual void calculateSize() override final;
-
-private:
-    bool isEmpty() const;
 };
 
 }

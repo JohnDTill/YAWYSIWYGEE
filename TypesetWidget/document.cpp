@@ -313,7 +313,10 @@ void Document::processLeftClick(QGraphicsSceneMouseEvent* e){
     if(item==nullptr) processClickMiss(p);
     else if(Text* t = dynamic_cast<Text*>(item)) cursor->clickText(*t, p.x());
     else if(Construct* c = dynamic_cast<Construct*>(item)) cursor->clickConstruct(*c);
-    else{
+    else if(SubPhrase* sp = dynamic_cast<SubPhrase*>(item)){
+        if(sp->isEmpty()) cursor->clickText(*sp->front, p.x());
+        else processClickMiss(p);
+    }else{
         DO_THIS("Invalid items can be clicked")
         processClickMiss(p);
     }
@@ -363,15 +366,21 @@ void Document::contextClick(QGraphicsSceneMouseEvent* e){
 void Document::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
-    if(item==nullptr) processClickMiss(e->scenePos());
+    if(item==nullptr) processClickMiss(p);
     else if(Text* t = dynamic_cast<Text*>(item)){
         cursor->clickText(*t, p.x());
         t->populateMenu(menu);
     }else if(Construct* c = dynamic_cast<Construct*>(item)){
         cursor->clickConstruct(*c);
         c->populateMenu(menu);
+    }else if(SubPhrase* sp = dynamic_cast<SubPhrase*>(item)){
+        if(sp->isEmpty()){
+            cursor->clickText(*sp->front, p.x());
+            sp->front->populateMenu(menu);
+        }
+        else processClickMiss(p);
     }else{
-        processClickMiss(e->scenePos());
+        processClickMiss(p);
         DO_THIS("Invalid items can be clicked")
     }
 }

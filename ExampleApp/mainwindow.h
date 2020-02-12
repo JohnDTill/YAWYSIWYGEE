@@ -6,6 +6,7 @@
 #include <edit.h>
 #include <document.h>
 #include <QComboBox>
+#include <QTableWidgetItem>
 
 #ifdef _MSC_VER
 #define NO_RETURN(method) \
@@ -25,7 +26,6 @@ class MainWindow : public QMainWindow{
 private:
     Ui::MainWindow* ui;
     Typeset::Edit typeset_edit;
-    QComboBox symbol_box;
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
@@ -63,7 +63,7 @@ private slots:
     void on_actionBigint_triggered();
     void on_actionBigsum_triggered();
 
-    void insertChar(const QString& text);
+    void insertChar(QTableWidgetItem* item);
 
     void on_actionSubscript_triggered();
     void on_actionSuperscript_triggered();
@@ -78,26 +78,19 @@ private slots:
     void on_actionAccenttilde_triggered();
 
     void on_toolButton_triggered(QAction *arg1);
-
     void on_actionGroupnorm_triggered();
-
     void on_actionGroupingabs_triggered();
-
     void on_actionGroupingangle_triggered();
-
     void on_actionGroupingdangle_triggered();
-
     void on_actionGroupingceil_triggered();
-
     void on_actionGroupingfloor_triggered();
-
     void on_actionEval_triggered();
-
     void on_groupButton_triggered(QAction *arg1);
 
 private:
     NO_RETURN(void testForMemoryLeaks())
     bool lineNumbersShown() const;
+    void setupSymbolTable();
 };
 
 #endif // MAINWINDOW_H

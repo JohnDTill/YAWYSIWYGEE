@@ -11,6 +11,9 @@
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
 
+#include <QLabel>
+#include <QTableWidgetItem>
+
 #include <QMessageBox>
 #define FATAL_ERROR(message) {\
     QMessageBox messageBox; \
@@ -30,19 +33,6 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->actionCut, SIGNAL(triggered()), &typeset_edit, SLOT(cut()));
     connect(ui->actionCopy, SIGNAL(triggered()), &typeset_edit, SLOT(copy()));
     connect(ui->actionPaste, SIGNAL(triggered()), &typeset_edit, SLOT(paste()));
-
-    // Spacer
-    QWidget* spacer = new QWidget();
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    ui->mainToolBar->insertWidget(ui->actionSubscript, &symbol_box);
-    ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
-
-    QMap<QString, QChar>::const_iterator i;
-    for(i = Typeset::keyword_to_qchar.begin(); i != Typeset::keyword_to_qchar.end(); i++){
-        symbol_box.addItem(QString(i.value()) + "  (\\" + i.key() + ')');
-    }
-
-    connect(&symbol_box, SIGNAL(activated(const QString&)), this, SLOT(insertChar(const QString&)));
 
     ui->mainToolBar->insertWidget(ui->actionFraction, ui->toolButton);
     ui->toolButton->addAction(ui->actionAccentarrow);
@@ -64,6 +54,8 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->groupButton->addAction(ui->actionGroupingfloor);
     ui->groupButton->addAction(ui->actionEval);
     ui->groupButton->setDefaultAction(ui->actionGroupnorm);
+
+    setupSymbolTable();
 }
 
 MainWindow::~MainWindow(){
@@ -216,8 +208,9 @@ void MainWindow::on_actionBigsum_triggered(){
     typeset_edit.paste("⁜∑");
 }
 
-void MainWindow::insertChar(const QString& text){
-    typeset_edit.paste(text.front());
+void MainWindow::insertChar(QTableWidgetItem* item){
+    if(item->text().isEmpty()) return;
+    typeset_edit.paste(item->text());
     typeset_edit.setFocus();
 }
 
@@ -299,4 +292,41 @@ void MainWindow::on_actionEval_triggered(){
 
 void MainWindow::on_groupButton_triggered(QAction* action){
     ui->groupButton->setDefaultAction(action);
+}
+
+void MainWindow::setupSymbolTable(){
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    ui->mainToolBar->insertWidget(ui->actionSubscript, ui->tableWidget);
+    ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
+
+    ui->tableWidget->setFont(Typeset::Globals::fonts[2]);
+
+    QMap<QString, QChar>::const_iterator i;
+    int row = 0;
+    int col = 0;
+    int cols = ui->tableWidget->columnCount();
+    for(i = Typeset::keyword_to_qchar.begin(); i != Typeset::keyword_to_qchar.end(); i++){
+        if(col >= cols){
+            row++;
+            col = 0;
+            ui->tableWidget->insertRow(row);
+        }
+
+        QTableWidgetItem* item = new QTableWidgetItem(i.value());
+        item->setFlags(item->flags() & ~Qt::ItemFlag::ItemIsEditable);
+        item->setToolTip('\\' + i.key());
+        ui->tableWidget->setItem(row,col,item);
+
+        col++;
+    }
+
+    //Make empty entries uneditable
+    for(int i = col; i < cols; i++){
+        QTableWidgetItem* item = new QTableWidgetItem("");
+        item->setFlags(item->flags() & ~Qt::ItemFlag::ItemIsEditable);
+        ui->tableWidget->setItem(row,i,item);
+    }
+
+    connect(ui->tableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(insertChar(QTableWidgetItem*)));
 }

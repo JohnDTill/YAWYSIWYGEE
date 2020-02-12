@@ -14,7 +14,83 @@
    <string>YAWYSIWYGEE</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="rowCount">
+       <number>1</number>
+      </property>
+      <property name="columnCount">
+       <number>12</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>5</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>18</number>
+      </attribute>
+      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>5</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>18</number>
+      </attribute>
+      <row/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+     </widget>
+    </item>
     <item>
      <widget class="QToolButton" name="groupButton">
       <property name="text">
@@ -110,6 +186,12 @@
    <addaction name="menuWindow"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="font">
     <font>
      <stylestrategy>PreferDefault</stylestrategy>
@@ -117,6 +199,9 @@
    </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
    </property>
    <property name="iconSize">
     <size>
@@ -286,7 +371,7 @@
   </action>
   <action name="actionFraction">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/frac.ico</normaloff>:/Toolbar/frac.ico</iconset>
    </property>
    <property name="text">
@@ -298,7 +383,7 @@
   </action>
   <action name="actionMatrix">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/mat.ico</normaloff>:/Toolbar/mat.ico</iconset>
    </property>
    <property name="text">
@@ -310,7 +395,7 @@
   </action>
   <action name="actionCases">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/cases.ico</normaloff>:/Toolbar/cases.ico</iconset>
    </property>
    <property name="text">
@@ -322,7 +407,7 @@
   </action>
   <action name="actionBinom">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/binom.ico</normaloff>:/Toolbar/binom.ico</iconset>
    </property>
    <property name="text">
@@ -334,7 +419,7 @@
   </action>
   <action name="actionLim">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/lim.ico</normaloff>:/Toolbar/lim.ico</iconset>
    </property>
    <property name="text">
@@ -346,7 +431,7 @@
   </action>
   <action name="actionRoot">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/root.ico</normaloff>:/Toolbar/root.ico</iconset>
    </property>
    <property name="text">
@@ -358,7 +443,7 @@
   </action>
   <action name="actionBigint">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/bigint.ico</normaloff>:/Toolbar/bigint.ico</iconset>
    </property>
    <property name="text">
@@ -370,7 +455,7 @@
   </action>
   <action name="actionBigsum">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/bigsum.ico</normaloff>:/Toolbar/bigsum.ico</iconset>
    </property>
    <property name="text">
@@ -382,7 +467,7 @@
   </action>
   <action name="actionSubscript">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/subscript.ico</normaloff>:/Toolbar/subscript.ico</iconset>
    </property>
    <property name="text">
@@ -394,7 +479,7 @@
   </action>
   <action name="actionSuperscript">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/superscript.ico</normaloff>:/Toolbar/superscript.ico</iconset>
    </property>
    <property name="text">
@@ -406,7 +491,7 @@
   </action>
   <action name="actionDualscript">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/dualscript.ico</normaloff>:/Toolbar/dualscript.ico</iconset>
    </property>
    <property name="text">
@@ -418,7 +503,7 @@
   </action>
   <action name="actionAccentarrow">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentarrow.ico</normaloff>:/Toolbar/accentarrow.ico</iconset>
    </property>
    <property name="text">
@@ -430,7 +515,7 @@
   </action>
   <action name="actionAccentbar">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentbar.ico</normaloff>:/Toolbar/accentbar.ico</iconset>
    </property>
    <property name="text">
@@ -442,7 +527,7 @@
   </action>
   <action name="actionAccentbreve">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentbreve.ico</normaloff>:/Toolbar/accentbreve.ico</iconset>
    </property>
    <property name="text">
@@ -454,7 +539,7 @@
   </action>
   <action name="actionAccentdot">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentdot.ico</normaloff>:/Toolbar/accentdot.ico</iconset>
    </property>
    <property name="text">
@@ -466,7 +551,7 @@
   </action>
   <action name="actionAccentddot">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentddot.ico</normaloff>:/Toolbar/accentddot.ico</iconset>
    </property>
    <property name="text">
@@ -478,7 +563,7 @@
   </action>
   <action name="actionAccentdddot">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accentdddot.ico</normaloff>:/Toolbar/accentdddot.ico</iconset>
    </property>
    <property name="text">
@@ -490,7 +575,7 @@
   </action>
   <action name="actionAccenthat">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accenthat.ico</normaloff>:/Toolbar/accenthat.ico</iconset>
    </property>
    <property name="text">
@@ -502,7 +587,7 @@
   </action>
   <action name="actionAccenttilde">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/accenttilde.ico</normaloff>:/Toolbar/accenttilde.ico</iconset>
    </property>
    <property name="text">
@@ -514,7 +599,7 @@
   </action>
   <action name="actionGroupnorm">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingnorm.ico</normaloff>:/Toolbar/groupingnorm.ico</iconset>
    </property>
    <property name="text">
@@ -526,7 +611,7 @@
   </action>
   <action name="actionGroupingabs">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingabs.ico</normaloff>:/Toolbar/groupingabs.ico</iconset>
    </property>
    <property name="text">
@@ -538,7 +623,7 @@
   </action>
   <action name="actionGroupingangle">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingangle.ico</normaloff>:/Toolbar/groupingangle.ico</iconset>
    </property>
    <property name="text">
@@ -547,7 +632,7 @@
   </action>
   <action name="actionGroupingdangle">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingdangle.ico</normaloff>:/Toolbar/groupingdangle.ico</iconset>
    </property>
    <property name="text">
@@ -556,7 +641,7 @@
   </action>
   <action name="actionGroupingceil">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingceil.ico</normaloff>:/Toolbar/groupingceil.ico</iconset>
    </property>
    <property name="text">
@@ -568,7 +653,7 @@
   </action>
   <action name="actionGroupingfloor">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/groupingfloor.ico</normaloff>:/Toolbar/groupingfloor.ico</iconset>
    </property>
    <property name="text">
@@ -580,7 +665,7 @@
   </action>
   <action name="actionEval">
    <property name="icon">
-    <iconset resource="qtypesetobjectresource.qrc">
+    <iconset resource="example_resource.qrc">
      <normaloff>:/Toolbar/eval.ico</normaloff>:/Toolbar/eval.ico</iconset>
    </property>
    <property name="text">
@@ -590,7 +675,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="qtypesetobjectresource.qrc"/>
+  <include location="example_resource.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -155,7 +155,6 @@ static const QMap<QString, QChar> keyword_to_qchar = {
     { "nu" , 957 },
     { "Nu" , 925 },
     { "odot" , 10752 },
-    { "oiint" , 8751 },
     { "omega" , 969 },
     { "Omega" , 937 },
     { "ominus" , 8854 },

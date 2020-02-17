@@ -42,7 +42,6 @@ private slots:
     void on_actionRedo_triggered();
 
     void on_actionLoad_Test_txt_triggered();
-    void on_actionSave_As_Test_txt_triggered();
     NO_RETURN(void on_actionTest_for_Memory_Leaks_triggered())
 
     void on_actionZoom_In_triggered();

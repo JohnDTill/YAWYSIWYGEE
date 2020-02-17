@@ -12,7 +12,6 @@ class Text;
 
 class CursorView{
 private:
-    std::vector<Line*> selected_lines;
     std::list<QGraphicsItem*> masks;
     static constexpr qreal newline_padding = 2;
 

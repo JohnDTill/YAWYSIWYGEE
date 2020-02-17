@@ -24,13 +24,12 @@ private:
 
 public:
     SquareRoot(SubPhrase* c = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* caller = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*options, QWidget*) override final;
     friend ScriptedRoot;
 
 private:
@@ -68,7 +67,6 @@ private:
 
 public:
     ScriptedRoot(SubPhrase* child = nullptr, SubPhrase* power = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* caller = nullptr) override final;
     virtual Text* textUp(const SubPhrase* caller, qreal) const override final;
@@ -76,7 +74,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
     friend SquareRoot;
 
 private slots:

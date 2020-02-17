@@ -26,8 +26,6 @@ Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b, Q
       front(f),
       back(b),
       allow_write(allow_write) {
-    setBackgroundBrush(Globals::background_brush);
-
     double_click_time = QTime::currentTime();
 
     if(front==nullptr){
@@ -122,7 +120,6 @@ void Document::setLineNumbersVisible(bool show){
     if(show_line_nums == show) return;
 
     show_line_nums = show;
-    for(Line* l = front; l; l = l->next) l->setLineNumberVisible(show);
 
     if(show){
         update();
@@ -132,12 +129,6 @@ void Document::setLineNumbersVisible(bool show){
         w = w - linebox_width - linebox_offet + horizontal_scroll_padding;
         setSceneRect(QRectF(-horizontal_scroll_padding, -margin_top, w, h));
     }
-}
-
-void Document::updateTheme(){
-    setBackgroundBrush(Globals::background_brush);
-    for(Line* l = front; l; l = l->next) l->updateTheme();
-    cv->update(*cursor);
 }
 
 void Document::write(QTextStream& out) const{
@@ -163,7 +154,7 @@ void Document::updateSize(){
 
 void Document::copyAsPng(qreal upscale){
     QImage image(upscale*sceneRect().size().toSize(), QImage::Format_RGB16);
-    image.fill(Globals::background_brush.color());
+    image.fill(palette().base().color());
 
     QPainter painter(&image);
     render(&painter);
@@ -183,8 +174,8 @@ void Document::copySelectionAsPng(qreal upscale){
 void Document::drawBackground(QPainter* painter, const QRectF& rect){
     QGraphicsScene::drawBackground(painter, rect);
     if(show_line_nums){
-        painter->setBrush(Globals::left_pane_brush);
-        painter->setPen(Globals::left_pane_pen);
+        painter->setBrush(palette().window());
+        painter->setPen(palette().midlight().color());
         painter->drawRect(QRectF(-1-linebox_width-linebox_offet, -margin_top-1, linebox_width+1, 1e8));
     }
 }

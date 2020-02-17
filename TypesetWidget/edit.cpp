@@ -63,10 +63,6 @@ void Edit::copySelectionAsPng(qreal upscale){
     doc->copySelectionAsPng(upscale);
 }
 
-void Edit::updateTheme(){
-    doc->updateTheme();
-}
-
 void Edit::newDocument(bool allow_write, bool show_line_numbers){
     delete doc;
     doc = new Typeset::Document(allow_write, show_line_numbers);

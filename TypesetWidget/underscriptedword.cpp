@@ -1,46 +1,38 @@
 #include "underscriptedword.h"
 
 #include "globals.h"
+#include <QPainter>
 
 namespace Typeset{
 
 #define underscript child
 UnderscriptedWord::UnderscriptedWord(QString str, SubPhrase* c)
-    : UnaryConstruct(c) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    word.setText(str);
-    word.setParentItem(this);
-    word.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    word.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    word.setFont(Globals::word_font);
-    word.setBrush(Globals::construct_brush);
-
+    : UnaryConstruct(c),
+      word(str) {
     updateLayout();
 }
 
-void UnderscriptedWord::updateTheme(){
-    word.setBrush(Globals::construct_brush);
-    underscript->updateTheme();
-}
-
 void UnderscriptedWord::updateLayout(){
-    QRectF word_bounds = word.boundingRect();
+    QRectF word_bounds = Globals::word_font_metrics.boundingRect(word);
     w = qMax(word_bounds.width(), underscript->w);
     u = word_bounds.height()/2;
     d = u + underscript->u + underscript->d;
 
-    word.setPos( (w-word_bounds.width())/2, 0 );
+    word_x = (w-word_bounds.width())/2;
     underscript->setPos( (w-underscript->w)/2, word_bounds.height() );
 }
 
 void UnderscriptedWord::write(QTextStream& out) const{
-    out << ESCAPE << "w" << OPEN << word.text() << CLOSE;
+    out << ESCAPE << "w" << OPEN << word << CLOSE;
     child->write(out);
 }
 
-void UnderscriptedWord::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void UnderscriptedWord::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::word_font);
+    QRectF word_bounds = Globals::word_font_metrics.boundingRect(word);
+    word_bounds.moveTo(word_x, 0);
+    painter->drawText(word_bounds, word);
 }
 #undef underscript
 

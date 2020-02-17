@@ -13,17 +13,16 @@ class BigQChar : public TerminalConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_char;
+    const QChar ch;
 
 public:
     BigQChar(QChar qchar);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 
 private slots:
     void addUnderscript();
@@ -50,17 +49,17 @@ class BigQChar_S : public UnaryConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_char;
+    const QChar ch;
+    qreal symbol_x;
 
 public:
     BigQChar_S(QChar qchar, SubPhrase* c = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
     friend BigQChar_SN;
 
 private slots:
@@ -104,11 +103,12 @@ class BigQChar_SN : public BinaryConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_char;
+    const QChar ch;
+    qreal symbol_x;
+    qreal symbol_y;
 
 public:
     BigQChar_SN(QChar qchar, SubPhrase* s = nullptr, SubPhrase* f = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
@@ -116,7 +116,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
     friend BigQChar_S;
 
 private slots:

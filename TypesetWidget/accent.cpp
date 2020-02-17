@@ -5,15 +5,17 @@
 
 namespace Typeset{
 
+static constexpr qreal accent_height = 3;
+static constexpr qreal voffset = 0.5;
+static constexpr qreal arrow_width = 2;
+static constexpr qreal dot_radius = 0.4;
+static constexpr qreal dot_offset = 2.5;
+
 Accent::Accent(void (*drawAccent)(QPainter*, const qreal&), SubPhrase* c)
     : UnaryConstruct(c),
       drawAccent(drawAccent) {
     child->setPos(0, accent_height - voffset);
     updateLayout();
-}
-
-void Accent::updateTheme(){
-    child->updateTheme();
 }
 
 void Accent::updateLayout(){
@@ -96,8 +98,8 @@ void Accent::TILDE(QPainter* painter, const qreal& width){
     painter->drawPolyline(points, 9);
 }
 
-void Accent::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void Accent::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
     drawAccent(painter, w);
 }
 

@@ -24,8 +24,8 @@ private:
 public:
     Phrase(Text* f = nullptr, Text* b = nullptr);
     qreal h() const;
+    void select();
     void deletePostorder();
-    virtual void updateTheme();
     void updateLayout();
     virtual void updateToTop() = 0;
     virtual Text* textRight() const = 0;

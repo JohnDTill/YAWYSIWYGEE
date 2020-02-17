@@ -5,11 +5,13 @@
 #include "document.h"
 #include "text.h"
 #include <QGraphicsSceneMouseEvent>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 namespace Typeset{
 
 Construct::Construct(){
-    setFlag(GraphicsItemFlag::ItemIsFocusable);
+    setFlag(GraphicsItemFlag::ItemIsSelectable);
 }
 
 qreal Construct::h() const{
@@ -28,6 +30,11 @@ Line& Construct::getLine() const{
 
 void Construct::populateMenu(QMenu& menu, const SubPhrase*){
     prev->parent->populateMenu(menu);
+}
+
+void Construct::setupPainter(QPainter* painter, const QStyleOptionGraphicsItem* options){
+    if(options->state.testFlag(QStyle::StateFlag::State_Selected))
+        painter->setPen(options->palette.highlightedText().color());
 }
 
 QRectF Construct::boundingRect() const{
@@ -50,6 +57,10 @@ void link(Construct* c, Text* t){
 
 void TerminalConstruct::deletePostorder(){
     delete this;
+}
+
+void TerminalConstruct::select(){
+    setSelected(true);
 }
 
 SubPhrase* TerminalConstruct::front() const{
@@ -85,6 +96,11 @@ UnaryConstruct::UnaryConstruct(SubPhrase* c)
 void UnaryConstruct::deletePostorder(){
     child->deletePostorder();
     delete this;
+}
+
+void UnaryConstruct::select(){
+    setSelected(true);
+    child->select();
 }
 
 SubPhrase* UnaryConstruct::front() const{
@@ -126,6 +142,12 @@ void BinaryConstruct::deletePostorder(){
     delete this;
 }
 
+void BinaryConstruct::select(){
+    setSelected(true);
+    first->select();
+    second->select();
+}
+
 SubPhrase* BinaryConstruct::front() const{
     return first;
 }
@@ -153,6 +175,11 @@ NaryConstruct::NaryConstruct(const std::vector<SubPhrase*> c)
 void NaryConstruct::deletePostorder(){
     for(SubPhrase* child : children) child->deletePostorder();
     delete this;
+}
+
+void NaryConstruct::select(){
+    setSelected(true);
+    for(SubPhrase* child : children) child->select();
 }
 
 SubPhrase* NaryConstruct::front() const{

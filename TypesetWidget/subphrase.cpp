@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "text.h"
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 namespace Typeset{
 
@@ -69,9 +70,12 @@ bool SubPhrase::isEmpty() const{
     return (front == back) && front->isEmpty();
 }
 
-void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
+void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     if(isEmpty()){
-        painter->setPen(Globals::empty_box_pen);
+        QPen p = Globals::empty_box_pen;
+        if(front->isSelected()) p.setColor(options->palette.highlightedText().color());
+        else p.setColor(options->palette.text().color());
+        painter->setPen(p);
         painter->drawRect(QRectF(-1 + padding/2, padding/2, empty_box_width, empty_box_height));
     }
 }

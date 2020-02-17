@@ -13,11 +13,6 @@ Binomial::Binomial(SubPhrase* f, SubPhrase* s)
     updateLayout();
 }
 
-void Binomial::updateTheme(){
-    first->updateTheme();
-    second->updateTheme();
-}
-
 void Binomial::updateLayout(){
     qreal max_child_width = qMax(first->w, second->w);
     w = max_child_width + 2*paren_width;
@@ -43,8 +38,8 @@ void Binomial::write(QTextStream& out) const{
     second->write(out);
 }
 
-void Binomial::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void Binomial::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
     painter->drawArc(QRectF(0,0,paren_width,h), 90*16, 180*16);
     painter->drawArc(QRectF(w-paren_width,0,paren_width,h), 270*16, 180*16);
 }

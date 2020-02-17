@@ -19,10 +19,6 @@ Grouping::Grouping(void drawLeft(QPainter*, const qreal&),
     updateLayout();
 }
 
-void Grouping::updateTheme(){
-    child->updateTheme();
-}
-
 void Grouping::updateLayout(){
     w = child->w + 2*symbol_width;
     u = child->u;
@@ -152,8 +148,8 @@ void Grouping::PARENTHESIS(QPainter* painter, const qreal& height, const qreal& 
     painter->drawArc(QRectF(x,0,symbol_width,height), 270*16, 180*16);
 }
 
-void Grouping::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void Grouping::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
 
     qreal h = u+d;
     drawLeft(painter, h);

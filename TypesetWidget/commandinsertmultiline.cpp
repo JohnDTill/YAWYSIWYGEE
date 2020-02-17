@@ -67,10 +67,8 @@ void CommandInsertMultiline::redo(){
         }
     }
     lL->back = tL;
-    for(Line* l = lL_next; l != lR->next; l = l->next){
+    for(Line* l = lL_next; l != lR->next; l = l->next)
         l->show();
-        l->setLineNumberVisible(doc.show_line_nums);
-    }
     if(lR->next){
         lR->next->prev = lR;
         lR->next->setParentItem(lR);

@@ -16,10 +16,6 @@ SquareRoot::SquareRoot(SubPhrase* c)
     updateLayout();
 }
 
-void SquareRoot::updateTheme(){
-    child->updateTheme();
-}
-
 void SquareRoot::updateLayout(){
     calculateSize();
     child->setPos(hspace + x2 + height/slope, extra_height);
@@ -36,8 +32,8 @@ void SquareRoot::write(QTextStream& out) const{
     child->write(out);
 }
 
-void SquareRoot::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void SquareRoot::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
 
     QPointF p0(0, height-5);
     QPointF p1(x1, height-7);
@@ -110,11 +106,6 @@ ScriptedRoot::ScriptedRoot(SubPhrase* child, SubPhrase* power)
 
 #define power first
 #define child second
-void ScriptedRoot::updateTheme(){
-    child->updateTheme();
-    power->updateTheme();
-}
-
 void ScriptedRoot::updateLayout(){
     qreal ur = child->u + extra_height;
     qreal dr = child->d;
@@ -153,8 +144,8 @@ void ScriptedRoot::write(QTextStream& out) const{
     power->write(out);
 }
 
-void ScriptedRoot::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void ScriptedRoot::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
 
     QPointF p0(xr, yr+height-5);
     QPointF p1(xr+x1, yr+height-7);

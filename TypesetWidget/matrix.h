@@ -25,7 +25,6 @@ private:
 
 public:
     Matrix(const std::vector<SubPhrase*>& c, minor_integer rows, minor_integer cols);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
@@ -33,7 +32,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*) override;
 
 private:
     major_integer getFlatIndex(major_integer row, major_integer col) const;

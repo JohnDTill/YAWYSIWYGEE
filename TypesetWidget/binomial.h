@@ -12,14 +12,13 @@ private:
 
 public:
     Binomial(SubPhrase* f = nullptr, SubPhrase* s = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
 
 }

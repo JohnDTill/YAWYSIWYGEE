@@ -15,11 +15,6 @@ Fraction::Fraction(SubPhrase* num, SubPhrase* den)
 
 #define num first
 #define den second
-void Fraction::updateTheme(){
-    num->updateTheme();
-    den->updateTheme();
-}
-
 void Fraction::updateLayout(){
     calculateSize();
     num->setPos( (w - num->w)/2, 0 );
@@ -40,8 +35,8 @@ void Fraction::write(QTextStream& out) const{
     second->write(out);
 }
 
-void Fraction::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void Fraction::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
     painter->drawLine(QPointF(0,u), QPointF(w,u));
 }
 

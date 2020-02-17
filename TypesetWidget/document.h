@@ -36,6 +36,10 @@ private:
     static constexpr qreal triple_click_period = 1 * 1000;
     static constexpr qreal allowed_triple_click_travel = 1;
     static constexpr qreal first_line_vspace = 5;
+    static constexpr qreal horizontal_scroll_padding = 8;
+    static constexpr qreal linebox_width = 50;
+    static constexpr qreal margin_top = 3;
+    static constexpr qreal margin_bot = 8;
 
     //Shading appears on left of editor area behind line numbers
 
@@ -50,7 +54,6 @@ public:
     void savePrompt();
     void printSvgPrompt();
     void setLineNumbersVisible(bool show);
-    void updateTheme();
     void write(QTextStream& out) const;
     void updateCursorView();
     void updateSize();

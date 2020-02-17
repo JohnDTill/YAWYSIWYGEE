@@ -20,7 +20,6 @@ public:
              QChar left_type,
              QChar right_type,
              SubPhrase* c = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void write(QTextStream& out) const override final;
 
@@ -48,7 +47,7 @@ public:
     static void PARENTHESIS(QPainter* painter, const qreal& height, const qreal& x);
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
 
 }

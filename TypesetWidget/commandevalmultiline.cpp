@@ -84,10 +84,8 @@ void CommandEvalMultiline::redo(){
         lL->back = c->next;
     }
     //Show intermediate lines
-    for(Line* l = lL_next; l != lR->next; l = l->next){
+    for(Line* l = lL_next; l != lR->next; l = l->next)
         l->show();
-        l->setLineNumberVisible(doc.show_line_nums);
-    }
 
     if(tR->next){
         tR->next->prev = tR;

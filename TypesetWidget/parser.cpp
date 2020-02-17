@@ -93,7 +93,6 @@ Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show
     uint32_t line_num = 1;
     Line* front = parseLine(line, curr, script_level, line_num);
     Line* l = front;
-    l->repositionLineNumber();
     l->prev = nullptr;
     line = source.readLine();
 
@@ -103,7 +102,6 @@ Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show
         Line* next = parseLine(line, curr, script_level, line_num);
         link(l, next);
         l = next;
-        l->repositionLineNumber();
         line = source.readLine();
     }
     l->next = nullptr;
@@ -138,7 +136,6 @@ std::pair<Line*, Line*> Parser::parseMultiline(const QString& source, uint32_t l
     uint8_t script_level = 0;
     Line* front = parseLine(lines.front(), curr, script_level, line_num);
     Line* l = front;
-    l->repositionLineNumber();
     l->prev = nullptr;
 
     for(int i = 1; i < lines.size(); i++){
@@ -148,7 +145,6 @@ std::pair<Line*, Line*> Parser::parseMultiline(const QString& source, uint32_t l
         Line* next = parseLine(line, curr, script_level, line_num);
         link(l, next);
         l = next;
-        l->repositionLineNumber();
     }
     l->next = nullptr;
 

@@ -147,7 +147,6 @@
      <string>Debug</string>
     </property>
     <addaction name="actionLoad_Test_txt"/>
-    <addaction name="actionSave_As_Test_txt"/>
     <addaction name="actionTest_for_Memory_Leaks"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
@@ -244,16 +243,6 @@
   <action name="actionLoad">
    <property name="text">
     <string>Load</string>
-   </property>
-  </action>
-  <action name="actionSave_DOT_File">
-   <property name="text">
-    <string>Save DOT File</string>
-   </property>
-  </action>
-  <action name="actionSave_As_Test_txt">
-   <property name="text">
-    <string>Save As Test File</string>
    </property>
   </action>
   <action name="actionLoad_Test_txt">

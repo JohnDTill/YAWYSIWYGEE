@@ -16,10 +16,9 @@ namespace Typeset{
 Text::Text(uint8_t script_level, QString str){
     setFont(Globals::fonts[script_level]);
     setTextInteractionFlags(Qt::TextEditorInteraction);
+    setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable);
     document()->setUndoRedoEnabled(false);
     document()->setDocumentMargin(margin);
-
-    setDefaultTextColor(Globals::text_color);
     setPlainText(str);
 
     calculateSize();
@@ -36,10 +35,6 @@ void Text::setParentPhrase(Phrase* parent){
 
 bool Text::isDeepestScriptLevel(uint8_t script_level){
     return script_level == Globals::deepest_script_level;
-}
-
-void Text::updateTheme(){
-    setDefaultTextColor(Globals::text_color);
 }
 
 void Text::updateToTop(){
@@ -69,6 +64,14 @@ void Text::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     //This avoids a border which QGraphicsTextItem shows when focused
     QStyleOptionGraphicsItem my_option(*option);
     my_option.state &= ~QStyle::State_HasFocus;
+    if(option->state.testFlag(QStyle::StateFlag::State_Selected)){
+        //painter->setBrush(option->palette.highlightedText());
+        //painter->setPen(painter->brush().color());
+        my_option.state &= ~QStyle::State_Selected;
+        setDefaultTextColor(option->palette.highlightedText().color());
+    }else{
+        setDefaultTextColor(option->palette.text().color());
+    }
     QGraphicsTextItem::paint(painter, &my_option, widget);    
 }
 

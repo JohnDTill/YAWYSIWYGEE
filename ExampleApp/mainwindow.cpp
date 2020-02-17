@@ -94,10 +94,6 @@ void MainWindow::on_actionRedo_triggered(){
     typeset_edit.redo();
 }
 
-void MainWindow::on_actionSave_As_Test_txt_triggered(){
-    DO_THIS( "SaveAsTest" )
-}
-
 void MainWindow::on_actionLoad_Test_txt_triggered(){
     typeset_edit.load(":/test.txt");
 }
@@ -126,42 +122,24 @@ void MainWindow::on_actionVanilla_triggered(){
     ui->actionVanilla->setChecked(true);
     ui->actionChalkboard->setChecked(false);
 
-    Typeset::Globals::background_brush = QBrush(Qt::GlobalColor::white);
-    Typeset::Globals::construct_color = Qt::GlobalColor::black;
-    Typeset::Globals::construct_brush = QBrush(Typeset::Globals::construct_color);
-    Typeset::Globals::construct_pen = QPen(Typeset::Globals::construct_color);
-    Typeset::Globals::left_pane_color = QColor::fromRgbF(0.9,0.9,0.9);
-    Typeset::Globals::left_pane_pen = QPen(Typeset::Globals::left_pane_color);
-    Typeset::Globals::left_pane_brush = QBrush(Typeset::Globals::left_pane_color, Qt::SolidPattern);
-    Typeset::Globals::text_color = Qt::GlobalColor::black;
-    Typeset::Globals::line_num_active_brush = QBrush(Qt::black);
-    Typeset::Globals::line_num_passive_brush = QBrush(Qt::darkGray);
-    Typeset::Globals::active_linenum_font.setBold(true);
-    Typeset::Globals::empty_box_pen.setColor(Typeset::Globals::construct_color);
-    Typeset::Globals::invert_selection_textcolor = true;
-
-    typeset_edit.updateTheme();
+    typeset_edit.setPalette(palette());
+    typeset_edit.scene()->setPalette(palette());
 }
 
 void MainWindow::on_actionChalkboard_triggered(){
     ui->actionVanilla->setChecked(false);
     ui->actionChalkboard->setChecked(true);
 
-    QColor background_color = QColor::fromRgb(70,133,87);
-    Typeset::Globals::background_brush = QBrush(background_color);
-    Typeset::Globals::construct_color = Qt::GlobalColor::white;
-    Typeset::Globals::construct_brush = QBrush(Typeset::Globals::construct_color);
-    Typeset::Globals::construct_pen = QPen(Typeset::Globals::construct_color);
-    Typeset::Globals::left_pane_pen = QPen(Typeset::Globals::construct_color);
-    Typeset::Globals::left_pane_brush = Typeset::Globals::background_brush;
-    Typeset::Globals::text_color = Qt::GlobalColor::white;
-    Typeset::Globals::line_num_active_brush = QBrush(Qt::white);
-    Typeset::Globals::line_num_passive_brush = QBrush(Qt::white);
-    Typeset::Globals::active_linenum_font.setBold(false);
-    Typeset::Globals::empty_box_pen.setColor(Typeset::Globals::construct_color);
-    Typeset::Globals::invert_selection_textcolor = false;
+    QPalette chalkboard = palette();
+    chalkboard.setColor(QPalette::All, QPalette::Base, QColor::fromRgb(70,133,87));
+    chalkboard.setColor(QPalette::All, QPalette::Text, Qt::white);
+    chalkboard.setColor(QPalette::All, QPalette::Mid, Qt::white);
+    chalkboard.setColor(QPalette::All, QPalette::Window, QColor::fromRgb(70,133,87));
+    chalkboard.setBrush(QPalette::All, QPalette::Highlight, QBrush(QColor("pink")));
+    chalkboard.setColor(QPalette::All, QPalette::Highlight, QColor("pink"));
 
-    typeset_edit.updateTheme();
+    typeset_edit.setPalette(chalkboard);
+    typeset_edit.scene()->setPalette(chalkboard);
 }
 
 void MainWindow::testForMemoryLeaks(){

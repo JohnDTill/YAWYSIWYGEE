@@ -13,17 +13,16 @@ class Integral : public TerminalConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_integral;
+    const QChar ch;
 
 public:
     Integral(QChar qchar);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 
 private slots:
     void addSubscript();
@@ -49,17 +48,16 @@ class Integral_S : public UnaryConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_integral;
+    const QChar ch;
 
 public:
     Integral_S(QChar qchar, SubPhrase* subscript = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
     friend Integral_SN;
 
 private slots:
@@ -102,11 +100,11 @@ class Integral_SN : public BinaryConstruct{
     Q_OBJECT
 
 private:
-    QGraphicsSimpleTextItem big_integral;
+    const QChar ch;
+    qreal symbol_y;
 
 public:
     Integral_SN(QChar qchar, SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
@@ -114,7 +112,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
     friend Integral_S;
 
 private slots:

@@ -5,6 +5,7 @@
 #include "document.h"
 #include "globals.h"
 #include <QMenu>
+#include <QPainter>
 
 namespace Typeset{
 
@@ -12,41 +13,31 @@ static constexpr qreal subscript_ratio = 0.8;
 static constexpr qreal subscript_offset = -6;
 static constexpr qreal superscript_ratio = 0.8;
 
-Integral::Integral(QChar qchar){
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_integral.setText(qchar);
-    big_integral.setParentItem(this);
-    big_integral.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_integral.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_integral.setFont(Globals::integral_font);
-    big_integral.setBrush(Globals::construct_brush);
-
+Integral::Integral(QChar qchar)
+    : ch(qchar) {
     updateLayout();
 }
 
-void Integral::updateTheme(){
-    big_integral.setBrush(Globals::construct_brush);
-}
-
 void Integral::updateLayout(){
-    QRectF child_bounds = big_integral.boundingRect();
+    QRectF child_bounds = Globals::integral_font_metrics.boundingRect(ch);
     w = child_bounds.width();
     u = d = child_bounds.height()/2;
 }
 
 void Integral::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addSubscript = menu.addAction(big_integral.text() + ": Add subscript");
+    QAction* addSubscript = menu.addAction(QString(ch) + ": Add subscript");
     connect(addSubscript, SIGNAL(triggered()), this, SLOT(addSubscript()));
 }
 
 void Integral::write(QTextStream& out) const{
-    out << ESCAPE << big_integral.text();
+    out << ESCAPE << ch;
 }
 
-void Integral::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void Integral::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::integral_font);
+    painter->drawText(boundingRect(), Qt::AlignBottom, ch);
 }
 
 void Integral::addSubscript(){
@@ -58,7 +49,7 @@ Integral::AddSubscript::AddSubscript(Integral* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new Integral_S(out->big_integral.text().front(), new SubPhrase(t));
+    in = new Integral_S(out->ch, new SubPhrase(t));
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -92,27 +83,14 @@ void Integral::AddSubscript::undo(){
 }
 
 Integral_S::Integral_S(QChar qchar, SubPhrase* subscript)
-    : UnaryConstruct(subscript) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_integral.setText(qchar);
-    big_integral.setParentItem(this);
-    big_integral.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_integral.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_integral.setFont(Globals::integral_font);
-    big_integral.setBrush(Globals::construct_brush);
-
+    : UnaryConstruct(subscript),
+      ch(qchar) {
     updateLayout();
 }
 
 #define subscript child
-void Integral_S::updateTheme(){
-    big_integral.setBrush(Globals::construct_brush);
-    subscript->updateTheme();
-}
-
 void Integral_S::updateLayout(){
-    QRectF integral_bounds = big_integral.boundingRect();
+    QRectF integral_bounds = Globals::integral_font_metrics.boundingRect(ch);
     qreal wi = integral_bounds.width();
     qreal hi = integral_bounds.height();
 
@@ -132,19 +110,23 @@ void Integral_S::updateLayout(){
 
 void Integral_S::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addSuperscript = menu.addAction(big_integral.text() + ": Add superscript");
+    QAction* addSuperscript = menu.addAction(QString(ch) + ": Add superscript");
     connect(addSuperscript, SIGNAL(triggered()), this, SLOT(addSuperscript()));
-    QAction* removeSubscript = menu.addAction(big_integral.text() + ": Remove subscript");
+    QAction* removeSubscript = menu.addAction(QString(ch) + ": Remove subscript");
     connect(removeSubscript, SIGNAL(triggered()), this, SLOT(removeSubscript()));
 }
 
 void Integral_S::write(QTextStream& out) const{
-    out << ESCAPE << big_integral.text();
+    out << ESCAPE << ch;
     child->write(out);
 }
 
-void Integral_S::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void Integral_S::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::integral_font);
+    QRectF bounds = Globals::integral_font_metrics.boundingRect(ch);
+    bounds.moveTo(0,0);
+    painter->drawText(bounds, Qt::AlignBottom, ch);
 }
 
 void Integral_S::addSuperscript(){
@@ -160,7 +142,7 @@ Integral_S::AddSuperscript::AddSuperscript(Integral_S* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new Integral_SN(out->big_integral.text().front(), out->child, new SubPhrase(t));
+    in = new Integral_SN(out->ch, out->child, new SubPhrase(t));
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -200,7 +182,7 @@ void Integral_S::AddSuperscript::undo(){
 
 Integral_S::RemoveSubscript::RemoveSubscript(Integral_S* out)
     : out(out) {
-    in = new Integral(out->big_integral.text().front());
+    in = new Integral(out->ch);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -235,29 +217,15 @@ void Integral_S::RemoveSubscript::undo(){
 #undef subscript
 
 Integral_SN::Integral_SN(QChar qchar, SubPhrase* subscript, SubPhrase* superscript)
-    : BinaryConstruct(subscript, superscript) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_integral.setText(qchar);
-    big_integral.setParentItem(this);
-    big_integral.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_integral.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_integral.setFont(Globals::integral_font);
-    big_integral.setBrush(Globals::construct_brush);
-
+    : BinaryConstruct(subscript, superscript),
+      ch(qchar) {
     updateLayout();
 }
 
 #define superscript second
 #define subscript first
-void Integral_SN::updateTheme(){
-    big_integral.setBrush(Globals::construct_brush);
-    subscript->updateTheme();
-    superscript->updateTheme();
-}
-
 void Integral_SN::updateLayout(){
-    QRectF integral_bounds = big_integral.boundingRect();
+    QRectF integral_bounds = Globals::integral_font_metrics.boundingRect(ch);
     qreal wi = integral_bounds.width();
     qreal hi = integral_bounds.height();
 
@@ -271,12 +239,10 @@ void Integral_SN::updateLayout(){
     qreal eu = hu > au ? hu-au : 0;
     qreal ed = hd > ad ? hd-ad : 0;
 
-    qreal yi = eu;
-    u = yi + hi/2;
+    symbol_y = eu;
+    u = symbol_y + hi/2;
 
-    big_integral.setPos(0, yi);
-
-    qreal yd = yi + hi + ed - hd;
+    qreal yd = symbol_y + hi + ed - hd;
     d = hi/2 + ed;
 
     subscript->setPos(wi + subscript_offset, yd);
@@ -292,18 +258,22 @@ Text* Integral_SN::textDown(const SubPhrase* caller, qreal x) const{
 
 void Integral_SN::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* removeSuperscript = menu.addAction(big_integral.text() + ": Remove superscript");
+    QAction* removeSuperscript = menu.addAction(QString(ch) + ": Remove superscript");
     connect(removeSuperscript, SIGNAL(triggered()), this, SLOT(removeSuperscript()));
 }
 
 void Integral_SN::write(QTextStream& out) const{
-    out << ESCAPE << big_integral.text();
+    out << ESCAPE << ch;
     first->write(out);
     second->write(out);
 }
 
-void Integral_SN::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void Integral_SN::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::integral_font);
+    QRectF bounds = Globals::integral_font_metrics.boundingRect(ch);
+    bounds.moveTop(symbol_y);
+    painter->drawText(bounds, Qt::AlignBottom, ch);
 }
 
 void Integral_SN::removeSuperscript(){
@@ -312,7 +282,7 @@ void Integral_SN::removeSuperscript(){
 
 Integral_SN::RemoveSuperscript::RemoveSuperscript(Integral_SN* out)
     : out(out) {
-    in = new Integral_S(out->big_integral.text().front(), out->first);
+    in = new Integral_S(out->ch, out->first);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;

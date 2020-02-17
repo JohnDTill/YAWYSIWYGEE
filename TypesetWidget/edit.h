@@ -43,9 +43,6 @@ public slots:
     void paste();
     void paste(const QString& str);
 
-public:
-    Q_DECL_DEPRECATED void updateTheme();
-
 signals:
     void undoAvailable(bool available);
     void redoAvailable(bool available);

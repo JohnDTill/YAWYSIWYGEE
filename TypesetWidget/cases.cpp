@@ -16,10 +16,6 @@ Cases::Cases(const std::vector<SubPhrase*>& data)
     updateLayout();
 }
 
-void Cases::updateTheme(){
-    for(SubPhrase* s : children) s->updateTheme();
-}
-
 void Cases::updateLayout(){
     max_val_w = 0;
     qreal max_con_w = 0;
@@ -80,8 +76,8 @@ void Cases::write(QTextStream& out) const{
     for(SubPhrase* c : children) c->write(out);
 }
 
-void Cases::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){    
-    painter->setPen(Globals::construct_pen);
+void Cases::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
 
     painter->drawArc(QRectF(bwh,0,bwh,u), 90*16, 90*16);
     painter->drawArc(QRectF(0,0,bwh,u), 270*16, 90*16);

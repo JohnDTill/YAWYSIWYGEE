@@ -16,10 +16,6 @@ Matrix::Matrix(const std::vector<SubPhrase*>& c, minor_integer rows, minor_integ
     updateLayout();
 }
 
-void Matrix::updateTheme(){
-    for(Phrase* p : children) p->updateTheme();
-}
-
 void Matrix::updateLayout(){
     std::vector<double> W(cols,0);
     std::vector<double> U(rows,0);
@@ -94,8 +90,8 @@ void Matrix::write(QTextStream& out) const{
     for(SubPhrase* c : children) c->write(out);
 }
 
-void Matrix::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    painter->setPen(Globals::construct_pen);
+void Matrix::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
 
     painter->drawLine(QLineF(0, 0, bracket_width, 0));
     painter->drawLine(QLineF(0, 0, 0, h));

@@ -23,7 +23,7 @@ public:
     Construct();
     qreal h() const;
     virtual void deletePostorder() = 0;
-    virtual void updateTheme() = 0;
+    virtual void select() = 0;
     virtual void updateLayout() = 0;
     void updateToTop();
 
@@ -36,6 +36,7 @@ public:
     Line& getLine() const;
     virtual void populateMenu(QMenu& menu, const SubPhrase* caller = nullptr);
     virtual void write(QTextStream& out) const = 0;
+    static void setupPainter(QPainter* painter, const QStyleOptionGraphicsItem* options);
 
 protected:
     virtual QRectF boundingRect() const override final;
@@ -48,6 +49,7 @@ void link(Construct* c, Text* t);
 class TerminalConstruct : public Construct{
 public:
     virtual void deletePostorder() override final;
+    virtual void select() override final;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase*) const override final;
@@ -63,6 +65,7 @@ protected:
 public:
     UnaryConstruct(SubPhrase* c);
     virtual void deletePostorder() override final;
+    virtual void select() override final;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase*) const override final;
@@ -79,6 +82,7 @@ protected:
 public:
     BinaryConstruct(SubPhrase* f, SubPhrase* s);
     virtual void deletePostorder() override final;
+    virtual void select() override final;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase* caller) const override final;
@@ -92,6 +96,7 @@ protected:
 public:
     NaryConstruct(const std::vector<SubPhrase*> c);
     virtual void deletePostorder() override final;
+    virtual void select() override final;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase* caller) const override final;

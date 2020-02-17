@@ -9,41 +9,31 @@
 
 namespace Typeset{
 
-BigQChar::BigQChar(QChar qchar){
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_char.setText(qchar);
-    big_char.setParentItem(this);
-    big_char.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_char.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_char.setFont(Globals::bigqchar_font);
-    big_char.setBrush(Globals::construct_brush);
-
+BigQChar::BigQChar(QChar qchar)
+    : ch(qchar) {
     updateLayout();
 }
 
-void BigQChar::updateTheme(){
-    big_char.setBrush(Globals::construct_brush);
-}
-
 void BigQChar::updateLayout(){
-    QRectF child_bounds = big_char.boundingRect();
+    QRectF child_bounds = Globals::bigqchar_font_metrics.boundingRect(ch);
     w = child_bounds.width();
     u = d = child_bounds.height()/2;
 }
 
 void BigQChar::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addUnderscript = menu.addAction("Big " + big_char.text() + ": Add underscript");
+    QAction* addUnderscript = menu.addAction(QString("Big ") + ch + ": Add underscript");
     connect(addUnderscript, SIGNAL(triggered()), this, SLOT(addUnderscript()));
 }
 
 void BigQChar::write(QTextStream& out) const{
-    out << ESCAPE << big_char.text();
+    out << ESCAPE << ch;
 }
 
-void BigQChar::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void BigQChar::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::bigqchar_font);
+    painter->drawText(boundingRect(), Qt::AlignBottom|Qt::AlignHCenter, ch);
 }
 
 void BigQChar::addUnderscript(){
@@ -55,7 +45,7 @@ BigQChar::AddUnderscript::AddUnderscript(BigQChar* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new BigQChar_S(out->big_char.text().front(), new SubPhrase(t));
+    in = new BigQChar_S(out->ch, new SubPhrase(t));
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -90,49 +80,41 @@ void BigQChar::AddUnderscript::undo(){
 
 #define underscript child
 BigQChar_S::BigQChar_S(QChar qchar, SubPhrase* c)
-    : UnaryConstruct(c) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_char.setText(qchar);
-    big_char.setParentItem(this);
-    big_char.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_char.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_char.setFont(Globals::bigqchar_font);
-    big_char.setBrush(Globals::construct_brush);
-
+    : UnaryConstruct(c),
+      ch(qchar) {
     updateLayout();
 }
 
-void BigQChar_S::updateTheme(){
-    big_char.setBrush(Globals::construct_brush);
-    underscript->updateTheme();
-}
-
 void BigQChar_S::updateLayout(){
-    QRectF symbol_bounds = big_char.boundingRect();
+    QRectF symbol_bounds = Globals::bigqchar_font_metrics.boundingRect(ch);
     w = qMax(symbol_bounds.width(), underscript->w);
     u = symbol_bounds.height()/2;
     d = u + underscript->u + underscript->d;
 
-    big_char.setPos( (w-symbol_bounds.width())/2, 0 );
+    symbol_x = (w-symbol_bounds.width())/2;
     underscript->setPos( (w-underscript->w)/2, symbol_bounds.height() );
+    update();
 }
 
 void BigQChar_S::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addOverscript = menu.addAction("Big " + big_char.text() + ": Add overscript");
+    QAction* addOverscript = menu.addAction(QString("Big ") + ch + ": Add overscript");
     connect(addOverscript, SIGNAL(triggered()), this, SLOT(addOverscript()));
-    QAction* removeUnderscript = menu.addAction("Big " + big_char.text() + ": Remove underscript");
+    QAction* removeUnderscript = menu.addAction(QString("Big ") + ch + ": Remove underscript");
     connect(removeUnderscript, SIGNAL(triggered()), this, SLOT(removeUnderscript()));
 }
 
 void BigQChar_S::write(QTextStream& out) const{
-    out << ESCAPE << big_char.text();
+    out << ESCAPE << ch;
     child->write(out);
 }
 
-void BigQChar_S::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void BigQChar_S::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::bigqchar_font);
+    QRectF symbol_rect = Globals::bigqchar_font_metrics.boundingRect(ch);
+    symbol_rect.moveTo(symbol_x, 0);
+    painter->drawText(symbol_rect, Qt::AlignBottom|Qt::AlignHCenter, ch);
 }
 
 void BigQChar_S::addOverscript(){
@@ -148,7 +130,7 @@ BigQChar_S::AddOverscript::AddOverscript(BigQChar_S* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new BigQChar_SN(out->big_char.text().front(), out->child, new SubPhrase(t));
+    in = new BigQChar_SN(out->ch, out->child, new SubPhrase(t));
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -188,7 +170,7 @@ void BigQChar_S::AddOverscript::undo(){
 
 BigQChar_S::RemoveUnderscript::RemoveUnderscript(BigQChar_S* out)
     : out(out) {
-    in = new BigQChar(out->big_char.text().front());
+    in = new BigQChar(out->ch);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -225,40 +207,27 @@ void BigQChar_S::RemoveUnderscript::undo(){
 #define overscript first
 #define underscript second
 BigQChar_SN::BigQChar_SN(QChar qchar, SubPhrase* s, SubPhrase* f)
-    : BinaryConstruct(f, s) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    big_char.setText(qchar);
-    big_char.setParentItem(this);
-    big_char.setFlag(QGraphicsItem::ItemIsSelectable, false);
-    big_char.setFlag(QGraphicsItem::ItemStacksBehindParent);
-    big_char.setFont(Globals::bigqchar_font);
-    big_char.setBrush(Globals::construct_brush);
-
+    : BinaryConstruct(f, s),
+      ch(qchar) {
     updateLayout();
 }
 
-void BigQChar_SN::updateTheme(){
-    big_char.setBrush(Globals::construct_brush);
-    underscript->updateTheme();
-    overscript->updateTheme();
-}
-
 void BigQChar_SN::updateLayout(){
-    QRectF symbol_bounds = big_char.boundingRect();
+    QRectF symbol_bounds = Globals::bigqchar_font_metrics.boundingRect(ch);
     w = qMax(symbol_bounds.width(), qMax(underscript->w, overscript->w));
     u = symbol_bounds.height()/2 + overscript->u + overscript->d;
     d = symbol_bounds.height()/2 + underscript->u + underscript->d;
 
     overscript->setPos( (w-overscript->w)/2, 0 );
-    qreal y = overscript->u + overscript->d;
-    big_char.setPos( (w-symbol_bounds.width())/2, y );
-    y += symbol_bounds.height();
+    symbol_x = (w-symbol_bounds.width())/2;
+    symbol_y = overscript->u + overscript->d;
+    qreal y = symbol_y + symbol_bounds.height();
     underscript->setPos( (w-underscript->w)/2, y );
+    update();
 }
 
 void BigQChar_SN::write(QTextStream& out) const{
-    out << ESCAPE << big_char.text();
+    out << ESCAPE << ch;
     second->write(out);
     first->write(out);
 }
@@ -273,12 +242,16 @@ Text* BigQChar_SN::textDown(const SubPhrase* caller, qreal x) const{
 
 void BigQChar_SN::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* removeOverscript = menu.addAction("Big " + big_char.text() + ": Remove overscript");
+    QAction* removeOverscript = menu.addAction(QString("Big ") + ch + ": Remove overscript");
     connect(removeOverscript, SIGNAL(triggered()), this, SLOT(removeOverscript()));
 }
 
-void BigQChar_SN::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void BigQChar_SN::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    setupPainter(painter, options);
+    painter->setFont(Globals::bigqchar_font);
+    QRectF symbol_rect = Globals::bigqchar_font_metrics.boundingRect(ch);
+    symbol_rect.moveTo(symbol_x, symbol_y);
+    painter->drawText(symbol_rect, Qt::AlignBottom|Qt::AlignHCenter, ch);
 }
 
 void BigQChar_SN::removeOverscript(){
@@ -287,7 +260,7 @@ void BigQChar_SN::removeOverscript(){
 
 BigQChar_SN::RemoveOverscript::RemoveOverscript(BigQChar_SN* out)
     : out(out) {
-    in = new BigQChar_S(out->big_char.text().front(), out->second);
+    in = new BigQChar_S(out->ch, out->second);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;

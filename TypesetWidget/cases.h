@@ -20,7 +20,6 @@ private:
 
 public:
     Cases(const std::vector<SubPhrase*>& data);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
@@ -28,7 +27,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 
 private:
     void insertRow(major_integer row, SubPhrase* first, SubPhrase* second);

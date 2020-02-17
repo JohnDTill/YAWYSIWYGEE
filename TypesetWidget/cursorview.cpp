@@ -1,6 +1,7 @@
 #include "cursorview.h"
 
 #include "algorithm.h"
+#include "construct.h"
 #include "cursor.h"
 #include "document.h"
 #include "globals.h"
@@ -11,9 +12,8 @@
 
 namespace Typeset{
 
-CursorView::CursorView(Document& doc){
-    selected_lines.push_back(doc.back);
-    doc.back->focusLineNumber();
+CursorView::CursorView(Document&){
+    //DO NOTHING
 }
 
 void CursorView::update(const Cursor& cursor){
@@ -22,9 +22,6 @@ void CursorView::update(const Cursor& cursor){
 
     cursor.text->setTextCursor(cursor.cursor);
     cursor.text->setFocus();
-
-    for(Line* l : selected_lines) l->unfocusLineNumber();
-    selected_lines.clear();
 
     Line* lL;
     Line* lR;
@@ -35,11 +32,9 @@ void CursorView::update(const Cursor& cursor){
         lL = &cursor.text->parent->getLine();
         lR = &cursor.anchor_text->parent->getLine();
     }
-    for(Line* l = lL; l != lR->next; l = l->next){
-        selected_lines.push_back(l);
-        l->focusLineNumber();
-    }
 
+    cursor.doc.clearSelection();
+    cursor.text->parent->getLine().setSelected(true);
     if(cursor.hasSelection()){
         if(cursor.forward()) addMasks(cursor.anchor_text, cursor.anchor_cursor, cursor.text, cursor.cursor);
         else addMasks(cursor.text, cursor.cursor, cursor.anchor_text, cursor.anchor_cursor);
@@ -72,45 +67,68 @@ void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor 
     SelectionMask* item = new SelectionMask(rect);
     masks.push_back(item);
     item->setParentItem(tL->parent);
+
+    for(Text* t = tL; t != tR; t = t->next->next)
+        t->next->select();
+
+    for(Text* t = tL->next->next; t != tR; t = t->next->next)
+        t->setSelected(true);
 }
 
 void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
     QBrush highlight = QApplication::palette().highlight();
 
+    Line* lL = &tL->parent->getLine();
+    Line* lR = &tR->parent->getLine();
+
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
-    QRectF rectL(xL, 0, tL->parent->w + newline_padding - xL, tL->parent->h());
+    QRectF rectL(xL, 0, lL->w + newline_padding - xL, lL->h());
     SelectionMask* itemL = new SelectionMask(rectL);
     masks.push_back(itemL);
-    itemL->setParentItem(tL->parent);
+    itemL->setParentItem(lL);
 
     if(tR->prev || !cR.atStart()){
         qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
-        QRectF rectR(0, 0, xR, tR->parent->h());
+        QRectF rectR(0, 0, xR, lR->h());
         SelectionMask* itemR = new SelectionMask(rectR);
         masks.push_back(itemR);
-        itemR->setParentItem(tR->parent);
+        itemR->setParentItem(lR);
     }
 
-    for(Line* l = tL->parent->getLine().next; l != tR->parent; l = l->next){
+    for(Line* l = lL->next; l != lR; l = l->next){
         QRectF rect(0, 0, l->w + newline_padding, l->h());
         SelectionMask* item = new SelectionMask(rect);
         masks.push_back(item);
         item->setParentItem(l);
+        l->select();
+    }
+
+    lL->setSelected(true);
+    for(Construct* c = tL->next; c; c = c->next->next){
+        c->select();
+        c->next->setSelected(true);
+    }
+
+    lR->setSelected(true);
+    for(Construct* c = tR->prev; c; c = c->prev->prev){
+        c->select();
+        c->prev->setSelected(true);
     }
 }
 
 CursorView::SelectionMask::SelectionMask(const QRectF& r){
-    if(!Globals::invert_selection_textcolor) setFlag(GraphicsItemFlag::ItemStacksBehindParent);
+    setFlag(GraphicsItemFlag::ItemStacksBehindParent);
     region = QRectF(r.x(), r.y()-margin, r.width()+margin, r.height()+2*margin);
 }
 
-void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*){
+void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
     if(region.width() < margin + 1e-2) return;
-    if(Globals::invert_selection_textcolor)
-        painter->setCompositionMode(QPainter::RasterOp_SourceOrNotDestination);
-    QBrush b = option->palette.highlight();
-    painter->setBrush(b);
-    QPen p(option->palette.background().color());
+
+    //Note: calling QGraphicsScene::setPalette() does not result in correct option->palette.highlight()
+    //painter->setBrush(option->palette.highlight());
+    painter->setBrush(scene()->palette().highlight());
+    //QPen p(option->palette.base().color());
+    QPen p(scene()->palette().base().color());
     p.setWidth(0);
     painter->setPen(p);
     painter->drawRect(region);

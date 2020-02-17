@@ -32,7 +32,6 @@ public:
     bool isEmpty() const;
     void setParentPhrase(Phrase* parent);
     static bool isDeepestScriptLevel(uint8_t script_level);
-    void updateTheme();
     void updateToTop();
     void populateMenu(QMenu& menu);
     void write(QTextStream& out) const;

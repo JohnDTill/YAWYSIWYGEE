@@ -5,30 +5,45 @@
 #include "document.h"
 #include "globals.h"
 #include "text.h"
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 namespace Typeset{
 
 Line::Line(Text* f, Text* b, uint32_t line_num) :
     Phrase(f, b),
     line_num(line_num) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
-
-    line_num_box.setParentItem(this);
-    line_num_box.setText(QString::number(line_num));
-    line_num_box.setFont(Globals::passive_linenum_font);
-    line_num_box.setBrush(Globals::line_num_passive_brush);
-    line_num_box.setFlag(QGraphicsItem::ItemIsSelectable, false);
-
+    setFlag(QGraphicsItem::ItemIsSelectable);
     updateLayout();
-    repositionLineNumber();
 }
 
-void Line::paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*){
-    //DO NOTHING
+void Line::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+    QRectF bounds;
+    QString num_str = QString::number(line_num);
+    if(options->state.testFlag(QStyle::StateFlag::State_Selected)){
+        painter->setFont(Globals::active_linenum_font);
+        //painter->setPen(options->palette.text().color());
+        painter->setPen(scene()->palette().text().color());
+        QFontMetrics fm(Globals::active_linenum_font);
+        bounds = fm.boundingRect(num_str);
+    }else{
+        painter->setFont(Globals::passive_linenum_font);
+        //painter->setPen(options->palette.mid().color());
+        painter->setPen(scene()->palette().mid().color());
+        QFontMetrics fm(Globals::passive_linenum_font);
+        bounds = fm.boundingRect(num_str);
+    }
+
+    qreal num_x = -(linebox_hspace + bounds.width());
+    qreal num_y = u - bounds.height()/2;
+
+    bounds.moveTo(num_x, num_y);
+    painter->drawText(bounds, Qt::AlignRight, num_str);
 }
 
 QRectF Line::boundingRect() const{
-    return QRectF(0, y(), w, u+d);
+    static constexpr qreal extra = 200;
+    return QRectF(-extra, 0, w+extra, u+d);
 }
 
 void Line::repositionNextLine(){
@@ -36,25 +51,12 @@ void Line::repositionNextLine(){
 }
 
 void Line::renumberLine(uint32_t n){
-    line_num = n;
-    line_num_box.setText(QString::number(line_num));
-    repositionLineNumber();
-    if(next) next->renumberLine(n+1);
-}
-
-void Line::setLineNumberVisible(bool show){
-    line_num_box.setVisible(show);
-}
-
-void Line::updateTheme(){
-    Phrase::updateTheme();
-    if(line_num_box.font().bold()) line_num_box.setBrush(Globals::line_num_active_brush);
-    else line_num_box.setBrush(Globals::line_num_passive_brush);
+    for(Line* l = this; l; l = l->next)
+        l->line_num = n++;
 }
 
 void Line::updateToTop(){
     updateLayout();
-    repositionLineNumber();
     if(next) repositionNextLine();
     static_cast<Document*>(scene())->updateSize();
 }
@@ -91,18 +93,6 @@ Line& Line::getLine(){
     return *this;
 }
 
-void Line::unfocusLineNumber(){
-    line_num_box.setFont(Globals::passive_linenum_font);
-    line_num_box.setBrush(Globals::line_num_passive_brush);
-    repositionLineNumber();
-}
-
-void Line::focusLineNumber(){
-    line_num_box.setFont(Globals::active_linenum_font);
-    line_num_box.setBrush(Globals::line_num_active_brush);
-    repositionLineNumber();
-}
-
 bool Line::proceeds(Line& l){
     return line_num < l.line_num;
 }
@@ -118,16 +108,6 @@ void Line::populateMenu(QMenu&){
 void Line::write(QTextStream& out) const{
     writeContents(out);
     out << "\n";
-}
-
-void Line::repositionLineNumber(){
-    QRectF line_bounds = line_num_box.boundingRect();
-    line_num_box.setPos(-(linebox_hspace + line_bounds.width()), u - line_bounds.height()/2);
-}
-
-void Line::updateLineboxNumber(){
-    line_num_box.setText(QString::number(line_num));
-    repositionLineNumber();
 }
 
 void link(Line* a, Line* b){

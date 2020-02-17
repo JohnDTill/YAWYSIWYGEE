@@ -12,27 +12,25 @@ static constexpr qreal ratio_subscript = 1;
 class Superscript : public BinaryConstruct{
 public:
     Superscript(SubPhrase* child = nullptr, SubPhrase* superscript = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase*, qreal) const override final;
     virtual Text* textDown(const SubPhrase*, qreal) const override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*) override;
 };
 
 class Subscript : public BinaryConstruct{
 public:
     Subscript(SubPhrase* child = nullptr, SubPhrase* subscript = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase*, qreal) const override final;
     virtual Text* textDown(const SubPhrase*, qreal) const override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override;
 };
 
 class Dualscript : public Construct{
@@ -44,7 +42,7 @@ private:
 public:
     Dualscript(SubPhrase* child = nullptr, SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
     virtual void deletePostorder() override final;
-    virtual void updateTheme() override final;
+    virtual void select() override final;
     virtual void updateLayout() override final;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
@@ -55,7 +53,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*) override;
 };
 
 }

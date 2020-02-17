@@ -7,16 +7,16 @@ namespace Typeset{
 
 class UnderscriptedWord : public UnaryConstruct{
 private:
-    QGraphicsSimpleTextItem word;
+    const QString word;
+    qreal word_x;
 
 public:
     UnderscriptedWord(QString str, SubPhrase* c = nullptr);
-    virtual void updateTheme() override final;
     virtual void updateLayout() override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
 
 }

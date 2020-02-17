@@ -24,6 +24,15 @@ qreal Phrase::h() const{
     return u+d;
 }
 
+void Phrase::select(){
+    setSelected(true);
+    front->setSelected(true);
+    for(Construct* c = front->next; c; c = c->next->next){
+        c->select();
+        c->next->setSelected(true);
+    }
+}
+
 void Phrase::deletePostorder(){
     Construct* c = front->next;
     delete front;
@@ -35,15 +44,6 @@ void Phrase::deletePostorder(){
     }
     delete this;
 }
-
-void Phrase::updateTheme(){
-    front->updateTheme();
-    for(Construct* c = front->next; c; c = c->next->next){
-        c->updateTheme();
-        c->next->updateTheme();
-    }
-}
-
 
 void Phrase::updateLayout(){
     calculateSize();

@@ -135,8 +135,6 @@ void MainWindow::on_actionChalkboard_triggered(){
     chalkboard.setColor(QPalette::All, QPalette::Text, Qt::white);
     chalkboard.setColor(QPalette::All, QPalette::Mid, Qt::white);
     chalkboard.setColor(QPalette::All, QPalette::Window, QColor::fromRgb(70,133,87));
-    chalkboard.setBrush(QPalette::All, QPalette::Highlight, QBrush(QColor("pink")));
-    chalkboard.setColor(QPalette::All, QPalette::Highlight, QColor("pink"));
 
     typeset_edit.setPalette(chalkboard);
     typeset_edit.scene()->setPalette(chalkboard);

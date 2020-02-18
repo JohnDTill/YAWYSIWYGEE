@@ -3,6 +3,7 @@
 #include "construct.h"
 #include "globals.h"
 #include "text.h"
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -70,11 +71,11 @@ bool SubPhrase::isEmpty() const{
     return (front == back) && front->isEmpty();
 }
 
-void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
+void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
     if(isEmpty()){
         QPen p = Globals::empty_box_pen;
-        if(front->isSelected()) p.setColor(options->palette.highlightedText().color());
-        else p.setColor(options->palette.text().color());
+        if(front->isSelected()) p.setColor(scene()->palette().highlightedText().color());
+        else p.setColor(scene()->palette().text().color());
         painter->setPen(p);
         painter->drawRect(QRectF(-1 + padding/2, padding/2, empty_box_width, empty_box_height));
     }

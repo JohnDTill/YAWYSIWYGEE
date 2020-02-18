@@ -68,11 +68,22 @@ void Text::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
         //painter->setBrush(option->palette.highlightedText());
         //painter->setPen(painter->brush().color());
         my_option.state &= ~QStyle::State_Selected;
-        setDefaultTextColor(option->palette.highlightedText().color());
+
+        setDefaultTextColor(scene()->palette().highlightedText().color());
     }else{
-        setDefaultTextColor(option->palette.text().color());
+        setDefaultTextColor(scene()->palette().text().color());
     }
-    QGraphicsTextItem::paint(painter, &my_option, widget);    
+    QGraphicsTextItem::paint(painter, &my_option, widget);
+}
+
+void Text::focusInEvent(QFocusEvent* event){
+    setTextInteractionFlags(Qt::TextEditorInteraction);
+    QGraphicsTextItem::focusInEvent(event);
+}
+
+void Text::focusOutEvent(QFocusEvent* event){
+    setTextInteractionFlags(Qt::TextInteractionFlag::TextBrowserInteraction); //Remove blinking cursor
+    QGraphicsItem::focusOutEvent(event); //Bypass QGraphicsTextItem::focusOutEvent()
 }
 
 void Text::calculateSize(){

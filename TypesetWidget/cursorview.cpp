@@ -12,13 +12,22 @@
 
 namespace Typeset{
 
-CursorView::CursorView(Document&){
-    //DO NOTHING
+CursorView::CursorView(Document& doc){
+    tL_old = doc.front->front;
+    tR_old = doc.back->back;
 }
 
 void CursorView::update(const Cursor& cursor){
     for(QGraphicsItem* mask : masks) delete mask;
     masks.clear();
+
+    QTextCursor cL_old = tL_old->textCursor();
+    cL_old.clearSelection();
+    tL_old->setTextCursor(cL_old);
+
+    QTextCursor cR_old = tR_old->textCursor();
+    cR_old.clearSelection();
+    tR_old->setTextCursor(cR_old);
 
     cursor.text->setTextCursor(cursor.cursor);
     cursor.text->setFocus();
@@ -38,6 +47,14 @@ void CursorView::update(const Cursor& cursor){
     if(cursor.hasSelection()){
         if(cursor.forward()) addMasks(cursor.anchor_text, cursor.anchor_cursor, cursor.text, cursor.cursor);
         else addMasks(cursor.text, cursor.cursor, cursor.anchor_text, cursor.anchor_cursor);
+
+        if(cursor.anchor_text==cursor.text){
+            QTextCursor c = cursor.anchor_cursor;
+            c.setPosition(cursor.cursor.position(), QTextCursor::KeepAnchor);
+            cursor.text->setTextCursor(c);
+
+            tL_old = tR_old = cursor.anchor_text;
+        }
     }
 }
 
@@ -73,6 +90,18 @@ void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor 
 
     for(Text* t = tL->next->next; t != tR; t = t->next->next)
         t->setSelected(true);
+
+    int pL = cL.position();
+    cL.movePosition(QTextCursor::End);
+    cL.setPosition(pL, QTextCursor::KeepAnchor);
+    tL->setTextCursor(cL);
+    tL_old = tL;
+
+    int pR = cR.position();
+    cR.setPosition(0);
+    cR.setPosition(pR, QTextCursor::KeepAnchor);
+    tR->setTextCursor(cR);
+    tR_old = tR;
 }
 
 void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
@@ -114,6 +143,18 @@ void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCurs
         c->select();
         c->prev->setSelected(true);
     }
+
+    int pL = cL.position();
+    cL.movePosition(QTextCursor::End);
+    cL.setPosition(pL, QTextCursor::KeepAnchor);
+    tL->setTextCursor(cL);
+    tL_old = tL;
+
+    int pR = cR.position();
+    cR.setPosition(0);
+    cR.setPosition(pR, QTextCursor::KeepAnchor);
+    tR->setTextCursor(cR);
+    tR_old = tR;
 }
 
 CursorView::SelectionMask::SelectionMask(const QRectF& r){

@@ -39,7 +39,7 @@ public:
     bool isEmpty() const;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final;
     virtual QRectF boundingRect() const override final;
     virtual void calculateSize() override final;
 };

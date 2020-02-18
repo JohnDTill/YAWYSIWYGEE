@@ -14,6 +14,8 @@ class CursorView{
 private:
     std::list<QGraphicsItem*> masks;
     static constexpr qreal newline_padding = 2;
+    Text* tL_old;
+    Text* tR_old;
 
 public:
     CursorView(Document& doc);
@@ -26,11 +28,9 @@ private:
     void addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
 
     class SelectionMask : public QGraphicsItem{
-        public:
-            static constexpr qreal margin = 2;
-
         private:
             QRectF region;
+            static constexpr qreal margin = 2;
 
         public:
             SelectionMask(const QRectF& r);

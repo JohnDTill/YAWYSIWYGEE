@@ -66,6 +66,7 @@ void Edit::copySelectionAsPng(qreal upscale){
 void Edit::newDocument(bool allow_write, bool show_line_numbers){
     delete doc;
     doc = new Typeset::Document(allow_write, show_line_numbers);
+    doc->setPalette(palette());
     setDocument(doc);
 }
 
@@ -92,6 +93,7 @@ void Edit::load(QString filename, bool allow_write, bool show_line_numbers){
     delete doc;
     doc = Parser::parseDocument(in, allow_write, show_line_numbers);
     doc->save_path = filename;
+    doc->setPalette(palette());
     setDocument(doc);
 
     //Make sure the view gets the focus item signal

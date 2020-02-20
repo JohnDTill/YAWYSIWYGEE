@@ -278,11 +278,11 @@ void MainWindow::setupSymbolTable(){
 
     ui->tableWidget->setFont(Typeset::Globals::fonts[2]);
 
-    QMap<QString, QChar>::const_iterator i;
+    QMap<QString, QString>::const_iterator i;
     int row = 0;
     int col = 0;
     int cols = ui->tableWidget->columnCount();
-    for(i = Typeset::keyword_to_qchar.begin(); i != Typeset::keyword_to_qchar.end(); i++){
+    for(i = Typeset::keyword_map.begin(); i != Typeset::keyword_map.end(); i++){
         if(col >= cols){
             row++;
             col = 0;

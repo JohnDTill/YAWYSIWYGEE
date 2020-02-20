@@ -669,8 +669,8 @@ void Cursor::checkSlashSub(){
                 temp_cursor.movePosition(QTextCursor::Right);
                 temp_cursor.setPosition(word_end, QTextCursor::KeepAnchor);
                 QString word = temp_cursor.selectedText();
-                auto lookup = keyword_to_qchar.find(word);
-                if(lookup == keyword_to_qchar.end()){
+                auto lookup = keyword_map.find(word);
+                if(lookup == keyword_map.end()){
                     word.replace('{', OPEN);
                     word.replace('}', CLOSE);
                     word.prepend(ESCAPE);
@@ -723,7 +723,7 @@ void Cursor::checkSlashSub(){
 
                     return;
                 }else{
-                    const QChar sub = lookup.value();
+                    const QString sub = lookup.value();
                     cursor.setPosition(temp_cursor.position() + 1);
                     anchor_cursor.setPosition(temp_cursor.anchor() - 1);
                     paste(sub);

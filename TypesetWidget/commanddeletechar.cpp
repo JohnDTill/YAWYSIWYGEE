@@ -10,13 +10,13 @@ CommandDeleteChar::CommandDeleteChar(Cursor& cursor, bool forward, Text* t, QTex
       c(c) {
     if(forward){
         pL = c.position();
-        pR = pL+1;
         c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        pR = c.position();
         str = c.selectedText();
     }else{
         pR = c.position();
-        pL = pR-1;
         c.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+        pL = c.position();
         str = c.selectedText();
     }
 
@@ -27,15 +27,15 @@ void CommandDeleteChar::removeChar(bool forward){
     if(forward){
         c.setPosition(pL);
         c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        pR += c.position() - pL;
         str.append(c.selectedText());
         c.removeSelectedText();
-        pR++;
     }else{
         c.setPosition(pL);
         c.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+        pL = c.position();
         str.prepend(c.selectedText());
         c.removeSelectedText();
-        pL--;
     }
 
     t->updateToTop();

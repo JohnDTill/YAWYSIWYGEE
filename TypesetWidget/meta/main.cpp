@@ -22,7 +22,8 @@ void createIncludes(QTextStream& out){
 void createSubstitutionMap(QFile& table_file, QTextStream& out){
     skipHeader(table_file);
 
-    out << "static const QMap<QString, QChar> keyword_to_qchar = {\n";
+    out << "//Note: value type is QString because QChar uses UTF-16, but some values are UTF-32 characters\n";
+    out << "static const QMap<QString, QString> keyword_map = {\n";
 
     int max_keyword_length = 0;
     while(!table_file.atEnd()){
@@ -42,8 +43,7 @@ void createSubstitutionMap(QFile& table_file, QTextStream& out){
             if(keyword.length() > max_keyword_length)
                 max_keyword_length = keyword.length();
 
-            if(value.size()==1)
-                out << "    { \"" << keyword << "\" , " << value.front().unicode() << " },\n";
+            out << "    { \"" << keyword << "\" , \"" << value << "\" },\n";
         }
     }
     out << "};\n\n";

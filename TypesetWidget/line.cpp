@@ -56,6 +56,7 @@ void Line::renumberLine(uint32_t n){
 }
 
 void Line::updateToTop(){
+    prepareGeometryChange();
     updateLayout();
     if(next) repositionNextLine();
     static_cast<Document*>(scene())->updateSize();

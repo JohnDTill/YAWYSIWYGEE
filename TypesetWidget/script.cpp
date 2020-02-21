@@ -65,7 +65,7 @@ void Subscript::updateLayout(){
 
     d = child->d + e;
 
-    const qreal ys = (hs > a) ? child->u + (1-ratio_subscript)*child->d : child->u + (1-ratio_subscript)*child->d - hs;
+    const qreal ys = child->h() + e - hs;
     subscript->setPos(child->w, ys);
 }
 
@@ -140,7 +140,7 @@ void Dualscript::updateLayout(){
 
     d = child->d + e;
 
-    const qreal ys = (hs > a) ? ym + child->u + (1-ratio_subscript)*child->d : child->u + (1-ratio_subscript)*child->d - hs;
+    const qreal ys = ym + child->h() + e - hs;
     subscript->setPos(child->w, ys);
 }
 

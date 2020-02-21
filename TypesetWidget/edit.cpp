@@ -19,6 +19,7 @@ Edit::Edit(bool allow_write, bool show_line_numbers){
     horizontalScrollBar()->setCursor(Qt::CursorShape::ArrowCursor);
 
     setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    resetZoom();
 
     doc = new Typeset::Document(allow_write, show_line_numbers);
     setDocument(doc);
@@ -151,6 +152,7 @@ void Edit::zoomOut(qreal scale_factor){
 
 void Edit::resetZoom(){
     resetTransform();
+    scale(2, 2);
 }
 
 void Edit::setLineNumbersVisible(bool show){

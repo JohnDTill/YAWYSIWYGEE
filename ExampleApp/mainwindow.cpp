@@ -276,7 +276,9 @@ void MainWindow::setupSymbolTable(){
     ui->mainToolBar->insertWidget(ui->actionSubscript, ui->tableWidget);
     ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
 
-    ui->tableWidget->setFont(Typeset::Globals::fonts[2]);
+    QFont table_font = Typeset::Globals::fonts[0];
+    table_font.setPixelSize(24);
+    ui->tableWidget->setFont(table_font);
 
     QMap<QString, QString>::const_iterator i;
     int row = 0;

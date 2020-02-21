@@ -53,7 +53,7 @@ void Text::write(QTextStream& out) const{
 }
 
 uint8_t Text::getScriptLevel() const{
-    int current_font_size = font().pointSize();
+    int current_font_size = font().pixelSize();
     for(uint8_t i = 0; i <= Globals::deepest_script_level; i++)
         if( current_font_size == Globals::font_sizes[i] ) return i;
 

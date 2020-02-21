@@ -28,21 +28,21 @@ void Globals::initGlobals(){
     QFont default_font = QFont(family);
 
     bigqchar_font = default_font;
-    bigqchar_font.setPointSize(24);
+    bigqchar_font.setPixelSize(24);
     bigqchar_font_metrics = QFontMetrics(bigqchar_font);
 
     integral_font = default_font;
-    integral_font.setPointSize(25);
+    integral_font.setPixelSize(25);
     integral_font.setItalic(true);
     integral_font_metrics = QFontMetrics(integral_font);
 
     word_font = default_font;
-    word_font.setPointSize(15);
+    word_font.setPixelSize(15);
     word_font_metrics = QFontMetrics(word_font);
 
     for(uint8_t i = 0; i <= deepest_script_level; i++){
         fonts[i] = default_font;
-        fonts[i].setPointSize(font_sizes[i]);
+        fonts[i].setPixelSize(font_sizes[i]);
     }
 
     empty_box_pen = QPen(Qt::PenStyle::DotLine);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>400</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item>
      <widget class="QTableWidget" name="tableWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -26,12 +26,12 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>38</height>
+        <height>60</height>
        </size>
       </property>
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>24</pointsize>
        </font>
       </property>
       <property name="verticalScrollBarPolicy">
@@ -62,7 +62,7 @@
        <number>5</number>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>18</number>
+       <number>30</number>
       </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>false</bool>
@@ -74,7 +74,7 @@
        <number>5</number>
       </attribute>
       <attribute name="verticalHeaderDefaultSectionSize">
-       <number>18</number>
+       <number>30</number>
       </attribute>
       <row/>
       <column/>
@@ -124,7 +124,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1200</width>
      <height>31</height>
     </rect>
    </property>
@@ -204,8 +204,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>24</width>
-     <height>24</height>
+     <width>48</width>
+     <height>48</height>
     </size>
    </property>
    <property name="toolButtonStyle">

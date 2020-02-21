@@ -14,8 +14,8 @@ private:
     Document* doc;
     static constexpr qreal scale_in_factor = 1.1;
     static constexpr qreal scale_out_factor = 0.9;
-    static constexpr qreal min_scale = 0.2;
-    static constexpr qreal max_scale = 5;
+    static constexpr qreal min_scale = 0.5;
+    static constexpr qreal max_scale = 15;
 
 public:
     Edit(bool allow_write = true, bool show_line_numbers = true);

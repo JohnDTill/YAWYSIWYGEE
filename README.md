@@ -6,9 +6,7 @@ Qt widget for editing documents with inline equations.
 
 ![alt text](demo.gif?raw=true "YAWYSIWGEE")
 
-## WORK IN PROGRESS
-
-The Typeset::Edit public method signatures are mostly stable, but in general public method signatures are subject to change.
+[Try it in your browser!](https://johndtill.github.io/YAWYSIWYGEE_WASM/)
 
 ## Purpose
 

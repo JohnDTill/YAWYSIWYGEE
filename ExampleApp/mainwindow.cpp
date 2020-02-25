@@ -63,11 +63,11 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::on_actionNew_triggered(){
-    typeset_edit.newDocument();
+    typeset_edit.newDocument(true, lineNumbersShown());
 }
 
 void MainWindow::on_actionLoad_triggered(){
-    typeset_edit.loadPrompt();
+    typeset_edit.loadPrompt(true, lineNumbersShown());
 }
 
 void MainWindow::on_actionSave_triggered(){
@@ -95,7 +95,7 @@ void MainWindow::on_actionRedo_triggered(){
 }
 
 void MainWindow::on_actionLoad_Test_txt_triggered(){
-    typeset_edit.load(":/test.txt");
+    typeset_edit.load(":/test.txt", true, lineNumbersShown());
 }
 
 void MainWindow::on_actionTest_for_Memory_Leaks_triggered(){

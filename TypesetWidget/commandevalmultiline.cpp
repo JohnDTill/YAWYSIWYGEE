@@ -39,7 +39,7 @@ CommandEvalMultiline::CommandEvalMultiline(Cursor& cursor, Document& doc, const 
 
     lR = ends.second;
     tR = lR->back;
-    tR->next = tL->next; //tL->next is getting lost!
+    tR->next = tL->next;
     if(tL->next) lR->back = lL->back;
     lR->next = lL->next;
     cR = tR->textCursor();

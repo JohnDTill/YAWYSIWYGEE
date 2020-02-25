@@ -33,7 +33,6 @@ CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Document& doc, co
     lR = l;
     tR = lR->back;
     tR->next = tL->next;
-    lR->back = lL->back;
     cR = tR->textCursor();
     cR.movePosition(QTextCursor::End);
     cR.insertText(removed_str);

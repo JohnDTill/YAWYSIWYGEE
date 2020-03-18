@@ -11,6 +11,7 @@ namespace Typeset{
 
 class Construct;
 class Document;
+class Highlighter;
 class Phrase;
 
 class Text : public QGraphicsTextItem{
@@ -26,6 +27,8 @@ private:
     static constexpr qreal margin = 1;
     static constexpr qreal subtract_from_height = 2.5;
     static constexpr qreal subtract_from_width = 1;
+
+    Highlighter* highlighter;
 
 public:
     Text(uint8_t script_level = 0, QString str = "");

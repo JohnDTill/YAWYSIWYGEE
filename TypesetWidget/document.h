@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QRegularExpression>
 #include <QUndoStack>
 #include <QTime>
 
@@ -27,6 +28,22 @@ public:
     const bool allow_write;
     QUndoStack* undo_stack;
     bool show_line_nums = true;
+
+    struct HighlightingRule{
+        QRegularExpression pattern;
+        QTextCharFormat format;
+    };
+    QVector<HighlightingRule> highlightingRules;
+
+    QRegularExpression commentStartExpression;
+    QRegularExpression commentEndExpression;
+
+    QTextCharFormat keywordFormat;
+    QTextCharFormat classFormat;
+    QTextCharFormat singleLineCommentFormat;
+    QTextCharFormat multiLineCommentFormat;
+    QTextCharFormat quotationFormat;
+    QTextCharFormat functionFormat;
 
 private:
     bool double_clicked = false;

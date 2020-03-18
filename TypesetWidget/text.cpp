@@ -2,6 +2,7 @@
 
 #include "document.h"
 #include "globals.h"
+#include "highlighter.h"
 #include "parser.h"
 #include "phrase.h"
 
@@ -22,6 +23,8 @@ Text::Text(uint8_t script_level, QString str){
     setPlainText(str);
 
     calculateSize();
+
+    highlighter = new Highlighter(document(), *this);
 }
 
 bool Text::isEmpty() const{

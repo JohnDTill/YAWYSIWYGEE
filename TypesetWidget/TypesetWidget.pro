@@ -32,6 +32,7 @@ SOURCES += \
     fraction.cpp \
     globals.cpp \
     grouping.cpp \
+    highlighter.cpp \
     integral.cpp \
     line.cpp \
     matrix.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     fraction.h \
     globals.h \
     grouping.h \
+    highlighter.h \
     integral.h \
     line.h \
     matrix.h \

@@ -47,6 +47,56 @@ Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b, Q
     cv->update(*cursor);
 
     undo_stack = new QUndoStack();
+
+
+    HighlightingRule rule;
+
+    keywordFormat.setForeground(Qt::darkBlue);
+    keywordFormat.setFontWeight(QFont::Bold);
+    const QString keywordPatterns[] = {
+        QStringLiteral("\\bchar\\b"), QStringLiteral("\\bclass\\b"), QStringLiteral("\\bconst\\b"),
+        QStringLiteral("\\bdouble\\b"), QStringLiteral("\\benum\\b"), QStringLiteral("\\bexplicit\\b"),
+        QStringLiteral("\\bfriend\\b"), QStringLiteral("\\binline\\b"), QStringLiteral("\\bint\\b"),
+        QStringLiteral("\\blong\\b"), QStringLiteral("\\bnamespace\\b"), QStringLiteral("\\boperator\\b"),
+        QStringLiteral("\\bprivate\\b"), QStringLiteral("\\bprotected\\b"), QStringLiteral("\\bpublic\\b"),
+        QStringLiteral("\\bshort\\b"), QStringLiteral("\\bsignals\\b"), QStringLiteral("\\bsigned\\b"),
+        QStringLiteral("\\bslots\\b"), QStringLiteral("\\bstatic\\b"), QStringLiteral("\\bstruct\\b"),
+        QStringLiteral("\\btemplate\\b"), QStringLiteral("\\btypedef\\b"), QStringLiteral("\\btypename\\b"),
+        QStringLiteral("\\bunion\\b"), QStringLiteral("\\bunsigned\\b"), QStringLiteral("\\bvirtual\\b"),
+        QStringLiteral("\\bvoid\\b"), QStringLiteral("\\bvolatile\\b"), QStringLiteral("\\bbool\\b")
+    };
+    for (const QString &pattern : keywordPatterns) {
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = keywordFormat;
+        highlightingRules.append(rule);
+    }
+
+    classFormat.setFontWeight(QFont::Bold);
+    classFormat.setForeground(Qt::darkMagenta);
+    rule.pattern = QRegularExpression(QStringLiteral("\\bQ[A-Za-z]+\\b"));
+    rule.format = classFormat;
+    highlightingRules.append(rule);
+
+    singleLineCommentFormat.setForeground(Qt::red);
+    rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+
+    multiLineCommentFormat.setForeground(Qt::red);
+
+    quotationFormat.setForeground(Qt::darkGreen);
+    rule.pattern = QRegularExpression(QStringLiteral("\".*\""));
+    rule.format = quotationFormat;
+    highlightingRules.append(rule);
+
+    functionFormat.setFontItalic(true);
+    functionFormat.setForeground(Qt::blue);
+    rule.pattern = QRegularExpression(QStringLiteral("\\b[A-Za-z0-9_]+(?=\\()"));
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
+    commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
+    commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
 }
 
 Document::~Document(){

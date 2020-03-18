@@ -655,8 +655,53 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new CommandEvalPhrase(*this, source, text, cursor);
 }
 
+const QHash<QString,QString> construct_map = {
+    {"vec", "→"},
+    {"breve", "ă"},
+    {"dddot", "⋯"},
+    {"ddot", "ä"},
+    {"dot", "ȧ"},
+    {"hat", "â"},
+    {"bar", "ā"},
+    {"tilde", "ã"},
+    {"bigsum", "∑"},
+    {"bigprod", "∏"},
+    {"bigcoprod", "∐"},
+    {"bigcap", "⋂"},
+    {"bigcup", "⋃"},
+    {"biguplus", "⨄"},
+    {"binom", "b"},
+    {"cases", "c"},
+    {"frac", "f"},
+    {"angle", "⟨⟩"},
+    {"ceil", "⌈⌉"},
+    {"floor", "⌊⌋"},
+    {"dangle","⟪⟫"},
+    {"dbracket", "⟦⟧"},
+    {"eval", "┊|"},
+    {"abs", "||"},
+    {"norm", "‖‖"},
+    {"iiint", "∭"},
+    {"iint", "∬"},
+    {"int", "∫"},
+    {"oint", "∮"},
+    {"oiint", "∯"},
+    {"oiiint", "∰"},
+    {"mat", "⊞"},
+    {"sqrt", "√"},
+    {"_^", "Δ"},
+    {"max", QString("w") + OPEN + "max" + CLOSE},
+    {"min", QString("w") + OPEN + "min" + CLOSE},
+    {"sup", QString("w") + OPEN + "sup" + CLOSE},
+    {"inf", QString("w") + OPEN + "inf" + CLOSE},
+    {"lim", QString("w") + OPEN + "lim" + CLOSE}
+};
+
 void Cursor::checkSlashSub(){
-    if(cursor.position() < 3) return;
+    if(cursor.position() > 1 && text->toPlainText().at(cursor.position()-2) == '}'){
+        checkComplexSlashSub();
+        return;
+    }
 
     QTextCursor temp_cursor = cursor;
     temp_cursor.movePosition(QTextCursor::Left);
@@ -668,69 +713,117 @@ void Cursor::checkSlashSub(){
             case '\\':
                 temp_cursor.movePosition(QTextCursor::Right);
                 temp_cursor.setPosition(word_end, QTextCursor::KeepAnchor);
-                QString word = temp_cursor.selectedText();
-                auto lookup = keyword_map.find(word);
-                if(lookup == keyword_map.end()){
-                    word.replace('{', OPEN);
-                    word.replace('}', CLOSE);
-                    word.prepend(ESCAPE);
-
-                    word.replace("vec", "→");
-                    word.replace("breve", "ă");
-                    word.replace("dddot", "⋯");
-                    word.replace("ddot", "ä");
-                    word.replace("dot", "ȧ");
-                    word.replace("hat", "â");
-                    word.replace("bar", "ā");
-                    word.replace("tilde", "ã");
-                    word.replace("bigsum", "∑");
-                    word.replace("bigprod", "∏");
-                    word.replace("bigcoprod", "∐");
-                    word.replace("bigcap", "⋂");
-                    word.replace("bigcup", "⋃");
-                    word.replace("biguplus", "⨄");
-                    word.replace("binom", "b");
-                    word.replace("cases", "c");
-                    word.replace("frac", "f");
-                    word.replace("angle", "⟨⟩");
-                    word.replace("ceil", "⌈⌉");
-                    word.replace("floor", "⌊⌋");
-                    word.replace("dangle","⟪⟫");
-                    word.replace("dbracket", "⟦⟧");
-                    word.replace("eval", "┊|");
-                    word.replace("abs", "||");
-                    word.replace("norm", "‖‖");
-                    word.replace("iiint", "∭");
-                    word.replace("iint", "∬");
-                    word.replace("int", "∫");
-                    word.replace("oint", "∮");
-                    word.replace("oiint", "∯");
-                    word.replace("oiiint", "∰");
-                    word.replace("mat", "⊞");
-                    word.replace("sqrt", "√");
-                    word.replace("_^", "Δ");
-                    word.replace("max", QString("w") + OPEN + "max" + CLOSE);
-                    word.replace("min", QString("w") + OPEN + "min" + CLOSE);
-                    word.replace("sup", QString("w") + OPEN + "sup" + CLOSE);
-                    word.replace("inf", QString("w") + OPEN + "inf" + CLOSE);
-                    word.replace("lim", QString("w") + OPEN + "lim" + CLOSE);
-
-                    if(Parser::shouldParseAsCode(word)){
-                        cursor.setPosition(temp_cursor.position() + 1);
-                        anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                        paste(word);
-                    }
-
-                    return;
-                }else{
-                    const QString sub = lookup.value();
-                    cursor.setPosition(temp_cursor.position() + 1);
+                QString key = temp_cursor.selectedText();
+                auto symbol_lookup = keyword_map.find(key);
+                if(symbol_lookup != keyword_map.end()){
                     anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                    paste(sub);
-                    return;
+                    paste(symbol_lookup.value());
+                }else{
+                    auto construct_lookup = construct_map.find(key);
+                    if(construct_lookup != construct_map.end()){
+                        anchor_cursor.setPosition(temp_cursor.anchor() - 1);
+                        paste(ESCAPE + construct_lookup.value());
+                    }
                 }
+
+                return;
         }
         temp_cursor.clearSelection();
+    }
+}
+
+void Cursor::checkComplexSlashSub(){
+    Text* t = text;
+    QTextCursor c = cursor;
+    c.movePosition(QTextCursor::Left);
+
+    int nesting_level = 0;
+    QString converted = "";
+
+    for(;;){
+        int word_end = c.position();
+
+        while(!c.atStart()){
+            c.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+            switch(c.selectedText().front().unicode()){
+                case ' ': {
+                    if(nesting_level == 0) return;
+                    int p = c.position();
+                    c.setPosition(word_end, QTextCursor::KeepAnchor);
+                    converted.prepend(c.selectedText());
+                    c.setPosition(p);
+                    word_end = p;
+                    break;
+                }
+                case '}': {
+                    nesting_level++;
+                    int p = c.position();
+                    c.movePosition(QTextCursor::Right);
+                    c.setPosition(word_end, QTextCursor::KeepAnchor);
+                    converted.prepend(CLOSE + c.selectedText());
+                    c.setPosition(p);
+                    word_end = p;
+                    break;
+                }
+                case '{': {
+                    if(nesting_level == 0) return;
+                    nesting_level--;
+                    int p = c.position();
+                    c.movePosition(QTextCursor::Right);
+                    c.setPosition(word_end, QTextCursor::KeepAnchor);
+                    converted.prepend(OPEN + c.selectedText());
+                    c.setPosition(p);
+                    word_end = p;
+                    break;
+                }
+                case '\\':
+                    int p = c.position();
+                    c.movePosition(QTextCursor::Right);
+                    c.setPosition(word_end, QTextCursor::KeepAnchor);
+                    QString key = c.selectedText();
+                    auto symbol_lookup = keyword_map.find(key);
+                    if(symbol_lookup != keyword_map.end()){
+                        converted.prepend(symbol_lookup.value());
+                    }else{
+                        auto construct_lookup = construct_map.find(key);
+                        if(construct_lookup != construct_map.end()){
+                            converted.prepend(ESCAPE + construct_lookup.value());
+                        }else{
+                            converted.prepend(key);
+                        }
+                    }
+
+                    c.setPosition(p);
+                    word_end = p;
+
+                    if(nesting_level==0){
+                        if(Parser::isValidCode(converted)){
+                            anchor_text = t;
+                            anchor_cursor = c;
+                            paste(converted);
+                        }
+
+                        return;
+                    }
+            }
+            c.clearSelection();
+        }
+
+        if(t->prev){
+            c.setPosition(word_end, QTextCursor::KeepAnchor);
+            converted.prepend(c.selectedText());
+
+            QString c_str;
+            QTextStream out(&c_str);
+            t->prev->write(out);
+            converted.prepend(c_str);
+
+            t = t->prev->prev;
+            c = t->textCursor();
+            c.movePosition(QTextCursor::End);
+        }else{
+            return;
+        }
     }
 }
 

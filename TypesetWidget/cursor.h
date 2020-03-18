@@ -114,6 +114,7 @@ private:
     QUndoCommand* evaluate(const QString& source);
     void checkForSubstitution(const QChar& c);
     void checkSlashSub();
+    void checkComplexSlashSub();
 
     friend CursorView;
 };

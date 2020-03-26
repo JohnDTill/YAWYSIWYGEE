@@ -335,9 +335,9 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case 8752: return validateIntegralOrBigQChar(source, curr); //∰
         case 8862: return validateMatrix(source, curr); //⊞
         case 8730: return validateRoot(source, curr); //√
-        case '^':  return validateSubPhrases(source, curr, 2);
-        case '_':  return validateSubPhrases(source, curr, 2);
-        case 916:  return validateSubPhrases(source, curr, 3); //Δ
+        case '^':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
+        case '_':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
+        case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 3); //Δ
         case 'w':  return validateUnderscriptedWord(source, curr);
         default:   return false;
     }
@@ -638,32 +638,84 @@ Construct* Parser::parseRoot(const QString& source, QString::size_type& curr, ui
 }
 
 Construct* Parser::parseSuperscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main = parseSubPhrase(source, curr, script_level);
-    bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
-    if(!deepest_script_level) script_level++;
-    SubPhrase* script = parseSubPhrase(source, curr, script_level);
-    if(!deepest_script_level) script_level--;
+    SubPhrase* main;
+    SubPhrase* script;
+    if(peek(source, curr, OPEN)){
+        main = parseSubPhrase(source, curr, script_level);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        script = parseSubPhrase(source, curr, script_level);
+        if(!deepest_script_level) script_level--;
+    }else{
+        Text* t = new Text(script_level);
+        t->next = t->prev = nullptr;
+        main = new SubPhrase(t);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        Text* tS = new Text(script_level);
+        tS->next = tS->prev = nullptr;
+        script = new SubPhrase(tS);
+        if(!deepest_script_level) script_level--;
+    }
 
     return new Superscript(main, script);
 }
 
 Construct* Parser::parseSubscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main = parseSubPhrase(source, curr, script_level);
-    bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
-    if(!deepest_script_level) script_level++;
-    SubPhrase* script = parseSubPhrase(source, curr, script_level);
-    if(!deepest_script_level) script_level--;
+    SubPhrase* main;
+    SubPhrase* script;
+    if(peek(source, curr, OPEN)){
+        main = parseSubPhrase(source, curr, script_level);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        script = parseSubPhrase(source, curr, script_level);
+        if(!deepest_script_level) script_level--;
+    }else{
+        Text* t = new Text(script_level);
+        t->next = t->prev = nullptr;
+        main = new SubPhrase(t);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        Text* tS = new Text(script_level);
+        tS->next = tS->prev = nullptr;
+        script = new SubPhrase(tS);
+        if(!deepest_script_level) script_level--;
+    }
 
     return new Subscript(main, script);
 }
 
 Construct* Parser::parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main = parseSubPhrase(source, curr, script_level);
-    bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
-    if(!deepest_script_level) script_level++;
-    SubPhrase* sub = parseSubPhrase(source, curr, script_level);
-    SubPhrase* sup = parseSubPhrase(source, curr, script_level);
-    if(!deepest_script_level) script_level--;
+    SubPhrase* main;
+    SubPhrase* sub;
+    SubPhrase* sup;
+    if(peek(source, curr, OPEN)){
+        main = parseSubPhrase(source, curr, script_level);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        sub = parseSubPhrase(source, curr, script_level);
+        sup = parseSubPhrase(source, curr, script_level);
+        if(!deepest_script_level) script_level--;
+    }else{
+        Text* t = new Text(script_level);
+        t->next = t->prev = nullptr;
+        main = new SubPhrase(t);
+
+        bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
+        if(!deepest_script_level) script_level++;
+        Text* tSub = new Text(script_level);
+        tSub->next = tSub->prev = nullptr;
+        sub = new SubPhrase(tSub);
+        Text* tSup = new Text(script_level);
+        tSup->next = tSup->prev = nullptr;
+        sup = new SubPhrase(tSup);
+        if(!deepest_script_level) script_level--;
+    }
 
     return new Dualscript(main, sub, sup);
 }

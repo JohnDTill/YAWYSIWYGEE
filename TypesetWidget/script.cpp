@@ -2,6 +2,9 @@
 
 #include "algorithm.h"
 #include "cursor.h"
+#include "document.h"
+
+#include <QMenu>
 
 namespace Typeset{
 
@@ -27,6 +30,12 @@ void Superscript::updateLayout(){
     superscript->setPos(child->w, 0);
 }
 
+void Superscript::populateMenu(QMenu& menu, const SubPhrase*){
+    menu.addSeparator();
+    QAction* subscriptAction = menu.addAction("Superscript: Add subscript");
+    connect(subscriptAction, SIGNAL(triggered()), this, SLOT(addSubscript()));
+}
+
 Text* Superscript::textUp(const SubPhrase*, qreal) const{
     return prev;
 }
@@ -43,6 +52,19 @@ void Superscript::write(QTextStream& out) const{
 
 void Superscript::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
+}
+
+void Superscript::addSubscript(){
+    Cursor* c = typesetDocument()->cursor;
+    QString str;
+    QTextStream out(&str);
+    out << ESCAPE << QChar(916);
+    child->write(out);
+    out << OPEN << CLOSE;
+    superscript->write(out);
+    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
+    c->selectPreviousChar();
+    c->paste(str);
 }
 #undef child
 #undef superscript
@@ -69,6 +91,12 @@ void Subscript::updateLayout(){
     subscript->setPos(child->w, ys);
 }
 
+void Subscript::populateMenu(QMenu& menu, const SubPhrase*){
+    menu.addSeparator();
+    QAction* superscriptAction = menu.addAction("Subscript: Add superscript");
+    connect(superscriptAction, SIGNAL(triggered()), this, SLOT(addSuperscript()));
+}
+
 Text* Subscript::textUp(const SubPhrase*, qreal) const{
     return prev;
 }
@@ -85,6 +113,19 @@ void Subscript::write(QTextStream& out) const{
 
 void Subscript::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
+}
+
+void Subscript::addSuperscript(){
+    Cursor* c = typesetDocument()->cursor;
+    QString str;
+    QTextStream out(&str);
+    out << ESCAPE << QChar(916);
+    child->write(out);
+    subscript->write(out);
+    out << OPEN << CLOSE;
+    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
+    c->selectPreviousChar();
+    c->paste(str);
 }
 #undef child
 #undef subscript
@@ -144,6 +185,14 @@ void Dualscript::updateLayout(){
     subscript->setPos(child->w, ys);
 }
 
+void Dualscript::populateMenu(QMenu& menu, const SubPhrase*){
+    menu.addSeparator();
+    QAction* superscriptAction = menu.addAction("Dualscript: Remove superscript");
+    connect(superscriptAction, SIGNAL(triggered()), this, SLOT(removeSuperscript()));
+    QAction* subscriptAction = menu.addAction("Dualscript: Remove subscript");
+    connect(subscriptAction, SIGNAL(triggered()), this, SLOT(removeSubscript()));
+}
+
 SubPhrase* Dualscript::front() const{
     return child;
 }
@@ -181,6 +230,30 @@ void Dualscript::write(QTextStream& out) const{
 
 void Dualscript::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
+}
+
+void Dualscript::removeSuperscript(){
+    Cursor* c = typesetDocument()->cursor;
+    QString str;
+    QTextStream out(&str);
+    out << ESCAPE << '_';
+    child->write(out);
+    subscript->write(out);
+    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
+    c->selectPreviousChar();
+    c->paste(str);
+}
+
+void Dualscript::removeSubscript(){
+    Cursor* c = typesetDocument()->cursor;
+    QString str;
+    QTextStream out(&str);
+    out << ESCAPE << '^';
+    child->write(out);
+    superscript->write(out);
+    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
+    c->selectPreviousChar();
+    c->paste(str);
 }
 
 }

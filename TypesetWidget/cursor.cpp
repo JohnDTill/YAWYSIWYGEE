@@ -690,6 +690,8 @@ const QHash<QString,QString> construct_map = {
     {"mat", "⊞"},
     {"sqrt", "√"},
     {"_^", "Δ"},
+    {"^", "^"},
+    {"_", "_"},
     {"max", QString("w") + OPEN + "max" + CLOSE},
     {"min", QString("w") + OPEN + "min" + CLOSE},
     {"sup", QString("w") + OPEN + "sup" + CLOSE},

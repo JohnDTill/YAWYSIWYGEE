@@ -147,7 +147,6 @@
      <string>Debug</string>
     </property>
     <addaction name="actionLoad_Test_txt"/>
-    <addaction name="actionTest_for_Memory_Leaks"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -324,18 +323,6 @@
    </property>
    <property name="text">
     <string>Chalkboard</string>
-   </property>
-  </action>
-  <action name="actionTest_for_Memory_Leaks">
-   <property name="text">
-    <string>Infinite Load/Delete Loop</string>
-   </property>
-   <property name="iconText">
-    <string>Test for Memory Leaks
-(Starts Infinite Loop)</string>
-   </property>
-   <property name="toolTip">
-    <string>Infinite Load/Delete Loop</string>
    </property>
   </action>
   <action name="actionCopy_as_PNG">

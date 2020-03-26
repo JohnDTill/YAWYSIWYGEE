@@ -145,15 +145,24 @@ void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCurs
     }
 
     int pL = cL.position();
-    cL.movePosition(QTextCursor::End);
-    cL.setPosition(pL, QTextCursor::KeepAnchor);
-    tL->setTextCursor(cL);
+    if(pL == 0){
+        tL->setSelected(true);
+    }else{
+        cL.movePosition(QTextCursor::End);
+        cL.setPosition(pL, QTextCursor::KeepAnchor);
+        tL->setTextCursor(cL);
+        tL->clearFocus();
+    }
     tL_old = tL;
 
-    int pR = cR.position();
-    cR.setPosition(0);
-    cR.setPosition(pR, QTextCursor::KeepAnchor);
-    tR->setTextCursor(cR);
+    if(cR.atEnd()){
+        tR->setSelected(true);
+    }else{
+        int pR = cR.position();
+        cR.setPosition(0);
+        cR.setPosition(pR, QTextCursor::KeepAnchor);
+        tR->setTextCursor(cR);
+    }
     tR_old = tR;
 }
 

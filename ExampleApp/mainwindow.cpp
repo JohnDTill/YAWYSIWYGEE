@@ -98,10 +98,6 @@ void MainWindow::on_actionLoad_Test_txt_triggered(){
     typeset_edit.load(":/test.txt", true, lineNumbersShown());
 }
 
-void MainWindow::on_actionTest_for_Memory_Leaks_triggered(){
-    testForMemoryLeaks();
-}
-
 void MainWindow::on_actionZoom_In_triggered(){
     typeset_edit.zoomIn();
 }
@@ -138,10 +134,6 @@ void MainWindow::on_actionChalkboard_triggered(){
 
     typeset_edit.setPalette(chalkboard);
     typeset_edit.scene()->setPalette(chalkboard);
-}
-
-void MainWindow::testForMemoryLeaks(){
-    for(;;) on_actionLoad_Test_txt_triggered();
 }
 
 bool MainWindow::lineNumbersShown() const{

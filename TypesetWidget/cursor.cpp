@@ -449,6 +449,7 @@ void Cursor::tripleClick(Phrase& p){
         text = p.back;
         cursor = moveTextCursorToEnd(*text);
     }
+
     anchor_text = p.front;
     anchor_cursor = moveTextCursorToStart(*anchor_text);
 }

@@ -337,15 +337,21 @@ void Document::contextClick(QGraphicsSceneMouseEvent* e){
     menu.addSeparator();
     QAction* cutAction = menu.addAction("Cut");
     QAction* copyAction = menu.addAction("Copy");
+    #ifndef __EMSCRIPTEN__
     QAction* copyImageAction = menu.addAction("Copy as PNG");
+    #endif
     QAction* pasteAction = menu.addAction("Paste");
     connect(cutAction,SIGNAL(triggered()),this,SLOT(cutSelection()));
     connect(copyAction,SIGNAL(triggered()),this,SLOT(copySelection()));
+    #ifndef __EMSCRIPTEN__
     connect(copyImageAction,SIGNAL(triggered()),this,SLOT(copySelectionAsPng()));
+    #endif
     connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
     cutAction->setEnabled(clicked_on_selection);
     copyAction->setEnabled(clicked_on_selection);
+    #ifndef __EMSCRIPTEN__
     copyImageAction->setEnabled(clicked_on_selection);
+    #endif
 
     menu.addSeparator();
     QAction* selectAllAction = menu.addAction("Select All");

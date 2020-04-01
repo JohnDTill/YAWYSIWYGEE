@@ -9,7 +9,7 @@ HEADERS += \
 SOURCES += \
     testparser.cpp
 
-win32: LIBS += -L$$PWD/../lib/ -lTypesetWidget
+LIBS += -L$$PWD/../lib/ -lTypesetWidget
 
 INCLUDEPATH += $$PWD/../
 DEPENDPATH += $$PWD/../

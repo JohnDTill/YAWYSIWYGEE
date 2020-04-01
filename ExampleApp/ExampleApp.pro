@@ -23,7 +23,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += example_resource.qrc
 RC_ICONS += lambda.ico
 
-win32: LIBS += -L$$PWD/../lib/ -lTypesetWidget
+LIBS += -L$$PWD/../lib/ -lTypesetWidget
 
 INCLUDEPATH += $$PWD/../
 DEPENDPATH += $$PWD/../

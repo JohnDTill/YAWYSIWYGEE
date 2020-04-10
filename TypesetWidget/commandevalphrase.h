@@ -21,6 +21,7 @@ private:
     Construct* tL_next;
     Text* tR;
     QTextCursor cR;
+    int pL;
 
 public:
     CommandEvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c);

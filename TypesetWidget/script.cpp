@@ -62,8 +62,7 @@ void Superscript::addSubscript(){
     child->write(out);
     out << OPEN << CLOSE;
     superscript->write(out);
-    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
-    c->selectPreviousChar();
+    c->clickConstruct(*this);
     c->paste(str);
 }
 #undef child
@@ -123,8 +122,7 @@ void Subscript::addSuperscript(){
     child->write(out);
     subscript->write(out);
     out << OPEN << CLOSE;
-    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
-    c->selectPreviousChar();
+    c->clickConstruct(*this);
     c->paste(str);
 }
 #undef child
@@ -239,8 +237,7 @@ void Dualscript::removeSuperscript(){
     out << ESCAPE << '_';
     child->write(out);
     subscript->write(out);
-    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
-    c->selectPreviousChar();
+    c->clickConstruct(*this);
     c->paste(str);
 }
 
@@ -251,8 +248,7 @@ void Dualscript::removeSubscript(){
     out << ESCAPE << '^';
     child->write(out);
     superscript->write(out);
-    c->setPosition(*child->front, Algorithm::textCursorStart(child->front));
-    c->selectPreviousChar();
+    c->clickConstruct(*this);
     c->paste(str);
 }
 

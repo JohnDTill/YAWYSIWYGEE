@@ -26,6 +26,7 @@ private:
     Line* lR;
     Text* tR;
     QTextCursor cR;
+    int pL;
 
 public:
     CommandEvalMultiline(Cursor& cursor, Document& doc, const QString& source, Text* t, QTextCursor c);

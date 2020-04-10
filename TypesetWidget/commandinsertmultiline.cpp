@@ -10,7 +10,8 @@ CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Document& doc, co
     : cursor(cursor),
       doc(doc),
       tL(t),
-      cL(c) {
+      cL(c),
+      pL(c.position()) {
     lL = &tL->parent->getLine();
     lL_next = lL->next;
     tL_next = tL->next;
@@ -56,6 +57,7 @@ CommandInsertMultiline::~CommandInsertMultiline(){
 void CommandInsertMultiline::redo(){
     active = true;
 
+    cL.setPosition(pL);
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
     cL.insertText(append_str);
     cL.setPosition(cL.position() - append_str.size());

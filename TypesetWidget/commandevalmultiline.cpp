@@ -12,7 +12,8 @@ CommandEvalMultiline::CommandEvalMultiline(Cursor& cursor, Document& doc, const 
     : cursor(cursor),
       doc(doc),
       tL(t),
-      cL(c) {
+      cL(c),
+      pL(c.position()) {
     lL = &tL->parent->getLine();
 
     std::pair<Line*,Line*> ends = Parser::parseMultiline(source, t->parent->getLine().line_num);
@@ -73,6 +74,7 @@ CommandEvalMultiline::~CommandEvalMultiline(){
 void CommandEvalMultiline::redo(){
     active = true;
 
+    cL.setPosition(pL);
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
     cL.insertText(append_str);
     cL.setPosition(cL.position() - append_str.size());

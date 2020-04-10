@@ -10,7 +10,8 @@ namespace Typeset{
 CommandEvalPhrase::CommandEvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       tL(t),
-      cL(c) {
+      cL(c),
+      pL(c.position()) {
     Q_ASSERT(!source.contains('\n'));
 
     std::pair<Text*,Text*> ends = Parser::parsePhrase(source, t->getScriptLevel());
@@ -54,6 +55,7 @@ CommandEvalPhrase::~CommandEvalPhrase(){
 void CommandEvalPhrase::redo(){
     active = true;
 
+    cL.setPosition(pL);
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
     cL.removeSelectedText();
     cL.insertText(append_str);

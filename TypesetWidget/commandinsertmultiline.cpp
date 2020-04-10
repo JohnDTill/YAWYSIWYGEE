@@ -37,6 +37,8 @@ CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Document& doc, co
     cR.movePosition(QTextCursor::End);
     cR.insertText(removed_str);
     cR.setPosition(cR.position() - removed_str.length());
+
+    tR->calculateSize();
 }
 
 CommandInsertMultiline::~CommandInsertMultiline(){

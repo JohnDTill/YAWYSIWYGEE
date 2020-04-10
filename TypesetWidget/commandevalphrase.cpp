@@ -34,6 +34,8 @@ CommandEvalPhrase::CommandEvalPhrase(Cursor& cursor, const QString& source, Text
     cR.movePosition(QTextCursor::End);
     cR.insertText(removed_str);
     cR.setPosition(cR.position() - removed_str.length());
+
+    tR->calculateSize();
 }
 
 CommandEvalPhrase::~CommandEvalPhrase(){

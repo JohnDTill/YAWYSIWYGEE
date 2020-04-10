@@ -46,6 +46,8 @@ CommandEvalMultiline::CommandEvalMultiline(Cursor& cursor, Document& doc, const 
     cR.movePosition(QTextCursor::End);
     cR.insertText(removed_str);
     cR.setPosition(cR.position() - removed_str.length());
+
+    tR->calculateSize();
 }
 
 CommandEvalMultiline::~CommandEvalMultiline(){

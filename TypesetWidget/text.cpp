@@ -42,6 +42,12 @@ void Text::updateToTop(){
     parent->updateToTop();
 }
 
+void Text::calculateSize(){
+    QRectF b = boundingRect();
+    w = b.width() - subtract_from_width;
+    u = (b.height() - subtract_from_height) / 2;
+}
+
 void Text::populateMenu(QMenu& menu){
     parent->populateMenu(menu);
 }
@@ -84,12 +90,6 @@ void Text::focusInEvent(QFocusEvent* event){
 void Text::focusOutEvent(QFocusEvent* event){
     setTextInteractionFlags(Qt::TextInteractionFlag::TextBrowserInteraction); //Remove blinking cursor
     QGraphicsItem::focusOutEvent(event); //Bypass QGraphicsTextItem::focusOutEvent()
-}
-
-void Text::calculateSize(){
-    QRectF b = boundingRect();
-    w = b.width() - subtract_from_width;
-    u = (b.height() - subtract_from_height) / 2;
 }
 
 Document* Text::typesetDocument() const{

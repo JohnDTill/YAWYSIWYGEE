@@ -12,6 +12,8 @@ namespace Typeset{
 static constexpr qreal subscript_ratio = 0.8;
 static constexpr qreal subscript_offset = -6;
 static constexpr qreal superscript_ratio = 0.8;
+static constexpr qreal slant = 19;
+static const QRectF integral_bounds = QRectF(3, -5, 16, 29);
 
 Integral::Integral(QChar qchar)
     : ch(qchar) {
@@ -19,9 +21,8 @@ Integral::Integral(QChar qchar)
 }
 
 void Integral::updateLayout(){
-    QRectF child_bounds = Globals::integral_font_metrics.boundingRect(ch);
-    w = child_bounds.width();
-    u = d = child_bounds.height()/2;
+    w = integral_bounds.width();
+    u = d = integral_bounds.height()/2;
 }
 
 void Integral::populateMenu(QMenu& menu, const SubPhrase*){
@@ -37,7 +38,8 @@ void Integral::write(QTextStream& out) const{
 void Integral::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
     painter->setFont(Globals::integral_font);
-    painter->drawText(boundingRect(), Qt::AlignBottom, ch);
+    painter->rotate(slant);
+    painter->drawText(integral_bounds, Qt::AlignCenter, ch);
 }
 
 void Integral::addSubscript(){
@@ -90,7 +92,6 @@ Integral_S::Integral_S(QChar qchar, SubPhrase* subscript)
 
 #define subscript child
 void Integral_S::updateLayout(){
-    QRectF integral_bounds = Globals::integral_font_metrics.boundingRect(ch);
     qreal wi = integral_bounds.width();
     qreal hi = integral_bounds.height();
 
@@ -124,9 +125,8 @@ void Integral_S::write(QTextStream& out) const{
 void Integral_S::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
     painter->setFont(Globals::integral_font);
-    QRectF bounds = Globals::integral_font_metrics.boundingRect(ch);
-    bounds.moveTo(0,0);
-    painter->drawText(bounds, Qt::AlignBottom, ch);
+    painter->rotate(slant);
+    painter->drawText(integral_bounds, Qt::AlignCenter, ch);
 }
 
 void Integral_S::addSuperscript(){
@@ -225,7 +225,6 @@ Integral_SN::Integral_SN(QChar qchar, SubPhrase* subscript, SubPhrase* superscri
 #define superscript second
 #define subscript first
 void Integral_SN::updateLayout(){
-    QRectF integral_bounds = Globals::integral_font_metrics.boundingRect(ch);
     qreal wi = integral_bounds.width();
     qreal hi = integral_bounds.height();
 
@@ -271,9 +270,9 @@ void Integral_SN::write(QTextStream& out) const{
 void Integral_SN::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
     painter->setFont(Globals::integral_font);
-    QRectF bounds = Globals::integral_font_metrics.boundingRect(ch);
-    bounds.moveTop(symbol_y);
-    painter->drawText(bounds, Qt::AlignBottom, ch);
+    painter->rotate(slant);
+    QRectF bounds = integral_bounds.translated(0, symbol_y);
+    painter->drawText(bounds, Qt::AlignCenter, ch);
 }
 
 void Integral_SN::removeSuperscript(){

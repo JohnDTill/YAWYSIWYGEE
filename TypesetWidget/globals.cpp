@@ -33,7 +33,6 @@ void Globals::initGlobals(){
 
     integral_font = default_font;
     integral_font.setPixelSize(25);
-    integral_font.setItalic(true);
     integral_font_metrics = QFontMetrics(integral_font);
 
     word_font = default_font;

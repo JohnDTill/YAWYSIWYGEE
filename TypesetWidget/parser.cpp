@@ -38,8 +38,6 @@ static const QString ESCAPED_OPEN = QString(ESCAPE) + OPEN;
 static const QString ESCAPED_CLOSE = QString(ESCAPE) + CLOSE;
 static const QStringList underscripted_word_whitelist = {"lim", "max", "min", "sup", "inf"};
 
-//DO THIS: better error handling in parser, e.g. error messages for failed isValidCode,
-//         line numbers, error highlighting, etc...
 bool Parser::containsConstruct(const QString& source){
     for(QString::size_type curr = 0; curr < source.size(); curr++){
         if(source[curr] == ESCAPE){
@@ -93,7 +91,6 @@ Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show
     uint32_t line_num = 1;
     Line* front = parseLine(line, curr, script_level, line_num);
     Line* l = front;
-    l->prev = nullptr;
     line = source.readLine();
 
     while(!line.isNull()){
@@ -104,7 +101,6 @@ Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show
         l = next;
         line = source.readLine();
     }
-    l->next = nullptr;
 
     return new Document(allow_write, show_line_numbers, front, l);
 }
@@ -113,7 +109,6 @@ std::pair<Text*, Text*> Parser::parsePhrase(const QString& source, uint8_t scrip
     QString::size_type curr = 0;
     Text* front = parseTextInLine(source, curr, script_level);
     Text* text = front;
-    text->prev = nullptr;
 
     while( curr < source.size() ){
         consume(source, curr, ESCAPE);
@@ -124,7 +119,6 @@ std::pair<Text*, Text*> Parser::parsePhrase(const QString& source, uint8_t scrip
         text = parseTextInLine(source, curr, script_level);
         link(construct, text);
     }
-    text->next = nullptr;
 
     return std::pair<Text*,Text*>(front,text);
 }
@@ -136,7 +130,6 @@ std::pair<Line*, Line*> Parser::parseMultiline(const QString& source, uint32_t l
     uint8_t script_level = 0;
     Line* front = parseLine(lines.front(), curr, script_level, line_num);
     Line* l = front;
-    l->prev = nullptr;
 
     for(int i = 1; i < lines.size(); i++){
         QString line = lines[i];
@@ -146,7 +139,6 @@ std::pair<Line*, Line*> Parser::parseMultiline(const QString& source, uint32_t l
         link(l, next);
         l = next;
     }
-    l->next = nullptr;
 
     return std::pair<Line*, Line*>(front, l);
 }
@@ -484,7 +476,6 @@ SubPhrase* Parser::parseSubPhrase(const QString& source, QString::size_type& cur
 
     Text* front = parseTextInSubPhrase(source, curr, script_level);
     Text* text = front;
-    text->prev = nullptr;
 
     while( !match(source, curr, CLOSE) ){
         consume(source, curr, ESCAPE);
@@ -495,7 +486,6 @@ SubPhrase* Parser::parseSubPhrase(const QString& source, QString::size_type& cur
         text = parseTextInSubPhrase(source, curr, script_level);
         link(construct, text);
     }
-    text->next = nullptr;
 
     return new SubPhrase(front, text, child_id);
 }
@@ -503,7 +493,6 @@ SubPhrase* Parser::parseSubPhrase(const QString& source, QString::size_type& cur
 Line* Parser::parseLine(const QString& source, QString::size_type& curr, uint8_t& script_level, const uint32_t& line_num){
     Text* front = parseTextInLine(source, curr, script_level);
     Text* text = front;
-    text->prev = nullptr;
 
     while( curr < source.size() ){
         consume(source, curr, ESCAPE);
@@ -514,7 +503,6 @@ Line* Parser::parseLine(const QString& source, QString::size_type& curr, uint8_t
         text = parseTextInLine(source, curr, script_level);
         link(construct, text);
     }
-    text->next = nullptr;
 
     return new Line(front, text, line_num);
 }
@@ -572,11 +560,8 @@ Construct* Parser::parseFraction(const QString& source, QString::size_type& curr
         num = parseSubPhrase(source, curr, script_level);
         den = parseSubPhrase(source, curr, script_level);
     }else{
-        Text* tn = new Text(script_level);
-        Text* td = new Text(script_level);
-        tn->next = tn->prev = td->next = td->prev = nullptr;
-        num = new SubPhrase(tn);
-        den = new SubPhrase(td);
+        num = new SubPhrase(new Text(script_level));
+        den = new SubPhrase(new Text(script_level));
     }
 
     return new Fraction(num, den);
@@ -607,7 +592,6 @@ Construct* Parser::parseMatrix(const QString &source, QString::size_type& curr, 
     }else{
         for(std::vector<SubPhrase*>::size_type i = 0; i < size; i++){
             Text* t = new Text(script_level);
-            t->next = t->prev = nullptr;
             phrases[i] = new SubPhrase(t);
         }
     }
@@ -623,7 +607,6 @@ Construct* Parser::parseRoot(const QString& source, QString::size_type& curr, ui
         child = parseSubPhrase(source, curr, script_level);
     }else{
         Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
         child = new SubPhrase(t);
     }
 
@@ -649,14 +632,11 @@ Construct* Parser::parseSuperscript(const QString& source, QString::size_type& c
         if(!deepest_script_level) script_level--;
     }else{
         Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
         main = new SubPhrase(t);
 
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
-        Text* tS = new Text(script_level);
-        tS->next = tS->prev = nullptr;
-        script = new SubPhrase(tS);
+        script = new SubPhrase(new Text(script_level));
         if(!deepest_script_level) script_level--;
     }
 
@@ -675,14 +655,11 @@ Construct* Parser::parseSubscript(const QString& source, QString::size_type& cur
         if(!deepest_script_level) script_level--;
     }else{
         Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
         main = new SubPhrase(t);
 
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
-        Text* tS = new Text(script_level);
-        tS->next = tS->prev = nullptr;
-        script = new SubPhrase(tS);
+        script = new SubPhrase(new Text(script_level));
         if(!deepest_script_level) script_level--;
     }
 
@@ -703,17 +680,12 @@ Construct* Parser::parseDualscript(const QString& source, QString::size_type& cu
         if(!deepest_script_level) script_level--;
     }else{
         Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
         main = new SubPhrase(t);
 
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
-        Text* tSub = new Text(script_level);
-        tSub->next = tSub->prev = nullptr;
-        sub = new SubPhrase(tSub);
-        Text* tSup = new Text(script_level);
-        tSup->next = tSup->prev = nullptr;
-        sup = new SubPhrase(tSup);
+        sub = new SubPhrase(new Text(script_level));
+        sup = new SubPhrase(new Text(script_level));
         if(!deepest_script_level) script_level--;
     }
 
@@ -770,9 +742,7 @@ Construct* Parser::parseUnderscriptedWord(const QString& source, QString::size_t
     if(peek(source, curr, OPEN)){
         underscript = parseSubPhrase(source, curr, script_level);
     }else{
-        Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
-        underscript = new SubPhrase(t);
+        underscript = new SubPhrase(new Text(script_level));
     }
     script_level--;
 
@@ -780,31 +750,20 @@ Construct* Parser::parseUnderscriptedWord(const QString& source, QString::size_t
 }
 
 Construct* Parser::parseBinomial(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* top;
-    SubPhrase* bot;
     if(peek(source, curr, OPEN)){
-        top = parseSubPhrase(source, curr, script_level);
-        bot = parseSubPhrase(source, curr, script_level);
+        SubPhrase* top = parseSubPhrase(source, curr, script_level);
+        return new Binomial(top, parseSubPhrase(source, curr, script_level));
     }else{
-        Text* tn = new Text(script_level);
-        Text* td = new Text(script_level);
-        tn->next = tn->prev = td->next = td->prev = nullptr;
-        top = new SubPhrase(tn);
-        bot = new SubPhrase(td);
+        return new Binomial(new SubPhrase(new Text(script_level)), new SubPhrase(new Text(script_level)));
     }
-
-    return new Binomial(top, bot);
 }
 
 Construct* Parser::parseCases(const QString& source, QString::size_type& curr, uint8_t& script_level){
     std::vector<SubPhrase*> data;
 
     if(!peek(source, curr, OPEN)){
-        for(int i = 0; i < 4; i++){
-            Text* t = new Text(script_level);
-            t->next = t->prev = nullptr;
-            data.push_back( new SubPhrase(t) );
-        }
+        for(int i = 0; i < 4; i++)
+            data.push_back( new SubPhrase(new Text(script_level)) );
 
         return new Cases(data);
     }else{
@@ -843,25 +802,17 @@ Construct* Parser::parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), c
     if(peek(source,curr,OPEN)){
         child = parseSubPhrase(source, curr, script_level);
     }else{
-        Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
-        child = new SubPhrase(t);
+        child = new SubPhrase(new Text(script_level));
     }
 
     return new Grouping(LEFT_SYMBOL, RIGHT_SYMBOL, left_type, right_type, child);
 }
 
 template<void AccentType(QPainter*,const qreal&)> Construct* Parser::parseAccent(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* child;
-    if(peek(source,curr,OPEN)){
-        child = parseSubPhrase(source, curr, script_level);
-    }else{
-        Text* t = new Text(script_level);
-        t->next = t->prev = nullptr;
-        child = new SubPhrase(t);
-    }
-
-    return new Accent( AccentType, child );
+    if(peek(source,curr,OPEN))
+        return new Accent( AccentType, parseSubPhrase(source, curr, script_level) );
+    else
+        return new Accent( AccentType, new SubPhrase(new Text(script_level)) );
 }
 
 }

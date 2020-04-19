@@ -13,8 +13,8 @@ class Text;
 
 class Construct : public QGraphicsObject{
 public:
-    Text* prev;
-    Text* next;
+    Text* prev = nullptr;
+    Text* next = nullptr;
     qreal w; //width
     qreal u; //distance from horizontal to top
     qreal d; //distance from horizontal to bottom

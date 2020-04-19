@@ -9,8 +9,8 @@ namespace Typeset{
 
 class Line : public Phrase{
 public:
-    Line* prev;
-    Line* next;
+    Line* prev = nullptr;
+    Line* next = nullptr;
     uint32_t line_num;
 
 private:

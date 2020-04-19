@@ -10,11 +10,7 @@ Phrase::Phrase(Text* f, Text* b)
       back(b) {
     setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-    if(front==nullptr){
-        front = new Text();
-        front->next = nullptr;
-        front->prev = nullptr;
-    }
+    if(front==nullptr) front = new Text();
     if(back==nullptr) back = front;
 
     initializeChildren();

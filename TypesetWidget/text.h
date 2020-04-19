@@ -16,9 +16,9 @@ class Phrase;
 class Text : public QGraphicsTextItem{
 
 public:
-    Phrase* parent;
-    Construct* next;
-    Construct* prev;
+    Phrase* parent = nullptr;
+    Construct* next = nullptr;
+    Construct* prev = nullptr;
     qreal w; //width
     qreal u; //distance from horizontal to top- equal to half height for Text
 

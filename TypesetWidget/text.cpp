@@ -71,10 +71,7 @@ void Text::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     QStyleOptionGraphicsItem my_option(*option);
     my_option.state &= ~QStyle::State_HasFocus;
     if(option->state.testFlag(QStyle::StateFlag::State_Selected)){
-        //painter->setBrush(option->palette.highlightedText());
-        //painter->setPen(painter->brush().color());
         my_option.state &= ~QStyle::State_Selected;
-
         setDefaultTextColor(scene()->palette().highlightedText().color());
     }else{
         setDefaultTextColor(scene()->palette().text().color());

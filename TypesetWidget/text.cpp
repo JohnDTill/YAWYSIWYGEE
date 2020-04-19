@@ -1,5 +1,6 @@
 #include "text.h"
 
+#include "construct.h"
 #include "document.h"
 #include "globals.h"
 #include "parser.h"
@@ -39,7 +40,19 @@ bool Text::isDeepestScriptLevel(uint8_t script_level){
 
 void Text::updateToTop(){
     calculateSize();
+    startSignalToNext();
     parent->updateToTop();
+}
+
+void Text::notifyPrevUpdate(){
+    if(isEmpty() && next) next->notifyPrevPrevUpdate(prev);
+}
+
+void Text::startSignalToNext(){
+    if(next){
+        if(isEmpty() && prev) next->notifyPrevPrevUpdate(prev);
+        else next->notifyPrevUpdate();
+    }
 }
 
 void Text::calculateSize(){

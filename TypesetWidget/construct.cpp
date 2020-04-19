@@ -21,6 +21,7 @@ qreal Construct::h() const{
 void Construct::updateToTop(){
     prepareGeometryChange();
     updateLayout();
+    next->notifyPrevUpdate();
     prev->parent->updateToTop();
 }
 

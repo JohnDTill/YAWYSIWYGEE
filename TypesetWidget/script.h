@@ -6,18 +6,18 @@
 
 namespace Typeset{
 
-static constexpr qreal ratio_superscript = 1;
-static constexpr qreal ratio_subscript = 1;
-
-class Superscript : public BinaryConstruct{
+class Superscript : public UnaryConstruct{
     Q_OBJECT
 
+private:
+    qreal body_u;
+
 public:
-    Superscript(SubPhrase* child = nullptr, SubPhrase* superscript = nullptr);
+    Superscript(SubPhrase* superscript = nullptr);
     virtual void updateLayout() override final;
+    virtual void notifyPrevUpdate() override final;
+    virtual void notifyPrevPrevUpdate(Construct* c) override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
-    virtual Text* textUp(const SubPhrase*, qreal) const override final;
-    virtual Text* textDown(const SubPhrase*, qreal) const override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
@@ -27,15 +27,18 @@ private slots:
     void addSubscript();
 };
 
-class Subscript : public BinaryConstruct{
+class Subscript : public UnaryConstruct{
     Q_OBJECT
 
+private:
+    qreal body_d;
+
 public:
-    Subscript(SubPhrase* child = nullptr, SubPhrase* subscript = nullptr);
+    Subscript(SubPhrase* subscript = nullptr);
     virtual void updateLayout() override final;
+    virtual void notifyPrevUpdate() override final;
+    virtual void notifyPrevPrevUpdate(Construct* c) override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
-    virtual Text* textUp(const SubPhrase*, qreal) const override final;
-    virtual Text* textDown(const SubPhrase*, qreal) const override final;
     virtual void write(QTextStream& out) const override final;
 
 protected:
@@ -45,24 +48,19 @@ private slots:
     void addSuperscript();
 };
 
-class Dualscript : public Construct{
+class Dualscript : public BinaryConstruct{
     Q_OBJECT
 
 private:
-    SubPhrase* child;
-    SubPhrase* subscript;
-    SubPhrase* superscript;
+    qreal body_u;
+    qreal body_d;
 
 public:
-    Dualscript(SubPhrase* child = nullptr, SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
-    virtual void deletePostorder() override final;
-    virtual void select() override final;
+    Dualscript(SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
     virtual void updateLayout() override final;
+    virtual void notifyPrevUpdate() override final;
+    virtual void notifyPrevPrevUpdate(Construct* c) override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
-    virtual SubPhrase* front() const override final;
-    virtual SubPhrase* back() const override final;
-    virtual Text* textRight(const SubPhrase* caller) const override final;
-    virtual Text* textLeft(const SubPhrase* caller) const override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
     virtual void write(QTextStream& out) const override final;

@@ -82,6 +82,7 @@ void CommandInsertMultiline::redo(){
     lL->next = lL_next;
 
     tL->updateToTop();
+    tR->startSignalToNext();
     lR->updateToTop();
     cursor.setPosition(*tR, cR);
 }

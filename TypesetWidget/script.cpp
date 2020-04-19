@@ -8,26 +8,41 @@
 
 namespace Typeset{
 
-Superscript::Superscript(SubPhrase* child, SubPhrase* superscript)
-    : BinaryConstruct(child, superscript) {
+static constexpr qreal ratio_superscript = 1;
+static constexpr qreal ratio_subscript = 1;
+static constexpr qreal x_offset = -2;
+
+Superscript::Superscript(SubPhrase* superscript)
+    : UnaryConstruct(superscript) {
     setFlag(QGraphicsItem::ItemHasNoContents);
+    d = 0;
+    superscript->setPos(x_offset, 0);
     updateLayout();
 }
 
-#define child first
-#define superscript second
+#define superscript child
 void Superscript::updateLayout(){
-    d = child->d;
-    w = child->w + superscript->w;
+    w = superscript->w + x_offset;
 
     const qreal hs = superscript->u + superscript->d;
-    const qreal a = ratio_superscript*child->u;
+    const qreal a = ratio_superscript*body_u;
     const qreal e = (hs > a) ? hs - a : 0;
 
-    u = child->u + e;
+    u = body_u + e;
+}
 
-    child->setPos(0, e);
-    superscript->setPos(child->w, 0);
+void Superscript::notifyPrevUpdate(){
+    body_u = prev->u;
+
+    updateLayout();
+    next->notifyPrevUpdate();
+}
+
+void Superscript::notifyPrevPrevUpdate(Construct* c){
+    body_u = c->u;
+
+    updateLayout();
+    next->notifyPrevUpdate();
 }
 
 void Superscript::populateMenu(QMenu& menu, const SubPhrase*){
@@ -36,17 +51,8 @@ void Superscript::populateMenu(QMenu& menu, const SubPhrase*){
     connect(subscriptAction, SIGNAL(triggered()), this, SLOT(addSubscript()));
 }
 
-Text* Superscript::textUp(const SubPhrase*, qreal) const{
-    return prev;
-}
-
-Text* Superscript::textDown(const SubPhrase*, qreal) const{
-    return next;
-}
-
 void Superscript::write(QTextStream& out) const{
     out << ESCAPE << "^";
-    child->write(out);
     superscript->write(out);
 }
 
@@ -59,35 +65,46 @@ void Superscript::addSubscript(){
     QString str;
     QTextStream out(&str);
     out << ESCAPE << QChar(916);
-    child->write(out);
     out << OPEN << CLOSE;
     superscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);
 }
-#undef child
 #undef superscript
 
-Subscript::Subscript(SubPhrase* child, SubPhrase* subscript)
-    : BinaryConstruct(child, subscript) {
+Subscript::Subscript(SubPhrase* subscript)
+    : UnaryConstruct(subscript) {
     setFlag(QGraphicsItem::ItemHasNoContents);
+    u = 0;
     updateLayout();
 }
 
-#define child first
-#define subscript second
+#define subscript child
 void Subscript::updateLayout(){
-    u = child->u;
-    w = child->w + subscript->w;
+    w = subscript->w + x_offset;
 
     const qreal hs = subscript->u + subscript->d;
-    const qreal a = ratio_subscript*child->d;
+    const qreal a = ratio_subscript*body_d;
     const qreal e = (hs > a) ? hs - a : 0; //Amount script extends beyond child
 
-    d = child->d + e;
+    d = body_d + e;
 
-    const qreal ys = child->h() + e - hs;
-    subscript->setPos(child->w, ys);
+    const qreal ys = body_d + e - hs;
+    subscript->setPos(x_offset, ys);
+}
+
+void Subscript::notifyPrevUpdate(){
+    body_d = prev->u;
+
+    updateLayout();
+    next->notifyPrevUpdate();
+}
+
+void Subscript::notifyPrevPrevUpdate(Construct* c){
+    body_d = c->d;
+
+    updateLayout();
+    next->notifyPrevUpdate();
 }
 
 void Subscript::populateMenu(QMenu& menu, const SubPhrase*){
@@ -96,17 +113,8 @@ void Subscript::populateMenu(QMenu& menu, const SubPhrase*){
     connect(superscriptAction, SIGNAL(triggered()), this, SLOT(addSuperscript()));
 }
 
-Text* Subscript::textUp(const SubPhrase*, qreal) const{
-    return prev;
-}
-
-Text* Subscript::textDown(const SubPhrase*, qreal) const{
-    return next;
-}
-
 void Subscript::write(QTextStream& out) const{
     out << ESCAPE << "_";
-    child->write(out);
     subscript->write(out);
 }
 
@@ -119,68 +127,58 @@ void Subscript::addSuperscript(){
     QString str;
     QTextStream out(&str);
     out << ESCAPE << QChar(916);
-    child->write(out);
     subscript->write(out);
     out << OPEN << CLOSE;
     c->clickConstruct(*this);
     c->paste(str);
 }
-#undef child
 #undef subscript
 
-Dualscript::Dualscript(SubPhrase* child, SubPhrase* subscript, SubPhrase* superscript)
-    : child(child),
-      subscript(subscript),
-      superscript(superscript) {
+Dualscript::Dualscript(SubPhrase* subscript, SubPhrase* superscript)
+    : BinaryConstruct(superscript, subscript) {
     setFlag(QGraphicsItem::ItemHasNoContents);
 
-    if(child==nullptr) this->child = new SubPhrase();
-    if(subscript==nullptr) this->subscript = new SubPhrase();
-    if(superscript==nullptr) this->superscript = new SubPhrase();
-    child->setParentConstruct(*this);
-    subscript->setParentConstruct(*this);
-    superscript->setParentConstruct(*this);
-
+    superscript->setPos(x_offset, 0);
     updateLayout();
 }
 
-void Dualscript::deletePostorder(){
-    child->deletePostorder();
-    subscript->deletePostorder();
-    superscript->deletePostorder();
-    delete this;
-}
-
-void Dualscript::select(){
-    setSelected(true);
-    child->select();
-    subscript->select();
-    superscript->select();
-}
+#define superscript first
+#define subscript second
 
 void Dualscript::updateLayout(){
-    w = child->w + qMax(subscript->w, superscript->w);
+    w = qMax(subscript->w, superscript->w) + x_offset;
 
     qreal hs = superscript->u + superscript->d;
-    qreal a = ratio_superscript*child->u;
+    qreal a = ratio_superscript*body_u;
     qreal e = (hs > a) ? hs - a : 0;
 
-    u = child->u + e;
+    u = body_u + e;
 
     qreal ym = e;
-    child->setPos(0, ym);
-    superscript->setPos(child->w, 0);
-
-    w = child->w + subscript->w;
 
     hs = subscript->u + subscript->d;
-    a = ratio_subscript*child->d;
+    a = ratio_subscript*body_d;
     e = (hs > a) ? hs - a : 0; //Amount script extends beyond child
 
-    d = child->d + e;
+    d = body_d + e;
 
-    const qreal ys = ym + child->h() + e - hs;
-    subscript->setPos(child->w, ys);
+    const qreal ys = ym + (body_u + body_d) + e - hs;
+    subscript->setPos(x_offset, ys);
+}
+
+void Dualscript::notifyPrevUpdate(){
+    body_u = body_d = prev->u;
+
+    updateLayout();
+    next->notifyPrevUpdate();
+}
+
+void Dualscript::notifyPrevPrevUpdate(Construct* c){
+    body_u = c->u;
+    body_d = c->d;
+
+    updateLayout();
+    next->notifyPrevUpdate();
 }
 
 void Dualscript::populateMenu(QMenu& menu, const SubPhrase*){
@@ -189,26 +187,6 @@ void Dualscript::populateMenu(QMenu& menu, const SubPhrase*){
     connect(superscriptAction, SIGNAL(triggered()), this, SLOT(removeSuperscript()));
     QAction* subscriptAction = menu.addAction("Dualscript: Remove subscript");
     connect(subscriptAction, SIGNAL(triggered()), this, SLOT(removeSubscript()));
-}
-
-SubPhrase* Dualscript::front() const{
-    return child;
-}
-
-SubPhrase* Dualscript::back() const{
-    return subscript;
-}
-
-Text* Dualscript::textRight(const SubPhrase* caller) const{
-    if(caller==child) return superscript->front;
-    else if(caller==superscript) return subscript->front;
-    else return next;
-}
-
-Text* Dualscript::textLeft(const SubPhrase* caller) const{
-    if(caller==subscript) return superscript->back;
-    else if(caller==superscript) return child->back;
-    else return prev;
 }
 
 Text* Dualscript::textUp(const SubPhrase* caller, qreal x) const{
@@ -221,7 +199,6 @@ Text* Dualscript::textDown(const SubPhrase* caller, qreal x) const{
 
 void Dualscript::write(QTextStream& out) const{
     out << ESCAPE << QChar(916);
-    child->write(out);
     subscript->write(out);
     superscript->write(out);
 }
@@ -235,7 +212,6 @@ void Dualscript::removeSuperscript(){
     QString str;
     QTextStream out(&str);
     out << ESCAPE << '_';
-    child->write(out);
     subscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);
@@ -246,10 +222,12 @@ void Dualscript::removeSubscript(){
     QString str;
     QTextStream out(&str);
     out << ESCAPE << '^';
-    child->write(out);
     superscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);
 }
+
+#undef superscript
+#undef subscript
 
 }

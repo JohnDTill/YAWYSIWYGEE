@@ -99,6 +99,7 @@ void CommandEvalMultiline::redo(){
             lR->back = c->next;
         }
     }
+    tR->startSignalToNext();
 
     //Connect line second selected line
     if(lR->next){

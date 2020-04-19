@@ -183,15 +183,15 @@ void MainWindow::insertChar(QTableWidgetItem* item){
 }
 
 void MainWindow::on_actionSubscript_triggered(){
-    typeset_edit.paste("⁜_⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+    typeset_edit.paste("⁜_⏴⏵");
 }
 
 void MainWindow::on_actionSuperscript_triggered(){
-    typeset_edit.paste("⁜^⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+    typeset_edit.paste("⁜^⏴⏵");
 }
 
 void MainWindow::on_actionDualscript_triggered(){
-    typeset_edit.paste("⁜Δ⏴" + typeset_edit.selectedCode() + "⏵⏴⏵⏴⏵");
+    typeset_edit.paste("⁜Δ⏴⏵⏴⏵");
 }
 
 void MainWindow::on_actionAccentarrow_triggered(){
@@ -255,7 +255,7 @@ void MainWindow::on_actionGroupingfloor_triggered(){
 }
 
 void MainWindow::on_actionEval_triggered(){
-    typeset_edit.paste("⁜Δ⏴⁜┊⏴" + typeset_edit.selectedCode() + "⏵⏵⏴⏵⏴⏵");
+    typeset_edit.paste("⁜┊⏴" + typeset_edit.selectedCode() + "⏵⁜Δ⏴⏵⏴⏵");
 }
 
 void MainWindow::on_groupButton_triggered(QAction* action){

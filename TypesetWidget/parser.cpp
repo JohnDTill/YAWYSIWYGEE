@@ -327,9 +327,9 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case 8752: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∰
         case 8862: return validateMatrix(source, curr); //⊞
         case 8730: return validateRoot(source, curr); //√
-        case '^':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        case '_':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 3); //Δ
+        case '^':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case '_':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2); //Δ
         case 8593: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 8595: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 8599: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
@@ -457,6 +457,8 @@ SubPhrase* Parser::parseSubPhrase(const QString& source, QString::size_type& cur
 
         text = parseTextInSubPhrase(source, curr, script_level);
         link(construct, text);
+
+        construct->prev->startSignalToNext();
     }
 
     return new SubPhrase(front, text, child_id);
@@ -474,6 +476,8 @@ Line* Parser::parseLine(const QString& source, QString::size_type& curr, uint8_t
 
         text = parseTextInLine(source, curr, script_level);
         link(construct, text);
+
+        construct->prev->startSignalToNext();
     }
 
     return new Line(front, text, line_num);
@@ -597,67 +601,49 @@ Construct* Parser::parseRoot(const QString& source, QString::size_type& curr, ui
 }
 
 Construct* Parser::parseSuperscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main;
     SubPhrase* script;
     if(peek(source, curr, OPEN)){
-        main = parseSubPhrase(source, curr, script_level);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         script = parseSubPhrase(source, curr, script_level);
         if(!deepest_script_level) script_level--;
     }else{
-        Text* t = new Text(script_level);
-        main = new SubPhrase(t);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         script = new SubPhrase(new Text(script_level));
         if(!deepest_script_level) script_level--;
     }
 
-    return new Superscript(main, script);
+    return new Superscript(script);
 }
 
 Construct* Parser::parseSubscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main;
     SubPhrase* script;
     if(peek(source, curr, OPEN)){
-        main = parseSubPhrase(source, curr, script_level);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         script = parseSubPhrase(source, curr, script_level);
         if(!deepest_script_level) script_level--;
     }else{
-        Text* t = new Text(script_level);
-        main = new SubPhrase(t);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         script = new SubPhrase(new Text(script_level));
         if(!deepest_script_level) script_level--;
     }
 
-    return new Subscript(main, script);
+    return new Subscript(script);
 }
 
 Construct* Parser::parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    SubPhrase* main;
     SubPhrase* sub;
     SubPhrase* sup;
     if(peek(source, curr, OPEN)){
-        main = parseSubPhrase(source, curr, script_level);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         sub = parseSubPhrase(source, curr, script_level);
         sup = parseSubPhrase(source, curr, script_level);
         if(!deepest_script_level) script_level--;
     }else{
-        Text* t = new Text(script_level);
-        main = new SubPhrase(t);
-
         bool deepest_script_level = Text::isDeepestScriptLevel(script_level);
         if(!deepest_script_level) script_level++;
         sub = new SubPhrase(new Text(script_level));
@@ -665,7 +651,7 @@ Construct* Parser::parseDualscript(const QString& source, QString::size_type& cu
         if(!deepest_script_level) script_level--;
     }
 
-    return new Dualscript(main, sub, sup);
+    return new Dualscript(sub, sup);
 }
 
 Construct* Parser::parseBigQChar(const QString& source, QString::size_type& curr, uint8_t& script_level){

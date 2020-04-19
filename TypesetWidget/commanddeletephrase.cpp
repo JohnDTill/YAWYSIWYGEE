@@ -70,6 +70,7 @@ void CommandDeletePhrase::undo(){
     if(tR->next) tR->next->prev = tR;
     else tR->parent->back = tR;
 
+    tR->startSignalToNext();
     tL->updateToTop();
 
     cursor.setPosition(*tR, cR);

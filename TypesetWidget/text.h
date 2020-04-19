@@ -33,6 +33,8 @@ public:
     void setParentPhrase(Phrase* parent);
     static bool isDeepestScriptLevel(uint8_t script_level);
     void updateToTop();
+    void notifyPrevUpdate();
+    void startSignalToNext();
     void calculateSize();
     void populateMenu(QMenu& menu);
     void write(QTextStream& out) const;

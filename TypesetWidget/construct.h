@@ -25,6 +25,8 @@ public:
     virtual void deletePostorder() = 0;
     virtual void select() = 0;
     virtual void updateLayout() = 0;
+    virtual void notifyPrevUpdate(){/*DO NOTHING*/}
+    virtual void notifyPrevPrevUpdate(Construct*){/*DO NOTHING*/}
     void updateToTop();
 
     virtual SubPhrase* front() const {return nullptr;}

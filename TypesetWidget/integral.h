@@ -14,9 +14,10 @@ class Integral : public TerminalConstruct{
 
 private:
     const QChar ch;
+    const bool allow_superscript;
 
 public:
-    Integral(QChar qchar);
+    Integral(QChar qchar, bool allow_superscript = true);
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
@@ -49,9 +50,10 @@ class Integral_S : public UnaryConstruct{
 
 private:
     const QChar ch;
+    const bool allow_superscript;
 
 public:
-    Integral_S(QChar qchar, SubPhrase* subscript = nullptr);
+    Integral_S(QChar qchar, SubPhrase* subscript = nullptr, bool allow_superscript = true);
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;

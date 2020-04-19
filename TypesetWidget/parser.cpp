@@ -320,11 +320,11 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case 10218: return validateGrouping(source, curr); //⟪
         case 10214: return validateGrouping(source, curr); //⟦
         case 8747: return validateIntegralOrBigQChar(source, curr); //∫
-        case 8748: return validateIntegralOrBigQChar(source, curr); //∬
-        case 8749: return validateIntegralOrBigQChar(source, curr); //∭
+        case 8748: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∬
+        case 8749: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∭
         case 8750: return validateIntegralOrBigQChar(source, curr); //∮
-        case 8751: return validateIntegralOrBigQChar(source, curr); //∯
-        case 8752: return validateIntegralOrBigQChar(source, curr); //∰
+        case 8751: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∯
+        case 8752: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∰
         case 8862: return validateMatrix(source, curr); //⊞
         case 8730: return validateRoot(source, curr); //√
         case '^':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
@@ -530,12 +530,12 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case 8970: return parseGrouping(Grouping::FLOOR, source, curr, script_level); //⌊
         case 10218: return parseGrouping(Grouping::DOUBLE_ANGLE, source, curr, script_level); //⟪
         case 10214: return parseGrouping(Grouping::DOUBLE_BRACKET, source, curr, script_level); //⟦
-        case 8747: return parseIntegral(source, curr, script_level); //∫
-        case 8748: return parseIntegral(source, curr, script_level); //∬
-        case 8749: return parseIntegral(source, curr, script_level); //∭
-        case 8750: return parseIntegral(source, curr, script_level); //∮
-        case 8751: return parseIntegral(source, curr, script_level); //∯
-        case 8752: return parseIntegral(source, curr, script_level); //∰
+        case 8747: return parseIntegral(source, curr, script_level, true); //∫
+        case 8748: return parseIntegral(source, curr, script_level, false); //∬
+        case 8749: return parseIntegral(source, curr, script_level, false); //∭
+        case 8750: return parseIntegral(source, curr, script_level, true); //∮
+        case 8751: return parseIntegral(source, curr, script_level, false); //∯
+        case 8752: return parseIntegral(source, curr, script_level, false); //∰
         case 8862: return parseMatrix(source, curr, script_level); //⊞
         case 8730: return parseRoot(source, curr, script_level); //√
         case '_':  return parseSubscript(source, curr, script_level);
@@ -709,23 +709,23 @@ Construct* Parser::parseBigQChar(const QString& source, QString::size_type& curr
     }
 }
 
-Construct* Parser::parseIntegral(const QString& source, QString::size_type& curr, uint8_t& script_level){
+Construct* Parser::parseIntegral(const QString& source, QString::size_type& curr, uint8_t& script_level, bool allow_superscript){
     QChar qchar = source[curr-1];
 
     if(peek(source, curr, OPEN)){
         script_level++;
         SubPhrase* subscript = parseSubPhrase(source, curr, script_level);
 
-        if(peek(source, curr, OPEN)){
+        if(allow_superscript && peek(source, curr, OPEN)){
             SubPhrase* superscript = parseSubPhrase(source, curr, script_level);
             script_level--;
             return new Integral_SN(qchar, subscript, superscript);
         }else{
             script_level--;
-            return new Integral_S(qchar, subscript);
+            return new Integral_S(qchar, subscript, allow_superscript);
         }
     }else{
-        return new Integral(qchar);
+        return new Integral(qchar, allow_superscript);
     }
 }
 

@@ -15,8 +15,9 @@ static constexpr qreal superscript_ratio = 0.8;
 static constexpr qreal slant = 19;
 static const QRectF integral_bounds = QRectF(3, -5, 16, 29);
 
-Integral::Integral(QChar qchar)
-    : ch(qchar) {
+Integral::Integral(QChar qchar, bool allow_superscript)
+    : ch(qchar),
+      allow_superscript(allow_superscript) {
     updateLayout();
 }
 
@@ -51,7 +52,7 @@ Integral::AddSubscript::AddSubscript(Integral* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new Integral_S(out->ch, new SubPhrase(t));
+    in = new Integral_S(out->ch, new SubPhrase(t), out->allow_superscript);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -84,9 +85,10 @@ void Integral::AddSubscript::undo(){
     out->typesetDocument()->cursor->setPosition(*out->next, Algorithm::textCursorStart(out->next));
 }
 
-Integral_S::Integral_S(QChar qchar, SubPhrase* subscript)
+Integral_S::Integral_S(QChar qchar, SubPhrase* subscript, bool allow_superscript)
     : UnaryConstruct(subscript),
-      ch(qchar) {
+      ch(qchar),
+      allow_superscript(allow_superscript) {
     updateLayout();
 }
 
@@ -111,8 +113,10 @@ void Integral_S::updateLayout(){
 
 void Integral_S::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addSuperscript = menu.addAction(QString(ch) + ": Add superscript");
-    connect(addSuperscript, SIGNAL(triggered()), this, SLOT(addSuperscript()));
+    if(allow_superscript){
+        QAction* addSuperscript = menu.addAction(QString(ch) + ": Add superscript");
+        connect(addSuperscript, SIGNAL(triggered()), this, SLOT(addSuperscript()));
+    }
     QAction* removeSubscript = menu.addAction(QString(ch) + ": Remove subscript");
     connect(removeSubscript, SIGNAL(triggered()), this, SLOT(removeSubscript()));
 }
@@ -182,7 +186,7 @@ void Integral_S::AddSuperscript::undo(){
 
 Integral_S::RemoveSubscript::RemoveSubscript(Integral_S* out)
     : out(out) {
-    in = new Integral(out->ch);
+    in = new Integral(out->ch, out->allow_superscript);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;

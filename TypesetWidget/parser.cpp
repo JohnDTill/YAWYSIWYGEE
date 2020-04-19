@@ -11,6 +11,7 @@
 #include "fraction.h"
 #include "grouping.h"
 #include "integral.h"
+#include "limit.h"
 #include "matrix.h"
 #include "root.h"
 #include "script.h"
@@ -36,7 +37,6 @@ static constexpr ushort CLOSE_UNICODE = 9205;
 static const QString ESCAPED_ESCAPE = QString(ESCAPE) + ESCAPE;
 static const QString ESCAPED_OPEN = QString(ESCAPE) + OPEN;
 static const QString ESCAPED_CLOSE = QString(ESCAPE) + CLOSE;
-static const QStringList underscripted_word_whitelist = {"lim", "max", "min", "sup", "inf"};
 
 bool Parser::containsConstruct(const QString& source){
     for(QString::size_type curr = 0; curr < source.size(); curr++){
@@ -330,7 +330,11 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case '^':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
         case '_':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
         case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 3); //Δ
-        case 'w':  return validateUnderscriptedWord(source, curr);
+        case 8593: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 8595: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 8599: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 8600: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 'l': return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
         default:   return false;
     }
 }
@@ -347,17 +351,6 @@ bool Parser::validateIntegralOrBigQChar(const QString& source, QString::size_typ
     if( peek(source, curr, OPEN) && !validateSubPhrase(source, curr) ) return false;
 
     return true;
-}
-
-bool Parser::validateUnderscriptedWord(const QString& source, QString::size_type& curr){
-    if(!match(source, curr, OPEN)) return false;
-    int start = curr;
-    if(!scanToCloseSymbol(source, curr)) return false;
-
-    QString word = source.mid(start, curr-start-1);
-    if(!underscripted_word_whitelist.contains(word)) return false;
-
-    return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
 }
 
 bool Parser::validateCases(const QString& source, QString::size_type& curr){
@@ -548,7 +541,11 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case '_':  return parseSubscript(source, curr, script_level);
         case '^':  return parseSuperscript(source, curr, script_level);
         case 916:  return parseDualscript(source, curr, script_level); //Δ
-        case 'w':  return parseUnderscriptedWord(source, curr, script_level);
+        case 8593: return parseUnderscriptedWord("max", source, curr, script_level);
+        case 8595: return parseUnderscriptedWord("min", source, curr, script_level);
+        case 8599: return parseUnderscriptedWord("sup", source, curr, script_level);
+        case 8600: return parseUnderscriptedWord("inf", source, curr, script_level);
+        case 'l': return parseLimit(source, curr, script_level);
         default:   PARSER_ERROR("invalid construct code: " + source[--curr])
     }
 }
@@ -732,10 +729,8 @@ Construct* Parser::parseIntegral(const QString& source, QString::size_type& curr
     }
 }
 
-Construct* Parser::parseUnderscriptedWord(const QString& source, QString::size_type& curr, uint8_t& script_level){
-    QString word = parseQString(source, curr);
-    if(!underscripted_word_whitelist.contains(word))
-        PARSER_ERROR("UnderscriptedWord whitelist does not contain \"" + word + "\"")
+Construct* Parser::parseUnderscriptedWord(QString word, const QString& source, QString::size_type& curr, uint8_t& script_level){
+    QChar code = source[curr-1];
 
     script_level++;
     SubPhrase* underscript;
@@ -746,7 +741,23 @@ Construct* Parser::parseUnderscriptedWord(const QString& source, QString::size_t
     }
     script_level--;
 
-    return new UnderscriptedWord(word, underscript);
+    return new UnderscriptedWord(word, code, underscript);
+}
+
+Construct* Parser::parseLimit(const QString& source, QString::size_type& curr, uint8_t& script_level){
+    script_level++;
+    SubPhrase* lhs;
+    SubPhrase* rhs;
+    if(peek(source, curr, OPEN)){
+        lhs = parseSubPhrase(source, curr, script_level);
+        rhs = parseSubPhrase(source, curr, script_level);
+    }else{
+        lhs = new SubPhrase(new Text(script_level));
+        rhs = new SubPhrase(new Text(script_level));
+    }
+    script_level--;
+
+    return new Limit(lhs, rhs);
 }
 
 Construct* Parser::parseBinomial(const QString& source, QString::size_type& curr, uint8_t& script_level){

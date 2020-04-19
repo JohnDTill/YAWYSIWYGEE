@@ -6,9 +6,10 @@
 namespace Typeset{
 
 #define underscript child
-UnderscriptedWord::UnderscriptedWord(QString str, SubPhrase* c)
+UnderscriptedWord::UnderscriptedWord(QString str, QChar code, SubPhrase* c)
     : UnaryConstruct(c),
-      word(str) {
+      word(str),
+      code(code) {
     updateLayout();
 }
 
@@ -23,7 +24,7 @@ void UnderscriptedWord::updateLayout(){
 }
 
 void UnderscriptedWord::write(QTextStream& out) const{
-    out << ESCAPE << "w" << OPEN << word << CLOSE;
+    out << ESCAPE << code;
     child->write(out);
 }
 

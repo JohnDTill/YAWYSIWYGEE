@@ -43,7 +43,6 @@ private:
     static bool validateConstruct(const QString& source, QString::size_type& curr);
     static bool validateRoot(const QString& source, QString::size_type& curr);
     static bool validateIntegralOrBigQChar(const QString& source, QString::size_type& curr);
-    static bool validateUnderscriptedWord(const QString& source, QString::size_type& curr);
     static bool validateCases(const QString& source, QString::size_type& curr);
     static bool validateMatrix(const QString& source, QString::size_type& curr);
     static bool validateGrouping(const QString& source, QString::size_type& curr);
@@ -64,7 +63,8 @@ private:
     static Construct* parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseBigQChar(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseIntegral(const QString& source, QString::size_type& curr, uint8_t& script_level);
-    static Construct* parseUnderscriptedWord(const QString& source, QString::size_type& curr, uint8_t& script_level);
+    static Construct* parseUnderscriptedWord(QString word, const QString& source, QString::size_type& curr, uint8_t& script_level);
+    static Construct* parseLimit(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseBinomial(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseCases(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), const QString& source, QString::size_type& curr, uint8_t& script_level);

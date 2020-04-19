@@ -693,11 +693,11 @@ const QHash<QString,QString> construct_map = {
     {"_^", "Δ"},
     {"^", "^"},
     {"_", "_"},
-    {"max", QString("w") + OPEN + "max" + CLOSE},
-    {"min", QString("w") + OPEN + "min" + CLOSE},
-    {"sup", QString("w") + OPEN + "sup" + CLOSE},
-    {"inf", QString("w") + OPEN + "inf" + CLOSE},
-    {"lim", QString("w") + OPEN + "lim" + CLOSE}
+    {"max", "↑"},
+    {"min", "↓"},
+    {"sup", "↗"},
+    {"inf", "↘"},
+    {"lim", "l"}
 };
 
 void Cursor::checkSlashSub(){

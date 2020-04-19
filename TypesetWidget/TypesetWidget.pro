@@ -33,6 +33,7 @@ SOURCES += \
     globals.cpp \
     grouping.cpp \
     integral.cpp \
+    limit.cpp \
     line.cpp \
     matrix.cpp \
     parser.cpp \
@@ -68,6 +69,7 @@ HEADERS += \
     globals.h \
     grouping.h \
     integral.h \
+    limit.h \
     line.h \
     matrix.h \
     parser.h \

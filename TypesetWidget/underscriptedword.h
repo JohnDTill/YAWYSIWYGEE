@@ -8,10 +8,11 @@ namespace Typeset{
 class UnderscriptedWord : public UnaryConstruct{
 private:
     const QString word;
+    const QChar code;
     qreal word_x;
 
 public:
-    UnderscriptedWord(QString str, SubPhrase* c = nullptr);
+    UnderscriptedWord(QString str, QChar code, SubPhrase* c = nullptr);
     virtual void updateLayout() override final;
     virtual void write(QTextStream& out) const override final;
 

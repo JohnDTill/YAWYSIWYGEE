@@ -161,7 +161,7 @@ void MainWindow::on_actionBinom_triggered(){
 }
 
 void MainWindow::on_actionLim_triggered(){
-    typeset_edit.paste("⁜w⏴lim⏵");
+    typeset_edit.paste("⁜l");
 }
 
 void MainWindow::on_actionRoot_triggered(){

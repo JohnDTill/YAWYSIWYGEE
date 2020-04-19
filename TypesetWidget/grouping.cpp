@@ -7,14 +7,12 @@ namespace Typeset{
 
 Grouping::Grouping(void drawLeft(QPainter*, const qreal&),
                    void drawRight(QPainter*, const qreal&, const qreal&),
-                   QChar left_type,
-                   QChar right_type,
+                   QChar type,
                    SubPhrase* c)
     : UnaryConstruct(c),
       drawLeft(drawLeft),
       drawRight(drawRight),
-      left_type(left_type),
-      right_type(right_type) {
+      type(type) {
     c->setPos(symbol_width, 0);
     updateLayout();
 }
@@ -26,7 +24,7 @@ void Grouping::updateLayout(){
 }
 
 void Grouping::write(QTextStream& out) const{
-    out << ESCAPE << left_type << right_type;
+    out << ESCAPE << type;
     child->write(out);
 }
 

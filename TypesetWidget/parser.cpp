@@ -308,17 +308,17 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case 'b':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
         case 'c':  return validateCases(source, curr);
         case 'f':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        case '(':  return validateGrouping(source, curr);
-        case '[':  return validateGrouping(source, curr);
-        case '{':  return validateGrouping(source, curr);
-        case '|':  return validateGrouping(source, curr);
-        case 8214: return validateGrouping(source, curr); //‖
-        case 9482: return validateGrouping(source, curr); //┊
-        case 10216: return validateGrouping(source, curr); //⟨
-        case 8968: return validateGrouping(source, curr); //⌈
-        case 8970: return validateGrouping(source, curr); //⌊
-        case 10218: return validateGrouping(source, curr); //⟪
-        case 10214: return validateGrouping(source, curr); //⟦
+        case '(':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case '[':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case '{':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case '|':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
+        case 8214: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //‖
+        case 9482: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //┊
+        case 10216: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟨
+        case 8968: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌈
+        case 8970: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌊
+        case 10218: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟪
+        case 10214: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟦
         case 8747: return validateIntegralOrBigQChar(source, curr); //∫
         case 8748: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∬
         case 8749: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∭
@@ -372,27 +372,6 @@ bool Parser::validateMatrix(const QString& source, QString::size_type& curr){
     if( !peek(source, curr, OPEN) ) return true;
 
     return validateSubPhrases(source, curr, static_cast<uint32_t>(rows)*static_cast<uint32_t>(cols));
-}
-
-bool Parser::validateGrouping(const QString& source, QString::size_type& curr){
-    if(curr >= source.size()) return false;
-
-    switch(source[curr++].unicode()){
-        case ')':  break;
-        case ']':  break;
-        case '}':  break;
-        case '|':  break;
-        case 8214: break; //‖
-        case 9482: break; //┊
-        case 10217: break; //⟩
-        case 8969: break; //⌉
-        case 8971: break; //⌋
-        case 10219: break; //⟫
-        case 10215: break; //⟧
-        default:   return false;
-    }
-
-    return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
 }
 
 int Parser::parseInteger(const QString& source, QString::size_type& curr, int minimum_value){
@@ -519,17 +498,17 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case 'b':  return parseBinomial(source, curr, script_level);
         case 'c':  return parseCases(source, curr, script_level);
         case 'f':  return parseFraction(source, curr, script_level);
-        case '(':  return parseGrouping(Grouping::PARENTHESIS, source, curr, script_level);
-        case '[':  return parseGrouping(Grouping::BRACKET,source, curr, script_level);
-        case '{':  return parseGrouping(Grouping::BRACE, source, curr, script_level);
-        case '|':  return parseGrouping(Grouping::BAR, source, curr, script_level);
-        case 8214: return parseGrouping(Grouping::NORM, source, curr, script_level); //‖
-        case 9482: return parseGrouping(Grouping::BLANK, source, curr, script_level); //┊
-        case 10216: return parseGrouping(Grouping::ANGLE, source, curr, script_level); //⟨
-        case 8968: return parseGrouping(Grouping::CEIL, source, curr, script_level); //⌈
-        case 8970: return parseGrouping(Grouping::FLOOR, source, curr, script_level); //⌊
-        case 10218: return parseGrouping(Grouping::DOUBLE_ANGLE, source, curr, script_level); //⟪
-        case 10214: return parseGrouping(Grouping::DOUBLE_BRACKET, source, curr, script_level); //⟦
+        case '(':  return parseGrouping(Grouping::PARENTHESIS, Grouping::PARENTHESIS, source, curr, script_level);
+        case '[':  return parseGrouping(Grouping::BRACKET, Grouping::BRACKET, source, curr, script_level);
+        case '{':  return parseGrouping(Grouping::BRACE, Grouping::BRACE, source, curr, script_level);
+        case '|':  return parseGrouping(Grouping::BAR, Grouping::BAR, source, curr, script_level);
+        case 8214: return parseGrouping(Grouping::NORM, Grouping::NORM, source, curr, script_level); //‖
+        case 9482: return parseGrouping(Grouping::BLANK, Grouping::BAR, source, curr, script_level); //┊
+        case 10216: return parseGrouping(Grouping::ANGLE, Grouping::ANGLE, source, curr, script_level); //⟨
+        case 8968: return parseGrouping(Grouping::CEIL, Grouping::CEIL, source, curr, script_level); //⌈
+        case 8970: return parseGrouping(Grouping::FLOOR, Grouping::FLOOR, source, curr, script_level); //⌊
+        case 10218: return parseGrouping(Grouping::DOUBLE_ANGLE, Grouping::DOUBLE_ANGLE, source, curr, script_level); //⟪
+        case 10214: return parseGrouping(Grouping::DOUBLE_BRACKET, Grouping::DOUBLE_BRACKET, source, curr, script_level); //⟦
         case 8747: return parseIntegral(source, curr, script_level, true); //∫
         case 8748: return parseIntegral(source, curr, script_level, false); //∬
         case 8749: return parseIntegral(source, curr, script_level, false); //∭
@@ -787,27 +766,12 @@ Construct* Parser::parseCases(const QString& source, QString::size_type& curr, u
     }
 }
 
-Construct* Parser::parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), const QString& source, QString::size_type& curr, uint8_t& script_level){
-    if(curr >= source.size()) PARSER_ERROR("Reached end-of-file before right Grouping symbol")
-
-    void (*RIGHT_SYMBOL)(QPainter*, const qreal&, const qreal&);
-    switch(source[curr++].unicode()){
-        case ')':  RIGHT_SYMBOL = Grouping::PARENTHESIS; break;
-        case ']':  RIGHT_SYMBOL = Grouping::BRACKET; break;
-        case '}':  RIGHT_SYMBOL = Grouping::BRACE; break;
-        case '|':  RIGHT_SYMBOL = Grouping::BAR; break;
-        case 8214: RIGHT_SYMBOL = Grouping::NORM; break; //‖
-        case 9482: RIGHT_SYMBOL = Grouping::BLANK; break; //┊
-        case 10217: RIGHT_SYMBOL = Grouping::ANGLE; break; //⟩
-        case 8969: RIGHT_SYMBOL = Grouping::CEIL; break; //⌉
-        case 8971: RIGHT_SYMBOL = Grouping::FLOOR; break; //⌋
-        case 10219: RIGHT_SYMBOL = Grouping::DOUBLE_ANGLE; break; //⟫
-        case 10215: RIGHT_SYMBOL = Grouping::DOUBLE_BRACKET; break; //⟧
-        default: PARSER_ERROR("Invalid right grouping")
-    }
-
-    QChar left_type = source[curr-2];
-    QChar right_type = source[curr-1];
+Construct* Parser::parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&),
+                                 void (*RIGHT_SYMBOL)(QPainter*, const qreal&, const qreal&),
+                                 const QString& source,
+                                 QString::size_type& curr,
+                                 uint8_t& script_level){
+    QChar type = source[curr-1];
 
     SubPhrase* child;
     if(peek(source,curr,OPEN)){
@@ -816,7 +780,7 @@ Construct* Parser::parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), c
         child = new SubPhrase(new Text(script_level));
     }
 
-    return new Grouping(LEFT_SYMBOL, RIGHT_SYMBOL, left_type, right_type, child);
+    return new Grouping(LEFT_SYMBOL, RIGHT_SYMBOL, type, child);
 }
 
 template<void AccentType(QPainter*,const qreal&)> Construct* Parser::parseAccent(const QString& source, QString::size_type& curr, uint8_t& script_level){

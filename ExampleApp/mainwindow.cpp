@@ -231,31 +231,31 @@ void MainWindow::on_toolButton_triggered(QAction* action){
 }
 
 void MainWindow::on_actionGroupnorm_triggered(){
-    typeset_edit.paste("⁜‖‖⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜‖⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingabs_triggered(){
-    typeset_edit.paste("⁜||⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜|⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingangle_triggered(){
-    typeset_edit.paste("⁜⟨⟩⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜⟨⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingdangle_triggered(){
-    typeset_edit.paste("⁜⟪⟫⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜⟪⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingceil_triggered(){
-    typeset_edit.paste("⁜⌈⌉⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜⌈⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingfloor_triggered(){
-    typeset_edit.paste("⁜⌊⌋⏴" + typeset_edit.selectedCode() + "⏵");
+    typeset_edit.paste("⁜⌊⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionEval_triggered(){
-    typeset_edit.paste("⁜Δ⏴⁜┊|⏴" + typeset_edit.selectedCode() + "⏵⏵⏴⏵⏴⏵");
+    typeset_edit.paste("⁜Δ⏴⁜┊⏴" + typeset_edit.selectedCode() + "⏵⏵⏴⏵⏴⏵");
 }
 
 void MainWindow::on_groupButton_triggered(QAction* action){

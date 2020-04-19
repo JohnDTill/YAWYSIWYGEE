@@ -5,20 +5,17 @@
 
 namespace Typeset{
 
-static constexpr qreal symbol_width = 6;
-
 class Grouping : public UnaryConstruct{
 private:
+    static constexpr qreal symbol_width = 6;
     void (*drawLeft)(QPainter*, const qreal&);
     void (*drawRight)(QPainter*, const qreal&, const qreal&);
-    QChar left_type;
-    QChar right_type;
+    QChar type;
 
 public:
     Grouping(void drawLeft(QPainter*, const qreal&),
              void drawRight(QPainter*, const qreal&, const qreal&),
-             QChar left_type,
-             QChar right_type,
+             QChar type,
              SubPhrase* c = nullptr);
     virtual void updateLayout() override final;
     virtual void write(QTextStream& out) const override final;

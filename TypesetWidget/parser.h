@@ -45,7 +45,6 @@ private:
     static bool validateIntegralOrBigQChar(const QString& source, QString::size_type& curr);
     static bool validateCases(const QString& source, QString::size_type& curr);
     static bool validateMatrix(const QString& source, QString::size_type& curr);
-    static bool validateGrouping(const QString& source, QString::size_type& curr);
     static int parseInteger(const QString& source, QString::size_type& curr, int minimum_value = 1);
     static bool parseInteger(int& val, const QString& source, QString::size_type& curr, int minimum_value = 1);
     static QString parseQString(const QString& source, QString::size_type& curr);
@@ -67,7 +66,7 @@ private:
     static Construct* parseLimit(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseBinomial(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseCases(const QString& source, QString::size_type& curr, uint8_t& script_level);
-    static Construct* parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), const QString& source, QString::size_type& curr, uint8_t& script_level);
+    static Construct* parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&), void (*RIGHT_SYMBOL)(QPainter*, const qreal&, const qreal&), const QString& source, QString::size_type& curr, uint8_t& script_level);
     template<void AccentType(QPainter*,const qreal&)> static Construct* parseAccent(const QString& source, QString::size_type& curr, uint8_t& script_level);
 };
 

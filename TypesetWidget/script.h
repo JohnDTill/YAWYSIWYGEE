@@ -54,9 +54,10 @@ class Dualscript : public BinaryConstruct{
 private:
     qreal body_u;
     qreal body_d;
+    const bool eval;
 
 public:
-    Dualscript(SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
+    Dualscript(SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr, bool eval = false);
     virtual void updateLayout() override final;
     virtual void notifyPrevUpdate() override final;
     virtual void notifyPrevPrevUpdate(Construct* c) override final;

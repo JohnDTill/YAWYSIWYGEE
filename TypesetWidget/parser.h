@@ -59,7 +59,7 @@ private:
     static Construct* parseRoot(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseSuperscript(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseSubscript(const QString& source, QString::size_type& curr, uint8_t& script_level);
-    static Construct* parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level);
+    static Construct* parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level, bool eval = false);
     static Construct* parseBigQChar(const QString& source, QString::size_type& curr, uint8_t& script_level);
     static Construct* parseIntegral(const QString& source, QString::size_type& curr, uint8_t& script_level, bool allow_superscript);
     static Construct* parseUnderscriptedWord(QString word, const QString& source, QString::size_type& curr, uint8_t& script_level);

@@ -255,7 +255,7 @@ void MainWindow::on_actionGroupingfloor_triggered(){
 }
 
 void MainWindow::on_actionEval_triggered(){
-    typeset_edit.paste("⁜┊⏴" + typeset_edit.selectedCode() + "⏵⁜Δ⏴⏵⏴⏵");
+    typeset_edit.paste("⁜┊⏴⏵⏴⏵");
 }
 
 void MainWindow::on_groupButton_triggered(QAction* action){

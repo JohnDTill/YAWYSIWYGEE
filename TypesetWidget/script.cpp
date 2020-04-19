@@ -5,6 +5,7 @@
 #include "document.h"
 
 #include <QMenu>
+#include <QPainter>
 
 namespace Typeset{
 
@@ -134,11 +135,15 @@ void Subscript::addSuperscript(){
 }
 #undef subscript
 
-Dualscript::Dualscript(SubPhrase* subscript, SubPhrase* superscript)
-    : BinaryConstruct(superscript, subscript) {
-    setFlag(QGraphicsItem::ItemHasNoContents);
+static constexpr qreal bar_offset = 3;
+static constexpr qreal eval_offset = bar_offset + 2;
 
-    superscript->setPos(x_offset, 0);
+Dualscript::Dualscript(SubPhrase* subscript, SubPhrase* superscript, bool eval)
+    : BinaryConstruct(superscript, subscript),
+      eval(eval) {
+    if(!eval) setFlag(QGraphicsItem::ItemHasNoContents);
+
+    superscript->setPos(x_offset + eval*eval_offset, 0);
     updateLayout();
 }
 
@@ -146,7 +151,7 @@ Dualscript::Dualscript(SubPhrase* subscript, SubPhrase* superscript)
 #define subscript second
 
 void Dualscript::updateLayout(){
-    w = qMax(subscript->w, superscript->w) + x_offset;
+    w = qMax(subscript->w, superscript->w) + x_offset + eval*eval_offset;
 
     qreal hs = superscript->u + superscript->d;
     qreal a = ratio_superscript*body_u;
@@ -163,7 +168,7 @@ void Dualscript::updateLayout(){
     d = body_d + e;
 
     const qreal ys = ym + (body_u + body_d) + e - hs;
-    subscript->setPos(x_offset, ys);
+    subscript->setPos(x_offset + eval*eval_offset, ys);
 }
 
 void Dualscript::notifyPrevUpdate(){
@@ -182,6 +187,8 @@ void Dualscript::notifyPrevPrevUpdate(Construct* c){
 }
 
 void Dualscript::populateMenu(QMenu& menu, const SubPhrase*){
+    if(eval) return;
+
     menu.addSeparator();
     QAction* superscriptAction = menu.addAction("Dualscript: Remove superscript");
     connect(superscriptAction, SIGNAL(triggered()), this, SLOT(removeSuperscript()));
@@ -205,6 +212,7 @@ void Dualscript::write(QTextStream& out) const{
 
 void Dualscript::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
+    if(eval) painter->drawLine( QLineF(x_offset + eval*bar_offset, 0, x_offset+eval*bar_offset, h()) );
 }
 
 void Dualscript::removeSuperscript(){

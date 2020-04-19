@@ -313,7 +313,6 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case '{':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case '|':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 8214: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //‖
-        case 9482: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //┊
         case 10216: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟨
         case 8968: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌈
         case 8970: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌊
@@ -330,6 +329,7 @@ bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
         case '^':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case '_':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2); //Δ
+        case 9482: return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2); //┊
         case 8593: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 8595: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
         case 8599: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
@@ -507,7 +507,6 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case '{':  return parseGrouping(Grouping::BRACE, Grouping::BRACE, source, curr, script_level);
         case '|':  return parseGrouping(Grouping::BAR, Grouping::BAR, source, curr, script_level);
         case 8214: return parseGrouping(Grouping::NORM, Grouping::NORM, source, curr, script_level); //‖
-        case 9482: return parseGrouping(Grouping::BLANK, Grouping::BAR, source, curr, script_level); //┊
         case 10216: return parseGrouping(Grouping::ANGLE, Grouping::ANGLE, source, curr, script_level); //⟨
         case 8968: return parseGrouping(Grouping::CEIL, Grouping::CEIL, source, curr, script_level); //⌈
         case 8970: return parseGrouping(Grouping::FLOOR, Grouping::FLOOR, source, curr, script_level); //⌊
@@ -524,6 +523,7 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case '_':  return parseSubscript(source, curr, script_level);
         case '^':  return parseSuperscript(source, curr, script_level);
         case 916:  return parseDualscript(source, curr, script_level); //Δ
+        case 9482: return parseDualscript(source, curr, script_level, true); //┊
         case 8593: return parseUnderscriptedWord("max", source, curr, script_level);
         case 8595: return parseUnderscriptedWord("min", source, curr, script_level);
         case 8599: return parseUnderscriptedWord("sup", source, curr, script_level);
@@ -634,7 +634,7 @@ Construct* Parser::parseSubscript(const QString& source, QString::size_type& cur
     return new Subscript(script);
 }
 
-Construct* Parser::parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level){
+Construct* Parser::parseDualscript(const QString& source, QString::size_type& curr, uint8_t& script_level, bool eval){
     SubPhrase* sub;
     SubPhrase* sup;
     if(peek(source, curr, OPEN)){
@@ -651,7 +651,7 @@ Construct* Parser::parseDualscript(const QString& source, QString::size_type& cu
         if(!deepest_script_level) script_level--;
     }
 
-    return new Dualscript(sub, sup);
+    return new Dualscript(sub, sup, eval);
 }
 
 Construct* Parser::parseBigQChar(const QString& source, QString::size_type& curr, uint8_t& script_level){

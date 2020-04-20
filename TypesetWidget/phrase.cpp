@@ -14,6 +14,7 @@ Phrase::Phrase(Text* f, Text* b)
     if(back==nullptr) back = front;
 
     initializeChildren();
+    updateLayout();
 }
 
 qreal Phrase::h() const{

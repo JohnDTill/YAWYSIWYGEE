@@ -10,7 +10,7 @@ class Superscript : public UnaryConstruct{
     Q_OBJECT
 
 private:
-    qreal body_u;
+    qreal body_u = 0;
 
 public:
     Superscript(SubPhrase* superscript = nullptr);
@@ -31,7 +31,7 @@ class Subscript : public UnaryConstruct{
     Q_OBJECT
 
 private:
-    qreal body_d;
+    qreal body_d = 0;
 
 public:
     Subscript(SubPhrase* subscript = nullptr);
@@ -52,8 +52,8 @@ class Dualscript : public BinaryConstruct{
     Q_OBJECT
 
 private:
-    qreal body_u;
-    qreal body_d;
+    qreal body_u = 0;
+    qreal body_d = 0;
     const bool eval;
 
 public:

@@ -145,7 +145,11 @@ void MainWindow::on_actionCopy_as_PNG_triggered(){
 }
 
 void MainWindow::on_actionFraction_triggered(){
-    typeset_edit.paste("⁜f⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜f⏴⏵⏴⏵");
+    else
+        typeset_edit.paste("⁜f⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
 }
 
 void MainWindow::on_actionMatrix_triggered(){
@@ -165,7 +169,11 @@ void MainWindow::on_actionLim_triggered(){
 }
 
 void MainWindow::on_actionRoot_triggered(){
-    typeset_edit.paste("⁜√⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜√⏴⏵");
+    else
+        typeset_edit.paste("⁜√⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionBigint_triggered(){
@@ -195,35 +203,67 @@ void MainWindow::on_actionDualscript_triggered(){
 }
 
 void MainWindow::on_actionAccentarrow_triggered(){
-    typeset_edit.paste("⁜→⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜→⏴⏵");
+    else
+        typeset_edit.paste("⁜→⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccentbar_triggered(){
-    typeset_edit.paste("⁜ā⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜ā⏴⏵");
+    else
+        typeset_edit.paste("⁜ā⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccentbreve_triggered(){
-    typeset_edit.paste("⁜ă⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜ă⏴⏵");
+    else
+        typeset_edit.paste("⁜ă⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccentdot_triggered(){
-    typeset_edit.paste("⁜ȧ⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜ȧ⏴⏵");
+    else
+        typeset_edit.paste("⁜ȧ⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccentddot_triggered(){
-    typeset_edit.paste("⁜ä⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜ä⏴⏵");
+    else
+        typeset_edit.paste("⁜ä⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccentdddot_triggered(){
-    typeset_edit.paste("⁜⋯⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜⋯⏴⏵");
+    else
+        typeset_edit.paste("⁜⋯⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccenthat_triggered(){
-    typeset_edit.paste("⁜â⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜â⏴⏵");
+    else
+        typeset_edit.paste("⁜â⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionAccenttilde_triggered(){
-    typeset_edit.paste("⁜ã⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜ã⏴⏵");
+    else
+        typeset_edit.paste("⁜ã⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_toolButton_triggered(QAction* action){
@@ -231,27 +271,51 @@ void MainWindow::on_toolButton_triggered(QAction* action){
 }
 
 void MainWindow::on_actionGroupnorm_triggered(){
-    typeset_edit.paste("⁜‖⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜‖⏴⏵");
+    else
+        typeset_edit.paste("⁜‖⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingabs_triggered(){
-    typeset_edit.paste("⁜|⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜|⏴⏵");
+    else
+        typeset_edit.paste("⁜|⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingangle_triggered(){
-    typeset_edit.paste("⁜⟨⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜⟨⏴⏵");
+    else
+        typeset_edit.paste("⁜⟨⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingdangle_triggered(){
-    typeset_edit.paste("⁜⟪⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜⟪⏴⏵");
+    else
+        typeset_edit.paste("⁜⟪⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingceil_triggered(){
-    typeset_edit.paste("⁜⌈⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜⌈⏴⏵");
+    else
+        typeset_edit.paste("⁜⌈⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionGroupingfloor_triggered(){
-    typeset_edit.paste("⁜⌊⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedCode();
+    if(selection.contains('\n'))
+        typeset_edit.paste("⁜⌊⏴⏵");
+    else
+        typeset_edit.paste("⁜⌊⏴" + typeset_edit.selectedCode() + "⏵");
 }
 
 void MainWindow::on_actionEval_triggered(){

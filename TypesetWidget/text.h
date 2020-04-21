@@ -29,6 +29,10 @@ private:
 
 public:
     Text(uint8_t script_level = 0, QString str = "");
+    #ifdef YAWYSIWYGEE_TEST
+    virtual ~Text() override;
+    static void verify();
+    #endif
     bool isEmpty() const;
     void setParentPhrase(Phrase* parent);
     static bool isDeepestScriptLevel(uint8_t script_level);

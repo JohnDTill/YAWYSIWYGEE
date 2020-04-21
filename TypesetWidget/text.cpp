@@ -12,6 +12,11 @@
 #include <QTextCursor>
 #include <QTextDocument>
 
+#ifdef YAWYSIWYGEE_TEST
+#include <list>
+static std::list<Typeset::Text*> all_texts;
+#endif
+
 namespace Typeset{
 
 Text::Text(uint8_t script_level, QString str){
@@ -23,7 +28,24 @@ Text::Text(uint8_t script_level, QString str){
     setPlainText(str);
 
     calculateSize();
+
+    #ifdef YAWYSIWYGEE_TEST
+    all_texts.push_back(this);
+    #endif
 }
+
+#ifdef YAWYSIWYGEE_TEST
+Text::~Text(){
+    all_texts.remove(this);
+}
+
+void Text::verify(){
+    for(Text* t : all_texts){
+        if(t->next) Q_ASSERT(t->next->prev == t);
+        if(t->prev) Q_ASSERT(t->prev->next == t);
+    }
+}
+#endif
 
 bool Text::isEmpty() const{
     return document()->isEmpty();

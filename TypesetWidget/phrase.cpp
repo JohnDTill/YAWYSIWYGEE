@@ -3,6 +3,11 @@
 #include "construct.h"
 #include "text.h"
 
+#ifdef YAWYSIWYGEE_TEST
+#include <list>
+static std::list<Typeset::Phrase*> all_phrases;
+#endif
+
 namespace Typeset{
 
 Phrase::Phrase(Text* f, Text* b)
@@ -15,7 +20,32 @@ Phrase::Phrase(Text* f, Text* b)
 
     initializeChildren();
     updateLayout();
+
+    #ifdef YAWYSIWYGEE_TEST
+    all_phrases.push_back(this);
+    #endif
 }
+
+#ifdef YAWYSIWYGEE_TEST
+Phrase::~Phrase(){
+    all_phrases.remove(this);
+}
+
+void Phrase::verify(){
+    for(Phrase* p : all_phrases){
+        Q_ASSERT(p->front->prev == nullptr);
+        Q_ASSERT(p->back->next == nullptr);
+
+        Text* t = p->front;
+        Q_ASSERT(t->parent == p);
+        for(Construct* c = p->front->next; c; c = t->next){
+            t = c->next;
+            Q_ASSERT(t->parent == p);
+        }
+        Q_ASSERT(p->back == t);
+    }
+}
+#endif
 
 qreal Phrase::h() const{
     return u+d;

@@ -21,6 +21,10 @@ public:
 
 public:
     Construct();
+    #ifdef YAWYSIWYGEE_TEST
+    virtual ~Construct() override;
+    static void verify();
+    #endif
     qreal h() const;
     virtual void deletePostorder() = 0;
     virtual void select() = 0;

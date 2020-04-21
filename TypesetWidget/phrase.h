@@ -23,6 +23,10 @@ private:
 
 public:
     Phrase(Text* f = nullptr, Text* b = nullptr);
+    #ifdef YAWYSIWYGEE_TEST
+    virtual ~Phrase() override;
+    static void verify();
+    #endif
     qreal h() const;
     void select();
     void deletePostorder();

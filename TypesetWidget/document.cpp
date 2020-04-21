@@ -232,6 +232,13 @@ void Document::keyPressEvent(QKeyEvent* e){
     #undef MATCH
 
     cv->update(*cursor);
+
+    #ifdef YAWYSIWYGEE_TEST
+    Text::verify();
+    Construct::verify();
+    Phrase::verify();
+    qDebug() << "Verified";
+    #endif
 }
 
 void Document::mousePressEvent(QGraphicsSceneMouseEvent* e){

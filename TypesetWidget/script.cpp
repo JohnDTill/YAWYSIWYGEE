@@ -205,7 +205,7 @@ Text* Dualscript::textDown(const SubPhrase* caller, qreal x) const{
 }
 
 void Dualscript::write(QTextStream& out) const{
-    out << ESCAPE << QChar(916);
+    out << ESCAPE << (eval ? QChar(9482) : QChar(916));
     subscript->write(out);
     superscript->write(out);
 }

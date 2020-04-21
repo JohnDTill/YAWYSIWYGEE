@@ -19,8 +19,8 @@ private:
 
 public:
     Edit(bool allow_write = true, bool show_line_numbers = true);
-    QString toCode() const;
-    void setCode(QString& code);
+    QString toMathBran() const;
+    void setMathBran(QString& code);
     QString selectedCode() const;
 
 public slots:

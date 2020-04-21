@@ -21,8 +21,8 @@ void TestParser::loadSaveTestFile(){
     QString test_code = in.readAll();
 
     Typeset::Edit edit;
-    edit.setCode(test_code);
-    QCOMPARE(edit.toCode(), test_code);
+    edit.setMathBran(test_code);
+    QCOMPARE(edit.toMathBran(), test_code);
 }
 
 QTEST_MAIN(TestParser)

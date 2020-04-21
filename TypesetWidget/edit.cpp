@@ -25,7 +25,7 @@ Edit::Edit(bool allow_write, bool show_line_numbers){
     setDocument(doc);
 }
 
-QString Edit::toCode() const{
+QString Edit::toMathBran() const{
     QString str;
     QTextStream out(&str);
     out.setCodec("UTF-8");
@@ -35,7 +35,7 @@ QString Edit::toCode() const{
     return str;
 }
 
-void Edit::setCode(QString& code){
+void Edit::setMathBran(QString& code){
     QTextStream in(&code);
     in.setCodec("UTF-8");
 

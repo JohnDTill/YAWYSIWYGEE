@@ -20,7 +20,7 @@ This project aims to create a Qt widget for inline editing of equations. The tar
 
 The name is perhaps overly self-deprecating; although there are many inline equation editors, there is not an abundance of open source options, and a Qt widget should be useful.
 
-YAWYSIWYGEE uses the [MathBran](https://github.com/JohnDTill/MathBran) specification for serialization. Probably the easiest way to interact with a Typeset::Edit in a separate project is to use the toCode() and setCode() methods. It is also possible to inject MathBran code into a specific part of the document, which is how the example app GUI is implemented and how copy/paste works.
+YAWYSIWYGEE uses the [MathBran](https://github.com/JohnDTill/MathBran) specification for serialization. Probably the easiest way to interact with a Typeset::Edit in a separate project is to use the toMathBran() and setMathBran() methods. It is also possible to inject MathBran code into a specific part of the document, which is how the example app GUI is implemented and how copy/paste works.
 
 ## Prerequisites
 

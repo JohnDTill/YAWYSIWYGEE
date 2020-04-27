@@ -16,7 +16,8 @@ This project aims to create a Qt widget for inline editing of equations. The tar
 * Symbolic math
 * Scientific computing languages
 * Mathematical scratchpads
-* Online forums by compiling to WebAssembly
+* Online use by compiling to WebAssembly
+* The next hit mobile-game which is a cross between mathematics and Pictionary ("Gauss's law! No, wait, projectile motion!")
 
 The name is perhaps overly self-deprecating; although there are many inline equation editors, there is not an abundance of open source options, and a Qt widget should be useful.
 

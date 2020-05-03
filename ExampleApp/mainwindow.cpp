@@ -174,9 +174,6 @@ void MainWindow::on_actionBigsum_triggered(){
 void MainWindow::insertChar(QTableWidgetItem* item){
     if(item->text().isEmpty()) return;
     typeset_edit.insertPlainText(item->text());
-
-    typeset_edit.setFocus();
-    //DO THIS: setFocus() does not have intended effect
 }
 
 void MainWindow::on_actionSubscript_triggered(){
@@ -327,6 +324,8 @@ void MainWindow::setupSymbolTable(){
     }
 
     connect(ui->tableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(insertChar(QTableWidgetItem*)));
+
+    ui->tableWidget->setFocusPolicy(Qt::NoFocus);
 }
 
 void MainWindow::load(QString filename){

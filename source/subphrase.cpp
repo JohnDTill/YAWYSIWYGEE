@@ -7,8 +7,6 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-namespace Typeset{
-
 SubPhrase::SubPhrase(Text* f, Text* b, major_integer child_id)
     : Phrase(f, b),
       child_id(child_id) {
@@ -92,7 +90,5 @@ void SubPhrase::calculateSize(){
     }else{
         Phrase::calculateSize();
     }
-
-}
 
 }

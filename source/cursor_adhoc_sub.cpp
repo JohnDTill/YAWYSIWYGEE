@@ -4,8 +4,6 @@
 
 #include "cursor.h"
 
-namespace Typeset{
-
 template<ushort indicator, ushort sub>
 static void checkTwoCharSub(Cursor& c, QTextCursor cursor){
     cursor.movePosition(QTextCursor::Left);
@@ -89,6 +87,4 @@ void Cursor::checkForSubstitution(const QChar& c){
         case '0':
             checkTwoCharSub<47,8709>(*this, cursor);
     }
-}
-
 }

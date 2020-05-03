@@ -2,8 +2,6 @@
 
 #include <QPainter>
 
-namespace Typeset{
-
 static constexpr qreal margin = 1;
 
 Limit::Limit(SubPhrase* var, SubPhrase* to)
@@ -21,7 +19,7 @@ Limit::Limit(SubPhrase* var, SubPhrase* to)
     updateLayout();
 }
 
-void Typeset::Limit::updateLayout(){
+void Limit::updateLayout(){
     qreal bu = qMax(first->u, second->u);
     ay = lh + bu - ah/2;
     d = lh/2 + bu + qMax(first->d, second->d);
@@ -54,6 +52,4 @@ void Limit::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QW
     painter->setFont(Globals::word_font);
     painter->drawText(QRectF(lx, 0, lw, lh), "lim");
     painter->drawText(QRectF(ax, ay, aw, ah), "→");
-}
-
 }

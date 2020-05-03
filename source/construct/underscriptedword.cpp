@@ -3,8 +3,6 @@
 #include "globals.h"
 #include <QPainter>
 
-namespace Typeset{
-
 #define underscript child
 UnderscriptedWord::UnderscriptedWord(QString str, QChar code, SubPhrase* c)
     : UnaryConstruct(c),
@@ -36,5 +34,3 @@ void UnderscriptedWord::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     painter->drawText(word_bounds, word);
 }
 #undef underscript
-
-}

@@ -3,8 +3,6 @@
 #include "globals.h"
 #include <QPainter>
 
-namespace Typeset{
-
 Grouping::Grouping(void drawLeft(QPainter*, const qreal&),
                    void drawRight(QPainter*, const qreal&, const qreal&),
                    QChar type,
@@ -152,6 +150,4 @@ void Grouping::paint(QPainter* painter, const QStyleOptionGraphicsItem* options,
     qreal h = u+d;
     drawLeft(painter, h);
     drawRight(painter, h , child->w + symbol_width);
-}
-
 }

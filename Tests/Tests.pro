@@ -1,7 +1,7 @@
 QT += core gui svg testlib widgets
 
 CONFIG += c++11
-INCLUDEPATH += ../source
+INCLUDEPATH += ../include
 DEFINES += YAWYSIWYGEE_TEST
 
 HEADERS += testparser.h

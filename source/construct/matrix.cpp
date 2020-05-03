@@ -2,12 +2,10 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include <QMenu>
 #include <QPainter>
-
-namespace Typeset{
 
 Matrix::Matrix(const std::vector<SubPhrase*>& c, minor_integer rows, minor_integer cols)
     : NaryConstruct(c),
@@ -338,6 +336,4 @@ void Matrix::RemoveCol::redo(){
 void Matrix::RemoveCol::undo(){
     active = false;
     mat.insertCol(col, data);
-}
-
 }

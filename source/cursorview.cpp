@@ -3,16 +3,14 @@
 #include "algorithm.h"
 #include "construct.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include "phrase.h"
 #include "text.h"
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
 
-namespace Typeset{
-
-CursorView::CursorView(Scene& doc){
+CursorView::CursorView(TypesetScene& doc){
     tL_old = doc.front->front;
     tR_old = doc.back->back;
 }
@@ -175,9 +173,7 @@ void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraph
     if(region.width() < margin + 1e-2) return;
 
     //Note: calling QGraphicsScene::setPalette() does not result in correct option->palette.highlight()
-    //painter->setBrush(option->palette.highlight());
     painter->setBrush(scene()->palette().highlight());
-    //QPen p(option->palette.base().color());
     QPen p(scene()->palette().base().color());
     p.setWidth(0);
     painter->setPen(p);
@@ -186,6 +182,4 @@ void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraph
 
 QRectF CursorView::SelectionMask::boundingRect() const{
     return region;
-}
-
 }

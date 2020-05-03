@@ -6,8 +6,6 @@
 #include "subphrase.h"
 #include <QPainter>
 
-namespace Typeset{
-
 Fraction::Fraction(SubPhrase* num, SubPhrase* den)
     : BinaryConstruct(num, den) {
     updateLayout();
@@ -47,5 +45,3 @@ void Fraction::calculateSize(){
 }
 #undef num
 #undef den
-
-}

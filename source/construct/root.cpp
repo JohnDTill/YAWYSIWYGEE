@@ -2,14 +2,12 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include "text.h"
 #include <QMenu>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
-namespace Typeset{
 
 SquareRoot::SquareRoot(SubPhrase* c)
     : UnaryConstruct(c) {
@@ -202,6 +200,4 @@ void ScriptedRoot::RemoveScript::undo(){
     out->updateToTop();
 
     out->typesetDocument()->cursor->setPosition(*out->next, Algorithm::textCursorStart(out->next));
-}
-
 }

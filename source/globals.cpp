@@ -4,8 +4,6 @@ inline void initResources(){
     Q_INIT_RESOURCE(qtypesetobjectresource);
 }
 
-namespace Typeset{
-
 QPen Globals::empty_box_pen;
 
 QFont Globals::bigqchar_font;
@@ -50,6 +48,4 @@ void Globals::initGlobals(){
     passive_linenum_font = fonts[0];
     active_linenum_font = passive_linenum_font;
     active_linenum_font.setBold(true);
-}
-
 }

@@ -4,8 +4,6 @@
 #include "line.h"
 #include "text.h"
 
-namespace Typeset{
-
 class Algorithm{
 public:
     static qreal cursorOffset(const Text& t, QTextCursor c);
@@ -27,7 +25,5 @@ private:
     static void writePhraseBeforeCursor(const Text& t, QTextCursor c, QTextStream& out);
     static void writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out);
 };
-
-}
 
 #endif // ALGORITHM_H

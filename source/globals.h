@@ -15,8 +15,6 @@
     messageBox.setFixedSize(500,200); \
     exit(0);}
 
-namespace Typeset{
-
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
 static const QChar ESCAPE = 8284; //⁜
@@ -40,7 +38,5 @@ class Globals{
         static QFont active_linenum_font;
         static void initGlobals();
 };
-
-}
 
 #endif // GLOBALS_H

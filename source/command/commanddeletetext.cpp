@@ -2,8 +2,6 @@
 
 #include "cursor.h"
 
-namespace Typeset{
-
 CommandDeleteText::CommandDeleteText(Cursor& cursor, Text* t, QTextCursor cL, QTextCursor cR)
     : cursor(cursor),
       t(t) {
@@ -29,6 +27,4 @@ void CommandDeleteText::undo(){
     t->updateToTop();
     cursor.setPosition(*t, c);
     c.setPosition(c.position() - str.length());
-}
-
 }

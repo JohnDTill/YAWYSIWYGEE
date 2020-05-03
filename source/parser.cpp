@@ -1,6 +1,6 @@
 #include "parser.h"
 
-#include "scene.h"
+#include "typesetscene.h"
 #include "line.h"
 #include "text.h"
 
@@ -28,8 +28,6 @@
                                  source); \
     messageBox.setFixedSize(500,200); \
     exit(0);}
-
-namespace Typeset{
 
 static constexpr ushort ESCAPE_UNICODE = 8284;
 static constexpr ushort OPEN_UNICODE = 9204;
@@ -82,7 +80,7 @@ bool Parser::shouldParseAsCode(const QString& source){
     return containsConstruct(source) && isValidCode(source);
 }
 
-Scene* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
+TypesetScene* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
     source.seek(0);
 
     QString line = source.readLine();
@@ -102,7 +100,7 @@ Scene* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_li
         line = source.readLine();
     }
 
-    return new Scene(allow_write, show_line_numbers, front, l);
+    return new TypesetScene(allow_write, show_line_numbers, front, l);
 }
 
 std::pair<Text*, Text*> Parser::parsePhrase(const QString& source, uint8_t script_level){
@@ -774,6 +772,4 @@ template<void AccentType(QPainter*,const qreal&)> Construct* Parser::parseAccent
         return new Accent( AccentType, parseSubPhrase(source, curr, script_level) );
     else
         return new Accent( AccentType, new SubPhrase(new Text(script_level)) );
-}
-
 }

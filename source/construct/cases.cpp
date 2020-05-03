@@ -2,12 +2,10 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include <QMenu>
 #include <QPainter>
-
-namespace Typeset{
 
 Cases::Cases(const std::vector<SubPhrase*>& data)
     : NaryConstruct(data){
@@ -185,6 +183,4 @@ void Cases::RemoveRow::redo(){
 void Cases::RemoveRow::undo(){
     active = false;
     c.insertRow(row, data[0], data[1]);
-}
-
 }

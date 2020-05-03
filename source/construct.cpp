@@ -2,7 +2,7 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "text.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
@@ -12,8 +12,6 @@
 #include <list>
 static std::list<Typeset::Construct*> all_constructs;
 #endif
-
-namespace Typeset{
 
 Construct::Construct(){
     setFlag(GraphicsItemFlag::ItemIsSelectable);
@@ -66,8 +64,8 @@ QRectF Construct::boundingRect() const{
     return QRectF(0, 0, w, h());
 }
 
-Scene* Construct::typesetDocument() const{
-    return static_cast<Scene*>(scene());
+TypesetScene* Construct::typesetDocument() const{
+    return static_cast<TypesetScene*>(scene());
 }
 
 void link(Text* t, Construct* c){
@@ -223,6 +221,4 @@ Text* NaryConstruct::textRight(const SubPhrase* caller) const{
 Text* NaryConstruct::textLeft(const SubPhrase* caller) const{
     major_integer i = caller->child_id;
     return (i > 0) ? children[i-1]->back : prev;
-}
-
 }

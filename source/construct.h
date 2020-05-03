@@ -6,9 +6,7 @@
 #include <QGraphicsItem>
 #include <QTextStream>
 
-namespace Typeset{
-
-class Scene;
+class TypesetScene;
 class Text;
 
 class Construct : public QGraphicsObject{
@@ -46,7 +44,7 @@ public:
 
 protected:
     virtual QRectF boundingRect() const override final;
-    Scene* typesetDocument() const;
+    TypesetScene* typesetDocument() const;
 };
 
 void link(Text* t, Construct* c);
@@ -108,7 +106,5 @@ public:
     virtual Text* textRight(const SubPhrase* caller) const override final;
     virtual Text* textLeft(const SubPhrase* caller) const override final;
 };
-
-}
 
 #endif // TYPESETINLINECONSTRUCT_H

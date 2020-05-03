@@ -6,8 +6,6 @@
 #include "text.h"
 #include <QTextCursor>
 
-namespace Typeset{
-
 class Cursor;
 
 class CommandDeleteText : public QUndoCommand{
@@ -26,7 +24,5 @@ protected:
     virtual void redo() final;
     virtual void undo() final;
 };
-
-}
 
 #endif // COMMANDDELETETEXT_H

@@ -1,7 +1,7 @@
 #include "text.h"
 
 #include "construct.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include "parser.h"
 #include "phrase.h"
@@ -16,8 +16,6 @@
 #include <list>
 static std::list<Typeset::Text*> all_texts;
 #endif
-
-namespace Typeset{
 
 Text::Text(uint8_t script_level, QString str){
     setFont(Globals::fonts[script_level]);
@@ -124,8 +122,6 @@ void Text::focusOutEvent(QFocusEvent* event){
     QGraphicsItem::focusOutEvent(event); //Bypass QGraphicsTextItem::focusOutEvent()
 }
 
-Scene* Text::typesetDocument() const{
-    return static_cast<Scene*>(scene());
-}
-
+TypesetScene* Text::typesetDocument() const{
+    return static_cast<TypesetScene*>(scene());
 }

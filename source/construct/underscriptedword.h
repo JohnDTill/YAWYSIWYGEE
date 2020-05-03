@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class UnderscriptedWord : public UnaryConstruct{
 private:
     const QString word;
@@ -19,7 +17,5 @@ public:
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
-
-}
 
 #endif // UNDERSCRIPTEDWORD_H

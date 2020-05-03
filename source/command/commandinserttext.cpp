@@ -2,8 +2,6 @@
 
 #include "cursor.h"
 
-namespace Typeset{
-
 CommandInsertText::CommandInsertText(Cursor& cursor, const QString& str, Text* t, QTextCursor c)
     : cursor(cursor),
       str(str),
@@ -23,6 +21,4 @@ void CommandInsertText::undo(){
     c.removeSelectedText();
     t->updateToTop();
     cursor.setPosition(*t, c);
-}
-
 }

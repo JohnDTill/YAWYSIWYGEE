@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class Limit : public BinaryConstruct{
 private:
     qreal lx;
@@ -25,7 +23,5 @@ public:
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override;
 };
-
-}
 
 #endif // LIMIT_H

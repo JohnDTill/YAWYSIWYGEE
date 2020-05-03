@@ -6,10 +6,8 @@
 #include <QHash>
 #include <QMap>
 
-namespace Typeset{
-
 //Note: value type is QString because QChar uses UTF-16, but some values are UTF-32 characters
-static const QMap<QString, QString> keyword_map = {
+static const QHash<QString, QString> keyword_map = {
     { "|" , "‖" },
     { "adots" , "⋰" },
     { "aleph" , "ℵ" },
@@ -287,4 +285,3 @@ static const QMap<QString, QString> keyword_map = {
 
 static constexpr int max_keyword_length = 18;
 
-}

@@ -1,4 +1,4 @@
-#include "scene.h"
+#include "typesetscene.h"
 
 #include "algorithm.h"
 #include "construct.h"
@@ -20,9 +20,7 @@
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
 
-namespace Typeset{
-
-Scene::Scene(bool allow_write, bool show_line_numbers, Line* f, Line* b)
+TypesetScene::TypesetScene(bool allow_write, bool show_line_numbers, Line* f, Line* b)
     : front(f),
       back(b),
       allow_write(allow_write) {
@@ -49,7 +47,7 @@ Scene::Scene(bool allow_write, bool show_line_numbers, Line* f, Line* b)
     undo_stack = new QUndoStack();
 }
 
-Scene::~Scene(){
+TypesetScene::~TypesetScene(){
     while(undo_stack->canRedo()) //QUndoStack deletion is FIFO, which causes crashes undo() is called
         undo_stack->redo();      //so that a latter redo() depends on data from an earlier one.
     delete undo_stack;
@@ -64,7 +62,7 @@ Scene::~Scene(){
     }
 }
 
-void Scene::setLineNumbersVisible(bool show){
+void TypesetScene::setLineNumbersVisible(bool show){
     if(show_line_nums == show) return;
 
     show_line_nums = show;
@@ -79,15 +77,15 @@ void Scene::setLineNumbersVisible(bool show){
     }
 }
 
-void Scene::write(QTextStream& out) const{
+void TypesetScene::write(QTextStream& out) const{
     for(Line* l = front; l; l = l->next) l->write(out);
 }
 
-void Scene::updateCursorView(){
+void TypesetScene::updateCursorView(){
     cv->update(*cursor);
 }
 
-void Scene::updateSize(){
+void TypesetScene::updateSize(){
     h = margin_top + margin_bot + front->u + front->d;
     w = front->w;
     for(Line* l = front->next; l; l = l->next){
@@ -100,7 +98,7 @@ void Scene::updateSize(){
     setSceneRect(QRectF(-left_width, -margin_top, w, h));
 }
 
-void Scene::copyAsPng(qreal upscale){
+void TypesetScene::copyAsPng(qreal upscale){
     QImage image(upscale*sceneRect().size().toSize(), QImage::Format_RGB16);
     image.fill(palette().base().color());
 
@@ -109,17 +107,17 @@ void Scene::copyAsPng(qreal upscale){
     QApplication::clipboard()->setImage(image, QClipboard::Clipboard);
 }
 
-void Scene::copySelectionAsPng(qreal upscale){
+void TypesetScene::copySelectionAsPng(qreal upscale){
     if(!cursor->hasSelection()) return;
 
     cursor->copy();
 
-    Scene doc(true, false);
+    TypesetScene doc(true, false);
     doc.paste();
     doc.copyAsPng(upscale);
 }
 
-void Scene::drawBackground(QPainter* painter, const QRectF& rect){
+void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
     QGraphicsScene::drawBackground(painter, rect);
     if(show_line_nums){
         painter->setBrush(palette().window());
@@ -128,7 +126,7 @@ void Scene::drawBackground(QPainter* painter, const QRectF& rect){
     }
 }
 
-void Scene::keyPressEvent(QKeyEvent* e){
+void TypesetScene::keyPressEvent(QKeyEvent* e){
     #define MATCH(arg) e->matches(QKeySequence::arg)
 
     if(allow_write && MATCH(Undo))      undo_stack->undo();
@@ -189,7 +187,7 @@ void Scene::keyPressEvent(QKeyEvent* e){
     #endif
 }
 
-void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e){
+void TypesetScene::mousePressEvent(QGraphicsSceneMouseEvent* e){
     double_clicked = false;
     triple_clicked = false;
 
@@ -206,7 +204,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-void Scene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
+void TypesetScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
     double_clicked = true;
     triple_clicked = false;
 
@@ -219,7 +217,7 @@ void Scene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
+void TypesetScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
     qreal x = e->scenePos().x();
     if(x > -linebox_offet) views().front()->setCursor(Qt::IBeamCursor);
     else views().front()->setCursor(Qt::ArrowCursor);
@@ -239,7 +237,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-bool Scene::testTripleClick(QPointF click_location) const{
+bool TypesetScene::testTripleClick(QPointF click_location) const{
     //Qt does not support triple-click detection out of the box,
     //so this defines a workaround based on timing and travel
 
@@ -250,14 +248,14 @@ bool Scene::testTripleClick(QPointF click_location) const{
             double_click_time.msecsTo(QTime::currentTime()) < triple_click_period;
 }
 
-void Scene::processTextInput(const QString& text){
+void TypesetScene::processTextInput(const QString& text){
     if(text.isEmpty()) return;
 
     const QChar& c = text.front();
     if(c.isPrint()) cursor->keystroke(c);
 }
 
-void Scene::processLeftClick(QGraphicsSceneMouseEvent* e){
+void TypesetScene::processLeftClick(QGraphicsSceneMouseEvent* e){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
@@ -272,11 +270,11 @@ void Scene::processLeftClick(QGraphicsSceneMouseEvent* e){
     }
 }
 
-void Scene::processLeftShiftClick(QGraphicsSceneMouseEvent* e){
+void TypesetScene::processLeftShiftClick(QGraphicsSceneMouseEvent* e){
     cursor->selectClickPoint(e->scenePos());
 }
 
-void Scene::contextClick(QGraphicsSceneMouseEvent* e){
+void TypesetScene::contextClick(QGraphicsSceneMouseEvent* e){
     QMenu menu;
 
     bool clicked_on_selection = cursor->contains(e->scenePos());
@@ -319,7 +317,7 @@ void Scene::contextClick(QGraphicsSceneMouseEvent* e){
     menu.exec(e->screenPos());
 }
 
-void Scene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
+void TypesetScene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
@@ -341,40 +339,38 @@ void Scene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     }
 }
 
-void Scene::processDrag(QGraphicsSceneMouseEvent* e){
+void TypesetScene::processDrag(QGraphicsSceneMouseEvent* e){
     click_location = e->screenPos();
     cursor->selectClickPoint(e->scenePos());
 }
 
-void Scene::processWordDrag(QGraphicsSceneMouseEvent* e){
+void TypesetScene::processWordDrag(QGraphicsSceneMouseEvent* e){
     click_location = e->screenPos();
 }
 
-void Scene::processLineSelection(qreal y){
+void TypesetScene::processLineSelection(qreal y){
     double_clicked = false;
     triple_clicked = true;
 
     cursor->tripleClick(Algorithm::lineAtY(*front, y));
 }
 
-void Scene::processClickMiss(QPointF scene_pos){
+void TypesetScene::processClickMiss(QPointF scene_pos){
     cursor->clickPoint(scene_pos);
 }
 
-void Scene::cutSelection(){
+void TypesetScene::cutSelection(){
     cursor->cut();
 }
 
-void Scene::copySelection(){
+void TypesetScene::copySelection(){
     cursor->copy();
 }
 
-void Scene::paste(){
+void TypesetScene::paste(){
     cursor->paste();
 }
 
-void Scene::selectAll(){
+void TypesetScene::selectAll(){
     cursor->selectAll();
-}
-
 }

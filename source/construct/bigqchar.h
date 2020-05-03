@@ -4,8 +4,6 @@
 #include "construct.h"
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class BigQChar_S;
 class BigQChar_SN;
 
@@ -138,7 +136,5 @@ private:
         virtual void undo() final;
     };
 };
-
-}
 
 #endif // SUMMATION_H

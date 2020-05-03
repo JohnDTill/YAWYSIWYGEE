@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class Accent : public UnaryConstruct{
 private:
     void (*drawAccent)(QPainter*, const qreal&);
@@ -26,7 +24,5 @@ public:
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
-
-}
 
 #endif // ACCENT_H

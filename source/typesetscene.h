@@ -3,19 +3,18 @@
 
 #include "cursor.h"
 #include "cursorview.h"
+#include "typesetedit.h"
 #include <QApplication>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QUndoStack>
 #include <QTime>
 
-namespace Typeset{
-
 class Construct;
 class Line;
 class Text;
 
-class Scene : public QGraphicsScene{
+class TypesetScene : public QGraphicsScene{
     Q_OBJECT
 
 public:
@@ -46,8 +45,8 @@ private:
     qreal w;
 
 public:
-    Scene(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr);
-    ~Scene() override;
+    TypesetScene(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr);
+    ~TypesetScene() override;
     void setLineNumbersVisible(bool show);
     void write(QTextStream& out) const;
     void updateCursorView();
@@ -86,7 +85,5 @@ private slots:
     void paste();
     void selectAll();
 };
-
-}
 
 #endif // TYPESETSCENE_H

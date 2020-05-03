@@ -2,11 +2,9 @@
 
 #include "construct.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 
-namespace Typeset{
-
-CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c)
+CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       doc(doc),
       tL(t),
@@ -118,6 +116,4 @@ void CommandInsertMultiline::undo(){
 
     tL->updateToTop();
     cursor.setPosition(*tL, cL);
-}
-
 }

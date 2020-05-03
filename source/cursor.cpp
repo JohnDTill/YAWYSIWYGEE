@@ -12,7 +12,7 @@
 #include "command/commandinserttext.h"
 #include "command/commandlist.h"
 #include "construct.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
@@ -20,9 +20,7 @@
 #include "text.h"
 #include <QPainter>
 
-namespace Typeset{
-
-Cursor::Cursor(Scene& doc)
+Cursor::Cursor(TypesetScene& doc)
     : doc(doc),
       anchor_text(doc.back->back),
       anchor_cursor(moveTextCursorToEnd(*anchor_text)),
@@ -828,6 +826,4 @@ void Cursor::checkComplexSlashSub(){
             return;
         }
     }
-}
-
 }

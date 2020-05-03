@@ -4,8 +4,6 @@
 #include "construct.h"
 #include "cursor.h"
 
-namespace Typeset{
-
 CommandDeletePhrase::CommandDeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
     : cursor(cursor),
       tL(tL),
@@ -74,6 +72,4 @@ void CommandDeletePhrase::undo(){
     tL->updateToTop();
 
     cursor.setPosition(*tR, cR);
-}
-
 }

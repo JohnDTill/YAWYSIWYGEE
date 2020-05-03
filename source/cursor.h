@@ -8,11 +8,9 @@
 #include <QUndoCommand>
 #include <stack>
 
-namespace Typeset{
-
 class Construct;
 class CursorView;
-class Scene;
+class TypesetScene;
 class Line;
 class Phrase;
 class SubPhrase;
@@ -20,7 +18,7 @@ class Text;
 
 class Cursor{
 private:
-    Scene& doc;
+    TypesetScene& doc;
     Text* anchor_text;
     QTextCursor anchor_cursor;
     Text* text;
@@ -29,7 +27,7 @@ private:
     qreal x_setpoint = 0;
 
 public:
-    Cursor(Scene& doc);
+    Cursor(TypesetScene& doc);
     bool hasSelection() const;
     void moveToNextChar();
     void moveToPreviousChar();
@@ -118,7 +116,5 @@ private:
 
     friend CursorView;
 };
-
-}
 
 #endif // CURSOR_H

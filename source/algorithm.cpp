@@ -5,8 +5,6 @@
 #include "parser.h"
 #include <QTextCursor>
 
-namespace Typeset{
-
 qreal Algorithm::cursorOffset(const Text& t, QTextCursor c){
     QFontMetrics fm(t.font());
     c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
@@ -171,6 +169,4 @@ void Algorithm::writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, Q
     }
 
     writePhraseBeforeCursor(tR, cR, out);
-}
-
 }

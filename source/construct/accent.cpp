@@ -3,8 +3,6 @@
 #include "globals.h"
 #include <QPainter>
 
-namespace Typeset{
-
 static constexpr qreal accent_height = 3;
 static constexpr qreal voffset = 0.5;
 static constexpr qreal arrow_width = 2;
@@ -101,6 +99,4 @@ void Accent::TILDE(QPainter* painter, const qreal& width){
 void Accent::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
     drawAccent(painter, w);
-}
-
 }

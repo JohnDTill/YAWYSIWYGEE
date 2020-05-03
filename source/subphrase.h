@@ -5,8 +5,6 @@
 
 #include <QPen>
 
-namespace Typeset{
-
 class Construct;
 
 typedef uint16_t minor_integer;
@@ -43,7 +41,5 @@ protected:
     virtual QRectF boundingRect() const override final;
     virtual void calculateSize() override final;
 };
-
-}
 
 #endif // TYPESETPHRASE_H

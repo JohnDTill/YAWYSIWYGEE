@@ -5,8 +5,6 @@
 #include "cursor.h"
 #include "parser.h"
 
-namespace Typeset{
-
 CommandEvalPhrase::CommandEvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       tL(t),
@@ -94,6 +92,4 @@ void CommandEvalPhrase::undo(){
 
     tL->updateToTop();
     cursor.setPosition(*tL, cL);
-}
-
 }

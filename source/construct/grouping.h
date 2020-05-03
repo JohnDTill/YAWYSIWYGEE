@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class Grouping : public UnaryConstruct{
 private:
     static constexpr qreal symbol_width = 6;
@@ -46,7 +44,5 @@ public:
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
-
-}
 
 #endif // GROUPING_H

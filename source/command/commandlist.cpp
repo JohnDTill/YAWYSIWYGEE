@@ -1,7 +1,5 @@
 #include "commandlist.h"
 
-namespace Typeset{
-
 CommandList::CommandList(std::vector<QUndoCommand*> commands)
     : commands(commands) {
     setText("L");
@@ -19,6 +17,4 @@ void CommandList::redo(){
 void CommandList::undo(){
     for(std::vector<QUndoCommand*>::size_type i = commands.size()-1; i < commands.size(); i--)
         commands[i]->undo();
-}
-
 }

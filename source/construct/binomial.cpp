@@ -5,8 +5,6 @@
 #include "globals.h"
 #include <QPainter>
 
-namespace Typeset{
-
 Binomial::Binomial(SubPhrase* f, SubPhrase* s)
     : BinaryConstruct(f,s) {
     f->setPos(paren_width, 0);
@@ -42,6 +40,4 @@ void Binomial::paint(QPainter* painter, const QStyleOptionGraphicsItem* options,
     setupPainter(painter, options);
     painter->drawArc(QRectF(0,0,paren_width,h), 90*16, 180*16);
     painter->drawArc(QRectF(w-paren_width,0,paren_width,h), 270*16, 180*16);
-}
-
 }

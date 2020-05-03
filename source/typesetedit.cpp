@@ -1,5 +1,6 @@
 #include "typesetedit.h"
 
+#include "typesetscene.h"
 #include "parser.h"
 #include <QScrollBar>
 #include <QVBoxLayout>
@@ -8,7 +9,7 @@
 
 TypesetEdit::TypesetEdit(QWidget* parent)
     : QWidget(parent) {
-    Typeset::Globals::initGlobals();
+    Globals::initGlobals();
 
     setMouseTracking(true);
     view = new QGraphicsView(this);
@@ -21,7 +22,7 @@ TypesetEdit::TypesetEdit(QWidget* parent)
     view->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     zoomReset();
 
-    scene = new Typeset::Scene(!read_only, show_line_numbers);
+    scene = new TypesetScene(!read_only, show_line_numbers);
     setScene(scene);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
@@ -35,6 +36,10 @@ TypesetEdit::~TypesetEdit(){
 
 QString TypesetEdit::documentTitle() const{
     return doc_title;
+}
+
+QFont TypesetEdit::font() const{
+    return Globals::fonts[0];
 }
 
 bool TypesetEdit::isReadOnly() const{
@@ -94,7 +99,7 @@ void TypesetEdit::showLineNumbers(bool show){
 //SLOTS
 void TypesetEdit::clear(){
     delete scene;
-    scene = new Typeset::Scene(!read_only, show_line_numbers);
+    scene = new TypesetScene(!read_only, show_line_numbers);
     scene->setPalette(palette());
     setScene(scene);
 }
@@ -136,7 +141,7 @@ void TypesetEdit::setMathBran(const QString& text){
     QTextStream in(&t);
     in.setCodec("UTF-8");
 
-    if(!Typeset::Parser::isValidCode(in)){
+    if(!Parser::isValidCode(in)){
         QMessageBox messageBox;
         messageBox.critical(nullptr, "Error", "TypesetEdit::setMathBran - Invalid MathBran source.");
         messageBox.setFixedSize(500, 200);
@@ -144,7 +149,7 @@ void TypesetEdit::setMathBran(const QString& text){
     }
 
     delete scene;
-    scene = Typeset::Parser::parseDocument(in, scene->allow_write, scene->show_line_nums);
+    scene = Parser::parseDocument(in, scene->allow_write, scene->show_line_nums);
     setScene(scene);
 
     //Make sure the view gets the focus item signal
@@ -181,7 +186,6 @@ void TypesetEdit::zoomOut(qreal scale_factor){
     }
 }
 
-
 void TypesetEdit::zoomReset(){
     view->resetTransform();
     view->scale(2, 2);
@@ -216,7 +220,7 @@ void TypesetEdit::wheelEvent(QWheelEvent* e){
 }
 
 //Private functions
-void TypesetEdit::setScene(Typeset::Scene* scene){
+void TypesetEdit::setScene(TypesetScene* scene){
     if(view->scene()){
         disconnect(view->scene(), SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
                    this, SLOT(ensureFocusedItemVisible(QGraphicsItem*)));

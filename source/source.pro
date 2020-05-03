@@ -17,7 +17,6 @@ SOURCES += \
     line.cpp \
     parser.cpp \
     phrase.cpp \
-    scene.cpp \
     subphrase.cpp \
     text.cpp \
     typesetedit.cpp \
@@ -42,7 +41,8 @@ SOURCES += \
     construct/matrix.cpp \
     construct/root.cpp \
     construct/script.cpp \
-    construct/underscriptedword.cpp
+    construct/underscriptedword.cpp \
+    typesetscene.cpp
 
 HEADERS += \
     YAWYSIWYGEE \
@@ -54,7 +54,6 @@ HEADERS += \
     line.h \
     parser.h \
     phrase.h \
-    scene.h \
     subphrase.h \
     substitutions.h \
     text.h \
@@ -80,7 +79,8 @@ HEADERS += \
     construct/matrix.h \
     construct/root.h \
     construct/script.h \
-    construct/underscriptedword.h
+    construct/underscriptedword.h \
+    typesetscene.h
 
 
 # Default rules for deployment.
@@ -89,3 +89,24 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += qtypesetobjectresource.qrc
+
+
+# copies the given files to the destination directory
+defineTest(copyToDestDir) {
+    files = $$1
+    dir = $$2
+    # replace slashes in destination path for Windows
+    win32:dir ~= s,/,\\,g
+
+    for(file, files) {
+        # replace slashes in source path for Windows
+        win32:file ~= s,/,\\,g
+
+        QMAKE_PRE_LINK += $$QMAKE_COPY_DIR $$shell_quote($$file) $$shell_quote($$dir) $$escape_expand(\\n\\t)
+    }
+
+    export(QMAKE_PRE_LINK)
+}
+
+copyToDestDir($$PWD/"YAWYSIWYGEE", $$PWD/../include)
+copyToDestDir($$PWD/"TypesetEdit.h", $$PWD/../include)

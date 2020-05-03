@@ -84,7 +84,6 @@ private slots:
     void on_groupButton_triggered(QAction *arg1);
 
 private:
-    bool lineNumbersShown() const;
     void setupSymbolTable();
 
     void load(QString filename);

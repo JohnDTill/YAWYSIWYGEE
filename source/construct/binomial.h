@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class Binomial : public BinaryConstruct{
 private:
     qreal h;
@@ -20,7 +18,5 @@ public:
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 };
-
-}
 
 #endif // BINOMIAL_H

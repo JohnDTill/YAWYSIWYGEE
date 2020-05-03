@@ -5,8 +5,6 @@
 
 #include <QBrush>
 
-namespace Typeset{
-
 class Line : public Phrase{
 public:
     Line* prev = nullptr;
@@ -40,7 +38,5 @@ protected:
 };
 
 void link(Line* a, Line* b);
-
-}
 
 #endif // TYPESETLINE_H

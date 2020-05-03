@@ -1,18 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <globals.h>
-#include <parser.h>
-#include <substitutions.h>
 #include <QClipboard>
 #include <QComboBox>
 #include <QFile>
 #include <QFileDialog>
-#include <QtMath>
-#include <QtSvg/QSvgGenerator>
-
 #include <QLabel>
 #include <QTableWidgetItem>
+#include <QTextStream>
+#include <QtMath>
+#include <QtSvg/QSvgGenerator>
 
 #include <QMessageBox>
 #define FATAL_ERROR(message) {\
@@ -134,10 +131,6 @@ void MainWindow::on_actionChalkboard_triggered(){
     typeset_edit.setPalette(chalkboard);
 }
 
-bool MainWindow::lineNumbersShown() const{
-    return ui->actionShow_Line_Numbers->isChecked();
-}
-
 void MainWindow::on_actionCopy_as_PNG_triggered(){
     typeset_edit.copyPng();
 }
@@ -181,7 +174,9 @@ void MainWindow::on_actionBigsum_triggered(){
 void MainWindow::insertChar(QTableWidgetItem* item){
     if(item->text().isEmpty()) return;
     typeset_edit.insertPlainText(item->text());
+
     typeset_edit.setFocus();
+    //DO THIS: setFocus() does not have intended effect
 }
 
 void MainWindow::on_actionSubscript_triggered(){
@@ -292,30 +287,33 @@ void MainWindow::on_groupButton_triggered(QAction* action){
     ui->groupButton->setDefaultAction(action);
 }
 
+#include <YAWYSIWYGEE_keywords.h>
 void MainWindow::setupSymbolTable(){
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     ui->mainToolBar->insertWidget(ui->actionSubscript, ui->tableWidget);
     ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
 
-    QFont table_font = Typeset::Globals::fonts[0];
+    QFont table_font = typeset_edit.font();
     table_font.setPixelSize(24);
     ui->tableWidget->setFont(table_font);
 
-    QMap<QString, QString>::const_iterator i;
     int row = 0;
     int col = 0;
     int cols = ui->tableWidget->columnCount();
-    for(i = Typeset::keyword_map.begin(); i != Typeset::keyword_map.end(); i++){
+
+    std::pair<QString, QString> keywords[] = YAWYSIWYGEE_KEYWORDS;
+
+    for(auto pair : keywords){
         if(col >= cols){
             row++;
             col = 0;
             ui->tableWidget->insertRow(row);
         }
 
-        QTableWidgetItem* item = new QTableWidgetItem(i.value());
+        QTableWidgetItem* item = new QTableWidgetItem(pair.second);
         item->setFlags(item->flags() & ~Qt::ItemFlag::ItemIsEditable);
-        item->setToolTip('\\' + i.key());
+        item->setToolTip('\\' + pair.first);
         ui->tableWidget->setItem(row,col,item);
 
         col++;

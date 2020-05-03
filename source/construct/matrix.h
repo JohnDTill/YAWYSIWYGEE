@@ -4,8 +4,6 @@
 #include "construct.h"
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class Matrix : public NaryConstruct{
     Q_OBJECT
 
@@ -115,7 +113,5 @@ private slots:
     void deleteRow();
     void deleteCol();
 };
-
-}
 
 #endif // TYPESETBRACKETS_H

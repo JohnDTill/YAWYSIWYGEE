@@ -4,7 +4,7 @@ TARGET = TypesetWidget
 TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS  #YAWYSIWYGEE_TEST
 CONFIG += c++11
-INCLUDEPATH += ../source
+INCLUDEPATH += ../include
 
 SOURCES += main.cpp \
            mainwindow.cpp

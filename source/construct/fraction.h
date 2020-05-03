@@ -3,8 +3,6 @@
 
 #include "construct.h"
 
-namespace Typeset{
-
 class SubPhrase;
 
 class Fraction : public BinaryConstruct{
@@ -25,7 +23,5 @@ protected:
 private:
     void calculateSize();
 };
-
-}
 
 #endif // TYPESETFRACTION_H

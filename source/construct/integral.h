@@ -4,8 +4,6 @@
 #include "construct.h"
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class Integral_S;
 class Integral_SN;
 
@@ -136,7 +134,5 @@ private:
         virtual void undo() final;
     };
 };
-
-}
 
 #endif // INTEGRAL_H

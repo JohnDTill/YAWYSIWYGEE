@@ -2,12 +2,10 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include <QMenu>
 #include <QPainter>
-
-namespace Typeset{
 
 static constexpr qreal subscript_ratio = 0.8;
 static constexpr qreal subscript_offset = -6;
@@ -326,5 +324,3 @@ void Integral_SN::RemoveSuperscript::undo(){
 
 #undef subscript
 #undef superscript
-
-}

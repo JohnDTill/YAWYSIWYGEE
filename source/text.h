@@ -7,10 +7,8 @@
 #include <QTextStream>
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class Construct;
-class Scene;
+class TypesetScene;
 class Phrase;
 
 class Text : public QGraphicsTextItem{
@@ -51,9 +49,7 @@ protected:
 
 
 private:
-    Scene* typesetDocument() const;
+    TypesetScene* typesetDocument() const;
 };
-
-}
 
 #endif // TYPESETTEXT_H

@@ -4,8 +4,6 @@
 #include "construct.h"
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class Cases : public NaryConstruct{
     Q_OBJECT
 
@@ -70,7 +68,5 @@ private slots:
     void createRowAbove();
     void deleteRow();
 };
-
-}
 
 #endif // CASES_H

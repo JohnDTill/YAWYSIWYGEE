@@ -5,8 +5,6 @@
 #include "subphrase.h"
 #include <QUndoCommand>
 
-namespace Typeset{
-
 class ScriptedRoot;
 
 static constexpr qreal slope = 4;
@@ -96,7 +94,5 @@ private:
         virtual void undo() final;
     };
 };
-
-}
 
 #endif // TYPESETROOT_H

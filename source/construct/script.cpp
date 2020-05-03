@@ -2,12 +2,10 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 
 #include <QMenu>
 #include <QPainter>
-
-namespace Typeset{
 
 static constexpr qreal ratio_superscript = 1;
 static constexpr qreal ratio_subscript = 1;
@@ -237,5 +235,3 @@ void Dualscript::removeSubscript(){
 
 #undef superscript
 #undef subscript
-
-}

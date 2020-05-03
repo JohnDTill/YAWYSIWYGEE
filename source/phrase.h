@@ -4,8 +4,6 @@
 #include <QGraphicsItem>
 #include <QTextStream>
 
-namespace Typeset{
-
 class Cursor;
 class Line;
 class Text;
@@ -50,7 +48,5 @@ protected:
 private:
     void initializeChildren();
 };
-
-}
 
 #endif // PHRASE_H

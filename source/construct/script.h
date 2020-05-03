@@ -4,8 +4,6 @@
 #include "construct.h"
 #include "subphrase.h"
 
-namespace Typeset{
-
 class Superscript : public UnaryConstruct{
     Q_OBJECT
 
@@ -73,7 +71,5 @@ private slots:
     void removeSuperscript();
     void removeSubscript();
 };
-
-}
 
 #endif // TYPESETSCRIPT_H

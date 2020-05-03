@@ -2,13 +2,11 @@
 
 #include "algorithm.h"
 #include "construct.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include "text.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
-namespace Typeset{
 
 Line::Line(Text* f, Text* b, uint32_t line_num) :
     Phrase(f, b),
@@ -59,7 +57,7 @@ void Line::updateToTop(){
     prepareGeometryChange();
     updateLayout();
     if(next) repositionNextLine();
-    static_cast<Scene*>(scene())->updateSize();
+    static_cast<TypesetScene*>(scene())->updateSize();
 }
 
 Text* Line::textRight() const{
@@ -116,6 +114,4 @@ void link(Line* a, Line* b){
     b->prev = a;
     b->setParentItem(a);
     a->repositionNextLine();
-}
-
 }

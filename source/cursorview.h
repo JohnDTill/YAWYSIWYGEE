@@ -3,10 +3,8 @@
 
 #include <QGraphicsLineItem>
 
-namespace Typeset{
-
 class Cursor;
-class Scene;
+class TypesetScene;
 class Line;
 class Text;
 
@@ -18,7 +16,7 @@ private:
     Text* tR_old;
 
 public:
-    CursorView(Scene& doc);
+    CursorView(TypesetScene& doc);
     void update(const Cursor& cursor);
 
 private:
@@ -40,7 +38,5 @@ private:
             virtual QRectF boundingRect() const override final;
         };
 };
-
-}
 
 #endif // CURSORVIEW_H

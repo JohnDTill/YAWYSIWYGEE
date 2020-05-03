@@ -2,12 +2,10 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 #include "globals.h"
 #include <QMenu>
 #include <QPainter>
-
-namespace Typeset{
 
 BigQChar::BigQChar(QChar qchar)
     : ch(qchar) {
@@ -301,5 +299,3 @@ void BigQChar_SN::RemoveOverscript::undo(){
 
 #undef overscript
 #undef underscript
-
-}

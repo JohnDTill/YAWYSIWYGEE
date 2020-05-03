@@ -3,11 +3,9 @@
 #include "algorithm.h"
 #include "construct.h"
 #include "cursor.h"
-#include "scene.h"
+#include "typesetscene.h"
 
-namespace Typeset{
-
-CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, Scene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
+CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, TypesetScene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
     : cursor(cursor),
       doc(doc),
       tL(tL),
@@ -136,6 +134,4 @@ void CommandDeleteMultiline::undo(){
     lR->updateToTop();
 
     cursor.setPosition(*tR, cR);
-}
-
 }

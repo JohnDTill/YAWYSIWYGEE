@@ -7,14 +7,12 @@
 #include "text.h"
 #include <QTextCursor>
 
-namespace Typeset{
-
 class Cursor;
 
 class CommandInsertMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
-    Scene& doc;
+    TypesetScene& doc;
     bool active;
     Line* lL;
     Text* tL;
@@ -29,14 +27,12 @@ private:
     int pL;
 
 public:
-    CommandInsertMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c);
+    CommandInsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
     ~CommandInsertMultiline();
 
 protected:
     virtual void redo() final;
     virtual void undo() final;
 };
-
-}
 
 #endif // COMMANDINSERTMULTILINE_H

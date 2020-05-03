@@ -7,14 +7,12 @@
 #include "text.h"
 #include <QTextCursor>
 
-namespace Typeset{
-
 class Cursor;
 
 class CommandEvalMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
-    Scene& doc;
+    TypesetScene& doc;
     bool active;
     Line* lL;
     Text* tL;
@@ -29,14 +27,12 @@ private:
     int pL;
 
 public:
-    CommandEvalMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c);
+    CommandEvalMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
     ~CommandEvalMultiline();
 
 protected:
     virtual void redo() final;
     virtual void undo() final;
 };
-
-}
 
 #endif // COMMANDEVALUMULTILINE_H

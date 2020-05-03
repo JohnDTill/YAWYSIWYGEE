@@ -8,8 +8,6 @@
 static std::list<Typeset::Phrase*> all_phrases;
 #endif
 
-namespace Typeset{
-
 Phrase::Phrase(Text* f, Text* b)
     : front(f),
       back(b) {
@@ -122,6 +120,4 @@ void Phrase::initializeChildren(){
         c->setParentItem(this);
         c->next->setParentPhrase(this);
     }
-}
-
 }

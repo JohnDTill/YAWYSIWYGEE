@@ -72,9 +72,12 @@ bool SubPhrase::isEmpty() const{
 void SubPhrase::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
     if(isEmpty()){
         QPen p = Globals::empty_box_pen;
+        QBrush b = scene()->palette().base();
+        b.setColor(Qt::transparent);
         if(front->isSelected()) p.setColor(scene()->palette().highlightedText().color());
         else p.setColor(scene()->palette().text().color());
         painter->setPen(p);
+        painter->setBrush(b);
         painter->drawRect(QRectF(-1 + padding/2, padding/2, empty_box_width, empty_box_height));
     }
 }

@@ -46,20 +46,26 @@ bool TypesetEdit::isReadOnly() const{
     return read_only;
 }
 
-void TypesetEdit::printSvg(QSvgGenerator* svg_generator) const{
+void TypesetEdit::printSvg(QSvgGenerator* svg_generator, bool draw_background) const{
     if(!svg_generator) return;
 
     QRectF bounds = scene->sceneRect();
     int x = qCeil(bounds.x());
     int y = qCeil(bounds.y());
-    int w = qCeil(bounds.width());
+    int w = qCeil( bounds.width() + (draw_background ? 10 : 0) );
     int h = qCeil(bounds.height());
+    QRect box(x, y, w, h);
 
     svg_generator->setSize(QSize(w, h));
-    svg_generator->setViewBox(QRect(x, y, w, h));
+    svg_generator->setViewBox(box);
     svg_generator->setDescription( toMathBran().replace('<', "⁜≮").replace('>', "⁜≯") );
 
     QPainter painter(svg_generator);
+    if(draw_background){
+        painter.setBrush(palette().base());
+        painter.setPen(QPen(palette().base().color()));
+        painter.drawRect(box);
+    }
     scene->render(&painter, bounds);
 }
 

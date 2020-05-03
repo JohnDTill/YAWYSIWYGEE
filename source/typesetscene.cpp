@@ -124,6 +124,7 @@ void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
         painter->setPen(palette().midlight().color());
         painter->drawRect(QRectF(-1-linebox_width-linebox_offet, -margin_top-1, linebox_width+1, 1e8));
     }
+    painter->setPen(palette().text().color());
 }
 
 void TypesetScene::keyPressEvent(QKeyEvent* e){

@@ -20,7 +20,7 @@ public:
     QString documentTitle() const;
     QFont font() const;
     bool isReadOnly() const;
-    void printSvg(QSvgGenerator* svg_generator) const;
+    void printSvg(QSvgGenerator* svg_generator, bool draw_background = true) const;
     QString toMathBran() const;
     QString selectedMathBran() const;
     void setDocumentTitle(const QString& title);

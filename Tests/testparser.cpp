@@ -1,6 +1,6 @@
 #include "testparser.h"
 
-#include <edit.h>
+#include <YAWYSIWYGEE>
 #include <parser.h>
 
 void TestParser::validateTestFile(){
@@ -20,7 +20,7 @@ void TestParser::loadSaveTestFile(){
     in.setCodec("UTF-8");
     QString test_code = in.readAll();
 
-    Typeset::Edit edit;
+    TypesetEdit edit;
     edit.setMathBran(test_code);
     QCOMPARE(edit.toMathBran(), test_code);
 }

@@ -8,7 +8,7 @@
 
 namespace Typeset{
 
-class Document;
+class Scene;
 class Text;
 
 class Construct : public QGraphicsObject{
@@ -46,7 +46,7 @@ public:
 
 protected:
     virtual QRectF boundingRect() const override final;
-    Document* typesetDocument() const;
+    Scene* typesetDocument() const;
 };
 
 void link(Text* t, Construct* c);

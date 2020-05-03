@@ -3,7 +3,7 @@
 #include "algorithm.h"
 #include "construct.h"
 #include "cursor.h"
-#include "document.h"
+#include "scene.h"
 #include "globals.h"
 #include "phrase.h"
 #include "text.h"
@@ -12,7 +12,7 @@
 
 namespace Typeset{
 
-CursorView::CursorView(Document& doc){
+CursorView::CursorView(Scene& doc){
     tL_old = doc.front->front;
     tR_old = doc.back->back;
 }

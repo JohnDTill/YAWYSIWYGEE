@@ -2,7 +2,7 @@
 
 #include "algorithm.h"
 #include "construct.h"
-#include "document.h"
+#include "scene.h"
 #include "globals.h"
 #include "text.h"
 #include <QPainter>
@@ -59,7 +59,7 @@ void Line::updateToTop(){
     prepareGeometryChange();
     updateLayout();
     if(next) repositionNextLine();
-    static_cast<Document*>(scene())->updateSize();
+    static_cast<Scene*>(scene())->updateSize();
 }
 
 Text* Line::textRight() const{

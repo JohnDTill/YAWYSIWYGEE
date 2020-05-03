@@ -6,7 +6,7 @@
 namespace Typeset{
 
 class Cursor;
-class Document;
+class Scene;
 class Line;
 class Text;
 
@@ -18,7 +18,7 @@ private:
     Text* tR_old;
 
 public:
-    CursorView(Document& doc);
+    CursorView(Scene& doc);
     void update(const Cursor& cursor);
 
 private:

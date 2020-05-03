@@ -14,7 +14,7 @@ class Cursor;
 class CommandEvalMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
-    Document& doc;
+    Scene& doc;
     bool active;
     Line* lL;
     Text* tL;
@@ -29,7 +29,7 @@ private:
     int pL;
 
 public:
-    CommandEvalMultiline(Cursor& cursor, Document& doc, const QString& source, Text* t, QTextCursor c);
+    CommandEvalMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c);
     ~CommandEvalMultiline();
 
 protected:

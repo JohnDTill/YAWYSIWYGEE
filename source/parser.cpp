@@ -1,21 +1,21 @@
 #include "parser.h"
 
-#include "document.h"
+#include "scene.h"
 #include "line.h"
 #include "text.h"
 
-#include "accent.h"
-#include "bigqchar.h"
-#include "binomial.h"
-#include "cases.h"
-#include "fraction.h"
-#include "grouping.h"
-#include "integral.h"
-#include "limit.h"
-#include "matrix.h"
-#include "root.h"
-#include "script.h"
-#include "underscriptedword.h"
+#include "construct/accent.h"
+#include "construct/bigqchar.h"
+#include "construct/binomial.h"
+#include "construct/cases.h"
+#include "construct/fraction.h"
+#include "construct/grouping.h"
+#include "construct/integral.h"
+#include "construct/limit.h"
+#include "construct/matrix.h"
+#include "construct/root.h"
+#include "construct/script.h"
+#include "construct/underscriptedword.h"
 
 #include <QStringList>
 #include <vector>
@@ -82,7 +82,7 @@ bool Parser::shouldParseAsCode(const QString& source){
     return containsConstruct(source) && isValidCode(source);
 }
 
-Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
+Scene* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
     source.seek(0);
 
     QString line = source.readLine();
@@ -102,7 +102,7 @@ Document* Parser::parseDocument(QTextStream& source, bool allow_write, bool show
         line = source.readLine();
     }
 
-    return new Document(allow_write, show_line_numbers, front, l);
+    return new Scene(allow_write, show_line_numbers, front, l);
 }
 
 std::pair<Text*, Text*> Parser::parsePhrase(const QString& source, uint8_t script_level){

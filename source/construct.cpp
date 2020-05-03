@@ -2,7 +2,7 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "document.h"
+#include "scene.h"
 #include "text.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
@@ -66,8 +66,8 @@ QRectF Construct::boundingRect() const{
     return QRectF(0, 0, w, h());
 }
 
-Document* Construct::typesetDocument() const{
-    return static_cast<Document*>(scene());
+Scene* Construct::typesetDocument() const{
+    return static_cast<Scene*>(scene());
 }
 
 void link(Text* t, Construct* c){

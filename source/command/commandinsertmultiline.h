@@ -14,7 +14,7 @@ class Cursor;
 class CommandInsertMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
-    Document& doc;
+    Scene& doc;
     bool active;
     Line* lL;
     Text* tL;
@@ -29,7 +29,7 @@ private:
     int pL;
 
 public:
-    CommandInsertMultiline(Cursor& cursor, Document& doc, const QString& source, Text* t, QTextCursor c);
+    CommandInsertMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c);
     ~CommandInsertMultiline();
 
 protected:

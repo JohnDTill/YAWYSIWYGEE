@@ -5,6 +5,7 @@ build*
 #C++
 *.lib
 *.a
+*.pdb
 
 #LaTeX
 *.aux

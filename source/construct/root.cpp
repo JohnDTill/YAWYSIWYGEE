@@ -2,7 +2,7 @@
 
 #include "algorithm.h"
 #include "cursor.h"
-#include "document.h"
+#include "scene.h"
 #include "globals.h"
 #include "text.h"
 #include <QMenu>

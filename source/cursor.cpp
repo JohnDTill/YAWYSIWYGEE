@@ -1,18 +1,18 @@
 #include "cursor.h"
 
 #include "algorithm.h"
-#include "commanddeletechar.h"
-#include "commanddeletemultiline.h"
-#include "commanddeletephrase.h"
-#include "commanddeletetext.h"
-#include "commandevalmultiline.h"
-#include "commandevalphrase.h"
-#include "commandinsertchar.h"
-#include "commandinsertmultiline.h"
-#include "commandinserttext.h"
-#include "commandlist.h"
+#include "command/commanddeletechar.h"
+#include "command/commanddeletemultiline.h"
+#include "command/commanddeletephrase.h"
+#include "command/commanddeletetext.h"
+#include "command/commandevalmultiline.h"
+#include "command/commandevalphrase.h"
+#include "command/commandinsertchar.h"
+#include "command/commandinsertmultiline.h"
+#include "command/commandinserttext.h"
+#include "command/commandlist.h"
 #include "construct.h"
-#include "document.h"
+#include "scene.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
@@ -22,7 +22,7 @@
 
 namespace Typeset{
 
-Cursor::Cursor(Document& doc)
+Cursor::Cursor(Scene& doc)
     : doc(doc),
       anchor_text(doc.back->back),
       anchor_cursor(moveTextCursorToEnd(*anchor_text)),

@@ -10,7 +10,7 @@
 namespace Typeset{
 
 class Construct;
-class Document;
+class Scene;
 class Phrase;
 
 class Text : public QGraphicsTextItem{
@@ -51,7 +51,7 @@ protected:
 
 
 private:
-    Document* typesetDocument() const;
+    Scene* typesetDocument() const;
 };
 
 }

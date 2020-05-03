@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 
-#include <edit.h>
-#include <document.h>
+#include <YAWYSIWYGEE>
 #include <QTableWidgetItem>
 
 #ifdef _MSC_VER
@@ -24,7 +23,7 @@ class MainWindow : public QMainWindow{
 
 private:
     Ui::MainWindow* ui;
-    Typeset::Edit typeset_edit;
+    TypesetEdit typeset_edit;
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
@@ -87,6 +86,13 @@ private slots:
 private:
     bool lineNumbersShown() const;
     void setupSymbolTable();
+
+    void load(QString filename);
+    void loadPrompt();
+    void save();
+    void saveAs(QString save_path);
+    void savePrompt();
+    void printSvgPrompt();
 };
 
 #endif // MAINWINDOW_H

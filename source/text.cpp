@@ -1,7 +1,7 @@
 #include "text.h"
 
 #include "construct.h"
-#include "document.h"
+#include "scene.h"
 #include "globals.h"
 #include "parser.h"
 #include "phrase.h"
@@ -124,8 +124,8 @@ void Text::focusOutEvent(QFocusEvent* event){
     QGraphicsItem::focusOutEvent(event); //Bypass QGraphicsTextItem::focusOutEvent()
 }
 
-Document* Text::typesetDocument() const{
-    return static_cast<Document*>(scene());
+Scene* Text::typesetDocument() const{
+    return static_cast<Scene*>(scene());
 }
 
 }

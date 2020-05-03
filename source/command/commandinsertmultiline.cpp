@@ -2,11 +2,11 @@
 
 #include "construct.h"
 #include "cursor.h"
-#include "document.h"
+#include "scene.h"
 
 namespace Typeset{
 
-CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Document& doc, const QString& source, Text* t, QTextCursor c)
+CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, Scene& doc, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       doc(doc),
       tL(t),

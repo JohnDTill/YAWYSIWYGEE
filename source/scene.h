@@ -15,11 +15,10 @@ class Construct;
 class Line;
 class Text;
 
-class Document : public QGraphicsScene{
+class Scene : public QGraphicsScene{
     Q_OBJECT
 
 public:
-    QString save_path;
     Line* front;
     Line* back;
     Cursor* cursor;
@@ -47,12 +46,8 @@ private:
     qreal w;
 
 public:
-    Document(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr, QString save_path = "");
-    ~Document() override;
-    void save();
-    void saveAs(QString save_path);
-    void savePrompt();
-    void printSvgPrompt();
+    Scene(bool allow_write = true, bool show_line_numbers = true, Line* f = nullptr, Line* b = nullptr);
+    ~Scene() override;
     void setLineNumbersVisible(bool show);
     void write(QTextStream& out) const;
     void updateCursorView();

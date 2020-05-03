@@ -12,7 +12,7 @@ namespace Typeset{
 
 class Construct;
 class CursorView;
-class Document;
+class Scene;
 class Line;
 class Phrase;
 class SubPhrase;
@@ -20,7 +20,7 @@ class Text;
 
 class Cursor{
 private:
-    Document& doc;
+    Scene& doc;
     Text* anchor_text;
     QTextCursor anchor_cursor;
     Text* text;
@@ -29,7 +29,7 @@ private:
     qreal x_setpoint = 0;
 
 public:
-    Cursor(Document& doc);
+    Cursor(Scene& doc);
     bool hasSelection() const;
     void moveToNextChar();
     void moveToPreviousChar();

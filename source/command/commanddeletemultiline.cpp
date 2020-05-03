@@ -3,11 +3,11 @@
 #include "algorithm.h"
 #include "construct.h"
 #include "cursor.h"
-#include "document.h"
+#include "scene.h"
 
 namespace Typeset{
 
-CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, Document& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
+CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, Scene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
     : cursor(cursor),
       doc(doc),
       tL(tL),

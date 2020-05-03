@@ -9,7 +9,7 @@ class QPainter;
 namespace Typeset{
 
 class Construct;
-class Document;
+class Scene;
 class Line;
 class SubPhrase;
 class Text;
@@ -21,7 +21,7 @@ public:
     static bool isValidCode(const QString& source);
     static bool isValidCode(QTextStream& source);
     static bool shouldParseAsCode(const QString& source);
-    static Document* parseDocument(QTextStream& source, bool allow_write = true, bool show_line_numbers = true);
+    static Scene* parseDocument(QTextStream& source, bool allow_write = true, bool show_line_numbers = true);
     static std::pair<Text*,Text*> parsePhrase(const QString& source, uint8_t script_level = 0);
     static std::pair<Line*,Line*> parseMultiline(const QString& source, uint32_t line_num = 1);
     static QString applyEscapes(QString& text);

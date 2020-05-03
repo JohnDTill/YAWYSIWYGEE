@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS = TypesetWidget ExampleApp Tests
+SUBDIRS = source ExampleApp Tests
 
-ExampleApp.depends = TypesetWidget
-Tests.depends = TypesetWidget
+ExampleApp.depends = source
+Tests.depends = source

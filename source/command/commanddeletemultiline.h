@@ -15,7 +15,7 @@ class CommandDeleteMultiline : public QUndoCommand{
 private:
     bool active;
     Cursor& cursor;
-    Document& doc;
+    Scene& doc;
     Text* tL;
     Line* lL;
     QTextCursor cL;
@@ -30,7 +30,7 @@ private:
     int pL;
 
 public:
-    CommandDeleteMultiline(Cursor& cursor, Document& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
+    CommandDeleteMultiline(Cursor& cursor, Scene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
     ~CommandDeleteMultiline();
 
 protected:

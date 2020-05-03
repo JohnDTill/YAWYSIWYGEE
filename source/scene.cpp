@@ -1,4 +1,4 @@
-#include "document.h"
+#include "scene.h"
 
 #include "algorithm.h"
 #include "construct.h"
@@ -12,6 +12,7 @@
 #include <QFileDialog>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMessageBox>
@@ -21,9 +22,8 @@
 
 namespace Typeset{
 
-Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b, QString save_path)
-    : save_path(save_path),
-      front(f),
+Scene::Scene(bool allow_write, bool show_line_numbers, Line* f, Line* b)
+    : front(f),
       back(b),
       allow_write(allow_write) {
     double_click_time = QTime::currentTime();
@@ -49,7 +49,7 @@ Document::Document(bool allow_write, bool show_line_numbers, Line* f, Line* b, Q
     undo_stack = new QUndoStack();
 }
 
-Document::~Document(){
+Scene::~Scene(){
     while(undo_stack->canRedo()) //QUndoStack deletion is FIFO, which causes crashes undo() is called
         undo_stack->redo();      //so that a latter redo() depends on data from an earlier one.
     delete undo_stack;
@@ -64,59 +64,7 @@ Document::~Document(){
     }
 }
 
-void Document::save(){
-    if(save_path.isEmpty()) savePrompt();
-    else saveAs(save_path);
-}
-
-void Document::saveAs(QString save_path){
-    this->save_path = save_path;
-    QFile file(save_path);
-
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "Error", "Could not open \"" + save_path + "\" to write.");
-        messageBox.setFixedSize(500,200);
-        return;
-    }
-
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    write(out);
-}
-
-void Document::savePrompt(){
-    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Save File"),
-                                save_path.isEmpty() ? "./untitled" : save_path,
-                                tr("Text (*.txt)"));
-
-    if(!file_name.isEmpty()) saveAs(file_name);
-}
-
-void Document::printSvgPrompt(){
-    QString prompt_name = "./" + save_path + ".svg";
-    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Export PDF"),
-                                prompt_name,
-                                tr("SVG (*.svg)"));
-
-    if(file_name.isEmpty()) return;
-
-    QRectF bounds = sceneRect();
-    int x = qCeil(bounds.x());
-    int y = qCeil(bounds.y());
-    int w = qCeil(bounds.width());
-    int h = qCeil(bounds.height());
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName(file_name);
-    svgGen.setSize(QSize(w, h));
-    svgGen.setViewBox(QRect(x, y, w, h));
-
-    QPainter painter(&svgGen);
-    render(&painter, bounds);
-}
-
-void Document::setLineNumbersVisible(bool show){
+void Scene::setLineNumbersVisible(bool show){
     if(show_line_nums == show) return;
 
     show_line_nums = show;
@@ -131,15 +79,15 @@ void Document::setLineNumbersVisible(bool show){
     }
 }
 
-void Document::write(QTextStream& out) const{
+void Scene::write(QTextStream& out) const{
     for(Line* l = front; l; l = l->next) l->write(out);
 }
 
-void Document::updateCursorView(){
+void Scene::updateCursorView(){
     cv->update(*cursor);
 }
 
-void Document::updateSize(){
+void Scene::updateSize(){
     h = margin_top + margin_bot + front->u + front->d;
     w = front->w;
     for(Line* l = front->next; l; l = l->next){
@@ -152,7 +100,7 @@ void Document::updateSize(){
     setSceneRect(QRectF(-left_width, -margin_top, w, h));
 }
 
-void Document::copyAsPng(qreal upscale){
+void Scene::copyAsPng(qreal upscale){
     QImage image(upscale*sceneRect().size().toSize(), QImage::Format_RGB16);
     image.fill(palette().base().color());
 
@@ -161,17 +109,17 @@ void Document::copyAsPng(qreal upscale){
     QApplication::clipboard()->setImage(image, QClipboard::Clipboard);
 }
 
-void Document::copySelectionAsPng(qreal upscale){
+void Scene::copySelectionAsPng(qreal upscale){
     if(!cursor->hasSelection()) return;
 
     cursor->copy();
 
-    Document doc(true, false);
+    Scene doc(true, false);
     doc.paste();
     doc.copyAsPng(upscale);
 }
 
-void Document::drawBackground(QPainter* painter, const QRectF& rect){
+void Scene::drawBackground(QPainter* painter, const QRectF& rect){
     QGraphicsScene::drawBackground(painter, rect);
     if(show_line_nums){
         painter->setBrush(palette().window());
@@ -180,7 +128,7 @@ void Document::drawBackground(QPainter* painter, const QRectF& rect){
     }
 }
 
-void Document::keyPressEvent(QKeyEvent* e){
+void Scene::keyPressEvent(QKeyEvent* e){
     #define MATCH(arg) e->matches(QKeySequence::arg)
 
     if(allow_write && MATCH(Undo))      undo_stack->undo();
@@ -241,7 +189,7 @@ void Document::keyPressEvent(QKeyEvent* e){
     #endif
 }
 
-void Document::mousePressEvent(QGraphicsSceneMouseEvent* e){
+void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e){
     double_clicked = false;
     triple_clicked = false;
 
@@ -258,7 +206,7 @@ void Document::mousePressEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-void Document::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
+void Scene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
     double_clicked = true;
     triple_clicked = false;
 
@@ -271,7 +219,11 @@ void Document::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-void Document::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
+void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
+    qreal x = e->scenePos().x();
+    if(x > -linebox_offet) views().front()->setCursor(Qt::IBeamCursor);
+    else views().front()->setCursor(Qt::ArrowCursor);
+
     if(e->buttons() != Qt::LeftButton) return;
     if( (click_location - e->screenPos()).manhattanLength() < 2 ) return;
 
@@ -287,7 +239,7 @@ void Document::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
     cv->update(*cursor);
 }
 
-bool Document::testTripleClick(QPointF click_location) const{
+bool Scene::testTripleClick(QPointF click_location) const{
     //Qt does not support triple-click detection out of the box,
     //so this defines a workaround based on timing and travel
 
@@ -298,14 +250,14 @@ bool Document::testTripleClick(QPointF click_location) const{
             double_click_time.msecsTo(QTime::currentTime()) < triple_click_period;
 }
 
-void Document::processTextInput(const QString& text){
+void Scene::processTextInput(const QString& text){
     if(text.isEmpty()) return;
 
     const QChar& c = text.front();
     if(c.isPrint()) cursor->keystroke(c);
 }
 
-void Document::processLeftClick(QGraphicsSceneMouseEvent* e){
+void Scene::processLeftClick(QGraphicsSceneMouseEvent* e){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
@@ -320,11 +272,11 @@ void Document::processLeftClick(QGraphicsSceneMouseEvent* e){
     }
 }
 
-void Document::processLeftShiftClick(QGraphicsSceneMouseEvent* e){
+void Scene::processLeftShiftClick(QGraphicsSceneMouseEvent* e){
     cursor->selectClickPoint(e->scenePos());
 }
 
-void Document::contextClick(QGraphicsSceneMouseEvent* e){
+void Scene::contextClick(QGraphicsSceneMouseEvent* e){
     QMenu menu;
 
     bool clicked_on_selection = cursor->contains(e->scenePos());
@@ -367,7 +319,7 @@ void Document::contextClick(QGraphicsSceneMouseEvent* e){
     menu.exec(e->screenPos());
 }
 
-void Document::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
+void Scene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
@@ -389,39 +341,39 @@ void Document::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     }
 }
 
-void Document::processDrag(QGraphicsSceneMouseEvent* e){
+void Scene::processDrag(QGraphicsSceneMouseEvent* e){
     click_location = e->screenPos();
     cursor->selectClickPoint(e->scenePos());
 }
 
-void Document::processWordDrag(QGraphicsSceneMouseEvent* e){
+void Scene::processWordDrag(QGraphicsSceneMouseEvent* e){
     click_location = e->screenPos();
 }
 
-void Document::processLineSelection(qreal y){
+void Scene::processLineSelection(qreal y){
     double_clicked = false;
     triple_clicked = true;
 
     cursor->tripleClick(Algorithm::lineAtY(*front, y));
 }
 
-void Document::processClickMiss(QPointF scene_pos){
+void Scene::processClickMiss(QPointF scene_pos){
     cursor->clickPoint(scene_pos);
 }
 
-void Document::cutSelection(){
+void Scene::cutSelection(){
     cursor->cut();
 }
 
-void Document::copySelection(){
+void Scene::copySelection(){
     cursor->copy();
 }
 
-void Document::paste(){
+void Scene::paste(){
     cursor->paste();
 }
 
-void Document::selectAll(){
+void Scene::selectAll(){
     cursor->selectAll();
 }
 

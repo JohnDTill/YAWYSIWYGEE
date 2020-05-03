@@ -63,23 +63,23 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::on_actionNew_triggered(){
-    typeset_edit.newDocument(true, lineNumbersShown());
+    typeset_edit.clear();
 }
 
 void MainWindow::on_actionLoad_triggered(){
-    typeset_edit.loadPrompt(true, lineNumbersShown());
+    loadPrompt();
 }
 
 void MainWindow::on_actionSave_triggered(){
-    typeset_edit.save();
+    save();
 }
 
 void MainWindow::on_actionSave_As_triggered(){
-    typeset_edit.savePrompt();
+    savePrompt();
 }
 
 void MainWindow::on_actionPrint_triggered(){
-    typeset_edit.printSvgPrompt();
+    printSvgPrompt();
 }
 
 void MainWindow::on_actionExit_triggered(){
@@ -95,7 +95,7 @@ void MainWindow::on_actionRedo_triggered(){
 }
 
 void MainWindow::on_actionLoad_Test_txt_triggered(){
-    typeset_edit.load(":/test.txt", true, lineNumbersShown());
+    load(":/test.txt");
 }
 
 void MainWindow::on_actionZoom_In_triggered(){
@@ -107,11 +107,11 @@ void MainWindow::on_actionZoom_Out_triggered(){
 }
 
 void MainWindow::on_actionReset_Zoom_triggered(){
-    typeset_edit.resetZoom();
+    typeset_edit.zoomReset();
 }
 
 void MainWindow::on_actionShow_Line_Numbers_toggled(bool show){
-    typeset_edit.setLineNumbersVisible(show);
+    typeset_edit.showLineNumbers(show);
 }
 
 void MainWindow::on_actionVanilla_triggered(){
@@ -119,7 +119,6 @@ void MainWindow::on_actionVanilla_triggered(){
     ui->actionChalkboard->setChecked(false);
 
     typeset_edit.setPalette(palette());
-    typeset_edit.scene()->setPalette(palette());
 }
 
 void MainWindow::on_actionChalkboard_triggered(){
@@ -133,7 +132,6 @@ void MainWindow::on_actionChalkboard_triggered(){
     chalkboard.setColor(QPalette::All, QPalette::Window, QColor::fromRgb(70,133,87));
 
     typeset_edit.setPalette(chalkboard);
-    typeset_edit.scene()->setPalette(chalkboard);
 }
 
 bool MainWindow::lineNumbersShown() const{
@@ -141,129 +139,109 @@ bool MainWindow::lineNumbersShown() const{
 }
 
 void MainWindow::on_actionCopy_as_PNG_triggered(){
-    typeset_edit.copySelectionAsPng();
+    typeset_edit.copyPng();
 }
 
 void MainWindow::on_actionFraction_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜f⏴⏵⏴⏵");
-    else
-        typeset_edit.paste("⁜f⏴" + typeset_edit.selectedCode() + "⏵⏴⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜f⏴⏵⏴⏵");
+    else typeset_edit.insertMathBran("⁜f⏴" + selection + "⏵⏴⏵");
 }
 
 void MainWindow::on_actionMatrix_triggered(){
-    typeset_edit.paste("⁜⊞⏴2⏵⏴2⏵");
+    typeset_edit.insertMathBran("⁜⊞⏴2⏵⏴2⏵");
 }
 
 void MainWindow::on_actionCases_triggered(){
-    typeset_edit.paste("⁜c");
+    typeset_edit.insertMathBran("⁜c");
 }
 
 void MainWindow::on_actionBinom_triggered(){
-    typeset_edit.paste("⁜b");
+    typeset_edit.insertMathBran("⁜b");
 }
 
 void MainWindow::on_actionLim_triggered(){
-    typeset_edit.paste("⁜l");
+    typeset_edit.insertMathBran("⁜l");
 }
 
 void MainWindow::on_actionRoot_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜√⏴⏵");
-    else
-        typeset_edit.paste("⁜√⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜√⏴⏵");
+    else typeset_edit.insertMathBran("⁜√⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionBigint_triggered(){
-    typeset_edit.paste("⁜∫");
+    typeset_edit.insertMathBran("⁜∫");
 }
 
 void MainWindow::on_actionBigsum_triggered(){
-    typeset_edit.paste("⁜∑");
+    typeset_edit.insertMathBran("⁜∑");
 }
 
 void MainWindow::insertChar(QTableWidgetItem* item){
     if(item->text().isEmpty()) return;
-    typeset_edit.paste(item->text());
+    typeset_edit.insertPlainText(item->text());
     typeset_edit.setFocus();
 }
 
 void MainWindow::on_actionSubscript_triggered(){
-    typeset_edit.paste("⁜_⏴⏵");
+    typeset_edit.insertMathBran("⁜_⏴⏵");
 }
 
 void MainWindow::on_actionSuperscript_triggered(){
-    typeset_edit.paste("⁜^⏴⏵");
+    typeset_edit.insertMathBran("⁜^⏴⏵");
 }
 
 void MainWindow::on_actionDualscript_triggered(){
-    typeset_edit.paste("⁜Δ⏴⏵⏴⏵");
+    typeset_edit.insertMathBran("⁜Δ⏴⏵⏴⏵");
 }
 
 void MainWindow::on_actionAccentarrow_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜→⏴⏵");
-    else
-        typeset_edit.paste("⁜→⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜→⏴⏵");
+    else typeset_edit.insertMathBran("⁜→⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccentbar_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜ā⏴⏵");
-    else
-        typeset_edit.paste("⁜ā⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ā⏴⏵");
+    else typeset_edit.insertMathBran("⁜ā⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccentbreve_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜ă⏴⏵");
-    else
-        typeset_edit.paste("⁜ă⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ă⏴⏵");
+    else typeset_edit.insertMathBran("⁜ă⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccentdot_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜ȧ⏴⏵");
-    else
-        typeset_edit.paste("⁜ȧ⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ȧ⏴⏵");
+    else typeset_edit.insertMathBran("⁜ȧ⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccentddot_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜ä⏴⏵");
-    else
-        typeset_edit.paste("⁜ä⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ä⏴⏵");
+    else typeset_edit.insertMathBran("⁜ä⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccentdddot_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜⋯⏴⏵");
-    else
-        typeset_edit.paste("⁜⋯⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⋯⏴⏵");
+    else typeset_edit.insertMathBran("⁜⋯⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccenthat_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜â⏴⏵");
-    else
-        typeset_edit.paste("⁜â⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜â⏴⏵");
+    else typeset_edit.insertMathBran("⁜â⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionAccenttilde_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜ã⏴⏵");
-    else
-        typeset_edit.paste("⁜ã⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ã⏴⏵");
+    else typeset_edit.insertMathBran("⁜ã⏴" + selection + "⏵");
 }
 
 void MainWindow::on_toolButton_triggered(QAction* action){
@@ -271,55 +249,43 @@ void MainWindow::on_toolButton_triggered(QAction* action){
 }
 
 void MainWindow::on_actionGroupnorm_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜‖⏴⏵");
-    else
-        typeset_edit.paste("⁜‖⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜‖⏴⏵");
+    else typeset_edit.insertMathBran("⁜‖⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionGroupingabs_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜|⏴⏵");
-    else
-        typeset_edit.paste("⁜|⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜|⏴⏵");
+    else typeset_edit.insertMathBran("⁜|⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionGroupingangle_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜⟨⏴⏵");
-    else
-        typeset_edit.paste("⁜⟨⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⟨⏴⏵");
+    else typeset_edit.insertMathBran("⁜⟨⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionGroupingdangle_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜⟪⏴⏵");
-    else
-        typeset_edit.paste("⁜⟪⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⟪⏴⏵");
+    else typeset_edit.insertMathBran("⁜⟪⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionGroupingceil_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜⌈⏴⏵");
-    else
-        typeset_edit.paste("⁜⌈⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⌈⏴⏵");
+    else typeset_edit.insertMathBran("⁜⌈⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionGroupingfloor_triggered(){
-    QString selection = typeset_edit.selectedCode();
-    if(selection.contains('\n'))
-        typeset_edit.paste("⁜⌊⏴⏵");
-    else
-        typeset_edit.paste("⁜⌊⏴" + typeset_edit.selectedCode() + "⏵");
+    QString selection = typeset_edit.selectedMathBran();
+    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⌊⏴⏵");
+    else typeset_edit.insertMathBran("⁜⌊⏴" + selection + "⏵");
 }
 
 void MainWindow::on_actionEval_triggered(){
-    typeset_edit.paste("⁜┊⏴⏵⏴⏵");
+    typeset_edit.insertMathBran("⁜┊⏴⏵⏴⏵");
 }
 
 void MainWindow::on_groupButton_triggered(QAction* action){
@@ -363,4 +329,74 @@ void MainWindow::setupSymbolTable(){
     }
 
     connect(ui->tableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(insertChar(QTableWidgetItem*)));
+}
+
+void MainWindow::load(QString filename){
+    QFile file(filename);
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "Error", "Could not open \"" + filename + "\" to read.");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+
+    typeset_edit.setMathBran(in.readAll());
+}
+
+void MainWindow::loadPrompt(){
+    QString file_name = QFileDialog::getOpenFileName(nullptr, tr("Load File"),
+                                "./",
+                                tr("Text (*.txt)"));
+
+    if(file_name.isEmpty()) return;
+    else load(file_name);
+}
+
+void MainWindow::save(){
+    if(typeset_edit.documentTitle().isEmpty()) savePrompt();
+    else saveAs(typeset_edit.documentTitle());
+}
+
+void MainWindow::saveAs(QString save_path){
+    QFile file(save_path);
+
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "Error", "Could not open \"" + save_path + "\" to write.");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    out << typeset_edit.toMathBran();
+}
+
+void MainWindow::savePrompt(){
+    QString title = typeset_edit.documentTitle();
+    QString prompt_name = title.isEmpty() ? "untitled" : typeset_edit.documentTitle() + ".svg";
+    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Save File"),
+                                prompt_name,
+                                tr("Text (*.txt)"));
+
+    if(!file_name.isEmpty()) saveAs(file_name);
+}
+
+void MainWindow::printSvgPrompt(){
+    QString title = typeset_edit.documentTitle();
+    QString prompt_name = title.isEmpty() ? "untitled" : typeset_edit.documentTitle() + ".svg";
+    QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Export PDF"),
+                                prompt_name,
+                                tr("SVG (*.svg)"));
+
+    if(file_name.isEmpty()) return;
+
+    QSvgGenerator svgGen;
+    svgGen.setFileName(file_name);
+
+    typeset_edit.printSvg(&svgGen);
 }

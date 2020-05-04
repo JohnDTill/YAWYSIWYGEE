@@ -122,7 +122,3 @@ void Text::focusOutEvent(QFocusEvent* event){
     setTextInteractionFlags(Qt::TextInteractionFlag::TextBrowserInteraction); //Remove blinking cursor
     QGraphicsItem::focusOutEvent(event); //Bypass QGraphicsTextItem::focusOutEvent()
 }
-
-TypesetScene* Text::typesetDocument() const{
-    return static_cast<TypesetScene*>(scene());
-}

@@ -1,8 +1,7 @@
 #ifndef CURSORVIEW_H
 #define CURSORVIEW_H
 
-#include <QGraphicsLineItem>
-
+#include <QGraphicsItem>
 class Cursor;
 class TypesetScene;
 class Line;

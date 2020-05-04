@@ -1,14 +1,9 @@
 #ifndef TYPESETTEXT_H
 #define TYPESETTEXT_H
 
-#include <QFont>
-#include <QFontDatabase>
 #include <QGraphicsTextItem>
-#include <QTextStream>
-#include <QUndoCommand>
-
+class QTextStream;
 class Construct;
-class TypesetScene;
 class Phrase;
 
 class Text : public QGraphicsTextItem{
@@ -46,10 +41,6 @@ protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override final;
     virtual void focusInEvent(QFocusEvent* event) override;
     virtual void focusOutEvent(QFocusEvent* event) override;
-
-
-private:
-    TypesetScene* typesetDocument() const;
 };
 
 #endif // TYPESETTEXT_H

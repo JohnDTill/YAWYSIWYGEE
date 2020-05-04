@@ -1,6 +1,7 @@
 #include "underscriptedword.h"
 
-#include "globals.h"
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 #define underscript child
@@ -22,7 +23,7 @@ void UnderscriptedWord::updateLayout(){
 }
 
 void UnderscriptedWord::write(QTextStream& out) const{
-    out << ESCAPE << code;
+    out << MB_CONSTRUCT_SYMBOL << code;
     child->write(out);
 }
 

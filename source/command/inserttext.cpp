@@ -1,8 +1,9 @@
-#include "commandinserttext.h"
+#include "inserttext.h"
 
-#include "cursor.h"
+#include "../cursor.h"
+#include "../text.h"
 
-CommandInsertText::CommandInsertText(Cursor& cursor, const QString& str, Text* t, QTextCursor c)
+InsertText::InsertText(Cursor& cursor, const QString& str, Text* t, QTextCursor c)
     : cursor(cursor),
       str(str),
       t(t),
@@ -10,13 +11,13 @@ CommandInsertText::CommandInsertText(Cursor& cursor, const QString& str, Text* t
     //DO NOTHING
 }
 
-void CommandInsertText::redo(){
+void InsertText::redo(){
     c.insertText(str);
     t->updateToTop();
     cursor.setPosition(*t, c);
 }
 
-void CommandInsertText::undo(){
+void InsertText::undo(){
     c.setPosition(c.position() - str.length(), QTextCursor::KeepAnchor);
     c.removeSelectedText();
     t->updateToTop();

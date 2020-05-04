@@ -1,12 +1,13 @@
-#include "commandevalmultiline.h"
+#include "evalmultiline.h"
 
-#include "construct.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "line.h"
-#include "parser.h"
+#include "../construct.h"
+#include "../cursor.h"
+#include "../line.h"
+#include "../parser.h"
+#include "../text.h"
+#include "../typesetscene.h"
 
-CommandEvalMultiline::CommandEvalMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c)
+EvalMultiline::EvalMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       doc(doc),
       tL(t),
@@ -49,7 +50,7 @@ CommandEvalMultiline::CommandEvalMultiline(Cursor& cursor, TypesetScene& doc, co
     tR->calculateSize();
 }
 
-CommandEvalMultiline::~CommandEvalMultiline(){
+EvalMultiline::~EvalMultiline(){
     if(active) return;
 
     Construct* c = tL_next;
@@ -69,7 +70,7 @@ CommandEvalMultiline::~CommandEvalMultiline(){
     }
 }
 
-void CommandEvalMultiline::redo(){
+void EvalMultiline::redo(){
     active = true;
 
     cL.setPosition(pL);
@@ -114,7 +115,7 @@ void CommandEvalMultiline::redo(){
     cursor.setPosition(*tR, cR);
 }
 
-void CommandEvalMultiline::undo(){
+void EvalMultiline::undo(){
     active = false;
 
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);

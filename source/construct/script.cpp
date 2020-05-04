@@ -1,8 +1,9 @@
 #include "script.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../subphrase.h"
+#include "../typesetscene.h"
 
 #include <QMenu>
 #include <QPainter>
@@ -51,7 +52,7 @@ void Superscript::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void Superscript::write(QTextStream& out) const{
-    out << ESCAPE << "^";
+    out << MB_CONSTRUCT_SYMBOL << "^";
     superscript->write(out);
 }
 
@@ -63,8 +64,8 @@ void Superscript::addSubscript(){
     Cursor* c = typesetDocument()->cursor;
     QString str;
     QTextStream out(&str);
-    out << ESCAPE << QChar(916);
-    out << OPEN << CLOSE;
+    out << MB_CONSTRUCT_SYMBOL << QChar(916);
+    out << MB_OPEN << MB_CLOSE;
     superscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);
@@ -113,7 +114,7 @@ void Subscript::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void Subscript::write(QTextStream& out) const{
-    out << ESCAPE << "_";
+    out << MB_CONSTRUCT_SYMBOL << "_";
     subscript->write(out);
 }
 
@@ -125,9 +126,9 @@ void Subscript::addSuperscript(){
     Cursor* c = typesetDocument()->cursor;
     QString str;
     QTextStream out(&str);
-    out << ESCAPE << QChar(916);
+    out << MB_CONSTRUCT_SYMBOL << QChar(916);
     subscript->write(out);
-    out << OPEN << CLOSE;
+    out << MB_OPEN << MB_CLOSE;
     c->clickConstruct(*this);
     c->paste(str);
 }
@@ -203,7 +204,7 @@ Text* Dualscript::textDown(const SubPhrase* caller, qreal x) const{
 }
 
 void Dualscript::write(QTextStream& out) const{
-    out << ESCAPE << (eval ? QChar(9482) : QChar(916));
+    out << MB_CONSTRUCT_SYMBOL << (eval ? QChar(9482) : QChar(916));
     subscript->write(out);
     superscript->write(out);
 }
@@ -217,7 +218,7 @@ void Dualscript::removeSuperscript(){
     Cursor* c = typesetDocument()->cursor;
     QString str;
     QTextStream out(&str);
-    out << ESCAPE << '_';
+    out << MB_CONSTRUCT_SYMBOL << '_';
     subscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);
@@ -227,7 +228,7 @@ void Dualscript::removeSubscript(){
     Cursor* c = typesetDocument()->cursor;
     QString str;
     QTextStream out(&str);
-    out << ESCAPE << '^';
+    out << MB_CONSTRUCT_SYMBOL << '^';
     superscript->write(out);
     c->clickConstruct(*this);
     c->paste(str);

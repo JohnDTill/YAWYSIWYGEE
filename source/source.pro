@@ -9,6 +9,15 @@ TARGET = YAWYSIWYGEE
 
 SOURCES += \
     algorithm.cpp \
+    command/deletechar.cpp \
+    command/deletemultiline.cpp \
+    command/deletephrase.cpp \
+    command/deletetext.cpp \
+    command/evalmultiline.cpp \
+    command/evalphrase.cpp \
+    command/insertchar.cpp \
+    command/insertmultiline.cpp \
+    command/inserttext.cpp \
     construct.cpp \
     construct/group.cpp \
     cursor.cpp \
@@ -21,15 +30,6 @@ SOURCES += \
     subphrase.cpp \
     text.cpp \
     typesetedit.cpp \
-    command/commanddeletechar.cpp \
-    command/commanddeletemultiline.cpp \
-    command/commanddeletephrase.cpp \
-    command/commanddeletetext.cpp \
-    command/commandevalmultiline.cpp \
-    command/commandevalphrase.cpp \
-    command/commandinsertchar.cpp \
-    command/commandinsertmultiline.cpp \
-    command/commandinserttext.cpp \
     command/commandlist.cpp \
     construct/accent.cpp \
     construct/bigqchar.cpp \
@@ -47,6 +47,16 @@ SOURCES += \
 HEADERS += \
     YAWYSIWYGEE \
     algorithm.h \
+    command/commands.h \
+    command/deletechar.h \
+    command/deletemultiline.h \
+    command/deletephrase.h \
+    command/deletetext.h \
+    command/evalmultiline.h \
+    command/evalphrase.h \
+    command/insertchar.h \
+    command/insertmultiline.h \
+    command/inserttext.h \
     construct.h \
     construct/constructs.h \
     construct/group.h \
@@ -60,15 +70,6 @@ HEADERS += \
     substitutions.h \
     text.h \
     typesetedit.h \
-    command/commanddeletechar.h \
-    command/commanddeletemultiline.h \
-    command/commanddeletephrase.h \
-    command/commanddeletetext.h \
-    command/commandevalmultiline.h \
-    command/commandevalphrase.h \
-    command/commandinsertchar.h \
-    command/commandinsertmultiline.h \
-    command/commandinserttext.h \
     command/commandlist.h \
     construct/accent.h \
     construct/bigqchar.h \

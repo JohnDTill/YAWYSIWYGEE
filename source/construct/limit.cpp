@@ -1,5 +1,7 @@
 #include "limit.h"
 
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 static constexpr qreal margin = 1;
@@ -42,7 +44,7 @@ Text* Limit::textDown(const SubPhrase*, qreal) const{
 }
 
 void Limit::write(QTextStream& out) const{
-    out << ESCAPE << "l";
+    out << MB_CONSTRUCT_SYMBOL << "l";
     first->write(out);
     second->write(out);
 }

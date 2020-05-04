@@ -2,13 +2,12 @@
 #define COMMANDEVALPHRASE_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
+class Construct;
 class Cursor;
+class Text;
 
-class CommandEvalPhrase : public QUndoCommand{
+class EvalPhrase : public QUndoCommand{
 private:
     Cursor& cursor;
     bool active;
@@ -22,8 +21,8 @@ private:
     int pL;
 
 public:
-    CommandEvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c);
-    ~CommandEvalPhrase();
+    EvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c);
+    ~EvalPhrase();
 
 protected:
     virtual void redo() final;

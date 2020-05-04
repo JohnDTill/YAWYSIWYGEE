@@ -1,9 +1,10 @@
 #include "bigqchar.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "globals.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
+#include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
 
@@ -26,7 +27,7 @@ void BigQChar::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void BigQChar::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
 }
 
 void BigQChar::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
@@ -107,7 +108,7 @@ void BigQChar_S::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void BigQChar_S::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
     child->write(out);
 }
 
@@ -229,7 +230,7 @@ void BigQChar_SN::updateLayout(){
 }
 
 void BigQChar_SN::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
     second->write(out);
     first->write(out);
 }

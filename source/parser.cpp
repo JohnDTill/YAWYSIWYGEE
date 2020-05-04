@@ -1,8 +1,10 @@
 #include "parser.h"
 
-#include "typesetscene.h"
+#include "globals.h"
 #include "line.h"
+#include "subphrase.h"
 #include "text.h"
+#include "typesetscene.h"
 #include "construct/constructs.h"
 #include "MathBran/include/QMathBran.h"
 

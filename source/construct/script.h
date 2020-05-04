@@ -2,7 +2,6 @@
 #define TYPESETSCRIPT_H
 
 #include "construct.h"
-#include "subphrase.h"
 
 class Superscript : public UnaryConstruct{
     Q_OBJECT

@@ -2,13 +2,11 @@
 #define COMMANDDELETETEXT_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
 class Cursor;
+class Text;
 
-class CommandDeleteText : public QUndoCommand{
+class DeleteText : public QUndoCommand{
 private:
     Cursor& cursor;
     Text* t;
@@ -18,7 +16,7 @@ private:
     int pR;
 
 public:
-    CommandDeleteText(Cursor& cursor, Text* t, QTextCursor cL, QTextCursor cR);
+    DeleteText(Cursor& cursor, Text* t, QTextCursor cL, QTextCursor cR);
 
 protected:
     virtual void redo() final;

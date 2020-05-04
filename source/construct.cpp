@@ -2,6 +2,7 @@
 
 #include "algorithm.h"
 #include "cursor.h"
+#include "subphrase.h"
 #include "typesetscene.h"
 #include "text.h"
 #include <QGraphicsSceneMouseEvent>
@@ -191,7 +192,7 @@ NaryConstruct::NaryConstruct(const std::vector<SubPhrase*> c)
     : children(c) {
     for(std::vector<SubPhrase*>::size_type i = 0; i < children.size(); i++){
         children[i]->setParentConstruct(*this);
-        children[i]->child_id = static_cast<major_integer>(i);
+        children[i]->child_id = static_cast<uint16_t>(i);
     }
 }
 
@@ -214,11 +215,11 @@ SubPhrase* NaryConstruct::back() const{
 }
 
 Text* NaryConstruct::textRight(const SubPhrase* caller) const{
-    major_integer i = caller->child_id + 1;
+    uint16_t i = caller->child_id + 1;
     return (i < children.size()) ? children[i]->front : next;
 }
 
 Text* NaryConstruct::textLeft(const SubPhrase* caller) const{
-    major_integer i = caller->child_id;
+    uint16_t i = caller->child_id;
     return (i > 0) ? children[i-1]->back : prev;
 }

@@ -4,7 +4,6 @@
 
 #include <QString>
 #include <QHash>
-#include <QMap>
 
 //Note: value type is QString because QChar uses UTF-16, but some values are UTF-32 characters
 static const QHash<QString, QString> keyword_map = {

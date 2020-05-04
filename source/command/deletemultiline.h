@@ -2,14 +2,14 @@
 #define COMMANDDELETEMULTILINE_H
 
 #include <QUndoCommand>
-
-#include "text.h"
-#include "line.h"
 #include <QTextCursor>
-
+class Construct;
 class Cursor;
+class Line;
+class Text;
+class TypesetScene;
 
-class CommandDeleteMultiline : public QUndoCommand{
+class DeleteMultiline : public QUndoCommand{
 private:
     bool active;
     Cursor& cursor;
@@ -28,8 +28,8 @@ private:
     int pL;
 
 public:
-    CommandDeleteMultiline(Cursor& cursor, TypesetScene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
-    ~CommandDeleteMultiline();
+    DeleteMultiline(Cursor& cursor, TypesetScene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
+    ~DeleteMultiline();
 
 protected:
     virtual void redo() final;

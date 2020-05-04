@@ -1,8 +1,9 @@
 #include "binomial.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "globals.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 Binomial::Binomial(SubPhrase* f, SubPhrase* s)
@@ -31,7 +32,7 @@ Text* Binomial::textDown(const SubPhrase* caller, qreal x) const{
 }
 
 void Binomial::write(QTextStream& out) const{
-    out << ESCAPE << "b";
+    out << MB_CONSTRUCT_SYMBOL << "b";
     first->write(out);
     second->write(out);
 }

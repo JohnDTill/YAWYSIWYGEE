@@ -1,10 +1,11 @@
-#include "commanddeletephrase.h"
+#include "deletephrase.h"
 
-#include "algorithm.h"
-#include "construct.h"
-#include "cursor.h"
+#include "../algorithm.h"
+#include "../construct.h"
+#include "../cursor.h"
+#include "../text.h"
 
-CommandDeletePhrase::CommandDeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
+DeletePhrase::DeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
     : cursor(cursor),
       tL(tL),
       cL(cL),
@@ -16,7 +17,7 @@ CommandDeletePhrase::CommandDeletePhrase(Cursor& cursor, Text* tL, QTextCursor c
     pL = cL.position();
 }
 
-CommandDeletePhrase::~CommandDeletePhrase(){
+DeletePhrase::~DeletePhrase(){
     if(!active) return;
 
     Construct* c = tL_next;
@@ -29,7 +30,7 @@ CommandDeletePhrase::~CommandDeletePhrase(){
     }
 }
 
-void CommandDeletePhrase::redo(){
+void DeletePhrase::redo(){
     active = true;
 
     cL.setPosition(pL);
@@ -51,7 +52,7 @@ void CommandDeletePhrase::redo(){
     cursor.setPosition(*tL, cL);
 }
 
-void CommandDeletePhrase::undo(){
+void DeletePhrase::undo(){
     active = false;
 
     cL.setPosition(pL);

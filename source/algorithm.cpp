@@ -3,8 +3,10 @@
 #include "construct.h"
 #include "line.h"
 #include "parser.h"
-#include <QTextCursor>
 #include "MathBran/include/QMathBran.h"
+#include <QFontMetrics>
+#include <QTextCursor>
+#include <QTextStream>
 
 qreal Algorithm::cursorOffset(const Text& t, QTextCursor c){
     QFontMetrics fm(t.font());

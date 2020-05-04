@@ -2,13 +2,11 @@
 #define COMMANDDELETECHAR_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
 class Cursor;
+class Text;
 
-class CommandDeleteChar : public QUndoCommand{
+class DeleteChar : public QUndoCommand{
 public:
     int pL;
     int pR;
@@ -20,7 +18,7 @@ private:
     QString str;
 
 public:
-    CommandDeleteChar(Cursor& cursor, bool forward, Text* t, QTextCursor c);
+    DeleteChar(Cursor& cursor, bool forward, Text* t, QTextCursor c);
     void removeChar(bool forward);
 
 protected:

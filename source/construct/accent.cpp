@@ -1,6 +1,7 @@
 #include "accent.h"
 
-#include "globals.h"
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 static constexpr qreal accent_height = 3;
@@ -23,7 +24,7 @@ void Accent::updateLayout(){
 }
 
 void Accent::write(QTextStream& out) const{
-    out << ESCAPE;
+    out << MB_CONSTRUCT_SYMBOL;
 
     if(drawAccent==ARROW) out << QChar(8594); //→
     else if(drawAccent==BREVE) out << QChar(259); //ă

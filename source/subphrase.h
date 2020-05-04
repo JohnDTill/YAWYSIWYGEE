@@ -2,18 +2,12 @@
 #define TYPESETPHRASE_H
 
 #include "phrase.h"
-
-#include <QPen>
-
 class Construct;
-
-typedef uint16_t minor_integer;
-typedef uint32_t major_integer;
 
 class SubPhrase : public Phrase{
 public:
     Construct* parent;
-    major_integer child_id; //So this subphrase can communicate with its parent
+    uint16_t child_id; //So this subphrase can communicate with its parent
 
 private:
     static constexpr int empty_box_height = 19;
@@ -21,7 +15,7 @@ private:
     static constexpr qreal padding = 1;
 
 public:
-    SubPhrase(Text* f = nullptr, Text* b = nullptr, major_integer child_id = 0);
+    SubPhrase(Text* f = nullptr, Text* b = nullptr, uint16_t child_id = 0);
     void setParentConstruct(Construct& c);
     virtual void updateToTop() override final;
     virtual Text* textRight() const override final;

@@ -3,10 +3,13 @@
 #include "algorithm.h"
 #include "construct.h"
 #include "cursor.h"
+#include "cursorview.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
+#include "subphrase.h"
 #include "text.h"
+#include <QClipboard>
 #include <QCursor>
 #include <QFile>
 #include <QFileDialog>
@@ -17,6 +20,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
+#include <QUndoStack>
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
 

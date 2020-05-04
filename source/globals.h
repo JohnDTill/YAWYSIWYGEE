@@ -1,6 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include "MathBran/include/QMathBran_Macros.h"
 #include <QFontDatabase>
 #include <QPen>
 
@@ -17,9 +18,6 @@
 
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
-static const QChar ESCAPE = 8284; //⁜
-static const QChar OPEN = 9204; //⏴
-static const QChar CLOSE = 9205; //⏵
 
 class Globals{
     public:

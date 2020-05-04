@@ -1,8 +1,9 @@
-#include "commandinsertchar.h"
+#include "insertchar.h"
 
-#include "cursor.h"
+#include "../cursor.h"
+#include "../text.h"
 
-CommandInsertChar::CommandInsertChar(Cursor& cursor, QChar ch, Text* t, QTextCursor c)
+InsertChar::InsertChar(Cursor& cursor, QChar ch, Text* t, QTextCursor c)
     : t(t),
       cursor(cursor),
       c(c) {
@@ -12,7 +13,7 @@ CommandInsertChar::CommandInsertChar(Cursor& cursor, QChar ch, Text* t, QTextCur
     pR = pL + 1;
 }
 
-void CommandInsertChar::addChar(QChar ch){
+void InsertChar::addChar(QChar ch){
     c.setPosition(pR);
     c.insertText(ch);
     str += ch;
@@ -21,14 +22,14 @@ void CommandInsertChar::addChar(QChar ch){
     pR++;
 }
 
-void CommandInsertChar::redo(){
+void InsertChar::redo(){
     c.setPosition(pL);
     c.insertText(str);
     t->updateToTop();
     cursor.setPosition(*t, c);
 }
 
-void CommandInsertChar::undo(){
+void InsertChar::undo(){
     c.setPosition(pL);
     c.setPosition(pR, QTextCursor::KeepAnchor);
     c.removeSelectedText();

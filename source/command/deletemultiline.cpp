@@ -1,11 +1,13 @@
-#include "commanddeletemultiline.h"
+#include "deletemultiline.h"
 
-#include "algorithm.h"
-#include "construct.h"
-#include "cursor.h"
-#include "typesetscene.h"
+#include "../algorithm.h"
+#include "../construct.h"
+#include "../cursor.h"
+#include "../line.h"
+#include "../text.h"
+#include "../typesetscene.h"
 
-CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, TypesetScene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
+DeleteMultiline::DeleteMultiline(Cursor& cursor, TypesetScene& doc, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)
     : cursor(cursor),
       doc(doc),
       tL(tL),
@@ -23,7 +25,7 @@ CommandDeleteMultiline::CommandDeleteMultiline(Cursor& cursor, TypesetScene& doc
     lL_next = lL->next;
 }
 
-CommandDeleteMultiline::~CommandDeleteMultiline(){
+DeleteMultiline::~DeleteMultiline(){
     if(!active) return;
 
     Construct* c = tL_next;
@@ -42,7 +44,7 @@ CommandDeleteMultiline::~CommandDeleteMultiline(){
     }
 }
 
-void CommandDeleteMultiline::redo(){
+void DeleteMultiline::redo(){
     active = true;
 
     cL.setPosition(pL);
@@ -89,7 +91,7 @@ void CommandDeleteMultiline::redo(){
     cursor.setPosition(*tL, cL);
 }
 
-void CommandDeleteMultiline::undo(){
+void DeleteMultiline::undo(){
     active = false;
 
     cL.setPosition(pL);

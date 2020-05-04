@@ -14,7 +14,6 @@ void createIncludes(QTextStream& out){
            "\n"
            "#include <QString>\n"
            "#include <QHash>\n"
-           "#include <QMap>\n"
            "\n";
 }
 

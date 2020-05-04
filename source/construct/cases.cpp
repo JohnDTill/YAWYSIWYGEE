@@ -1,9 +1,10 @@
 #include "cases.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "globals.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
+#include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
 
@@ -42,12 +43,12 @@ void Cases::updateLayout(){
 }
 
 Text* Cases::textUp(const SubPhrase* caller, qreal x) const{
-    major_integer i = caller->child_id;
+    uint16_t i = caller->child_id;
     return (i > 1) ? Algorithm::textAtSetpoint(*children[i-2], x) : prev;
 }
 
 Text* Cases::textDown(const SubPhrase* caller, qreal x) const{
-    major_integer i = caller->child_id + 2;
+    uint16_t i = caller->child_id + 2;
     return (i < children.size()) ? Algorithm::textAtSetpoint(*children[i], x) : next;
 }
 
@@ -70,7 +71,7 @@ void Cases::populateMenu(QMenu& menu, const SubPhrase* caller){
 }
 
 void Cases::write(QTextStream& out) const{
-    out << ESCAPE << "c";
+    out << MB_CONSTRUCT_SYMBOL << "c";
     for(SubPhrase* c : children) c->write(out);
 }
 
@@ -91,10 +92,10 @@ void Cases::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QW
     }
 }
 
-void Cases::insertRow(major_integer row, SubPhrase* first, SubPhrase* second){
+void Cases::insertRow(uint16_t row, SubPhrase* first, SubPhrase* second){
     children.resize(children.size() + 2);
 
-    for(major_integer i = static_cast<major_integer>(children.size()-1); i > 2*row+1; i--){
+    for(uint16_t i = static_cast<uint16_t>(children.size()-1); i > 2*row+1; i--){
         children[i] = children[i-2];
         children[i]->child_id = i;
     }
@@ -109,11 +110,11 @@ void Cases::insertRow(major_integer row, SubPhrase* first, SubPhrase* second){
     updateToTop();
 }
 
-void Cases::removeRow(major_integer row){
+void Cases::removeRow(uint16_t row){
     children[2*row]->hide();
     children[2*row+1]->hide();
 
-    for(major_integer i = 2*row+2; i < children.size(); i++){
+    for(uint16_t i = 2*row+2; i < children.size(); i++){
         children[i-2] = children[i];
         children[i]->child_id = i-2;
     }
@@ -134,7 +135,7 @@ void Cases::deleteRow(){
     typesetDocument()->undo_stack->push( new RemoveRow(*this, active/2 ) );
 }
 
-Cases::AddRow::AddRow(Cases& c, major_integer row)
+Cases::AddRow::AddRow(Cases& c, uint16_t row)
     : c(c),
       row(row) {
     uint8_t script_level = c.children.front()->front->getScriptLevel();
@@ -162,10 +163,10 @@ void Cases::AddRow::undo(){
     c.removeRow(row);
 }
 
-Cases::RemoveRow::RemoveRow(Cases& c, major_integer row)
+Cases::RemoveRow::RemoveRow(Cases& c, uint16_t row)
     : c(c),
       row(row) {
-    major_integer start = 2*row;
+    uint16_t start = 2*row;
     for(std::vector<SubPhrase*>::size_type i = start; i < start + 2; i++)
         data.push_back(c.children[i]);
 }

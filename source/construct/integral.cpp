@@ -1,9 +1,10 @@
 #include "integral.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "globals.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
+#include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
 
@@ -31,7 +32,7 @@ void Integral::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void Integral::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
 }
 
 void Integral::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
@@ -120,7 +121,7 @@ void Integral_S::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void Integral_S::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
     child->write(out);
 }
 
@@ -264,7 +265,7 @@ void Integral_SN::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void Integral_SN::write(QTextStream& out) const{
-    out << ESCAPE << ch;
+    out << MB_CONSTRUCT_SYMBOL << ch;
     first->write(out);
     second->write(out);
 }

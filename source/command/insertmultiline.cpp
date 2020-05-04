@@ -1,10 +1,12 @@
-#include "commandinsertmultiline.h"
+#include "insertmultiline.h"
 
-#include "construct.h"
-#include "cursor.h"
-#include "typesetscene.h"
+#include "../construct.h"
+#include "../cursor.h"
+#include "../line.h"
+#include "../text.h"
+#include "../typesetscene.h"
 
-CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c)
+InsertMultiline::InsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       doc(doc),
       tL(t),
@@ -40,7 +42,7 @@ CommandInsertMultiline::CommandInsertMultiline(Cursor& cursor, TypesetScene& doc
     tR->calculateSize();
 }
 
-CommandInsertMultiline::~CommandInsertMultiline(){
+InsertMultiline::~InsertMultiline(){
     if(active) return;
 
     tR->next = nullptr;
@@ -52,7 +54,7 @@ CommandInsertMultiline::~CommandInsertMultiline(){
     }
 }
 
-void CommandInsertMultiline::redo(){
+void InsertMultiline::redo(){
     active = true;
 
     cL.setPosition(pL);
@@ -85,7 +87,7 @@ void CommandInsertMultiline::redo(){
     cursor.setPosition(*tR, cR);
 }
 
-void CommandInsertMultiline::undo(){
+void InsertMultiline::undo(){
     active = false;
 
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);

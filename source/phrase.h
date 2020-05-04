@@ -2,11 +2,10 @@
 #define PHRASE_H
 
 #include <QGraphicsItem>
-#include <QTextStream>
-
 class Cursor;
 class Line;
 class Text;
+class QTextStream;
 
 class Phrase : public QGraphicsItem{
 public:

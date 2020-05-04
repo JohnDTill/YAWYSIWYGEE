@@ -1,9 +1,9 @@
 #include "fraction.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "globals.h"
-#include "subphrase.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 Fraction::Fraction(SubPhrase* num, SubPhrase* den)
@@ -28,7 +28,7 @@ Text* Fraction::textDown(const SubPhrase* caller, qreal x) const{
 }
 
 void Fraction::write(QTextStream& out) const{
-    out << ESCAPE << "f";
+    out << MB_CONSTRUCT_SYMBOL << "f";
     first->write(out);
     second->write(out);
 }

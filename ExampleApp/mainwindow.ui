@@ -241,6 +241,9 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionLoad">
    <property name="text">
@@ -285,6 +288,9 @@
    <property name="text">
     <string>Undo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
   </action>
   <action name="actionRedo">
    <property name="enabled">
@@ -292,6 +298,9 @@
    </property>
    <property name="text">
     <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="actionSave">
@@ -349,15 +358,24 @@
    <property name="text">
     <string>Cut</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionCopy">
    <property name="text">
     <string>Copy</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
   <action name="actionPaste">
    <property name="text">
     <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionFraction">
@@ -465,7 +483,7 @@
     <string>subscript</string>
    </property>
    <property name="toolTip">
-    <string>\_{body}{subscript}</string>
+    <string>\_{subscript}</string>
    </property>
   </action>
   <action name="actionSuperscript">
@@ -477,7 +495,7 @@
     <string>superscript</string>
    </property>
    <property name="toolTip">
-    <string>\^{body}{superscript}</string>
+    <string>\^{superscript}</string>
    </property>
   </action>
   <action name="actionDualscript">
@@ -489,7 +507,7 @@
     <string>dualscript</string>
    </property>
    <property name="toolTip">
-    <string>\_^{body}{subscript}{superscript}</string>
+    <string>\_^{subscript}{superscript}</string>
    </property>
   </action>
   <action name="actionAccentarrow">
@@ -612,24 +630,6 @@
     <string>\abs</string>
    </property>
   </action>
-  <action name="actionGroupingangle">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingangle.ico</normaloff>:/Toolbar/groupingangle.ico</iconset>
-   </property>
-   <property name="text">
-    <string>groupingangle</string>
-   </property>
-  </action>
-  <action name="actionGroupingdangle">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingdangle.ico</normaloff>:/Toolbar/groupingdangle.ico</iconset>
-   </property>
-   <property name="text">
-    <string>groupingdangle</string>
-   </property>
-  </action>
   <action name="actionGroupingceil">
    <property name="icon">
     <iconset resource="example_resource.qrc">
@@ -661,6 +661,9 @@
    </property>
    <property name="text">
     <string>eval</string>
+   </property>
+   <property name="toolTip">
+    <string>\eval</string>
    </property>
   </action>
  </widget>

@@ -3,8 +3,6 @@
 
 #include "phrase.h"
 
-#include <QBrush>
-
 class Line : public Phrase{
 public:
     Line* prev = nullptr;

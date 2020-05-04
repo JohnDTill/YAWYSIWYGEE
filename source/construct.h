@@ -1,13 +1,12 @@
 #ifndef TYPESETINLINECONSTRUCT_H
 #define TYPESETINLINECONSTRUCT_H
 
-#include "globals.h"
-#include "subphrase.h"
-#include <QGraphicsItem>
-#include <QTextStream>
-
+#include <QGraphicsObject>
+class Line;
+class SubPhrase;
 class TypesetScene;
 class Text;
+class QTextStream;
 
 class Construct : public QGraphicsObject{
 public:

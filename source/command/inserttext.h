@@ -2,13 +2,11 @@
 #define COMMANDINSERTTEXT_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
 class Cursor;
+class Text;
 
-class CommandInsertText : public QUndoCommand{
+class InsertText : public QUndoCommand{
 private:
     Cursor& cursor;
     const QString str;
@@ -16,7 +14,7 @@ private:
     QTextCursor c;
 
 public:
-    CommandInsertText(Cursor& cursor, const QString& str, Text* t, QTextCursor c);
+    InsertText(Cursor& cursor, const QString& str, Text* t, QTextCursor c);
 
 protected:
     virtual void redo() final;

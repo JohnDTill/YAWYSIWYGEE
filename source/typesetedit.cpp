@@ -1,9 +1,16 @@
 #include "typesetedit.h"
 
-#include "typesetscene.h"
+#include "cursor.h"
+#include "cursorview.h"
+#include "globals.h"
 #include "parser.h"
+#include "typesetscene.h"
 #include "MathBran/include/QMathBran.h"
+#include <QGraphicsItem>
+#include <QGraphicsView>
 #include <QScrollBar>
+#include <QSvgGenerator>
+#include <QUndoStack>
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QtMath>
@@ -28,7 +35,7 @@ TypesetEdit::TypesetEdit(QWidget* parent)
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(view);
-    view->setScene(scene);
+    view->setScene(scene);    
 }
 
 TypesetEdit::~TypesetEdit(){

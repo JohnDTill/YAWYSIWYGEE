@@ -2,14 +2,14 @@
 #define COMMANDINSERTMULTILINE_H
 
 #include <QUndoCommand>
-
-#include "line.h"
-#include "text.h"
 #include <QTextCursor>
-
 class Cursor;
+class Construct;
+class Line;
+class Text;
+class TypesetScene;
 
-class CommandInsertMultiline : public QUndoCommand{
+class InsertMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
     TypesetScene& doc;
@@ -27,8 +27,8 @@ private:
     int pL;
 
 public:
-    CommandInsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
-    ~CommandInsertMultiline();
+    InsertMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
+    ~InsertMultiline();
 
 protected:
     virtual void redo() final;

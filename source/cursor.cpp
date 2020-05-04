@@ -1,25 +1,18 @@
 #include "cursor.h"
 
 #include "algorithm.h"
-#include "command/commanddeletechar.h"
-#include "command/commanddeletemultiline.h"
-#include "command/commanddeletephrase.h"
-#include "command/commanddeletetext.h"
-#include "command/commandevalmultiline.h"
-#include "command/commandevalphrase.h"
-#include "command/commandinsertchar.h"
-#include "command/commandinsertmultiline.h"
-#include "command/commandinserttext.h"
-#include "command/commandlist.h"
+#include "command/commands.h"
 #include "construct.h"
 #include "typesetscene.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
+#include "subphrase.h"
 #include "substitutions.h"
 #include "text.h"
-#include <QPainter>
 #include "MathBran/include/QMathBran.h"
+#include <QClipboard>
+#include <QPainter>
 
 Cursor::Cursor(TypesetScene& doc)
     : doc(doc),
@@ -250,7 +243,7 @@ void Cursor::backspace(){
         if(index >= 0){
             const QUndoCommand* last = doc.undo_stack->command(index);
             if(last->text() == "D"){
-                CommandDeleteChar* delete_command = static_cast<CommandDeleteChar*>(const_cast<QUndoCommand*>(last));
+                DeleteChar* delete_command = static_cast<DeleteChar*>(const_cast<QUndoCommand*>(last));
                 if(text == delete_command->t && cursor.position() == delete_command->pL){
                     delete_command->removeChar(false);
                     return;
@@ -258,7 +251,7 @@ void Cursor::backspace(){
             }
         }
 
-        doc.undo_stack->push( new CommandDeleteChar(*this, false, text, cursor) );
+        doc.undo_stack->push( new DeleteChar(*this, false, text, cursor) );
     }
 }
 
@@ -274,7 +267,7 @@ void Cursor::del(){
         if(index >= 0){
             const QUndoCommand* last = doc.undo_stack->command(index);
             if(last->text() == "D"){
-                CommandDeleteChar* delete_command = static_cast<CommandDeleteChar*>(const_cast<QUndoCommand*>(last));
+                DeleteChar* delete_command = static_cast<DeleteChar*>(const_cast<QUndoCommand*>(last));
                 if(text == delete_command->t && cursor.position() == delete_command->pL){
                     delete_command->removeChar(true);
                     return;
@@ -282,7 +275,7 @@ void Cursor::del(){
             }
         }
 
-        doc.undo_stack->push( new CommandDeleteChar(*this, true, text, cursor) );
+        doc.undo_stack->push( new DeleteChar(*this, true, text, cursor) );
     }
 }
 
@@ -373,7 +366,7 @@ void Cursor::keystroke(const QChar& c){
         std::vector<QUndoCommand*> commands;
         commands.push_back( deleteSelection() );
         commands[0]->redo();
-        commands.push_back( new CommandInsertChar(*this, c, text, cursor) );
+        commands.push_back( new InsertChar(*this, c, text, cursor) );
         commands[0]->undo();
         doc.undo_stack->push( new CommandList(commands) );
         return;
@@ -385,7 +378,7 @@ void Cursor::keystroke(const QChar& c){
     if(index >= 0){
         const QUndoCommand* last = doc.undo_stack->command(index);
         if(last->text() == "C"){
-            CommandInsertChar* insert_command = static_cast<CommandInsertChar*>(const_cast<QUndoCommand*>(last));
+            InsertChar* insert_command = static_cast<InsertChar*>(const_cast<QUndoCommand*>(last));
             if(text == insert_command->t && cursor.position() == insert_command->pR){
                 insert_command->addChar(c);
                 requires_new_command = false;
@@ -393,8 +386,8 @@ void Cursor::keystroke(const QChar& c){
         }else if(last->text() == "L"){
             const CommandList* list_command = static_cast<const CommandList*>(last);
             if(list_command->commands.back()->text() == "C"){
-                CommandInsertChar* insert_command =
-                        static_cast<CommandInsertChar*>(list_command->commands.back());
+                InsertChar* insert_command =
+                        static_cast<InsertChar*>(list_command->commands.back());
                 if(text == insert_command->t && cursor.position() == insert_command->pR){
                     insert_command->addChar(c);
                     requires_new_command = false;
@@ -403,7 +396,7 @@ void Cursor::keystroke(const QChar& c){
         }
     }
 
-    if(requires_new_command) doc.undo_stack->push( new CommandInsertChar(*this, c, text, cursor) );
+    if(requires_new_command) doc.undo_stack->push( new InsertChar(*this, c, text, cursor) );
 
     checkForSubstitution(c);
 }
@@ -634,27 +627,27 @@ qreal Cursor::x(){
 QUndoCommand* Cursor::deleteSelection(){
     if(text==anchor_text){
         return forward()
-            ? new CommandDeleteText(*this, text, anchor_cursor, cursor)
-            : new CommandDeleteText(*this, text, cursor, anchor_cursor);
+            ? new DeleteText(*this, text, anchor_cursor, cursor)
+            : new DeleteText(*this, text, cursor, anchor_cursor);
     }else if(text->parent == anchor_text->parent){
         return forward()
-            ? new CommandDeletePhrase(*this, anchor_text, anchor_cursor, text, cursor)
-            : new CommandDeletePhrase(*this, text, cursor, anchor_text, anchor_cursor);
+            ? new DeletePhrase(*this, anchor_text, anchor_cursor, text, cursor)
+            : new DeletePhrase(*this, text, cursor, anchor_text, anchor_cursor);
     }else{
         return forward()
-            ? new CommandDeleteMultiline(*this, doc, anchor_text, anchor_cursor, text, cursor)
-            : new CommandDeleteMultiline(*this, doc, text, cursor, anchor_text, anchor_cursor);
+            ? new DeleteMultiline(*this, doc, anchor_text, anchor_cursor, text, cursor)
+            : new DeleteMultiline(*this, doc, text, cursor, anchor_text, anchor_cursor);
     }
 }
 
 QUndoCommand* Cursor::insert(const QString& str){
-    if(str.contains('\n')) return new CommandInsertMultiline(*this, doc, str, text, cursor);
-    else return new CommandInsertText(*this, str, text, cursor);
+    if(str.contains('\n')) return new InsertMultiline(*this, doc, str, text, cursor);
+    else return new InsertText(*this, str, text, cursor);
 }
 
 QUndoCommand* Cursor::evaluate(const QString& source){
-    if(source.contains('\n')) return new CommandEvalMultiline(*this, doc, source, text, cursor);
-    else return new CommandEvalPhrase(*this, source, text, cursor);
+    if(source.contains('\n')) return new EvalMultiline(*this, doc, source, text, cursor);
+    else return new EvalPhrase(*this, source, text, cursor);
 }
 
 const QHash<QString, std::pair<QString, QString> > construct_map = {
@@ -723,7 +716,7 @@ void Cursor::checkSlashSub(){
                     auto construct_lookup = construct_map.find(key);
                     if(construct_lookup != construct_map.end()){
                         anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                        paste(ESCAPE + construct_lookup.value().first + construct_lookup.value().second);
+                        paste(MB_CONSTRUCT_SYMBOL + construct_lookup.value().first + construct_lookup.value().second);
                     }
                 }
 
@@ -761,7 +754,7 @@ void Cursor::checkComplexSlashSub(){
                     int p = c.position();
                     c.movePosition(QTextCursor::Right);
                     c.setPosition(word_end, QTextCursor::KeepAnchor);
-                    converted.prepend(CLOSE + c.selectedText());
+                    converted.prepend(MB_CLOSE + c.selectedText());
                     c.setPosition(p);
                     word_end = p;
                     break;
@@ -772,7 +765,7 @@ void Cursor::checkComplexSlashSub(){
                     int p = c.position();
                     c.movePosition(QTextCursor::Right);
                     c.setPosition(word_end, QTextCursor::KeepAnchor);
-                    converted.prepend(OPEN + c.selectedText());
+                    converted.prepend(MB_OPEN + c.selectedText());
                     c.setPosition(p);
                     word_end = p;
                     break;
@@ -788,7 +781,7 @@ void Cursor::checkComplexSlashSub(){
                     }else{
                         auto construct_lookup = construct_map.find(key);
                         if(construct_lookup != construct_map.end()){
-                            converted.prepend(ESCAPE + construct_lookup.value().first);
+                            converted.prepend(MB_CONSTRUCT_SYMBOL + construct_lookup.value().first);
                         }else{
                             converted.prepend(key);
                         }

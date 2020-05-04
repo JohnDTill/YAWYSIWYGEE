@@ -1,10 +1,11 @@
 #include "root.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "globals.h"
-#include "text.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
+#include "../text.h"
+#include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -26,7 +27,7 @@ void SquareRoot::populateMenu(QMenu& menu, const SubPhrase*){
 }
 
 void SquareRoot::write(QTextStream& out) const{
-    out << ESCAPE << QChar(8730);
+    out << MB_CONSTRUCT_SYMBOL << QChar(8730);
     child->write(out);
 }
 
@@ -137,7 +138,7 @@ Text* ScriptedRoot::textDown(const SubPhrase* caller, qreal) const{
 }
 
 void ScriptedRoot::write(QTextStream& out) const{
-    out << ESCAPE << QChar(8730);
+    out << MB_CONSTRUCT_SYMBOL << QChar(8730);
     child->write(out);
     power->write(out);
 }

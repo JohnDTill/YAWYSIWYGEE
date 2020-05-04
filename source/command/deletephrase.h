@@ -2,13 +2,12 @@
 #define COMMANDDELETE_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
+class Construct;
 class Cursor;
+class Text;
 
-class CommandDeletePhrase : public QUndoCommand{
+class DeletePhrase : public QUndoCommand{
 private:
     bool active;
     Cursor& cursor;
@@ -22,8 +21,8 @@ private:
     int pL;
 
 public:
-    CommandDeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
-    ~CommandDeletePhrase();
+    DeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR);
+    ~DeletePhrase();
 
 protected:
     virtual void redo() final;

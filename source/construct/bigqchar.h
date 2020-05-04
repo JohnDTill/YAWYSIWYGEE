@@ -3,7 +3,6 @@
 
 #include "construct.h"
 #include <QUndoCommand>
-
 class BigQChar_S;
 class BigQChar_SN;
 

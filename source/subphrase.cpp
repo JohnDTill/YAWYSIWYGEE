@@ -7,7 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-SubPhrase::SubPhrase(Text* f, Text* b, major_integer child_id)
+SubPhrase::SubPhrase(Text* f, Text* b, uint16_t child_id)
     : Phrase(f, b),
       child_id(child_id) {
     updateLayout();
@@ -60,9 +60,9 @@ void SubPhrase::populateMenu(QMenu& menu){
 }
 
 void SubPhrase::write(QTextStream& out) const{
-    out << OPEN;
+    out << MB_OPEN;
     writeContents(out);
-    out << CLOSE;
+    out << MB_CLOSE;
 }
 
 bool SubPhrase::isEmpty() const{

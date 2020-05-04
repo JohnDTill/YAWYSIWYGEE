@@ -8,8 +8,8 @@ class Matrix : public NaryConstruct{
     Q_OBJECT
 
 private:
-    minor_integer rows;
-    minor_integer cols;
+    uint8_t rows;
+    uint8_t cols;
     qreal h;
 
     static constexpr qreal hspace = 5;
@@ -22,7 +22,7 @@ private:
     uint32_t active;
 
 public:
-    Matrix(const std::vector<SubPhrase*>& c, minor_integer rows, minor_integer cols);
+    Matrix(const std::vector<SubPhrase*>& c, uint8_t rows, uint8_t cols);
     virtual void updateLayout() override final;
     virtual Text* textUp(const SubPhrase* caller, qreal x) const override final;
     virtual Text* textDown(const SubPhrase* caller, qreal x) const override final;
@@ -33,23 +33,23 @@ protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget*) override;
 
 private:
-    major_integer getFlatIndex(major_integer row, major_integer col) const;
-    major_integer getRow(major_integer flat_index) const;
-    major_integer getCol(major_integer flat_index) const;
-    void insertRow(major_integer row, const std::vector<SubPhrase*> inserted);
-    void removeRow(major_integer row);
-    void insertCol(major_integer col, const std::vector<SubPhrase*> inserted);
-    void removeCol(major_integer col);
+    uint16_t getFlatIndex(uint16_t row, uint16_t col) const;
+    uint16_t getRow(uint16_t flat_index) const;
+    uint16_t getCol(uint16_t flat_index) const;
+    void insertRow(uint16_t row, const std::vector<SubPhrase*> inserted);
+    void removeRow(uint16_t row);
+    void insertCol(uint16_t col, const std::vector<SubPhrase*> inserted);
+    void removeCol(uint16_t col);
 
     class AddRow : public QUndoCommand{
     private:
         bool active;
         Matrix& mat;
-        const major_integer row;
+        const uint16_t row;
         std::vector<SubPhrase*> data;
 
     public:
-        AddRow(Matrix& mat, major_integer row);
+        AddRow(Matrix& mat, uint16_t row);
         ~AddRow();
 
     protected:
@@ -61,11 +61,11 @@ private:
     private:
         bool active;
         Matrix& mat;
-        const major_integer col;
+        const uint16_t col;
         std::vector<SubPhrase*> data;
 
     public:
-        AddCol(Matrix& mat, major_integer col);
+        AddCol(Matrix& mat, uint16_t col);
         ~AddCol();
 
     protected:
@@ -77,11 +77,11 @@ private:
     private:
         bool active;
         Matrix& mat;
-        const major_integer row;
+        const uint16_t row;
         std::vector<SubPhrase*> data;
 
     public:
-        RemoveRow(Matrix& mat, major_integer row);
+        RemoveRow(Matrix& mat, uint16_t row);
         ~RemoveRow();
 
     protected:
@@ -93,11 +93,11 @@ private:
     private:
         bool active;
         Matrix& mat;
-        const major_integer col;
+        const uint16_t col;
         std::vector<SubPhrase*> data;
 
     public:
-        RemoveCol(Matrix& mat, major_integer col);
+        RemoveCol(Matrix& mat, uint16_t col);
         ~RemoveCol();
 
     protected:

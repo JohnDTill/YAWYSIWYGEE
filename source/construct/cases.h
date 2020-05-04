@@ -14,7 +14,7 @@ private:
     static constexpr qreal bracket_width = 16;
     static constexpr qreal bwh = bracket_width/2;
 
-    major_integer active;
+    uint16_t active;
 
 public:
     Cases(const std::vector<SubPhrase*>& data);
@@ -28,18 +28,18 @@ protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
 
 private:
-    void insertRow(major_integer row, SubPhrase* first, SubPhrase* second);
-    void removeRow(major_integer row);
+    void insertRow(uint16_t row, SubPhrase* first, SubPhrase* second);
+    void removeRow(uint16_t row);
 
     class AddRow : public QUndoCommand{
     private:
         bool active;
         Cases& c;
-        const major_integer row;
+        const uint16_t row;
         std::vector<SubPhrase*> data;
 
     public:
-        AddRow(Cases& c, major_integer row);
+        AddRow(Cases& c, uint16_t row);
         ~AddRow();
 
     protected:
@@ -51,11 +51,11 @@ private:
     private:
         bool active;
         Cases& c;
-        const major_integer row;
+        const uint16_t row;
         std::vector<SubPhrase*> data;
 
     public:
-        RemoveRow(Cases& c, major_integer row);
+        RemoveRow(Cases& c, uint16_t row);
         ~RemoveRow();
 
     protected:

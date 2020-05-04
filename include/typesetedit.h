@@ -1,10 +1,11 @@
 #ifndef TYPESETEDIT_H
 #define TYPESETEDIT_H
 
-#include <QGraphicsView>
-#include <QSvgGenerator>
-
+#include <QWidget>
 class TypesetScene;
+class QGraphicsItem;
+class QGraphicsView;
+class QSvgGenerator;
 
 class TypesetEdit : public QWidget{
     Q_OBJECT

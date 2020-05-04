@@ -1,8 +1,9 @@
-#include "commanddeletechar.h"
+#include "deletechar.h"
 
-#include "cursor.h"
+#include "../cursor.h"
+#include "../text.h"
 
-CommandDeleteChar::CommandDeleteChar(Cursor& cursor, bool forward, Text* t, QTextCursor c)
+DeleteChar::DeleteChar(Cursor& cursor, bool forward, Text* t, QTextCursor c)
     : t(t),
       cursor(cursor),
       c(c) {
@@ -21,7 +22,7 @@ CommandDeleteChar::CommandDeleteChar(Cursor& cursor, bool forward, Text* t, QTex
     setText("D");
 }
 
-void CommandDeleteChar::removeChar(bool forward){
+void DeleteChar::removeChar(bool forward){
     if(forward){
         c.setPosition(pL);
         c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
@@ -40,7 +41,7 @@ void CommandDeleteChar::removeChar(bool forward){
     cursor.setPosition(*t, c);
 }
 
-void CommandDeleteChar::redo(){
+void DeleteChar::redo(){
     c.setPosition(pL);
     c.setPosition(pR, QTextCursor::KeepAnchor);
     c.removeSelectedText();
@@ -48,7 +49,7 @@ void CommandDeleteChar::redo(){
     cursor.setPosition(*t, c);
 }
 
-void CommandDeleteChar::undo(){
+void DeleteChar::undo(){
     c.setPosition(pL);
     c.insertText(str);
     t->updateToTop();

@@ -1,11 +1,12 @@
-#include "commandevalphrase.h"
+#include "evalphrase.h"
 
-#include "algorithm.h"
-#include "construct.h"
-#include "cursor.h"
-#include "parser.h"
+#include "../algorithm.h"
+#include "../construct.h"
+#include "../cursor.h"
+#include "../parser.h"
+#include "../text.h"
 
-CommandEvalPhrase::CommandEvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c)
+EvalPhrase::EvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c)
     : cursor(cursor),
       tL(t),
       cL(c),
@@ -37,7 +38,7 @@ CommandEvalPhrase::CommandEvalPhrase(Cursor& cursor, const QString& source, Text
     tR->calculateSize();
 }
 
-CommandEvalPhrase::~CommandEvalPhrase(){
+EvalPhrase::~EvalPhrase(){
     if(active) return;
 
     Construct* c = tL_next;
@@ -50,7 +51,7 @@ CommandEvalPhrase::~CommandEvalPhrase(){
     }
 }
 
-void CommandEvalPhrase::redo(){
+void EvalPhrase::redo(){
     active = true;
 
     cL.setPosition(pL);
@@ -73,7 +74,7 @@ void CommandEvalPhrase::redo(){
     cursor.setPosition(*tR, cR);
 }
 
-void CommandEvalPhrase::undo(){
+void EvalPhrase::undo(){
     active = false;
 
     cL.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);

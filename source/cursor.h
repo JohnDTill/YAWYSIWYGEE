@@ -2,11 +2,7 @@
 #define CURSOR_H
 
 #include "globals.h"
-#include <QClipboard>
-#include <QGraphicsItem>
 #include <QTextCursor>
-#include <QUndoCommand>
-#include <stack>
 
 class Construct;
 class CursorView;
@@ -15,6 +11,7 @@ class Line;
 class Phrase;
 class SubPhrase;
 class Text;
+class QUndoCommand;
 
 class Cursor{
 private:
@@ -23,7 +20,6 @@ private:
     QTextCursor anchor_cursor;
     Text* text;
     QTextCursor cursor;
-
     qreal x_setpoint = 0;
 
 public:

@@ -20,13 +20,11 @@ void Line::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWi
     QString num_str = QString::number(line_num);
     if(options->state.testFlag(QStyle::StateFlag::State_Selected)){
         painter->setFont(Globals::active_linenum_font);
-        //painter->setPen(options->palette.text().color());
         painter->setPen(scene()->palette().text().color());
         QFontMetrics fm(Globals::active_linenum_font);
         bounds = fm.boundingRect(num_str);
     }else{
         painter->setFont(Globals::passive_linenum_font);
-        //painter->setPen(options->palette.mid().color());
         painter->setPen(scene()->palette().mid().color());
         QFontMetrics fm(Globals::passive_linenum_font);
         bounds = fm.boundingRect(num_str);

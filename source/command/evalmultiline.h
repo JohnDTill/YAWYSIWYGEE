@@ -2,14 +2,14 @@
 #define COMMANDEVALMULTILINE_H
 
 #include <QUndoCommand>
-
-#include "line.h"
-#include "text.h"
 #include <QTextCursor>
-
+class Construct;
 class Cursor;
+class Line;
+class Text;
+class TypesetScene;
 
-class CommandEvalMultiline : public QUndoCommand{
+class EvalMultiline : public QUndoCommand{
 private:
     Cursor& cursor;
     TypesetScene& doc;
@@ -27,8 +27,8 @@ private:
     int pL;
 
 public:
-    CommandEvalMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
-    ~CommandEvalMultiline();
+    EvalMultiline(Cursor& cursor, TypesetScene& doc, const QString& source, Text* t, QTextCursor c);
+    ~EvalMultiline();
 
 protected:
     virtual void redo() final;

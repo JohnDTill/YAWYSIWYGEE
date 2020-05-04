@@ -45,8 +45,6 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->mainToolBar->addWidget(ui->groupButton);
     ui->groupButton->addAction(ui->actionGroupingabs);
     ui->groupButton->addAction(ui->actionGroupnorm);
-    ui->groupButton->addAction(ui->actionGroupingangle);
-    ui->groupButton->addAction(ui->actionGroupingdangle);
     ui->groupButton->addAction(ui->actionGroupingceil);
     ui->groupButton->addAction(ui->actionGroupingfloor);
     ui->groupButton->addAction(ui->actionEval);

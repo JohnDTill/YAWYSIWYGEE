@@ -1,18 +1,17 @@
 #ifndef TYPESETSCENE_H
 #define TYPESETSCENE_H
 
-#include "cursor.h"
-#include "cursorview.h"
-#include "typesetedit.h"
 #include <QApplication>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
-#include <QUndoStack>
 #include <QTime>
 
 class Construct;
+class Cursor;
+class CursorView;
 class Line;
 class Text;
+class QUndoStack;
 
 class TypesetScene : public QGraphicsScene{
     Q_OBJECT

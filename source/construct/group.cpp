@@ -1,6 +1,7 @@
 #include "group.h"
 
-#include "globals.h"
+#include "../globals.h"
+#include "../subphrase.h"
 #include <QPainter>
 
 Group::Group(void drawLeft(QPainter*, const qreal&),
@@ -22,7 +23,7 @@ void Group::updateLayout(){
 }
 
 void Group::write(QTextStream& out) const{
-    out << ESCAPE << type;
+    out << MB_CONSTRUCT_SYMBOL << type;
     child->write(out);
 }
 

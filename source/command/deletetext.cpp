@@ -1,8 +1,9 @@
-#include "commanddeletetext.h"
+#include "deletetext.h"
 
-#include "cursor.h"
+#include "../cursor.h"
+#include "../text.h"
 
-CommandDeleteText::CommandDeleteText(Cursor& cursor, Text* t, QTextCursor cL, QTextCursor cR)
+DeleteText::DeleteText(Cursor& cursor, Text* t, QTextCursor cL, QTextCursor cR)
     : cursor(cursor),
       t(t) {
     pL = cL.position();
@@ -13,7 +14,7 @@ CommandDeleteText::CommandDeleteText(Cursor& cursor, Text* t, QTextCursor cL, QT
     c = cL;
 }
 
-void CommandDeleteText::redo(){
+void DeleteText::redo(){
     c.setPosition(pL);
     c.setPosition(c.position() + str.length(), QTextCursor::KeepAnchor);
     c.removeSelectedText();
@@ -21,7 +22,7 @@ void CommandDeleteText::redo(){
     cursor.setPosition(*t, c);
 }
 
-void CommandDeleteText::undo(){
+void DeleteText::undo(){
     c.setPosition(pL);
     c.insertText(str);
     t->updateToTop();

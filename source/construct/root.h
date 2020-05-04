@@ -2,9 +2,7 @@
 #define TYPESETROOT_H
 
 #include "construct.h"
-#include "subphrase.h"
 #include <QUndoCommand>
-
 class ScriptedRoot;
 
 static constexpr qreal slope = 4;

@@ -1,13 +1,14 @@
 #include "matrix.h"
 
-#include "algorithm.h"
-#include "cursor.h"
-#include "typesetscene.h"
-#include "globals.h"
+#include "../algorithm.h"
+#include "../cursor.h"
+#include "../globals.h"
+#include "../subphrase.h"
+#include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
 
-Matrix::Matrix(const std::vector<SubPhrase*>& c, minor_integer rows, minor_integer cols)
+Matrix::Matrix(const std::vector<SubPhrase*>& c, uint8_t rows, uint8_t cols)
     : NaryConstruct(c),
       rows(rows),
       cols(cols) {
@@ -20,8 +21,8 @@ void Matrix::updateLayout(){
     std::vector<double> D(rows,0);
 
     //Loop over elements to calculate W, U, and D.
-    for(major_integer i = 0; i < rows; i++){
-        for(major_integer j = 0; j < cols; j++){
+    for(uint16_t i = 0; i < rows; i++){
+        for(uint16_t j = 0; j < cols; j++){
             SubPhrase* e = children[getFlatIndex(i,j)];
             W[j] = qMax( W[j], e->w );
             U[i] = qMax( U[i], e->u );
@@ -32,9 +33,9 @@ void Matrix::updateLayout(){
     //Layout elements and calculate size
     qreal x = text_hoffset + bracket_hoffset;
     qreal y = bracket_voffset;
-    for(major_integer i = 0; i < rows; i++){
+    for(uint16_t i = 0; i < rows; i++){
         x = text_hoffset + bracket_hoffset;
-        for(major_integer j = 0; j < cols; j++){
+        for(uint16_t j = 0; j < cols; j++){
             Phrase* e = children[getFlatIndex(i,j)];
             e->setPos( x+(W[j]-e->w)/2, y+U[i]-e->u );
             x += W[j]+hspace;
@@ -48,12 +49,12 @@ void Matrix::updateLayout(){
 }
 
 Text* Matrix::textUp(const SubPhrase* caller, qreal x) const{
-    major_integer i = caller->child_id;
+    uint16_t i = caller->child_id;
     return (i >= cols) ? Algorithm::textAtSetpoint(*children[i-cols], x) : prev;
 }
 
 Text* Matrix::textDown(const SubPhrase* caller, qreal x) const{
-    major_integer i = caller->child_id + cols;
+    uint16_t i = caller->child_id + cols;
     return (i < children.size()) ? Algorithm::textAtSetpoint(*children[i], x) : next;
 }
 
@@ -83,8 +84,8 @@ void Matrix::populateMenu(QMenu& menu, const SubPhrase* caller){
 }
 
 void Matrix::write(QTextStream& out) const{
-    out << ESCAPE << QChar(8862);
-    out << OPEN << rows << CLOSE << OPEN << cols << CLOSE;
+    out << MB_CONSTRUCT_SYMBOL << QChar(8862);
+    out << MB_OPEN << rows << MB_CLOSE << MB_OPEN << cols << MB_CLOSE;
     for(SubPhrase* c : children) c->write(out);
 }
 
@@ -102,32 +103,32 @@ void Matrix::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, Q
     painter->drawLine(QLineF(right_bracket_x, h, w, h));
 }
 
-major_integer Matrix::getFlatIndex(major_integer row, major_integer col) const{
+uint16_t Matrix::getFlatIndex(uint16_t row, uint16_t col) const{
     return row*cols + col;
 }
 
-major_integer Matrix::getRow(major_integer flat_index) const{
+uint16_t Matrix::getRow(uint16_t flat_index) const{
     return flat_index / cols;
 }
 
-major_integer Matrix::getCol(major_integer flat_index) const{
+uint16_t Matrix::getCol(uint16_t flat_index) const{
     return flat_index % cols;
 }
 
-void Matrix::insertRow(major_integer row, const std::vector<SubPhrase*> inserted){
-    major_integer start = row*cols;
+void Matrix::insertRow(uint16_t row, const std::vector<SubPhrase*> inserted){
+    uint16_t start = row*cols;
 
     //Shift everything beyond this row down
-    major_integer old_size = static_cast<major_integer>(children.size());
+    uint16_t old_size = static_cast<uint16_t>(children.size());
     children.resize(children.size() + cols);
-    for(major_integer i = old_size-1; i >= start; i--){
+    for(uint16_t i = old_size-1; i >= start; i--){
         children[i+cols] = children[i];
         children[i]->child_id += cols;
         if(i==0) break;
     }
 
     //Initialize the new row
-    for(major_integer i = start; i < start+cols; i++){
+    for(uint16_t i = start; i < start+cols; i++){
         children[i] = inserted[i-start];
         children[i]->child_id = i;
         children[i]->show();
@@ -137,15 +138,15 @@ void Matrix::insertRow(major_integer row, const std::vector<SubPhrase*> inserted
     updateToTop();
 }
 
-void Matrix::removeRow(major_integer row){
-    major_integer start = row*cols;
+void Matrix::removeRow(uint16_t row){
+    uint16_t start = row*cols;
 
     //Hide
-    for(major_integer i = start; i < start+cols; i++)
+    for(uint16_t i = start; i < start+cols; i++)
         children[i]->hide();
 
     //Move subsequent elements up
-    for(major_integer i = start+cols; i < children.size(); i++){
+    for(uint16_t i = start+cols; i < children.size(); i++){
         children[i-cols] = children[i];
         children[i]->child_id = i-cols;
     }
@@ -156,19 +157,19 @@ void Matrix::removeRow(major_integer row){
     updateToTop();
 }
 
-void Matrix::insertCol(major_integer col, const std::vector<SubPhrase*> inserted){
+void Matrix::insertCol(uint16_t col, const std::vector<SubPhrase*> inserted){
     children.resize(children.size() + rows);
 
     //Move the old data
-    for(major_integer i = rows-1; i < rows; i--){
-        for(major_integer j = cols-1; j >= col; j--){
-            major_integer index = getFlatIndex(i,j);
+    for(uint16_t i = rows-1; i < rows; i--){
+        for(uint16_t j = cols-1; j >= col; j--){
+            uint16_t index = getFlatIndex(i,j);
             children[index+i+1] = children[index];
             children[index]->child_id = index+i+1;
             if(j==0) break;
         }
-        for(major_integer j = col-1; j < col; j--){
-            major_integer index = getFlatIndex(i,j);
+        for(uint16_t j = col-1; j < col; j--){
+            uint16_t index = getFlatIndex(i,j);
             children[index+i] = children[index];
             children[index]->child_id = index+i;
         }
@@ -177,7 +178,7 @@ void Matrix::insertCol(major_integer col, const std::vector<SubPhrase*> inserted
     cols++;
 
     //Initialize the new column
-    for(major_integer i = col; i < children.size(); i += cols){
+    for(uint16_t i = col; i < children.size(); i += cols){
         children[i] = inserted[i/cols];
         children[i]->child_id = i;
         children[i]->show();
@@ -186,22 +187,22 @@ void Matrix::insertCol(major_integer col, const std::vector<SubPhrase*> inserted
     updateToTop();
 }
 
-void Matrix::removeCol(major_integer col){
-    for(major_integer i = 0; i < rows; i++)
+void Matrix::removeCol(uint16_t col){
+    for(uint16_t i = 0; i < rows; i++)
         children[getFlatIndex(i,col)]->hide();
 
     //Move subsequent elements left
-    for(major_integer i = 0; i < rows; i++){
-        for(major_integer j = 0; j < col; j++){
-            major_integer new_index = getFlatIndex(i,j) - i;
-            major_integer old_index = getFlatIndex(i,j);
+    for(uint16_t i = 0; i < rows; i++){
+        for(uint16_t j = 0; j < col; j++){
+            uint16_t new_index = getFlatIndex(i,j) - i;
+            uint16_t old_index = getFlatIndex(i,j);
             children[new_index] = children[old_index];
             children[new_index]->child_id = new_index;
         }
 
-        for(major_integer j = col+1; j < cols; j++){
-            major_integer new_index = getFlatIndex(i,j) - i - 1;
-            major_integer old_index = getFlatIndex(i,j);
+        for(uint16_t j = col+1; j < cols; j++){
+            uint16_t new_index = getFlatIndex(i,j) - i - 1;
+            uint16_t old_index = getFlatIndex(i,j);
             children[new_index] = children[old_index];
             children[new_index]->child_id = new_index;
         }
@@ -237,7 +238,7 @@ void Matrix::deleteCol(){
     typesetDocument()->undo_stack->push( new RemoveCol(*this, getCol(active) ) );
 }
 
-Matrix::AddRow::AddRow(Matrix& mat, major_integer row)
+Matrix::AddRow::AddRow(Matrix& mat, uint16_t row)
     : mat(mat),
       row(row) {
     uint8_t script_level = mat.children.front()->front->getScriptLevel();
@@ -265,7 +266,7 @@ void Matrix::AddRow::undo(){
     mat.removeRow(row);
 }
 
-Matrix::AddCol::AddCol(Matrix& mat, major_integer col)
+Matrix::AddCol::AddCol(Matrix& mat, uint16_t col)
     : mat(mat),
       col(col) {
     uint8_t script_level = mat.children.front()->front->getScriptLevel();
@@ -293,10 +294,10 @@ void Matrix::AddCol::undo(){
     mat.removeCol(col);
 }
 
-Matrix::RemoveRow::RemoveRow(Matrix& mat, major_integer row)
+Matrix::RemoveRow::RemoveRow(Matrix& mat, uint16_t row)
     : mat(mat),
       row(row) {
-    major_integer start = mat.cols*row;
+    uint16_t start = mat.cols*row;
     for(std::vector<SubPhrase*>::size_type i = start; i < start + mat.cols; i++)
         data.push_back(mat.children[i]);
 }
@@ -316,10 +317,10 @@ void Matrix::RemoveRow::undo(){
     mat.insertRow(row, data);
 }
 
-Matrix::RemoveCol::RemoveCol(Matrix& mat, major_integer col)
+Matrix::RemoveCol::RemoveCol(Matrix& mat, uint16_t col)
     : mat(mat),
       col(col) {
-    for(major_integer i = 0; i < mat.rows; i++)
+    for(uint16_t i = 0; i < mat.rows; i++)
         data.push_back(mat.children[ mat.getFlatIndex(i,col) ]);
 }
 

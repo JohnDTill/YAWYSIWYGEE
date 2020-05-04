@@ -2,13 +2,11 @@
 #define COMMANDINSERTCHAR_H
 
 #include <QUndoCommand>
-
-#include "text.h"
 #include <QTextCursor>
-
 class Cursor;
+class Text;
 
-class CommandInsertChar : public QUndoCommand{
+class InsertChar : public QUndoCommand{
 public:
     int pR;
     Text* t;
@@ -20,7 +18,7 @@ private:
     int pL;
 
 public:
-    CommandInsertChar(Cursor& cursor, QChar ch, Text* t, QTextCursor c);
+    InsertChar(Cursor& cursor, QChar ch, Text* t, QTextCursor c);
     void addChar(QChar ch);
 
 protected:

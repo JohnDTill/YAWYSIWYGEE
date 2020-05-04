@@ -12,7 +12,6 @@
 #include "text.h"
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
-#include <QPainter>
 
 Cursor::Cursor(TypesetScene& doc)
     : doc(doc),
@@ -650,7 +649,7 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new EvalPhrase(*this, source, text, cursor);
 }
 
-const QHash<QString, std::pair<QString, QString> > construct_map = {
+static const QHash<QString, std::pair<QString, QString> > construct_map = {
     {"vec", {MB_ACCENT_ARROW, "⏴⏵"}},
     {"breve", {MB_ACCENT_BREVE, "⏴⏵"}},
     {"dddot", {MB_ACCENT_TRIPLE_DOTS, "⏴⏵"}},

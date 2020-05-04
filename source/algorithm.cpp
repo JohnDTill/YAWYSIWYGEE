@@ -2,11 +2,75 @@
 
 #include "construct.h"
 #include "line.h"
+#include "text.h"
 #include "parser.h"
 #include "MathBran/include/QMathBran.h"
 #include <QFontMetrics>
 #include <QTextCursor>
 #include <QTextStream>
+
+static void writeAfterCursor(QTextCursor c, QTextStream& out){
+    c.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+    QString str = c.selectedText();
+    out << MathBran::applyEscapes(str);
+}
+
+static void writeUntilCursor(QTextCursor c, QTextStream& out){
+    c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
+    QString str = c.selectedText();
+    out << MathBran::applyEscapes(str);
+}
+
+static void writeText(QTextCursor cL, QTextCursor cR, QTextStream& out){
+    cL.setPosition(cR.position(), QTextCursor::KeepAnchor);
+    QString str = cL.selectedText();
+    out << MathBran::applyEscapes(str);
+}
+
+static void writePhrase(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
+    Q_ASSERT(tL.parent == tR.parent);
+    Q_ASSERT(tL.x() < tR.x());
+
+    writeAfterCursor(cL, out);
+    tL.next->write(out);
+    for(Text* t = tL.next->next; t != &tR; t = t->next->next){
+        t->write(out);
+        t->next->write(out);
+    }
+    writeUntilCursor(cR, out);
+}
+
+static void writePhraseAfterCursor(const Text& t, QTextCursor c, QTextStream& out){
+    writeAfterCursor(c, out);
+    for(Construct* c = t.next; c; c = c->next->next){
+        c->write(out);
+        c->next->write(out);
+    }
+}
+
+static void writePhraseBeforeCursor(const Text& t, QTextCursor c, QTextStream& out){
+    for(Text* curr = t.parent->front; curr != &t; curr = curr->next->next){
+        curr->write(out);
+        curr->next->write(out);
+    }
+    writeUntilCursor(c, out);
+}
+
+static void writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
+    Q_ASSERT(tL.parent->isLine());
+    Q_ASSERT(tR.parent->isLine());
+    Q_ASSERT(tL.parent->getLine().proceeds(tR.parent->getLine()));
+
+    writePhraseAfterCursor(tL, cL, out);
+    out << "\n";
+
+    Line* final_line = &tR.parent->getLine();
+    for(Line* l = tL.parent->getLine().next; l != final_line; l = l->next){
+        l->write(out);
+    }
+
+    writePhraseBeforeCursor(tR, cR, out);
+}
 
 qreal Algorithm::cursorOffset(const Text& t, QTextCursor c){
     QFontMetrics fm(t.font());
@@ -109,67 +173,4 @@ QTextCursor Algorithm::textCursorStart(Text* t){
     c.setPosition(0);
 
     return c;
-}
-
-void Algorithm::writeAfterCursor(QTextCursor c, QTextStream& out){
-    c.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-    QString str = c.selectedText();
-    out << MathBran::applyEscapes(str);
-}
-
-void Algorithm::writeUntilCursor(QTextCursor c, QTextStream& out){
-    c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
-    QString str = c.selectedText();
-    out << MathBran::applyEscapes(str);
-}
-
-void Algorithm::writeText(QTextCursor cL, QTextCursor cR, QTextStream& out){
-    cL.setPosition(cR.position(), QTextCursor::KeepAnchor);
-    QString str = cL.selectedText();
-    out << MathBran::applyEscapes(str);
-}
-
-void Algorithm::writePhrase(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
-    Q_ASSERT(tL.parent == tR.parent);
-    Q_ASSERT(tL.x() < tR.x());
-
-    writeAfterCursor(cL, out);
-    tL.next->write(out);
-    for(Text* t = tL.next->next; t != &tR; t = t->next->next){
-        t->write(out);
-        t->next->write(out);
-    }
-    writeUntilCursor(cR, out);
-}
-
-void Algorithm::writePhraseAfterCursor(const Text& t, QTextCursor c, QTextStream& out){
-    writeAfterCursor(c, out);
-    for(Construct* c = t.next; c; c = c->next->next){
-        c->write(out);
-        c->next->write(out);
-    }
-}
-
-void Algorithm::writePhraseBeforeCursor(const Text& t, QTextCursor c, QTextStream& out){
-    for(Text* curr = t.parent->front; curr != &t; curr = curr->next->next){
-        curr->write(out);
-        curr->next->write(out);
-    }
-    writeUntilCursor(c, out);
-}
-
-void Algorithm::writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
-    Q_ASSERT(tL.parent->isLine());
-    Q_ASSERT(tR.parent->isLine());
-    Q_ASSERT(tL.parent->getLine().proceeds(tR.parent->getLine()));
-
-    writePhraseAfterCursor(tL, cL, out);
-    out << "\n";
-
-    Line* final_line = &tR.parent->getLine();
-    for(Line* l = tL.parent->getLine().next; l != final_line; l = l->next){
-        l->write(out);
-    }
-
-    writePhraseBeforeCursor(tR, cR, out);
 }

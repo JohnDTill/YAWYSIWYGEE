@@ -4,6 +4,7 @@
 #include "../cursor.h"
 #include "../globals.h"
 #include "../subphrase.h"
+#include "../text.h"
 #include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>

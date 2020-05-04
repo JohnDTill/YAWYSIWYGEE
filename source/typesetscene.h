@@ -21,7 +21,7 @@ public:
     Line* back;
     Cursor* cursor;
     CursorView* cv;
-    const bool allow_write;
+    bool allow_write;
     QUndoStack* undo_stack;
     bool show_line_nums = true;
 

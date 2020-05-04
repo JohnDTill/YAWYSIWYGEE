@@ -5,6 +5,7 @@
 #include "cursor.h"
 #include "typesetscene.h"
 #include "globals.h"
+#include "line.h"
 #include "phrase.h"
 #include "text.h"
 #include <QStyleOptionGraphicsItem>

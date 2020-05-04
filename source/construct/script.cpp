@@ -3,6 +3,7 @@
 #include "../algorithm.h"
 #include "../cursor.h"
 #include "../subphrase.h"
+#include "../text.h"
 #include "../typesetscene.h"
 
 #include <QMenu>

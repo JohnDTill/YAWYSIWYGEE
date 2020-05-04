@@ -6,17 +6,11 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QLabel>
+#include <QMessageBox>
 #include <QTableWidgetItem>
 #include <QTextStream>
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
-
-#include <QMessageBox>
-#define FATAL_ERROR(message) {\
-    QMessageBox messageBox; \
-    messageBox.critical(nullptr, "Error", QString("Fatal Error: ") + message); \
-    messageBox.setFixedSize(500,200); \
-    exit(0);}
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),

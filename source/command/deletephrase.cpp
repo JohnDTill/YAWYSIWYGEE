@@ -3,6 +3,7 @@
 #include "../algorithm.h"
 #include "../construct.h"
 #include "../cursor.h"
+#include "../phrase.h"
 #include "../text.h"
 
 DeletePhrase::DeletePhrase(Cursor& cursor, Text* tL, QTextCursor cL, Text* tR, QTextCursor cR)

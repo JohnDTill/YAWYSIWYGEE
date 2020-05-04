@@ -4,6 +4,7 @@
 #include "../construct.h"
 #include "../cursor.h"
 #include "../parser.h"
+#include "../phrase.h"
 #include "../text.h"
 
 EvalPhrase::EvalPhrase(Cursor& cursor, const QString& source, Text* t, QTextCursor c)

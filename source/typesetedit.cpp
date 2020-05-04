@@ -21,7 +21,6 @@ TypesetEdit::TypesetEdit(QWidget* parent)
 
     setMouseTracking(true);
     view = new QGraphicsView(this);
-
     view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOn);
     view->verticalScrollBar()->setCursor(Qt::CursorShape::ArrowCursor);
@@ -103,6 +102,7 @@ void TypesetEdit::setPalette(const QPalette& palette){
 
 void TypesetEdit::setReadOnly(bool ro){
     read_only = ro;
+    scene->allow_write = !ro;
 }
 
 void TypesetEdit::showLineNumbers(bool show){

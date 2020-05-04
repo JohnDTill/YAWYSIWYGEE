@@ -144,11 +144,7 @@ void TypesetEdit::redo(){
 }
 
 void TypesetEdit::setMathBran(const QString& text){
-    QString t = text;
-    QTextStream in(&t);
-    in.setCodec("UTF-8");
-
-    if(!MathBran::isWellFormed(in.readAll())){
+    if(!MathBran::isWellFormed(text)){
         QMessageBox messageBox;
         messageBox.critical(nullptr, "Error", "TypesetEdit::setMathBran - Invalid MathBran source.");
         messageBox.setFixedSize(500, 200);
@@ -156,7 +152,7 @@ void TypesetEdit::setMathBran(const QString& text){
     }
 
     delete scene;
-    scene = Parser::parseDocument(in, scene->allow_write, scene->show_line_nums);
+    scene = Parser::parseDocument(text, scene->allow_write, scene->show_line_nums);
     setScene(scene);
 
     //Make sure the view gets the focus item signal

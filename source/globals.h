@@ -23,6 +23,7 @@ static const QChar CLOSE = 9205; //⏵
 
 class Globals{
     public:
+        static bool vertical_integrals;
         static QPen empty_box_pen;
 
         static QFont bigqchar_font;

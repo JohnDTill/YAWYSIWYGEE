@@ -7,8 +7,9 @@
 #include <QMenu>
 #include <QPainter>
 
-BigQChar::BigQChar(QChar qchar)
-    : ch(qchar) {
+BigQChar::BigQChar(QChar qchar, bool allow_overscript)
+    : ch(qchar),
+      allow_overscript(allow_overscript) {
     updateLayout();
 }
 
@@ -43,7 +44,7 @@ BigQChar::AddUnderscript::AddUnderscript(BigQChar* out)
     Text* t = new Text(out->prev->getScriptLevel() + 1);
     t->next = t->prev = nullptr;
 
-    in = new BigQChar_S(out->ch, new SubPhrase(t));
+    in = new BigQChar_S(out->ch, new SubPhrase(t), out->allow_overscript);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;
@@ -77,9 +78,10 @@ void BigQChar::AddUnderscript::undo(){
 }
 
 #define underscript child
-BigQChar_S::BigQChar_S(QChar qchar, SubPhrase* c)
+BigQChar_S::BigQChar_S(QChar qchar, SubPhrase* c, bool allow_overscript)
     : UnaryConstruct(c),
-      ch(qchar) {
+      ch(qchar),
+      allow_overscript(allow_overscript) {
     updateLayout();
 }
 
@@ -96,8 +98,10 @@ void BigQChar_S::updateLayout(){
 
 void BigQChar_S::populateMenu(QMenu& menu, const SubPhrase*){
     menu.addSeparator();
-    QAction* addOverscript = menu.addAction(QString("Big ") + ch + ": Add overscript");
-    connect(addOverscript, SIGNAL(triggered()), this, SLOT(addOverscript()));
+    if(allow_overscript){
+        QAction* addOverscript = menu.addAction(QString("Big ") + ch + ": Add overscript");
+        connect(addOverscript, SIGNAL(triggered()), this, SLOT(addOverscript()));
+    }
     QAction* removeUnderscript = menu.addAction(QString("Big ") + ch + ": Remove underscript");
     connect(removeUnderscript, SIGNAL(triggered()), this, SLOT(removeUnderscript()));
 }
@@ -168,7 +172,7 @@ void BigQChar_S::AddOverscript::undo(){
 
 BigQChar_S::RemoveUnderscript::RemoveUnderscript(BigQChar_S* out)
     : out(out) {
-    in = new BigQChar(out->ch);
+    in = new BigQChar(out->ch, out->allow_overscript);
     in->setParentItem(out->prev->parent);
     in->next = out->next;
     in->prev = out->prev;

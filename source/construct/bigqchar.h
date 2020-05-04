@@ -12,9 +12,10 @@ class BigQChar : public TerminalConstruct{
 
 private:
     const QChar ch;
+    const bool allow_overscript;
 
 public:
-    BigQChar(QChar qchar);
+    BigQChar(QChar qchar, bool allow_overscript = true);
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;
@@ -48,10 +49,11 @@ class BigQChar_S : public UnaryConstruct{
 
 private:
     const QChar ch;
+    const bool allow_overscript;
     qreal symbol_x;
 
 public:
-    BigQChar_S(QChar qchar, SubPhrase* c = nullptr);
+    BigQChar_S(QChar qchar, SubPhrase* c = nullptr, bool allow_overscript = true);
     virtual void updateLayout() override final;
     virtual void populateMenu(QMenu& menu, const SubPhrase* = nullptr) override final;
     virtual void write(QTextStream& out) const override final;

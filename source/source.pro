@@ -10,6 +10,7 @@ TARGET = YAWYSIWYGEE
 SOURCES += \
     algorithm.cpp \
     construct.cpp \
+    construct/group.cpp \
     cursor.cpp \
     cursor_adhoc_sub.cpp \
     cursorview.cpp \
@@ -35,7 +36,6 @@ SOURCES += \
     construct/binomial.cpp \
     construct/cases.cpp \
     construct/fraction.cpp \
-    construct/grouping.cpp \
     construct/integral.cpp \
     construct/limit.cpp \
     construct/matrix.cpp \
@@ -48,6 +48,8 @@ HEADERS += \
     YAWYSIWYGEE \
     algorithm.h \
     construct.h \
+    construct/constructs.h \
+    construct/group.h \
     cursor.h \
     cursorview.h \
     globals.h \
@@ -73,7 +75,6 @@ HEADERS += \
     construct/binomial.h \
     construct/cases.h \
     construct/fraction.h \
-    construct/grouping.h \
     construct/integral.h \
     construct/limit.h \
     construct/matrix.h \

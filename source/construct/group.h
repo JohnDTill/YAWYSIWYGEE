@@ -3,7 +3,7 @@
 
 #include "construct.h"
 
-class Grouping : public UnaryConstruct{
+class Group : public UnaryConstruct{
 private:
     static constexpr qreal symbol_width = 6;
     void (*drawLeft)(QPainter*, const qreal&);
@@ -11,7 +11,7 @@ private:
     QChar type;
 
 public:
-    Grouping(void drawLeft(QPainter*, const qreal&),
+    Group(void drawLeft(QPainter*, const qreal&),
              void drawRight(QPainter*, const qreal&, const qreal&),
              QChar type,
              SubPhrase* c = nullptr);
@@ -28,8 +28,8 @@ public:
     static void FLOOR(QPainter* painter, const qreal& height, const qreal& x);
     static void NORM(QPainter* painter, const qreal& height);
     static void NORM(QPainter* painter, const qreal& height, const qreal& x);
-    static void PARENTHESIS(QPainter* painter, const qreal& height);
-    static void PARENTHESIS(QPainter* painter, const qreal& height, const qreal& x);
+    static void PAREN(QPainter* painter, const qreal& height);
+    static void PAREN(QPainter* painter, const qreal& height, const qreal& x);
 
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;

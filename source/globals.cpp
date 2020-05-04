@@ -4,6 +4,8 @@ inline void initResources(){
     Q_INIT_RESOURCE(qtypesetobjectresource);
 }
 
+bool Globals::vertical_integrals = false;
+
 QPen Globals::empty_box_pen;
 
 QFont Globals::bigqchar_font;

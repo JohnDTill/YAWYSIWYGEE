@@ -1,15 +1,15 @@
 #include "cursor.h"
 
 #include "algorithm.h"
-#include "command/commands.h"
 #include "construct.h"
 #include "typesetscene.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
 #include "subphrase.h"
-#include "substitutions.h"
 #include "text.h"
+#include "YAWYSIWYGEE_KEYWORDS.h"
+#include "command/commands.h"
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
 
@@ -649,6 +649,8 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new EvalPhrase(*this, source, text, cursor);
 }
 
+//Could use a compile-time hash tables
+static const QHash<QString, QString> keywords = YAWYSIWYGEE_KEYWORDS;
 static const QHash<QString, std::pair<QString, QString> > construct_map = {
     {"vec", {MB_ACCENT_ARROW, "⏴⏵"}},
     {"breve", {MB_ACCENT_BREVE, "⏴⏵"}},
@@ -707,8 +709,8 @@ void Cursor::checkSlashSub(){
                 temp_cursor.movePosition(QTextCursor::Right);
                 temp_cursor.setPosition(word_end, QTextCursor::KeepAnchor);
                 QString key = temp_cursor.selectedText();
-                auto symbol_lookup = keyword_map.find(key);
-                if(symbol_lookup != keyword_map.end()){
+                auto symbol_lookup = keywords.find(key);
+                if(symbol_lookup != keywords.end()){
                     anchor_cursor.setPosition(temp_cursor.anchor() - 1);
                     paste(symbol_lookup.value());
                 }else{
@@ -774,8 +776,8 @@ void Cursor::checkComplexSlashSub(){
                     c.movePosition(QTextCursor::Right);
                     c.setPosition(word_end, QTextCursor::KeepAnchor);
                     QString key = c.selectedText();
-                    auto symbol_lookup = keyword_map.find(key);
-                    if(symbol_lookup != keyword_map.end()){
+                    auto symbol_lookup = keywords.find(key);
+                    if(symbol_lookup != keywords.end()){
                         converted.prepend(symbol_lookup.value());
                     }else{
                         auto construct_lookup = construct_map.find(key);

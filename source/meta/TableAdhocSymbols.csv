@@ -1,4 +1,4 @@
-First,Second,After,MUST SORT BY “Second” COLUMN
+First,Second,After,SORT BY “Second” COLUMN
 <,_,≤,
 >,_,≥,
 =,_,≡,
@@ -21,9 +21,7 @@ First,Second,After,MUST SORT BY “Second” COLUMN
 ≡,/,≢,
 ≈,/,≉,
 ≅,/,≇,
-≡,/,≢ ,
 ∋,/,∌,
-⊂,/,⊄,
 ⊆,/,⊈,
 ⊃,/,⊅,
 ⊇,/,⊉,

@@ -67,7 +67,6 @@ HEADERS += \
     parser.h \
     phrase.h \
     subphrase.h \
-    substitutions.h \
     text.h \
     typesetedit.h \
     command/commandlist.h \
@@ -82,7 +81,8 @@ HEADERS += \
     construct/root.h \
     construct/script.h \
     construct/underscriptedword.h \
-    typesetscene.h
+    typesetscene.h \
+    YAWYSIWYGEE_keywords.h
 
 
 # Default rules for deployment.
@@ -111,4 +111,5 @@ defineTest(copyToDestDir) {
 }
 
 copyToDestDir($$PWD/"YAWYSIWYGEE", $$PWD/../include)
+copyToDestDir($$PWD/"YAWYSIWYGEE_keywords.h", $$PWD/../include)
 copyToDestDir($$PWD/"TypesetEdit.h", $$PWD/../include)

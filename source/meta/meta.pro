@@ -1,13 +1,15 @@
-QT       += core gui widgets
+QT += core
 
-TARGET = LatexSymbols
+TARGET = meta
 TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += main.cpp
 
-HEADERS += ../substitutions.h
+HEADERS += script_keywords.h \
+           ../YAWYSIWYGEE_keywords.h \
+           script_adhoc.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -18,22 +18,12 @@ public:
     virtual void updateLayout() override final;
     virtual void write(QTextStream& out) const override final;
 
-    static void ANGLE(QPainter* painter, const qreal& height);
-    static void ANGLE(QPainter* painter, const qreal& height, const qreal& x);
     static void BAR(QPainter* painter, const qreal& height);
     static void BAR(QPainter* painter, const qreal& height, const qreal& x);
-    static void BLANK(QPainter*, const qreal&);
-    static void BLANK(QPainter*, const qreal&, const qreal&);
-    static void BRACE(QPainter* painter, const qreal& height);
-    static void BRACE(QPainter* painter, const qreal& height, const qreal& x);
     static void BRACKET(QPainter* painter, const qreal& height);
     static void BRACKET(QPainter* painter, const qreal& height, const qreal& x);
     static void CEIL(QPainter* painter, const qreal& height);
     static void CEIL(QPainter* painter, const qreal& height, const qreal& x);
-    static void DOUBLE_ANGLE(QPainter* painter, const qreal& height);
-    static void DOUBLE_ANGLE(QPainter* painter, const qreal& height, const qreal& x);
-    static void DOUBLE_BRACKET(QPainter* painter, const qreal& height);
-    static void DOUBLE_BRACKET(QPainter* painter, const qreal& height, const qreal& x);
     static void FLOOR(QPainter* painter, const qreal& height);
     static void FLOOR(QPainter* painter, const qreal& height, const qreal& x);
     static void NORM(QPainter* painter, const qreal& height);

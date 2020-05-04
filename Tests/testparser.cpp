@@ -1,6 +1,7 @@
 #include "testparser.h"
 
 #include <YAWYSIWYGEE>
+#include <QMathBran.h>
 
 void TestParser::validateTestFile(){
     QFile test_file(":test.txt");
@@ -9,7 +10,7 @@ void TestParser::validateTestFile(){
     in.setCodec("UTF-8");
     QString test_code = in.readAll();
 
-    //QVERIFY(Parser::isValidCode(test_code));
+    QVERIFY(MathBran::isWellFormed(test_code));
 }
 
 void TestParser::loadSaveTestFile(){

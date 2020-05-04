@@ -26,44 +26,12 @@ void Grouping::write(QTextStream& out) const{
     child->write(out);
 }
 
-void Grouping::ANGLE(QPainter* painter, const qreal& height){
-    painter->drawLine(QLineF(symbol_width, 0, symbol_width/3, height/2));
-    painter->drawLine(QLineF(symbol_width, height, symbol_width/3, height/2));
-}
-
-void Grouping::ANGLE(QPainter* painter, const qreal& height, const qreal& x){
-    painter->drawLine(QLineF(x + symbol_width*1/3, 0, x + symbol_width, height/2));
-    painter->drawLine(QLineF(x + symbol_width*1/3, height, x + symbol_width, height/2));
-}
-
 void Grouping::BAR(QPainter* painter, const qreal& height){
     painter->drawLine(QLineF(symbol_width/2, 0, symbol_width/2, height));
 }
 
 void Grouping::BAR(QPainter* painter, const qreal& height, const qreal& x){
     painter->drawLine(QLineF(x + symbol_width/2, 0, x + symbol_width/2, height));
-}
-
-void Grouping::BLANK(QPainter*, const qreal&){
-    //DO NOTHING
-}
-
-void Grouping::BLANK(QPainter*, const qreal&, const qreal&){
-    //DO NOTHING
-}
-
-void Grouping::BRACE(QPainter* painter, const qreal& height){
-    painter->drawArc(QRectF(symbol_width/2,0,symbol_width/2,height/2), 90*16, 90*16);
-    painter->drawArc(QRectF(0,0,symbol_width/2,height/2), 270*16, 90*16);
-    painter->drawArc(QRectF(0,height/2,symbol_width/2,height/2), 0*16, 90*16);
-    painter->drawArc(QRectF(symbol_width/2,height/2,symbol_width/2,height/2), 180*16, 90*16);
-}
-
-void Grouping::BRACE(QPainter* painter, const qreal& height, const qreal& x){
-    painter->drawArc(QRectF(x,0,symbol_width/2,height/2), 0*16, 90*16);
-    painter->drawArc(QRectF(x+symbol_width/2,0,symbol_width/2,height/2), 180*16, 90*16);
-    painter->drawArc(QRectF(x+symbol_width/2,height/2,symbol_width/2,height/2), 90*16, 90*16);
-    painter->drawArc(QRectF(x,height/2,symbol_width/2,height/2), 270*16, 90*16);
 }
 
 void Grouping::BRACKET(QPainter* painter, const qreal& height){
@@ -86,34 +54,6 @@ void Grouping::CEIL(QPainter* painter, const qreal& height){
 void Grouping::CEIL(QPainter* painter, const qreal& height, const qreal& x){
     painter->drawLine(QLineF(x + symbol_width, 0, x + symbol_width, height));
     painter->drawLine(QLineF(x, 0, x + symbol_width, 0));
-}
-
-void Grouping::DOUBLE_ANGLE(QPainter* painter, const qreal& height){
-    painter->drawLine(QLineF(symbol_width, 0, symbol_width/3, height/2));
-    painter->drawLine(QLineF(symbol_width, height, symbol_width/3, height/2));
-    painter->drawLine(QLineF(symbol_width*2/3, 0, 0, height/2));
-    painter->drawLine(QLineF(symbol_width*2/3, height, 0, height/2));
-}
-
-void Grouping::DOUBLE_ANGLE(QPainter* painter, const qreal& height, const qreal& x){
-    painter->drawLine(QLineF(x + symbol_width*1/3, 0, x + symbol_width, height/2));
-    painter->drawLine(QLineF(x + symbol_width*1/3, height, x + symbol_width, height/2));
-    painter->drawLine(QLineF(x, 0, x + symbol_width*2/3, height/2));
-    painter->drawLine(QLineF(x, height, x + symbol_width*2/3, height/2));
-}
-
-void Grouping::DOUBLE_BRACKET(QPainter* painter, const qreal& height){
-    painter->drawLine(QLineF(0, 0, 0, height));
-    painter->drawLine(QLineF(symbol_width/3, 0, symbol_width/3, height));
-    painter->drawLine(QLineF(0, 0, symbol_width, 0));
-    painter->drawLine(QLineF(0, height, symbol_width, height));
-}
-
-void Grouping::DOUBLE_BRACKET(QPainter* painter, const qreal& height, const qreal& x){
-    painter->drawLine(QLineF(x + symbol_width, 0, x + symbol_width, height));
-    painter->drawLine(QLineF(x + symbol_width*2/3, 0, x + symbol_width*2/3, height));
-    painter->drawLine(QLineF(x, 0, x + symbol_width, 0));
-    painter->drawLine(QLineF(x, height, x + symbol_width, height));
 }
 
 void Grouping::FLOOR(QPainter* painter, const qreal& height){

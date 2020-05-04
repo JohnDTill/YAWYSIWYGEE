@@ -146,15 +146,15 @@ void MainWindow::on_actionMatrix_triggered(){
 }
 
 void MainWindow::on_actionCases_triggered(){
-    typeset_edit.insertMathBran("⁜c");
+    typeset_edit.insertMathBran("⁜c⏴⏵⏴⏵⏴⏵⏴⏵");
 }
 
 void MainWindow::on_actionBinom_triggered(){
-    typeset_edit.insertMathBran("⁜b");
+    typeset_edit.insertMathBran("⁜b⏴n⏵⏴k⏵");
 }
 
 void MainWindow::on_actionLim_triggered(){
-    typeset_edit.insertMathBran("⁜l");
+    typeset_edit.insertMathBran("⁜l⏴⏵⏴⏵");
 }
 
 void MainWindow::on_actionRoot_triggered(){
@@ -277,7 +277,7 @@ void MainWindow::on_actionGroupingfloor_triggered(){
 }
 
 void MainWindow::on_actionEval_triggered(){
-    typeset_edit.insertMathBran("⁜┊⏴⏵⏴⏵");
+    typeset_edit.insertMathBran("⁜┊⏴a⏵⏴b⏵");
 }
 
 void MainWindow::on_groupButton_triggered(QAction* action){

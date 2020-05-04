@@ -5,6 +5,7 @@
 #include "globals.h"
 #include "parser.h"
 #include "phrase.h"
+#include "MathBran/include/QMathBran.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
@@ -87,7 +88,7 @@ void Text::populateMenu(QMenu& menu){
 
 void Text::write(QTextStream& out) const{
     QString str = toPlainText();
-    Parser::applyEscapes(str);
+    MathBran::applyEscapes(str);
     out << str;
 }
 

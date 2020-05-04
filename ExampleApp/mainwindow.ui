@@ -381,7 +381,7 @@
     <string>Mat</string>
    </property>
    <property name="toolTip">
-    <string>\mat</string>
+    <string>\mat{rows}{cols}</string>
    </property>
   </action>
   <action name="actionCases">
@@ -405,7 +405,7 @@
     <string>Binom</string>
    </property>
    <property name="toolTip">
-    <string>\binom</string>
+    <string>\binom{n}{k}</string>
    </property>
   </action>
   <action name="actionLim">
@@ -417,7 +417,7 @@
     <string>Lim</string>
    </property>
    <property name="toolTip">
-    <string>\lim</string>
+    <string>\lim{var}{to}</string>
    </property>
   </action>
   <action name="actionRoot">
@@ -429,7 +429,7 @@
     <string>Root</string>
    </property>
    <property name="toolTip">
-    <string>\root</string>
+    <string>\root{arg}</string>
    </property>
   </action>
   <action name="actionBigint">
@@ -441,7 +441,7 @@
     <string>Int</string>
    </property>
    <property name="toolTip">
-    <string>\bigint</string>
+    <string>\int</string>
    </property>
   </action>
   <action name="actionBigsum">
@@ -453,7 +453,7 @@
     <string>Sum</string>
    </property>
    <property name="toolTip">
-    <string>\bigsum</string>
+    <string>\sum</string>
    </property>
   </action>
   <action name="actionSubscript">

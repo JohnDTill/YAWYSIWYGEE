@@ -19,6 +19,7 @@
 #include "substitutions.h"
 #include "text.h"
 #include <QPainter>
+#include "MathBran/include/QMathBran.h"
 
 Cursor::Cursor(TypesetScene& doc)
     : doc(doc),
@@ -347,20 +348,22 @@ void Cursor::paste(const QString& str){
         std::vector<QUndoCommand*> commands;
         commands.push_back( deleteSelection() );
         commands[0]->redo();
-        if(Parser::shouldParseAsCode(str)) commands.push_back(evaluate(str));
-        else{
+        if(MathBran::containsConstruct(str) && MathBran::isWellFormed(str)){
+            commands.push_back(evaluate(str));
+        }else{
             QString unescape = str;
-            commands.push_back(insert(Parser::removeEscapes(unescape)));
+            commands.push_back(insert(MathBran::removeEscapes(unescape)));
         }
         commands[1]->redo();
         commands[1]->undo();
         commands[0]->undo();
         doc.undo_stack->push( new CommandList(commands) );
     }else{
-        if(Parser::shouldParseAsCode(str)) doc.undo_stack->push(evaluate(str));
-        else{
+        if(MathBran::containsConstruct(str) && MathBran::isWellFormed(str)){
+            doc.undo_stack->push(evaluate(str));
+        }else{
             QString unescape = str;
-            doc.undo_stack->push(insert(Parser::removeEscapes(unescape)));
+            doc.undo_stack->push(insert(MathBran::removeEscapes(unescape)));
         }
     }
 }
@@ -654,48 +657,45 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new CommandEvalPhrase(*this, source, text, cursor);
 }
 
-const QHash<QString,QString> construct_map = {
-    {"vec", "→"},
-    {"breve", "ă"},
-    {"dddot", "⋯"},
-    {"ddot", "ä"},
-    {"dot", "ȧ"},
-    {"hat", "â"},
-    {"bar", "ā"},
-    {"tilde", "ã"},
-    {"bigsum", "∑"},
-    {"bigprod", "∏"},
-    {"bigcoprod", "∐"},
-    {"bigcap", "⋂"},
-    {"bigcup", "⋃"},
-    {"biguplus", "⨄"},
-    {"binom", "b"},
-    {"cases", "c"},
-    {"frac", "f"},
-    {"angle", "⟨"},
-    {"ceil", "⌈"},
-    {"floor", "⌊"},
-    {"dangle","⟪"},
-    {"dbracket", "⟦"},
-    {"eval", "┊"},
-    {"abs", "|"},
-    {"norm", "‖"},
-    {"iiint", "∭"},
-    {"iint", "∬"},
-    {"int", "∫"},
-    {"oint", "∮"},
-    {"oiint", "∯"},
-    {"oiiint", "∰"},
-    {"mat", "⊞"},
-    {"sqrt", "√"},
-    {"_^", "Δ"},
-    {"^", "^"},
-    {"_", "_"},
-    {"max", "↑"},
-    {"min", "↓"},
-    {"sup", "↗"},
-    {"inf", "↘"},
-    {"lim", "l"}
+const QHash<QString, std::pair<QString, QString> > construct_map = {
+    {"vec", {MB_ACCENT_ARROW, "⏴⏵"}},
+    {"breve", {MB_ACCENT_BREVE, "⏴⏵"}},
+    {"dddot", {MB_ACCENT_TRIPLE_DOTS, "⏴⏵"}},
+    {"ddot", {MB_ACCENT_DOUBLE_DOTS, "⏴⏵"}},
+    {"dot", {MB_ACCENT_DOT, "⏴⏵"}},
+    {"hat", {MB_ACCENT_HAT, "⏴⏵"}},
+    {"bar", {MB_ACCENT_BAR, "⏴⏵"}},
+    {"tilde", {MB_ACCENT_TILDE, "⏴⏵"}},
+    {"sum", {MB_SUMMATION, ""}},
+    {"prod", {MB_PRODUCT, ""}},
+    {"coprod", {MB_COPRODUCT, ""}},
+    {"bigcap", {MB_INTERSECTION, ""}},
+    {"bigcup", {MB_UNION, ""}},
+    {"biguplus",{MB_UNION_PLUS, ""}},
+    {"binom", {MB_BINOMIAL_COEFFICIENTS, "⏴n⏵⏴k⏵"}},
+    {"cases", {MB_CASES, "⏴⏵⏴⏵⏴⏵⏴⏵"}},
+    {"frac", {MB_FRACTION, "⏴⏵⏴⏵"}},
+    {"ceil", {MB_GROUPING_CEIL, "⏴⏵"}},
+    {"floor", {MB_GROUPING_FLOOR, "⏴⏵"}},
+    {"eval", {MB_EVALSCRIPT, "⏴a⏵⏴b⏵"}},
+    {"abs", {MB_GROUPING_BARS, "⏴⏵"}},
+    {"norm", {MB_GROUPING_DOUBLE_BARS, "⏴⏵"}},
+    {"iiint", {MB_TRIPLE_INTEGRAL, ""}},
+    {"iint", {MB_DOUBLE_INTEGRAL, ""}},
+    {"int", {MB_INTEGRAL, ""}},
+    {"oint", {MB_CONTOUR_INTEGRAL, ""}},
+    {"oiint", {MB_CLOSED_SURFACE_INTEGRAL, ""}},
+    {"oiiint", {MB_CLOSED_VOLUME_INTEGRAL, ""}},
+    {"mat", {MB_MATRIX, "⏴3⏵⏴3⏵"}},
+    {"sqrt", {MB_ROOT, "⏴⏵"}},
+    {"_^", {MB_DUALSCRIPT, "⏴⏵⏴⏵"}},
+    {"^", {MB_SUPERSCRIPT, "⏴⏵"}},
+    {"_", {MB_SUBSCRIPT, "⏴⏵"}},
+    {"max", {MB_UNDERSCRIPTED_MAX, "⏴⏵"}},
+    {"min", {MB_UNDERSCRIPTED_MIN, "⏴⏵"}},
+    {"sup", {MB_UNDERSCRIPTED_SUP, "⏴⏵"}},
+    {"inf", {MB_UNDERSCRIPTED_INF, "⏴⏵"}},
+    {"lim", {MB_LIMIT, "⏴⏵⏴⏵"}}
 };
 
 void Cursor::checkSlashSub(){
@@ -723,7 +723,7 @@ void Cursor::checkSlashSub(){
                     auto construct_lookup = construct_map.find(key);
                     if(construct_lookup != construct_map.end()){
                         anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                        paste(ESCAPE + construct_lookup.value());
+                        paste(ESCAPE + construct_lookup.value().first + construct_lookup.value().second);
                     }
                 }
 
@@ -788,7 +788,7 @@ void Cursor::checkComplexSlashSub(){
                     }else{
                         auto construct_lookup = construct_map.find(key);
                         if(construct_lookup != construct_map.end()){
-                            converted.prepend(ESCAPE + construct_lookup.value());
+                            converted.prepend(ESCAPE + construct_lookup.value().first);
                         }else{
                             converted.prepend(key);
                         }
@@ -798,7 +798,7 @@ void Cursor::checkComplexSlashSub(){
                     word_end = p;
 
                     if(nesting_level==0){
-                        if(Parser::isValidCode(converted)){
+                        if(MathBran::isWellFormed(converted)){
                             anchor_text = t;
                             anchor_cursor = c;
                             paste(converted);

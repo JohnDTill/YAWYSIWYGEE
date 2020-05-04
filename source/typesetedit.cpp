@@ -2,6 +2,7 @@
 
 #include "typesetscene.h"
 #include "parser.h"
+#include "MathBran/include/QMathBran.h"
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QWheelEvent>
@@ -147,7 +148,7 @@ void TypesetEdit::setMathBran(const QString& text){
     QTextStream in(&t);
     in.setCodec("UTF-8");
 
-    if(!Parser::isValidCode(in)){
+    if(!MathBran::isWellFormed(in.readAll())){
         QMessageBox messageBox;
         messageBox.critical(nullptr, "Error", "TypesetEdit::setMathBran - Invalid MathBran source.");
         messageBox.setFixedSize(500, 200);

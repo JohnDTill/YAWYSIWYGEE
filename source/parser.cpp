@@ -3,6 +3,7 @@
 #include "typesetscene.h"
 #include "line.h"
 #include "text.h"
+#include "MathBran/include/QMathBran.h"
 
 #include "construct/accent.h"
 #include "construct/bigqchar.h"
@@ -35,50 +36,6 @@ static constexpr ushort CLOSE_UNICODE = 9205;
 static const QString ESCAPED_ESCAPE = QString(ESCAPE) + ESCAPE;
 static const QString ESCAPED_OPEN = QString(ESCAPE) + OPEN;
 static const QString ESCAPED_CLOSE = QString(ESCAPE) + CLOSE;
-
-bool Parser::containsConstruct(const QString& source){
-    for(QString::size_type curr = 0; curr < source.size(); curr++){
-        if(source[curr] == ESCAPE){
-            if(++curr >= source.size()) return false;
-            else if(source[curr] == ESCAPE) continue;
-            else if(source[curr] == OPEN) continue;
-            else if(source[curr] == CLOSE) continue;
-            else return true;
-        }
-    }
-
-    return false;
-}
-
-bool Parser::isValidCode(const QString& source){
-    QStringList lines = source.split('\n');
-    if(lines.last().isEmpty()) lines.removeLast();
-    if(lines.isEmpty()) return false;
-
-    for(QString line : lines){
-        QString::size_type curr = 0;
-        if( !validateLine(line, curr) ) return false;
-    }
-
-    return true;
-}
-
-bool Parser::isValidCode(QTextStream& source){
-    source.seek(0);
-
-    QString line = source.readLine();
-    while(!line.isNull()){
-        QString::size_type curr = 0;
-        if( !validateLine(line, curr) ) return false;
-        line = source.readLine();
-    }
-
-    return true;
-}
-
-bool Parser::shouldParseAsCode(const QString& source){
-    return containsConstruct(source) && isValidCode(source);
-}
 
 TypesetScene* Parser::parseDocument(QTextStream& source, bool allow_write, bool show_line_numbers){
     source.seek(0);
@@ -166,16 +123,6 @@ bool Parser::peek(const QString& source, const QString::size_type& curr, QChar c
     return (curr < source.size() && source[curr] == c);
 }
 
-void Parser::step(const QString& source, QString::size_type& curr){
-    if(++curr >= source.size())
-        PARSER_ERROR("parser reached end of source without terminating")
-}
-
-void Parser::consumeToCloseBracket(const QString& source, QString::size_type& curr){
-    if(!scanToCloseSymbol(source, curr))
-        PARSER_ERROR( "parser reached end of file while scanning for close symbol")
-}
-
 bool Parser::scanToCloseSymbol(const QString& source, QString::size_type& curr){
     bool escaped = false;
 
@@ -192,24 +139,6 @@ bool Parser::scanToCloseSymbol(const QString& source, QString::size_type& curr){
         }
 
         curr++;
-    }
-}
-
-bool Parser::matchEscapeChar(const QString& source, QString::size_type& curr){
-    if(curr >= source.size()) return false;
-
-    switch(source[curr].unicode()){
-        case ESCAPE_UNICODE:
-            curr++;
-            return true;
-        case OPEN_UNICODE:
-            curr++;
-            return true;
-        case CLOSE_UNICODE:
-            curr++;
-            return true;
-        default:
-            return false;
     }
 }
 
@@ -232,150 +161,11 @@ bool Parser::matchEscapeSequence(const QString& source, QString::size_type& curr
     }
 }
 
-QString Parser::applyEscapes(QString& text){
-    return text.replace(ESCAPE, ESCAPED_ESCAPE)
-               .replace(OPEN, ESCAPED_OPEN)
-               .replace(CLOSE, ESCAPED_CLOSE);
-}
-
-QString Parser::removeEscapes(QString& text){
-    return text.replace(ESCAPED_ESCAPE, QString(ESCAPE))
-               .replace(ESCAPED_OPEN, QString(OPEN))
-               .replace(ESCAPED_CLOSE, QString(CLOSE));
-}
-
-bool Parser::validateLine(const QString& source, QString::size_type& curr){
-    while( curr < source.size() ){
-        if( match(source, curr, ESCAPE) && !matchEscapeChar(source, curr) ){
-            if( !validateConstruct(source, curr) ) return false;
-        }else if(match(source, curr, OPEN)){
-            return false;
-        }else if(match(source, curr, CLOSE)){
-            return false;
-        }else{
-            curr++;
-        }
-    }
-
-    return true;
-}
-
-bool Parser::validateSubPhrase(const QString& source, QString::size_type& curr){
-    if( !match(source, curr, OPEN) ) return false;
-
-    while( !match(source, curr, CLOSE) ){
-        if(curr >= source.size()){
-            return false;
-        }else if( match(source, curr, ESCAPE) && !matchEscapeChar(source, curr) ){
-            if( !validateConstruct(source, curr) ) return false;
-        }else if(match(source, curr, OPEN)){
-            return false;
-        }else{
-            curr++;
-        }
-    }
-
-    return true;
-}
-
-bool Parser::validateSubPhrases(const QString& source, QString::size_type& curr, const uint32_t num_phrases){
-    for(uint32_t i = 0; i < num_phrases; i++)
-        if( !validateSubPhrase(source,curr) ) return false;
-
-    return true;
-}
-
-bool Parser::validateConstruct(const QString& source, QString::size_type& curr){
-    if(curr == source.size()) return false;
-
-    switch(source[curr++].unicode()){
-        case 8594: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //→
-        case 259:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //ă
-        case 551:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //ȧ
-        case 228:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //ä
-        case 8943: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⋯
-        case 226:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //â
-        case 257:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //ā
-        case 227:  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //ã
-        case 8721: return validateIntegralOrBigQChar(source, curr); //∑
-        case 8719: return validateIntegralOrBigQChar(source, curr); //∏
-        case 8720: return validateIntegralOrBigQChar(source, curr); //∐
-        case 8898: return validateIntegralOrBigQChar(source, curr); //⋂
-        case 8899: return validateIntegralOrBigQChar(source, curr); //⋃
-        case 10756: return validateIntegralOrBigQChar(source, curr); //⨄
-        case 'b':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        case 'c':  return validateCases(source, curr);
-        case 'f':  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        case '(':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case '[':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case '{':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case '|':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 8214: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //‖
-        case 10216: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟨
-        case 8968: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌈
-        case 8970: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⌊
-        case 10218: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟪
-        case 10214: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //⟦
-        case 8747: return validateIntegralOrBigQChar(source, curr); //∫
-        case 8748: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∬
-        case 8749: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∭
-        case 8750: return validateIntegralOrBigQChar(source, curr); //∮
-        case 8751: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∯
-        case 8752: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr); //∰
-        case 8862: return validateMatrix(source, curr); //⊞
-        case 8730: return validateRoot(source, curr); //√
-        case '^':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case '_':  return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 916:  return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2); //Δ
-        case 9482: return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2); //┊
-        case 8593: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 8595: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 8599: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 8600: return !peek(source, curr, OPEN) || validateSubPhrase(source, curr);
-        case 'l': return !peek(source, curr, OPEN) || validateSubPhrases(source, curr, 2);
-        default:   return false;
-    }
-}
-
-bool Parser::validateRoot(const QString& source, QString::size_type& curr){
-    if(!peek(source, curr, OPEN)) return true;
-    if(!validateSubPhrase(source, curr)) return false;
-    if(peek(source, curr, OPEN)) return validateSubPhrase(source, curr);
-    else return true;
-}
-
-bool Parser::validateIntegralOrBigQChar(const QString& source, QString::size_type& curr){
-    if( peek(source, curr, OPEN) && !validateSubPhrase(source, curr) ) return false;
-    if( peek(source, curr, OPEN) && !validateSubPhrase(source, curr) ) return false;
-
-    return true;
-}
-
-bool Parser::validateCases(const QString& source, QString::size_type& curr){
-    if(!peek(source, curr, OPEN)) return true;
-
-    do{
-        if(!validateSubPhrases(source, curr, 2)) return false;
-    } while(peek(source, curr, OPEN));
-
-    return true;
-}
-
-bool Parser::validateMatrix(const QString& source, QString::size_type& curr){
-    int rows, cols;
-    if( !peek(source, curr, OPEN) ) return true;
-    if( !parseInteger(rows, source, curr) ) return false;
-    if( !peek(source, curr, OPEN) ) return true;
-    if( !parseInteger(cols, source, curr) ) return false;
-    if( !peek(source, curr, OPEN) ) return true;
-
-    return validateSubPhrases(source, curr, static_cast<uint32_t>(rows)*static_cast<uint32_t>(cols));
-}
-
 int Parser::parseInteger(const QString& source, QString::size_type& curr, int minimum_value){
     consume(source, curr, OPEN);
     int start = curr;
-    consumeToCloseBracket(source, curr);
+    if(!scanToCloseSymbol(source, curr))
+        PARSER_ERROR( "parser reached end of file while scanning for close symbol")
 
     QString number_string = source.mid(start, curr-start-1);
 
@@ -391,24 +181,6 @@ int Parser::parseInteger(const QString& source, QString::size_type& curr, int mi
     return val;
 }
 
-bool Parser::parseInteger(int& val, const QString& source, QString::size_type& curr, int minimum_value){
-    if( !match(source, curr, OPEN) ) return false;
-    int start = curr;
-    if( !scanToCloseSymbol(source, curr) ) return false;
-    bool parse_success;
-    val = source.mid(start, curr-start-1).toInt(&parse_success);
-
-    return parse_success && val >= minimum_value;
-}
-
-QString Parser::parseQString(const QString& source, QString::size_type& curr){
-    consume(source, curr, OPEN);
-    int start = curr;
-    consumeToCloseBracket(source, curr);
-
-    return source.mid(start, curr-start-1);
-}
-
 Text* Parser::parseTextInSubPhrase(const QString& source, QString::size_type& curr, uint8_t& script_level){
     int start = curr;
 
@@ -416,11 +188,11 @@ Text* Parser::parseTextInSubPhrase(const QString& source, QString::size_type& cu
         if(peek(source, curr, CLOSE)) break;
         else if(peek(source, curr, ESCAPE) && !matchEscapeSequence(source, curr)) break;
         else if(peek(source, curr, OPEN)) PARSER_ERROR("unexpected '" + OPEN + "' in code")
-        else step(source, curr);
+        else if(++curr >= source.size()) PARSER_ERROR("parser reached end of source without terminating")
     }
 
     QString str = source.mid(start, curr - start);
-    removeEscapes(str);
+    MathBran::removeEscapes(str);
 
     return new Text(script_level, str);
 }
@@ -436,7 +208,7 @@ Text* Parser::parseTextInLine(const QString& source, QString::size_type& curr, u
     }
 
     QString str = source.mid(start, curr - start);
-    removeEscapes(str);
+    MathBran::removeEscapes(str);
 
     return new Text(script_level, str);
 }
@@ -502,14 +274,10 @@ Construct* Parser::parseConstruct(const QString& source, QString::size_type& cur
         case 'f':  return parseFraction(source, curr, script_level);
         case '(':  return parseGrouping(Grouping::PARENTHESIS, Grouping::PARENTHESIS, source, curr, script_level);
         case '[':  return parseGrouping(Grouping::BRACKET, Grouping::BRACKET, source, curr, script_level);
-        case '{':  return parseGrouping(Grouping::BRACE, Grouping::BRACE, source, curr, script_level);
         case '|':  return parseGrouping(Grouping::BAR, Grouping::BAR, source, curr, script_level);
         case 8214: return parseGrouping(Grouping::NORM, Grouping::NORM, source, curr, script_level); //‖
-        case 10216: return parseGrouping(Grouping::ANGLE, Grouping::ANGLE, source, curr, script_level); //⟨
         case 8968: return parseGrouping(Grouping::CEIL, Grouping::CEIL, source, curr, script_level); //⌈
         case 8970: return parseGrouping(Grouping::FLOOR, Grouping::FLOOR, source, curr, script_level); //⌊
-        case 10218: return parseGrouping(Grouping::DOUBLE_ANGLE, Grouping::DOUBLE_ANGLE, source, curr, script_level); //⟪
-        case 10214: return parseGrouping(Grouping::DOUBLE_BRACKET, Grouping::DOUBLE_BRACKET, source, curr, script_level); //⟦
         case 8747: return parseIntegral(source, curr, script_level, true); //∫
         case 8748: return parseIntegral(source, curr, script_level, false); //∬
         case 8749: return parseIntegral(source, curr, script_level, false); //∭
@@ -767,7 +535,8 @@ Construct* Parser::parseGrouping(void (*LEFT_SYMBOL)(QPainter*, const qreal&),
     return new Grouping(LEFT_SYMBOL, RIGHT_SYMBOL, type, child);
 }
 
-template<void AccentType(QPainter*,const qreal&)> Construct* Parser::parseAccent(const QString& source, QString::size_type& curr, uint8_t& script_level){
+template<void AccentType(QPainter*,const qreal&)>
+Construct* Parser::parseAccent(const QString& source, QString::size_type& curr, uint8_t& script_level){
     if(peek(source,curr,OPEN))
         return new Accent( AccentType, parseSubPhrase(source, curr, script_level) );
     else

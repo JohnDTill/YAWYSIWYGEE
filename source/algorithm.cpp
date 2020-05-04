@@ -4,12 +4,13 @@
 #include "line.h"
 #include "parser.h"
 #include <QTextCursor>
+#include "MathBran/include/QMathBran.h"
 
 qreal Algorithm::cursorOffset(const Text& t, QTextCursor c){
     QFontMetrics fm(t.font());
     c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
 
-    return fm.width(c.selectedText());
+    return fm.horizontalAdvance(c.selectedText());
 }
 
 void Algorithm::write(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
@@ -38,7 +39,7 @@ QTextCursor Algorithm::getCursorAtSetpoint(const Text& t, qreal x){
     c.setPosition(0);
 
     while(c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor)){
-        if( fm.width(c.selectedText()) > x ){
+        if( fm.horizontalAdvance(c.selectedText()) > x ){
             c.clearSelection();
             c.movePosition(QTextCursor::Left);
             return c;
@@ -111,19 +112,19 @@ QTextCursor Algorithm::textCursorStart(Text* t){
 void Algorithm::writeAfterCursor(QTextCursor c, QTextStream& out){
     c.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
     QString str = c.selectedText();
-    out << Parser::applyEscapes(str);
+    out << MathBran::applyEscapes(str);
 }
 
 void Algorithm::writeUntilCursor(QTextCursor c, QTextStream& out){
     c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
     QString str = c.selectedText();
-    out << Parser::applyEscapes(str);
+    out << MathBran::applyEscapes(str);
 }
 
 void Algorithm::writeText(QTextCursor cL, QTextCursor cR, QTextStream& out){
     cL.setPosition(cR.position(), QTextCursor::KeepAnchor);
     QString str = cL.selectedText();
-    out << Parser::applyEscapes(str);
+    out << MathBran::applyEscapes(str);
 }
 
 void Algorithm::writePhrase(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){

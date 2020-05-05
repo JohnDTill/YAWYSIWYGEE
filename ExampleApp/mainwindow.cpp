@@ -244,18 +244,6 @@ void MainWindow::on_actionGroupingabs_triggered(){
     else typeset_edit.insertMathBran("⁜|⏴" + selection + "⏵");
 }
 
-void MainWindow::on_actionGroupingangle_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⟨⏴⏵");
-    else typeset_edit.insertMathBran("⁜⟨⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionGroupingdangle_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⟪⏴⏵");
-    else typeset_edit.insertMathBran("⁜⟪⏴" + selection + "⏵");
-}
-
 void MainWindow::on_actionGroupingceil_triggered(){
     QString selection = typeset_edit.selectedMathBran();
     if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⌈⏴⏵");

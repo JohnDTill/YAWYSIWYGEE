@@ -8,7 +8,7 @@
 #include "parser.h"
 #include "subphrase.h"
 #include "text.h"
-#include "YAWYSIWYGEE_KEYWORDS.h"
+#include "YAWYSIWYGEE_keywords.h"
 #include "command/commands.h"
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
@@ -649,7 +649,7 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return new EvalPhrase(*this, source, text, cursor);
 }
 
-//Could use a compile-time hash tables
+//Could use compile-time hash tables
 static const QHash<QString, QString> keywords = YAWYSIWYGEE_KEYWORDS;
 static const QHash<QString, std::pair<QString, QString> > construct_map = {
     {"vec", {MB_ACCENT_ARROW, "⏴⏵"}},

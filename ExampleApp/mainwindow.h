@@ -76,8 +76,6 @@ private slots:
     void on_toolButton_triggered(QAction *arg1);
     void on_actionGroupnorm_triggered();
     void on_actionGroupingabs_triggered();
-    void on_actionGroupingangle_triggered();
-    void on_actionGroupingdangle_triggered();
     void on_actionGroupingceil_triggered();
     void on_actionGroupingfloor_triggered();
     void on_actionEval_triggered();

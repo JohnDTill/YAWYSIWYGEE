@@ -19,6 +19,8 @@
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
 
+class QSvgRenderer;
+
 class Globals{
     public:
         static bool vertical_integrals;
@@ -26,8 +28,6 @@ class Globals{
 
         static QFont bigqchar_font;
         static QFontMetrics bigqchar_font_metrics;
-        static QFont integral_font;
-        static QFontMetrics integral_font_metrics;
         static QFont word_font;
         static QFontMetrics word_font_metrics;
         static constexpr uint8_t deepest_script_level = 2;
@@ -39,6 +39,8 @@ class Globals{
         static QFontMetrics passive_linenum_font_metrics;
         static QFontMetrics active_linenum_font_metrics;
         static void initGlobals();
+
+        static QSvgRenderer int_Quivira[6];
 };
 
 #endif // GLOBALS_H

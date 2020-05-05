@@ -1,5 +1,7 @@
 #include "globals.h"
 
+#include <QSvgRenderer>
+
 inline void initResources(){
     Q_INIT_RESOURCE(qtypesetobjectresource);
 }
@@ -10,8 +12,6 @@ QPen Globals::empty_box_pen;
 
 QFont Globals::bigqchar_font;
 QFontMetrics Globals::bigqchar_font_metrics = QFontMetrics(bigqchar_font);
-QFont Globals::integral_font;
-QFontMetrics Globals::integral_font_metrics = QFontMetrics(integral_font);
 QFont Globals::word_font;
 QFontMetrics Globals::word_font_metrics = QFontMetrics(word_font);
 constexpr int Globals::font_sizes[];
@@ -24,6 +24,8 @@ QFontMetrics Globals::font_metrics[] = {QFontMetrics(Globals::fonts[0]),
                                         QFontMetrics(Globals::fonts[1]),
                                         QFontMetrics(Globals::fonts[2])};
 
+QSvgRenderer Globals::int_Quivira[6];
+
 void Globals::initGlobals(){
     initResources();
     int id = QFontDatabase::addApplicationFont(":/Font/Quivira.otf");
@@ -35,10 +37,6 @@ void Globals::initGlobals(){
     bigqchar_font = default_font;
     bigqchar_font.setPixelSize(24);
     bigqchar_font_metrics = QFontMetrics(bigqchar_font);
-
-    integral_font = default_font;
-    integral_font.setPixelSize(25);
-    integral_font_metrics = QFontMetrics(integral_font);
 
     word_font = default_font;
     word_font.setPixelSize(15);
@@ -59,4 +57,11 @@ void Globals::initGlobals(){
 
     Globals::passive_linenum_font_metrics = QFontMetrics(passive_linenum_font);
     Globals::active_linenum_font_metrics = QFontMetrics(active_linenum_font);
+
+    int_Quivira[0].load(QString(":/Font/int_Quivira.svg"));
+    int_Quivira[1].load(QString(":/Font/iint_Quivira.svg"));
+    int_Quivira[2].load(QString(":/Font/iiint_Quivira.svg"));
+    int_Quivira[3].load(QString(":/Font/oint_Quivira.svg"));
+    int_Quivira[4].load(QString(":/Font/oiint_Quivira.svg"));
+    int_Quivira[5].load(QString(":/Font/oiiint_Quivira.svg"));
 }

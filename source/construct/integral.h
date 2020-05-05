@@ -6,6 +6,7 @@
 
 class Integral_S;
 class Integral_SN;
+class SvgIntegral;
 
 class Integral : public TerminalConstruct{
     Q_OBJECT
@@ -13,6 +14,7 @@ class Integral : public TerminalConstruct{
 private:
     const QChar ch;
     const bool allow_superscript;
+    SvgIntegral* integral;
 
 public:
     Integral(QChar qchar, bool allow_superscript = true);
@@ -21,7 +23,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override final;
 
 private slots:
     void addSubscript();
@@ -49,6 +51,8 @@ class Integral_S : public UnaryConstruct{
 private:
     const QChar ch;
     const bool allow_superscript;
+    qreal wi;
+    SvgIntegral* integral;
 
 public:
     Integral_S(QChar qchar, SubPhrase* subscript = nullptr, bool allow_superscript = true);
@@ -57,7 +61,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override final;
     friend Integral_SN;
 
 private slots:
@@ -101,7 +105,9 @@ class Integral_SN : public BinaryConstruct{
 
 private:
     const QChar ch;
-    qreal symbol_y;
+    qreal wi;
+    qreal yi;
+    SvgIntegral* integral;
 
 public:
     Integral_SN(QChar qchar, SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);
@@ -112,7 +118,7 @@ public:
     virtual void write(QTextStream& out) const override final;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*) override final;
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override final;
     friend Integral_S;
 
 private slots:

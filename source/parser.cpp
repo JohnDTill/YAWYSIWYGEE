@@ -281,8 +281,7 @@ static SubPhrase* subphrase(const QString& source, int& curr, uint8_t& script_le
 static Text* parseTextInLine(const QString& source, int& curr, uint8_t& script_level){
     int start = curr;
 
-    Q_ASSERT(curr < source.size());
-    while(source[curr] != '\n'){
+    while(curr < source.size() && source[curr] != '\n'){
         if(source[curr] == MB_CONSTRUCT_SYMBOL && !matchEscapeSequence(source, curr)){
             break;
         }else{
@@ -290,7 +289,6 @@ static Text* parseTextInLine(const QString& source, int& curr, uint8_t& script_l
             Q_ASSERT(source[curr] != MB_CLOSE);
             curr++;
         }
-        Q_ASSERT(curr < source.size());
     }
 
     QString str = source.mid(start, curr - start);

@@ -6,24 +6,56 @@
 #include "../subphrase.h"
 #include "../text.h"
 #include "../typesetscene.h"
+#include <QGraphicsColorizeEffect>
 #include <QMenu>
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QSvgRenderer>
+
+//Note: Integrals take special care to draw because the Quivira font uses the German/Russian style,
+//      where integrals act like just another big symbol with overscripts and underscripts. This means
+//      Quivira's integrals are too slanted to use in the other style with superscripts and subscripts.
+//      The Quivira integral characters have been modified as SVGs, which are rendered here.
 
 static constexpr qreal subscript_ratio = 0.8;
 static constexpr qreal subscript_offset = -6;
 static constexpr qreal superscript_ratio = 0.8;
-static constexpr qreal slant = 19;
-static const QRectF integral_bounds = QRectF(3, -5, 16, 29);
+static constexpr qreal hi = 25;
+
+//Unfortunately QGraphicsEffect is applied to all child items,
+//so this is a terminal item to draw the integrals.
+class SvgIntegral : public QGraphicsItem{
+public:
+    QGraphicsColorizeEffect effect;
+    QSvgRenderer& renderer;
+    const qreal w;
+    SvgIntegral(QChar qchar, QGraphicsItem* parent)
+        : QGraphicsItem(parent),
+          renderer(Globals::int_Quivira[qchar.unicode() - MB_USHORT_INTEGRAL]),
+          w( renderer.defaultSize().width() * (hi / renderer.defaultSize().height()) ){
+        setGraphicsEffect(&effect);
+        setFlag(QGraphicsItem::ItemStacksBehindParent);
+    }
+
+    virtual QRectF boundingRect() const override final{
+        return QRectF(0,0,w,hi);
+    }
+
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final{
+        renderer.render(painter, QRectF(0,0,w,hi));
+    }
+};
 
 Integral::Integral(QChar qchar, bool allow_superscript)
     : ch(qchar),
       allow_superscript(allow_superscript) {
-    updateLayout();
+    integral = new SvgIntegral(qchar, this);
+    w = integral->w;
+    u = d = hi/2;
 }
 
 void Integral::updateLayout(){
-    w = integral_bounds.width();
-    u = d = integral_bounds.height()/2;
+    //DO NOTHING
 }
 
 void Integral::populateMenu(QMenu& menu, const SubPhrase*){
@@ -38,9 +70,7 @@ void Integral::write(QTextStream& out) const{
 
 void Integral::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
-    painter->setFont(Globals::integral_font);
-    painter->rotate(slant);
-    painter->drawText(integral_bounds, Qt::AlignCenter, ch);
+    integral->effect.setColor(painter->pen().color());
 }
 
 void Integral::addSubscript(){
@@ -89,22 +119,20 @@ Integral_S::Integral_S(QChar qchar, SubPhrase* subscript, bool allow_superscript
     : UnaryConstruct(subscript),
       ch(qchar),
       allow_superscript(allow_superscript) {
+    integral = new SvgIntegral(qchar, this);
+    wi = integral->w;
+    u = hi/2;
     updateLayout();
 }
 
 #define subscript child
 void Integral_S::updateLayout(){
-    qreal wi = integral_bounds.width();
-    qreal hi = integral_bounds.height();
-
     w = wi + subscript->w + subscript_offset;
 
     qreal a = subscript_ratio*hi/2;
-
     qreal hs = subscript->u + subscript->d;
     qreal e = hs > a ? hs - a : 0;
-    u = integral_bounds.height()/2;
-    d = u + e;
+    d = hi + e;
 
     qreal y = hi + e - hs;
 
@@ -128,9 +156,7 @@ void Integral_S::write(QTextStream& out) const{
 
 void Integral_S::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
-    painter->setFont(Globals::integral_font);
-    painter->rotate(slant);
-    painter->drawText(integral_bounds, Qt::AlignCenter, ch);
+    integral->effect.setColor(painter->pen().color());
 }
 
 void Integral_S::addSuperscript(){
@@ -223,15 +249,14 @@ void Integral_S::RemoveSubscript::undo(){
 Integral_SN::Integral_SN(QChar qchar, SubPhrase* subscript, SubPhrase* superscript)
     : BinaryConstruct(subscript, superscript),
       ch(qchar) {
+    integral = new SvgIntegral(qchar, this);
+    wi = integral->w;
     updateLayout();
 }
 
 #define superscript second
 #define subscript first
 void Integral_SN::updateLayout(){
-    qreal wi = integral_bounds.width();
-    qreal hi = integral_bounds.height();
-
     superscript->setPos(wi, 0);
     w = wi + qMax(subscript->w + subscript_offset, superscript->w);
 
@@ -242,13 +267,14 @@ void Integral_SN::updateLayout(){
     qreal eu = hu > au ? hu-au : 0;
     qreal ed = hd > ad ? hd-ad : 0;
 
-    symbol_y = eu;
-    u = symbol_y + hi/2;
+    yi = eu;
+    u = yi + hi/2;
 
-    qreal yd = symbol_y + hi + ed - hd;
+    qreal yd = yi + hi + ed - hd;
     d = hi/2 + ed;
 
     subscript->setPos(wi + subscript_offset, yd);
+    integral->setPos(0, yi);
 }
 
 Text* Integral_SN::textUp(const SubPhrase* caller, qreal x) const{
@@ -273,10 +299,7 @@ void Integral_SN::write(QTextStream& out) const{
 
 void Integral_SN::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget*){
     setupPainter(painter, options);
-    painter->setFont(Globals::integral_font);
-    painter->rotate(slant);
-    QRectF bounds = integral_bounds.translated(0, symbol_y);
-    painter->drawText(bounds, Qt::AlignCenter, ch);
+    integral->effect.setColor(painter->pen().color());
 }
 
 void Integral_SN::removeSuperscript(){

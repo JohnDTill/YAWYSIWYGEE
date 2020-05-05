@@ -52,7 +52,7 @@ void link(Construct* c, Text* t);
 class TerminalConstruct : public Construct{
 public:
     virtual void deletePostorder() override final;
-    virtual void select() override final;
+    virtual void select() override;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase*) const override final;
@@ -68,7 +68,7 @@ protected:
 public:
     UnaryConstruct(SubPhrase* c);
     virtual void deletePostorder() override final;
-    virtual void select() override final;
+    virtual void select() override;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase*) const override final;
@@ -85,7 +85,7 @@ protected:
 public:
     BinaryConstruct(SubPhrase* f, SubPhrase* s);
     virtual void deletePostorder() override final;
-    virtual void select() override final;
+    virtual void select() override;
     virtual SubPhrase* front() const override final;
     virtual SubPhrase* back() const override final;
     virtual Text* textRight(const SubPhrase* caller) const override final;

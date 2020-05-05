@@ -132,69 +132,49 @@ void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
 }
 
 void TypesetScene::keyPressEvent(QKeyEvent* e){
-    #define MATCH(arg) e->matches(QKeySequence::arg)
+    constexpr int Ctrl = Qt::ControlModifier;
+    constexpr int Shift = Qt::ShiftModifier;
+    constexpr int CtrlShift = Qt::ControlModifier + Qt::ShiftModifier;
 
-    #ifdef YAWYSIWYGEE_LOGGING
-    qDebug() << "keyPressEvent(new QKeyEvent(QEvent::KeyPress,"
-             << e->key() << " ," << e->modifiers() << "));";
-    #endif
-
-    if(allow_write && MATCH(Undo))      undo_stack->undo();
-    else if(allow_write && MATCH(Redo)) undo_stack->redo();
-    else if(MATCH(MoveToNextChar))          cursor->moveToNextChar();
-    else if(MATCH(MoveToPreviousChar))      cursor->moveToPreviousChar();
-    else if(MATCH(MoveToNextWord))          cursor->moveToNextWord();
-    else if(MATCH(MoveToPreviousWord))      cursor->moveToPreviousWord();
-    else if(MATCH(MoveToNextLine))          cursor->moveToNextLine();
-    else if(MATCH(MoveToPreviousLine))      cursor->moveToPreviousLine();
-    else if(MATCH(MoveToStartOfLine))       cursor->moveToStartOfLine();
-    else if(MATCH(MoveToEndOfLine))         cursor->moveToEndOfLine();
-    else if(MATCH(MoveToStartOfBlock))      cursor->moveToStartOfBlock();
-    else if(MATCH(MoveToEndOfBlock))        cursor->moveToEndOfBlock();
-    else if(MATCH(MoveToStartOfDocument))   cursor->moveToStartOfDocument();
-    else if(MATCH(MoveToEndOfDocument))     cursor->moveToEndOfDocument();
-    else if(MATCH(SelectNextChar))          cursor->selectNextChar();
-    else if(MATCH(SelectPreviousChar))      cursor->selectPreviousChar();
-    else if(MATCH(SelectNextWord))          cursor->selectNextWord();
-    else if(MATCH(SelectPreviousWord))      cursor->selectPreviousWord();
-    else if(MATCH(SelectNextLine))          cursor->selectNextLine();
-    else if(MATCH(SelectPreviousLine))      cursor->selectPreviousLine();
-    else if(MATCH(SelectStartOfLine))       cursor->selectStartOfLine();
-    else if(MATCH(SelectEndOfLine))         cursor->selectEndOfLine();
-    else if(MATCH(SelectStartOfBlock))      cursor->selectStartOfBlock();
-    else if(MATCH(SelectEndOfBlock))        cursor->selectEndOfBlock();
-    else if(MATCH(SelectStartOfDocument))   cursor->selectStartOfDocument();
-    else if(MATCH(SelectEndOfDocument))     cursor->selectEndOfDocument();
-    else if(MATCH(SelectAll))               cursor->selectAll();
-    else if(MATCH(Deselect))                cursor->deselect();
-    else if(allow_write && MATCH(Delete))                   cursor->del();
-    else if(allow_write && MATCH(DeleteEndOfWord))          cursor->deleteEndOfWord();
-    else if(allow_write && MATCH(DeleteStartOfWord))        cursor->deleteStartOfWord();
-    else if(allow_write && MATCH(DeleteEndOfLine))          cursor->deleteEndOfLine();
-    else if(allow_write && MATCH(DeleteCompleteLine))       cursor->deleteCompleteLine();
-    else if(allow_write && (MATCH(Backspace) || e->key() == 16777219))
-        cursor->backspace(); //Backspace detection is bugged
-    else if(allow_write && MATCH(InsertLineSeparator))      cursor->insertLineSeparator();
-    else if(allow_write && MATCH(InsertParagraphSeparator)) cursor->insertParagraphSeparator();
-    else if(MATCH(Copy))                    cursor->copy();
-    else if(allow_write && MATCH(Cut))      cursor->cut();
-    else if(allow_write && MATCH(Paste))    cursor->paste();
-    else if(MATCH(Find)) DO_THIS( "Find" )
-    else if(MATCH(FindNext)) DO_THIS( "FindNext" )
-    else if(MATCH(FindPrevious)) DO_THIS( "FindPrevious" )
-    else if(allow_write && MATCH(Replace)) DO_THIS( "Replace" )
-    else if(allow_write) processTextInput(e->text());
-
-    #undef MATCH
+    switch (e->key() + e->modifiers()) {
+        case Qt::Key_Z+Ctrl: if(allow_write) undo_stack->undo(); break;
+        case Qt::Key_Y+Ctrl: if(allow_write) undo_stack->redo(); break;
+        case Qt::Key_Right: cursor->moveToNextChar(); break;
+        case Qt::Key_Left: cursor->moveToPreviousChar(); break;
+        case Qt::Key_Right+Ctrl: cursor->moveToNextWord(); break;
+        case Qt::Key_Left+Ctrl: cursor->moveToPreviousWord(); break;
+        case Qt::Key_Down: cursor->moveToNextLine(); break;
+        case Qt::Key_Up: cursor->moveToPreviousLine(); break;
+        case Qt::Key_Home: cursor->moveToStartOfLine(); break;
+        case Qt::Key_End: cursor->moveToEndOfLine(); break;
+        case Qt::Key_Home+Ctrl: cursor->moveToStartOfDocument(); break;
+        case Qt::Key_End+Ctrl: cursor->moveToEndOfDocument(); break;
+        case Qt::Key_Right+Shift: cursor->selectNextChar(); break;
+        case Qt::Key_Left+Shift: cursor->selectPreviousChar(); break;
+        case Qt::Key_Right+CtrlShift: cursor->selectNextWord(); break;
+        case Qt::Key_Left+CtrlShift: cursor->selectPreviousWord(); break;
+        case Qt::Key_Down+Shift: cursor->selectNextLine(); break;
+        case Qt::Key_Up+Shift: cursor->selectPreviousLine(); break;
+        case Qt::Key_Home+Shift: cursor->selectStartOfLine(); break;
+        case Qt::Key_End+Shift: cursor->selectEndOfLine(); break;
+        case Qt::Key_Home+CtrlShift: cursor->selectStartOfDocument(); break;
+        case Qt::Key_End+CtrlShift: cursor->selectEndOfDocument(); break;
+        case Qt::Key_A+Shift: cursor->selectAll(); break;
+        case Qt::Key_Delete: if(allow_write) cursor->del(); break;
+        case Qt::Key_Delete+Ctrl: if(allow_write) cursor->deleteEndOfWord(); break;
+        case Qt::Key_Backspace+Ctrl: if(allow_write) cursor->deleteStartOfWord(); break;
+        case Qt::Key_Backspace: if(allow_write) cursor->backspace(); break;
+        case Qt::Key_Return: if(allow_write) cursor->insertParagraphSeparator(); break;
+        case Qt::Key_Return+Shift: if(allow_write) cursor->insertLineSeparator(); break;
+        case Qt::Key_C+Ctrl: cursor->copy(); break;
+        case Qt::Key_X+Ctrl: if(allow_write) cursor->cut(); break;
+        case Qt::Key_V+Ctrl: if(allow_write) cursor->paste(); break;
+        default:
+            QString text = e->text();
+            if(allow_write && !text.isEmpty() && text.front().isPrint()) cursor->keystroke(text.front());
+    }
 
     cv->update(*cursor);
-
-    #ifdef YAWYSIWYGEE_TEST
-    Text::verify();
-    Construct::verify();
-    Phrase::verify();
-    qDebug() << "Verified";
-    #endif
 }
 
 void TypesetScene::mousePressEvent(QGraphicsSceneMouseEvent* e){
@@ -228,10 +208,6 @@ void TypesetScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e){
 }
 
 void TypesetScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
-    qreal x = e->scenePos().x();
-    if(x > -linebox_offet) views().front()->setCursor(Qt::IBeamCursor);
-    else views().front()->setCursor(Qt::ArrowCursor);
-
     if(e->buttons() != Qt::LeftButton) return;
     if( (click_location - e->screenPos()).manhattanLength() < 2 ) return;
 
@@ -256,13 +232,6 @@ bool TypesetScene::testTripleClick(QPointF click_location) const{
 
     return L1_norm < allowed_triple_click_travel &&
             double_click_time.msecsTo(QTime::currentTime()) < triple_click_period;
-}
-
-void TypesetScene::processTextInput(const QString& text){
-    if(text.isEmpty()) return;
-
-    const QChar& c = text.front();
-    if(c.isPrint()) cursor->keystroke(c);
 }
 
 void TypesetScene::processLeftClick(QGraphicsSceneMouseEvent* e){

@@ -21,13 +21,11 @@ void Line::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWi
     if(options->state.testFlag(QStyle::StateFlag::State_Selected)){
         painter->setFont(Globals::active_linenum_font);
         painter->setPen(scene()->palette().text().color());
-        QFontMetrics fm(Globals::active_linenum_font);
-        bounds = fm.boundingRect(num_str);
+        bounds = Globals::active_linenum_font_metrics.boundingRect(num_str);
     }else{
         painter->setFont(Globals::passive_linenum_font);
         painter->setPen(scene()->palette().mid().color());
-        QFontMetrics fm(Globals::passive_linenum_font);
-        bounds = fm.boundingRect(num_str);
+        bounds = Globals::passive_linenum_font_metrics.boundingRect(num_str);
     }
 
     qreal num_x = -(linebox_hspace + bounds.width());

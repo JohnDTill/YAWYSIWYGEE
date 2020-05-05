@@ -64,7 +64,6 @@ protected:
 
 private:
     bool testTripleClick(QPointF click_location) const;
-    void processTextInput(const QString& text);
     void processLeftClick(QGraphicsSceneMouseEvent* e);
     void processLeftShiftClick(QGraphicsSceneMouseEvent* e);
     void contextClick(QGraphicsSceneMouseEvent* e);

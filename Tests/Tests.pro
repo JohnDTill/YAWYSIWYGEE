@@ -5,11 +5,11 @@ INCLUDEPATH += ../source
 DEFINES += YAWYSIWYGEE_TEST
 
 HEADERS += \
-           test.h
+    test.h
 
 SOURCES += \
-           test.cpp \
-           typesetscene_tests.cpp
+    test.cpp \
+    typesetscene_tests.cpp
 
 SOURCES += \
     ../source/algorithm.cpp \

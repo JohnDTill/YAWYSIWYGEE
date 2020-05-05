@@ -1,10 +1,8 @@
 #ifndef TYPESETEDIT_H
 #define TYPESETEDIT_H
 
-#include <QWidget>
+#include <QGraphicsView>
 class TypesetScene;
-class QGraphicsItem;
-class QGraphicsView;
 class QSvgGenerator;
 
 class TypesetEdit : public QWidget{
@@ -40,7 +38,7 @@ public slots:
     void redo();
     void setMathBran(const QString& text);
     void undo();
-    void zoomIn(qreal scale_factor = 1.1);
+    void zoomIn(qreal scale_factor = 1/0.9);
     void zoomOut(qreal scale_factor = 0.9);
     void zoomReset();
 
@@ -50,18 +48,33 @@ signals:
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e) override final;
+    virtual void mouseMoveEvent(QMouseEvent* e) override final;
     virtual void wheelEvent(QWheelEvent* event) override final;
 
 private:
     TypesetScene* scene;
-    QGraphicsView* view;
     void setScene(TypesetScene* scene);
-    qreal heightInSceneCoordinates() const;
+    qreal heightInScene() const;
 
 private slots:
     void ensureFocusedItemVisible(QGraphicsItem* newFocusItem);
     void passUndo(bool available);
     void passRedo(bool available);
+
+private:
+    class TypesetView : public QGraphicsView{
+    private:
+        TypesetEdit* edit;
+
+    public:
+        TypesetView(TypesetEdit* edit);
+
+    protected:
+        virtual void keyPressEvent(QKeyEvent* e) override final;
+        virtual void mouseMoveEvent(QMouseEvent* e) override final;
+        virtual void wheelEvent(QWheelEvent* event) override final;
+    };
+    TypesetView* view;
 
 #ifdef YAWYSIWYGEE_TEST
 public:

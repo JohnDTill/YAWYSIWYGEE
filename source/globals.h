@@ -33,8 +33,11 @@ class Globals{
         static constexpr uint8_t deepest_script_level = 2;
         static constexpr int font_sizes[deepest_script_level+1] = {15, 12, 11};
         static QFont fonts[deepest_script_level+1];
+        static QFontMetrics font_metrics[deepest_script_level+1];
         static QFont passive_linenum_font;
         static QFont active_linenum_font;
+        static QFontMetrics passive_linenum_font_metrics;
+        static QFontMetrics active_linenum_font_metrics;
         static void initGlobals();
 };
 

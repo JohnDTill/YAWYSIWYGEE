@@ -1,11 +1,11 @@
 #include "algorithm.h"
 
 #include "construct.h"
+#include "globals.h"
 #include "line.h"
 #include "text.h"
 #include "parser.h"
 #include "MathBran/include/QMathBran.h"
-#include <QFontMetrics>
 #include <QTextCursor>
 #include <QTextStream>
 
@@ -73,10 +73,8 @@ static void writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, QText
 }
 
 qreal Algorithm::cursorOffset(const Text& t, QTextCursor c){
-    QFontMetrics fm(t.font());
     c.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
-
-    return fm.horizontalAdvance(c.selectedText());
+    return Globals::font_metrics[t.getScriptLevel()].horizontalAdvance(c.selectedText());
 }
 
 void Algorithm::write(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
@@ -100,7 +98,7 @@ Text* Algorithm::textAtSetpoint(const Phrase& p, qreal x){
 
 QTextCursor Algorithm::getCursorAtSetpoint(const Text& t, qreal x){
     x -= t.scenePos().x();
-    QFontMetrics fm(t.font());
+    const QFontMetrics& fm = Globals::font_metrics[t.getScriptLevel()];
     QTextCursor c = t.textCursor();
     c.setPosition(0);
 

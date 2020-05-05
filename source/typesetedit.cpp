@@ -20,7 +20,7 @@ TypesetEdit::TypesetEdit(QWidget* parent)
     Globals::initGlobals();
 
     setMouseTracking(true);
-    view = new QGraphicsView(this);
+    view = new TypesetView(this);
     view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOn);
     view->verticalScrollBar()->setCursor(Qt::CursorShape::ArrowCursor);
@@ -34,7 +34,7 @@ TypesetEdit::TypesetEdit(QWidget* parent)
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(view);
-    view->setScene(scene);    
+    view->setScene(scene);
 }
 
 TypesetEdit::~TypesetEdit(){
@@ -172,11 +172,16 @@ void TypesetEdit::undo(){
     scene->undo_stack->undo();
 }
 
+static constexpr qreal default_scale = 2;
+
 void TypesetEdit::zoomIn(qreal scale_factor){
     constexpr qreal max_scale = 15;
     qreal candidate = view->transform().m11() * scale_factor;
+    qreal proximity = candidate - default_scale;
 
-    if(candidate > max_scale){
+    if(proximity < 1e-9 && proximity > -1e-9){
+        zoomReset(); //Correct drift
+    }else if(candidate > max_scale){
         qreal scale_to_max = max_scale / view->transform().m11();
         view->scale(scale_to_max, scale_to_max);
     }else{
@@ -187,8 +192,11 @@ void TypesetEdit::zoomIn(qreal scale_factor){
 void TypesetEdit::zoomOut(qreal scale_factor){
     constexpr qreal min_scale = 0.5;
     qreal candidate = view->transform().m11() * scale_factor;
+    qreal proximity = candidate - default_scale;
 
-    if(candidate < min_scale){
+    if(proximity < 1e-9 && proximity > -1e-9){
+        zoomReset(); //Correct drift
+    }else if(candidate < min_scale){
         qreal scale_to_min = min_scale / view->transform().m11();
         view->scale(scale_to_min, scale_to_min);
     }else{
@@ -198,26 +206,25 @@ void TypesetEdit::zoomOut(qreal scale_factor){
 
 void TypesetEdit::zoomReset(){
     view->resetTransform();
-    view->scale(2, 2);
+    view->scale(default_scale, default_scale);
 }
 
 //Protected functions
 void TypesetEdit::keyPressEvent(QKeyEvent* e){
-    #define MATCH(arg) e->matches(QKeySequence::arg)
+    switch (e->key() + e->modifiers()) {
+        case Qt::Key_Plus+Qt::ControlModifier: zoomIn(); break;
+        case Qt::Key_Minus+Qt::ControlModifier: zoomOut(); break;
+        case Qt::Key_PageDown: scene->cursor->moveToNextPage(heightInScene()); break;
+        case Qt::Key_PageUp: scene->cursor->moveToPreviousPage(heightInScene()); break;
+        case Qt::Key_PageDown+Qt::ShiftModifier: scene->cursor->selectNextPage(heightInScene()); break;
+        case Qt::Key_PageUp+Qt::ShiftModifier: scene->cursor->selectPreviousPage(heightInScene()); break;
+    }
+}
 
-    if     (MATCH(ZoomIn))  zoomIn();
-    else if(MATCH(ZoomOut)) zoomOut();
-    else if(MATCH(MoveToNextPage))     scene->cursor->moveToNextPage( heightInSceneCoordinates() );
-    else if(MATCH(MoveToPreviousPage)) scene->cursor->moveToPreviousPage( heightInSceneCoordinates() );
-    else if(MATCH(SelectNextPage))     scene->cursor->selectNextPage( heightInSceneCoordinates() );
-    else if(MATCH(SelectPreviousPage)) scene->cursor->selectPreviousPage( heightInSceneCoordinates() );
-    else if(MATCH(Refresh)) DO_THIS( "Refresh" )
-    else if(MATCH(Close)) DO_THIS( "Close" )
-    else QWidget::keyPressEvent(e);
-
-    scene->updateCursorView();
-
-    #undef MATCH
+void TypesetEdit::mouseMoveEvent(QMouseEvent* e){
+    qreal x = view->mapToScene(e->pos()).x();
+    if(x > -linebox_offet) setCursor(Qt::IBeamCursor);
+    else setCursor(Qt::ArrowCursor);
 }
 
 void TypesetEdit::wheelEvent(QWheelEvent* e){
@@ -248,8 +255,8 @@ void TypesetEdit::setScene(TypesetScene* scene){
     }
 }
 
-qreal TypesetEdit::heightInSceneCoordinates() const {
-    return view->mapToScene(0, height()).y() - view->mapToScene(0,0).y();
+qreal TypesetEdit::heightInScene() const {
+    return view->mapToScene(0, view->height()).y() - view->mapToScene(0,0).y();
 }
 
 //Private slots
@@ -263,4 +270,34 @@ void TypesetEdit::passUndo(bool available){
 
 void TypesetEdit::passRedo(bool available){
     emit redoAvailable(available);
+}
+
+TypesetEdit::TypesetView::TypesetView(TypesetEdit* edit)
+    : QGraphicsView(edit), edit(edit) {}
+
+void TypesetEdit::TypesetView::keyPressEvent(QKeyEvent* e){
+    edit->keyPressEvent(e);
+    QGraphicsView::keyPressEvent(e);
+
+    #ifdef YAWYSIWYGEE_LOGGING
+    qDebug() << "keyPressEvent(new QKeyEvent(QEvent::KeyPress,"
+             << e->key() << " ," << e->modifiers() << "));";
+    #endif
+}
+
+void TypesetEdit::TypesetView::mouseMoveEvent(QMouseEvent* e){
+    edit->mouseMoveEvent(e);
+    QGraphicsView::mouseMoveEvent(e);
+
+    //#ifdef YAWYSIWYGEE_LOGGING
+    //qDebug() << "mouseMoveEvent(new QMouseEvent(QEvent::MouseMove,"
+    //         << e->pos() << " ,"
+    //         << e->button() << " ,"
+    //         << e->buttons() << " ,"
+    //         << e->modifiers() << "));";
+    //#endif
+}
+
+void TypesetEdit::TypesetView::wheelEvent(QWheelEvent* event){
+    edit->wheelEvent(event);
 }

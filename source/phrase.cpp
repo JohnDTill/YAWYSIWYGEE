@@ -5,7 +5,7 @@
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
-static std::list<Typeset::Phrase*> all_phrases;
+static std::list<Phrase*> all_phrases;
 #endif
 
 Phrase::Phrase(Text* f, Text* b)
@@ -29,19 +29,21 @@ Phrase::~Phrase(){
     all_phrases.remove(this);
 }
 
-void Phrase::verify(){
+bool Phrase::verify(){
     for(Phrase* p : all_phrases){
-        Q_ASSERT(p->front->prev == nullptr);
-        Q_ASSERT(p->back->next == nullptr);
+        if(p->front->prev != nullptr) return false;
+        if(p->back->next != nullptr) return false;
 
         Text* t = p->front;
-        Q_ASSERT(t->parent == p);
+        if(t->parent != p) return false;
         for(Construct* c = p->front->next; c; c = t->next){
             t = c->next;
-            Q_ASSERT(t->parent == p);
+            if(t->parent != p) return false;
         }
-        Q_ASSERT(p->back == t);
+        if(p->back != t) return false;
     }
+
+    return true;
 }
 #endif
 

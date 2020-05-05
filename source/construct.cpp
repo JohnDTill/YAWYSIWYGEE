@@ -11,7 +11,7 @@
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
-static std::list<Typeset::Construct*> all_constructs;
+static std::list<Construct*> all_constructs;
 #endif
 
 Construct::Construct(){
@@ -27,13 +27,13 @@ Construct::~Construct(){
     all_constructs.remove(this);
 }
 
-void Construct::verify(){
+bool Construct::verify(){
     for(Construct* c : all_constructs){
-        Q_ASSERT(c->next);
-        Q_ASSERT(c->next->prev == c);
-        Q_ASSERT(c->prev);
-        Q_ASSERT(c->prev->next);
+        if(!c->next || c->next->prev != c) return false;
+        if(!c->prev || c->prev->next != c) return false;
     }
+
+    return true;
 }
 #endif
 

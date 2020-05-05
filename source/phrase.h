@@ -22,7 +22,7 @@ public:
     Phrase(Text* f = nullptr, Text* b = nullptr);
     #ifdef YAWYSIWYGEE_TEST
     virtual ~Phrase() override;
-    static void verify();
+    static bool verify();
     #endif
     qreal h() const;
     void select();

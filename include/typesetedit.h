@@ -62,6 +62,11 @@ private slots:
     void ensureFocusedItemVisible(QGraphicsItem* newFocusItem);
     void passUndo(bool available);
     void passRedo(bool available);
+
+#ifdef YAWYSIWYGEE_TEST
+public:
+    TypesetScene* getTypesetScene(){return scene;}
+#endif
 };
 
 #endif // TYPESETEDIT_H

@@ -1,7 +1,7 @@
 QT += core gui svg widgets
 
 TEMPLATE = lib
-DEFINES += QT_DEPRECATED_WARNINGS  #YAWYSIWYGEE_TEST
+DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 CONFIG += staticlib
 DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib

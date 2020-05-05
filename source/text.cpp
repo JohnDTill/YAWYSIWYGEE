@@ -15,7 +15,7 @@
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
-static std::list<Typeset::Text*> all_texts;
+static std::list<Text*> all_texts;
 #endif
 
 Text::Text(uint8_t script_level, QString str){
@@ -38,11 +38,13 @@ Text::~Text(){
     all_texts.remove(this);
 }
 
-void Text::verify(){
+bool Text::verify(){
     for(Text* t : all_texts){
-        if(t->next) Q_ASSERT(t->next->prev == t);
-        if(t->prev) Q_ASSERT(t->prev->next == t);
+        if(t->next && t->next->prev != t) return false;
+        if(t->prev && t->prev->next != t) return false;
     }
+
+    return true;
 }
 #endif
 

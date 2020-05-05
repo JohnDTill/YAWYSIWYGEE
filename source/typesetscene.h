@@ -83,6 +83,15 @@ private slots:
     void copySelection();
     void paste();
     void selectAll();
+
+#ifdef YAWYSIWYGEE_TEST
+public:
+    void macroHereIGoAgainTyping();
+    void macroHereIGoAgainDeletion();
+    void macroHereIGoAgainUndo();
+    void macroHereIGoAgainRedo();
+    void macroMath();
+#endif
 };
 
 #endif // TYPESETSCENE_H

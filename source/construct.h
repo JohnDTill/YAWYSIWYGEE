@@ -20,7 +20,7 @@ public:
     Construct();
     #ifdef YAWYSIWYGEE_TEST
     virtual ~Construct() override;
-    static void verify();
+    static bool verify();
     #endif
     qreal h() const;
     virtual void deletePostorder() = 0;

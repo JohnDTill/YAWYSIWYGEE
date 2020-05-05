@@ -134,6 +134,11 @@ void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
 void TypesetScene::keyPressEvent(QKeyEvent* e){
     #define MATCH(arg) e->matches(QKeySequence::arg)
 
+    #ifdef YAWYSIWYGEE_LOGGING
+    qDebug() << "keyPressEvent(new QKeyEvent(QEvent::KeyPress,"
+             << e->key() << " ," << e->modifiers() << "));";
+    #endif
+
     if(allow_write && MATCH(Undo))      undo_stack->undo();
     else if(allow_write && MATCH(Redo)) undo_stack->redo();
     else if(MATCH(MoveToNextChar))          cursor->moveToNextChar();

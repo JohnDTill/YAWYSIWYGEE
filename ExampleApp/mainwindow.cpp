@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->setupUi(this);
     setCentralWidget(&typeset_edit);
 
+    #ifdef __EMSCRIPTEN__
+    ui->actionCopy_as_PNG->setVisible(false);
+    ui->actionCopy_as_TeX->setVisible(false);
+    #endif
+
     connect(&typeset_edit, SIGNAL(undoAvailable(bool)), ui->actionUndo, SLOT(setEnabled(bool)));
     connect(&typeset_edit, SIGNAL(redoAvailable(bool)), ui->actionRedo, SLOT(setEnabled(bool)));
 

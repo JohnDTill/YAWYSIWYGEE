@@ -1,8 +1,9 @@
 #ifndef TYPESETEDIT_H
 #define TYPESETEDIT_H
 
-#include <QGraphicsView>
+#include <QWidget>
 class TypesetScene;
+class QGraphicsItem;
 class QSvgGenerator;
 
 class TypesetEdit : public QWidget{
@@ -62,18 +63,7 @@ private slots:
     void passRedo(bool available);
 
 private:
-    class TypesetView : public QGraphicsView{
-    private:
-        TypesetEdit* edit;
-
-    public:
-        TypesetView(TypesetEdit* edit);
-
-    protected:
-        virtual void keyPressEvent(QKeyEvent* e) override final;
-        virtual void mouseMoveEvent(QMouseEvent* e) override final;
-        virtual void wheelEvent(QWheelEvent* event) override final;
-    };
+    class TypesetView;
     TypesetView* view;
 
 #ifdef YAWYSIWYGEE_TEST

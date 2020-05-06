@@ -9,6 +9,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QTextStream>
 
 SquareRoot::SquareRoot(SubPhrase* c)
     : UnaryConstruct(c) {

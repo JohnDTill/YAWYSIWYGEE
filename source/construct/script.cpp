@@ -5,9 +5,9 @@
 #include "../subphrase.h"
 #include "../text.h"
 #include "../typesetscene.h"
-
 #include <QMenu>
 #include <QPainter>
+#include <QTextStream>
 
 static constexpr qreal ratio_superscript = 1;
 static constexpr qreal ratio_subscript = 1;

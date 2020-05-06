@@ -1,16 +1,15 @@
 #ifndef TYPESETSCENE_H
 #define TYPESETSCENE_H
 
-#include <QApplication>
-#include <QGraphicsItem>
 #include <QGraphicsScene>
-#include <QTime>
-
 class Construct;
 class Cursor;
 class CursorView;
 class Line;
 class Text;
+class QMenu;
+class QTextStream;
+class QTime;
 class QUndoStack;
 
 class TypesetScene : public QGraphicsScene{
@@ -28,7 +27,6 @@ public:
 private:
     bool double_clicked = false;
     bool triple_clicked = false;
-    QTime double_click_time;
     QPointF click_location;
     static constexpr qreal triple_click_period = 1 * 1000;
     static constexpr qreal allowed_triple_click_travel = 1;
@@ -77,7 +75,7 @@ private:
 
     void setCursor(const Cursor& c);
 
-private slots:
+public slots:
     void cutSelection();
     void copySelection();
     void paste();

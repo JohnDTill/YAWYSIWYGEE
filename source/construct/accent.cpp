@@ -3,6 +3,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 static constexpr qreal accent_height = 3;
 static constexpr qreal voffset = 0.5;

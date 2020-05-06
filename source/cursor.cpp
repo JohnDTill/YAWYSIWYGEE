@@ -12,6 +12,8 @@
 #include "command/commands.h"
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
+#include <QGuiApplication>
+#include <QTextStream>
 
 Cursor::Cursor(TypesetScene& doc)
     : doc(doc),

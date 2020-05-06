@@ -16,6 +16,13 @@ InsertMultiline::InsertMultiline(Cursor& cursor, TypesetScene& doc, const QStrin
     lL_next = lL->next;
     tL_next = tL->next;
     QStringList lines = source.split('\n');
+    #ifdef __EMSCRIPTEN__ //WASM code isn't splitting correctly, leaves trailing newline
+    for(int i = 0; i < lines.size(); i++){
+        lines[i].remove('\n');
+        lines[i].remove('\r');
+        lines[i].remove("\\n");
+    }
+    #endif
     append_str = lines.front();
     c.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
     removed_str = c.selectedText();

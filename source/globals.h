@@ -2,19 +2,10 @@
 #define GLOBALS_H
 
 #include "MathBran/include/QMathBran_Macros.h"
-#include <QFontDatabase>
-#include <QPen>
-
-#include <QDebug>
-#define DO_THIS(message) \
-    qDebug() << "DO THIS: " << message << ", file " << __FILE__ << " line " << __LINE__;
-
-#include <QMessageBox>
-#define FATAL_ERROR(message) {\
-    QMessageBox messageBox; \
-    messageBox.critical(nullptr, "Error", QString("Fatal Error: ") + message); \
-    messageBox.setFixedSize(500,200); \
-    exit(0);}
+#include <QtGlobal>
+class QFont;
+class QFontMetrics;
+class QPen;
 
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;

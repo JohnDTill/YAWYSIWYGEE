@@ -3,6 +3,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 #define underscript child
 UnderscriptedWord::UnderscriptedWord(QString str, QChar code, SubPhrase* c)

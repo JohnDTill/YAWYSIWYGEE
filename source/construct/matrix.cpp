@@ -8,6 +8,7 @@
 #include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
+#include <QTextStream>
 
 Matrix::Matrix(const std::vector<SubPhrase*>& c, uint8_t rows, uint8_t cols)
     : NaryConstruct(c),

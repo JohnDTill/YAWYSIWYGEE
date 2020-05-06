@@ -8,12 +8,27 @@
 #include "MathBran/include/QMathBran.h"
 #include <QGraphicsItem>
 #include <QGraphicsView>
+#include <QMessageBox>
 #include <QScrollBar>
 #include <QSvgGenerator>
+#include <QTextStream>
 #include <QUndoStack>
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QtMath>
+
+class TypesetEdit::TypesetView : public QGraphicsView{
+private:
+    TypesetEdit* edit;
+
+public:
+    TypesetView(TypesetEdit* edit);
+
+protected:
+    virtual void keyPressEvent(QKeyEvent* e) override final;
+    virtual void mouseMoveEvent(QMouseEvent* e) override final;
+    virtual void wheelEvent(QWheelEvent* event) override final;
+};
 
 TypesetEdit::TypesetEdit(QWidget* parent)
     : QWidget(parent) {
@@ -119,7 +134,7 @@ void TypesetEdit::clear(){
 }
 
 void TypesetEdit::copy(){
-    scene->cursor->copy();
+    scene->copySelection();
 }
 
 void TypesetEdit::copyPng(qreal upscale){
@@ -127,8 +142,7 @@ void TypesetEdit::copyPng(qreal upscale){
 }
 
 void TypesetEdit::cut(){
-    scene->cursor->cut();
-    scene->updateCursorView();
+    scene->cutSelection();
 }
 
 void TypesetEdit::insertMathBran(const QString& text){
@@ -142,8 +156,7 @@ void TypesetEdit::insertPlainText(const QString& text){
 }
 
 void TypesetEdit::paste(){
-    scene->cursor->paste();
-    scene->updateCursorView();
+    scene->paste();
 }
 
 void TypesetEdit::redo(){

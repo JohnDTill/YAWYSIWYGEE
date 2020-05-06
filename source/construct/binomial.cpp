@@ -5,6 +5,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 Binomial::Binomial(SubPhrase* f, SubPhrase* s)
     : BinaryConstruct(f,s) {

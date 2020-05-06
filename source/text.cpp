@@ -12,6 +12,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QTextStream>
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
@@ -99,7 +100,8 @@ uint8_t Text::getScriptLevel() const{
     for(uint8_t i = 0; i <= Globals::deepest_script_level; i++)
         if( current_font_size == Globals::font_sizes[i] ) return i;
 
-    FATAL_ERROR( "getScriptLevel() lookup failed" )
+    Q_ASSERT(false);
+    return 0;
 }
 
 void Text::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget){

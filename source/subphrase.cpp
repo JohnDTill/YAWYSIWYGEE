@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QTextStream>
 
 SubPhrase::SubPhrase(Text* f, Text* b, uint16_t child_id)
     : Phrase(f, b),

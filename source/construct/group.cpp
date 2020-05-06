@@ -3,6 +3,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 Group::Group(void drawLeft(QPainter*, const qreal&),
                    void drawRight(QPainter*, const qreal&, const qreal&),

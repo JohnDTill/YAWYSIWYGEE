@@ -6,6 +6,7 @@
 #include "text.h"
 #include "parser.h"
 #include "MathBran/include/QMathBran.h"
+#include <QFontMetrics>
 #include <QTextCursor>
 #include <QTextStream>
 

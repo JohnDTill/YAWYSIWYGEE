@@ -8,6 +8,7 @@
 #include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
+#include <QTextStream>
 
 Cases::Cases(const std::vector<SubPhrase*>& data)
     : NaryConstruct(data){

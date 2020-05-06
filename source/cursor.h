@@ -3,7 +3,6 @@
 
 #include "globals.h"
 #include <QTextCursor>
-
 class Construct;
 class CursorView;
 class TypesetScene;
@@ -35,8 +34,6 @@ public:
     void moveToPreviousPage(const qreal& page_height);
     void moveToStartOfLine();
     void moveToEndOfLine();
-    void moveToStartOfBlock(){DO_THIS( "MoveToStartOfBlock" )}
-    void moveToEndOfBlock(){DO_THIS( "MoveToEndOfBlock" )}
     void moveToStartOfDocument();
     void moveToEndOfDocument();
     void selectNextChar();
@@ -49,18 +46,13 @@ public:
     void selectPreviousPage(const qreal& page_height);
     void selectStartOfLine();
     void selectEndOfLine();
-    void selectStartOfBlock(){DO_THIS( "SelectStartOfBlock" )}
-    void selectEndOfBlock(){DO_THIS( "SelectEndOfBlock" )}
     void selectStartOfDocument();
     void selectEndOfDocument();
     void selectAll();
-    void deselect(){DO_THIS("deselect")}
     void backspace();
     void del();
     void deleteEndOfWord();
     void deleteStartOfWord();
-    void deleteEndOfLine(){DO_THIS( "DeleteEndOfLine" )}
-    void deleteCompleteLine(){DO_THIS( "DeleteCompleteLine" )}
     void insertParagraphSeparator();
     void insertLineSeparator(){insertParagraphSeparator();} //This is shift-Enter
     QString selectedCode() const;

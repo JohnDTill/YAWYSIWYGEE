@@ -3,6 +3,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 static constexpr qreal margin = 1;
 

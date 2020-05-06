@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QSvgRenderer>
+#include <QTextStream>
 
 //Note: Integrals take special care to draw because the Quivira font uses the German/Russian style,
 //      where integrals act like just another big symbol with overscripts and underscripts. This means
@@ -22,8 +23,8 @@ static constexpr qreal subscript_offset = -6;
 static constexpr qreal superscript_ratio = 0.8;
 static constexpr qreal hi = 25;
 
-//Unfortunately QGraphicsEffect is applied to all child items,
-//so this is a terminal item to draw the integrals.
+//Unfortunately QGraphicsEffect is applied to all child items, so this is a terminal item to draw
+//the integrals. The integral constructs have this item as a child.
 class SvgIntegral : public QGraphicsItem{
 public:
     QGraphicsColorizeEffect effect;

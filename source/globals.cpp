@@ -1,5 +1,8 @@
 #include "globals.h"
 
+#include <QFontDatabase>
+#include <QFontMetrics>
+#include <QPen>
 #include <QSvgRenderer>
 
 inline void initResources(){
@@ -29,7 +32,7 @@ QSvgRenderer Globals::int_Quivira[6];
 void Globals::initGlobals(){
     initResources();
     int id = QFontDatabase::addApplicationFont(":/Font/Quivira.otf");
-    if(id==-1) FATAL_ERROR("Failed to load font.")
+    Q_ASSERT(id!=-1);
 
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont default_font = QFont(family);

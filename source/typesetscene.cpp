@@ -10,19 +10,17 @@
 #include "subphrase.h"
 #include "text.h"
 #include <QClipboard>
-#include <QCursor>
-#include <QFile>
-#include <QFileDialog>
-#include <QGraphicsRectItem>
+#include <QDebug>
 #include <QGraphicsSceneMouseEvent>
-#include <QGraphicsView>
+#include <QGuiApplication>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QMessageBox>
 #include <QPainter>
+#include <QTextStream>
+#include <QTime>
 #include <QUndoStack>
-#include <QtMath>
-#include <QtSvg/QSvgGenerator>
+
+static QTime double_click_time;
 
 TypesetScene::TypesetScene(bool allow_write, bool show_line_numbers, Line* f, Line* b)
     : front(f),
@@ -108,7 +106,7 @@ void TypesetScene::copyAsPng(qreal upscale){
 
     QPainter painter(&image);
     render(&painter);
-    QApplication::clipboard()->setImage(image, QClipboard::Clipboard);
+    QGuiApplication::clipboard()->setImage(image, QClipboard::Clipboard);
 }
 
 void TypesetScene::copySelectionAsPng(qreal upscale){
@@ -159,7 +157,7 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
         case Qt::Key_End+Shift: cursor->selectEndOfLine(); break;
         case Qt::Key_Home+CtrlShift: cursor->selectStartOfDocument(); break;
         case Qt::Key_End+CtrlShift: cursor->selectEndOfDocument(); break;
-        case Qt::Key_A+Shift: cursor->selectAll(); break;
+        case Qt::Key_A+Ctrl: selectAll(); break;
         case Qt::Key_Delete: if(allow_write) cursor->del(); break;
         case Qt::Key_Delete+Ctrl: if(allow_write) cursor->deleteEndOfWord(); break;
         case Qt::Key_Backspace+Ctrl: if(allow_write) cursor->deleteStartOfWord(); break;
@@ -167,7 +165,9 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
         case Qt::Key_Return: if(allow_write) cursor->insertParagraphSeparator(); break;
         case Qt::Key_Return+Shift: if(allow_write) cursor->insertLineSeparator(); break;
         case Qt::Key_C+Ctrl: cursor->copy(); break;
-        case Qt::Key_X+Ctrl: if(allow_write) cursor->cut(); break;
+            #ifndef __EMSCRIPTEN__
+        case Qt::Key_X+Ctrl: if(allow_write) cutSelection(); break;
+            #endif
         case Qt::Key_V+Ctrl: if(allow_write) cursor->paste(); break;
         default:
             QString text = e->text();
@@ -211,13 +211,10 @@ void TypesetScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
     if(e->buttons() != Qt::LeftButton) return;
     if( (click_location - e->screenPos()).manhattanLength() < 2 ) return;
 
-    bool drag_on_selection = false;
-    //this would require complicated logic to wait for release or drag
-    //when a selection is clicked
+    //No selection dragging - I don't know if users appreciate that feature
 
     if(triple_clicked) cursor->lineSelectPoint(e->scenePos());
     else if(double_clicked) cursor->wordSelectPoint(e->scenePos());
-    else if(drag_on_selection) DO_THIS( "selection drag: drag-and-drops a selection" )
     else processDrag(e);
 
     cv->update(*cursor);
@@ -244,7 +241,7 @@ void TypesetScene::processLeftClick(QGraphicsSceneMouseEvent* e){
         if(sp->isEmpty()) cursor->clickText(*sp->front, p.x());
         else processClickMiss(p);
     }else{
-        DO_THIS("Invalid items can be clicked")
+        qDebug() << "Invalid item left clicked";
         processClickMiss(p);
     }
 }
@@ -263,30 +260,32 @@ void TypesetScene::contextClick(QGraphicsSceneMouseEvent* e){
     }
 
     menu.addSeparator();
-    QAction* undoAction = menu.addAction("Undo");
-    QAction* redoAction = menu.addAction("Redo");
-    connect(undoAction,SIGNAL(triggered()),undo_stack,SLOT(undo()));
-    connect(redoAction,SIGNAL(triggered()),undo_stack,SLOT(redo()));
-    undoAction->setEnabled(undo_stack->canUndo());
-    redoAction->setEnabled(undo_stack->canRedo());
+    if(allow_write){
+        QAction* undoAction = menu.addAction("Undo");
+        QAction* redoAction = menu.addAction("Redo");
+        connect(undoAction,SIGNAL(triggered()),undo_stack,SLOT(undo()));
+        connect(redoAction,SIGNAL(triggered()),undo_stack,SLOT(redo()));
+        undoAction->setEnabled(undo_stack->canUndo());
+        redoAction->setEnabled(undo_stack->canRedo());
 
-    menu.addSeparator();
-    QAction* cutAction = menu.addAction("Cut");
+        #ifndef __EMSCRIPTEN__
+        menu.addSeparator();
+        QAction* cutAction = menu.addAction("Cut");
+        connect(cutAction,SIGNAL(triggered()),this,SLOT(cutSelection()));
+        cutAction->setEnabled(clicked_on_selection);
+        #endif
+    }
+    #ifndef __EMSCRIPTEN__
     QAction* copyAction = menu.addAction("Copy");
-    #ifndef __EMSCRIPTEN__
-    QAction* copyImageAction = menu.addAction("Copy as PNG");
-    #endif
-    QAction* pasteAction = menu.addAction("Paste");
-    connect(cutAction,SIGNAL(triggered()),this,SLOT(cutSelection()));
     connect(copyAction,SIGNAL(triggered()),this,SLOT(copySelection()));
-    #ifndef __EMSCRIPTEN__
-    connect(copyImageAction,SIGNAL(triggered()),this,SLOT(copySelectionAsPng()));
-    #endif
-    connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
-    cutAction->setEnabled(clicked_on_selection);
     copyAction->setEnabled(clicked_on_selection);
-    #ifndef __EMSCRIPTEN__
+    QAction* copyImageAction = menu.addAction("Copy as PNG");
+    connect(copyImageAction,SIGNAL(triggered()),this,SLOT(copySelectionAsPng()));
     copyImageAction->setEnabled(clicked_on_selection);
+    if(allow_write){
+        QAction* pasteAction = menu.addAction("Paste");
+        connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
+    }
     #endif
 
     menu.addSeparator();
@@ -313,8 +312,8 @@ void TypesetScene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
         }
         else processClickMiss(p);
     }else{
+        qDebug() << "Invalid item right clicked";
         processClickMiss(p);
-        DO_THIS("Invalid items can be clicked")
     }
 }
 
@@ -340,6 +339,7 @@ void TypesetScene::processClickMiss(QPointF scene_pos){
 
 void TypesetScene::cutSelection(){
     cursor->cut();
+    updateCursorView();
 }
 
 void TypesetScene::copySelection(){
@@ -348,8 +348,10 @@ void TypesetScene::copySelection(){
 
 void TypesetScene::paste(){
     cursor->paste();
+    updateCursorView();
 }
 
 void TypesetScene::selectAll(){
     cursor->selectAll();
+    updateCursorView();
 }

@@ -7,6 +7,7 @@
 #include "text.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QTextStream>
 
 Line::Line(Text* f, Text* b, uint32_t line_num) :
     Phrase(f, b),

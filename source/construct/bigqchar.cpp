@@ -8,6 +8,7 @@
 #include "../typesetscene.h"
 #include <QMenu>
 #include <QPainter>
+#include <QTextStream>
 
 BigQChar::BigQChar(QChar qchar, bool allow_overscript)
     : ch(qchar),

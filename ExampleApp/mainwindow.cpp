@@ -20,16 +20,32 @@ MainWindow::MainWindow(QWidget* parent) :
     setCentralWidget(&typeset_edit);
 
     #ifdef __EMSCRIPTEN__
+    //WASM cannot access clipboard without ctrl-c/v/x press; GUI buttons don't work
+    ui->actionCopy->setVisible(false);
+    ui->actionCut->setVisible(false);
+    ui->actionCut->setEnabled(false);
+    ui->actionPaste->setVisible(false);
     ui->actionCopy_as_PNG->setVisible(false);
     ui->actionCopy_as_TeX->setVisible(false);
+
+    //Extra setup for WASM
+    QLabel* link = new QLabel(this);
+    link->setText("<a href=\"https://github.com/JohnDTill/YAWYSIWYGEE\">https://github.com/JohnDTill/YAWYSIWYGEE</a>");
+    link->setOpenExternalLinks(true);
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(link);
+    layout->addWidget(&typeset_edit);
+    QWidget* container = new QWidget(this);
+    container->setLayout(layout);
+    setCentralWidget(container);
+    #else
+    connect(ui->actionCut, SIGNAL(triggered()), &typeset_edit, SLOT(cut()));
+    connect(ui->actionCopy, SIGNAL(triggered()), &typeset_edit, SLOT(copy()));
+    connect(ui->actionPaste, SIGNAL(triggered()), &typeset_edit, SLOT(paste()));
     #endif
 
     connect(&typeset_edit, SIGNAL(undoAvailable(bool)), ui->actionUndo, SLOT(setEnabled(bool)));
     connect(&typeset_edit, SIGNAL(redoAvailable(bool)), ui->actionRedo, SLOT(setEnabled(bool)));
-
-    connect(ui->actionCut, SIGNAL(triggered()), &typeset_edit, SLOT(cut()));
-    connect(ui->actionCopy, SIGNAL(triggered()), &typeset_edit, SLOT(copy()));
-    connect(ui->actionPaste, SIGNAL(triggered()), &typeset_edit, SLOT(paste()));
 
     ui->mainToolBar->insertWidget(ui->actionFraction, ui->toolButton);
     ui->toolButton->addAction(ui->actionAccentarrow);
@@ -386,5 +402,5 @@ void MainWindow::printSvgPrompt(){
 
 void MainWindow::on_actionCopy_as_TeX_triggered(){
     QString latex = MathBran::toLatex(typeset_edit.selectedMathBran());
-    if(!latex.isEmpty()) QApplication::clipboard()->setText(latex);
+    if(!latex.isEmpty()) QGuiApplication::clipboard()->setText(latex);
 }

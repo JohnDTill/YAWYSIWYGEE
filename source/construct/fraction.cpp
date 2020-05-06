@@ -5,6 +5,7 @@
 #include "../globals.h"
 #include "../subphrase.h"
 #include <QPainter>
+#include <QTextStream>
 
 Fraction::Fraction(SubPhrase* num, SubPhrase* den)
     : BinaryConstruct(num, den) {

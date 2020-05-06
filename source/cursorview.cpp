@@ -8,8 +8,37 @@
 #include "line.h"
 #include "phrase.h"
 #include "text.h"
+#include <QGuiApplication>
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
+
+class SelectionMask : public QGraphicsItem{
+private:
+    QRectF region;
+    static constexpr qreal margin = 2;
+
+public:
+    SelectionMask(const QRectF& r){
+        setFlag(GraphicsItemFlag::ItemStacksBehindParent);
+        region = QRectF(r.x(), r.y()-margin, r.width()+margin, r.height()+2*margin);
+    }
+
+protected:
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override final{
+        if(region.width() < margin + 1e-2) return;
+
+        //Note: calling QGraphicsScene::setPalette() does not result in correct option->palette.highlight()
+        painter->setBrush(scene()->palette().highlight());
+        QPen p(scene()->palette().base().color());
+        p.setWidth(0);
+        painter->setPen(p);
+        painter->drawRect(region);
+    }
+
+    virtual QRectF boundingRect() const override final{
+        return region;
+    }
+};
 
 CursorView::CursorView(TypesetScene& doc){
     tL_old = doc.front->front;
@@ -64,7 +93,7 @@ void CursorView::addMasks(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
 }
 
 void CursorView::addMasksText(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QApplication::palette().highlight();
+    QBrush highlight = QGuiApplication::palette().highlight();
 
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
     qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
@@ -75,7 +104,7 @@ void CursorView::addMasksText(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR
 }
 
 void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QApplication::palette().highlight();
+    QBrush highlight = QGuiApplication::palette().highlight();
 
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
     qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
@@ -104,7 +133,7 @@ void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor 
 }
 
 void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QApplication::palette().highlight();
+    QBrush highlight = QGuiApplication::palette().highlight();
 
     Line* lL = &tL->parent->getLine();
     Line* lR = &tR->parent->getLine();
@@ -163,24 +192,4 @@ void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCurs
         tR->setTextCursor(cR);
     }
     tR_old = tR;
-}
-
-CursorView::SelectionMask::SelectionMask(const QRectF& r){
-    setFlag(GraphicsItemFlag::ItemStacksBehindParent);
-    region = QRectF(r.x(), r.y()-margin, r.width()+margin, r.height()+2*margin);
-}
-
-void CursorView::SelectionMask::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*){
-    if(region.width() < margin + 1e-2) return;
-
-    //Note: calling QGraphicsScene::setPalette() does not result in correct option->palette.highlight()
-    painter->setBrush(scene()->palette().highlight());
-    QPen p(scene()->palette().base().color());
-    p.setWidth(0);
-    painter->setPen(p);
-    painter->drawRect(region);
-}
-
-QRectF CursorView::SelectionMask::boundingRect() const{
-    return region;
 }

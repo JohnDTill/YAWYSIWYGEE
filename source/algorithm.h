@@ -1,10 +1,13 @@
 #ifndef ALGORITHM_H
 #define ALGORITHM_H
 
-#include <QTextCursor>
+#include <QtGlobal>
 class Line;
 class Phrase;
 class Text;
+class QPointF;
+class QString;
+class QTextCursor;
 class QTextStream;
 
 namespace Algorithm{

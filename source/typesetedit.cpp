@@ -23,6 +23,7 @@ private:
 
 public:
     TypesetView(TypesetEdit* edit);
+    void keyPressEventQGraphicsView(QKeyEvent* e);
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e) override final;
@@ -232,6 +233,8 @@ void TypesetEdit::keyPressEvent(QKeyEvent* e){
         case Qt::Key_PageDown+Qt::ShiftModifier: scene->cursor->selectNextPage(heightInScene()); break;
         case Qt::Key_PageUp+Qt::ShiftModifier: scene->cursor->selectPreviousPage(heightInScene()); break;
     }
+
+    view->keyPressEventQGraphicsView(e);
 }
 
 void TypesetEdit::mouseMoveEvent(QMouseEvent* e){
@@ -288,9 +291,12 @@ void TypesetEdit::passRedo(bool available){
 TypesetEdit::TypesetView::TypesetView(TypesetEdit* edit)
     : QGraphicsView(edit), edit(edit) {}
 
+void TypesetEdit::TypesetView::keyPressEventQGraphicsView(QKeyEvent* e){
+    QGraphicsView::keyPressEvent(e);
+}
+
 void TypesetEdit::TypesetView::keyPressEvent(QKeyEvent* e){
     edit->keyPressEvent(e);
-    QGraphicsView::keyPressEvent(e);
 
     #ifdef YAWYSIWYGEE_LOGGING
     qDebug() << "keyPressEvent(new QKeyEvent(QEvent::KeyPress,"

@@ -81,6 +81,8 @@ private slots:
     void on_actionEval_triggered();
     void on_groupButton_triggered(QAction *arg1);
 
+    void on_actionCopy_as_TeX_triggered();
+
 private:
     void setupSymbolTable();
 

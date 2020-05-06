@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
+#include <QMathBranLatex.h>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -376,4 +377,9 @@ void MainWindow::printSvgPrompt(){
     svgGen.setFileName(file_name);
 
     typeset_edit.printSvg(&svgGen);
+}
+
+void MainWindow::on_actionCopy_as_TeX_triggered(){
+    QString latex = MathBran::toLatex(typeset_edit.selectedMathBran());
+    if(!latex.isEmpty()) QApplication::clipboard()->setText(latex);
 }

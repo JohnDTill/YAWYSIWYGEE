@@ -133,7 +133,7 @@ void Integral_S::updateLayout(){
     qreal a = subscript_ratio*hi/2;
     qreal hs = subscript->u + subscript->d;
     qreal e = hs > a ? hs - a : 0;
-    d = hi + e;
+    d = hi/2 + e;
 
     qreal y = hi + e - hs;
 

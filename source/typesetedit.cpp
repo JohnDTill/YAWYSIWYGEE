@@ -173,7 +173,7 @@ void TypesetEdit::setMathBran(const QString& text){
     }
 
     delete scene;
-    scene = Parser::parseDocument(text, scene->allow_write, scene->show_line_nums);
+    scene = Parser::parseDocument(text, !read_only, show_line_numbers);
     setScene(scene);
 
     //Make sure the view gets the focus item signal

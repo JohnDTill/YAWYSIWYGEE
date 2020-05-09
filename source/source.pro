@@ -112,4 +112,4 @@ defineTest(copyToDestDir) {
 
 copyToDestDir($$PWD/"YAWYSIWYGEE", $$PWD/../include)
 copyToDestDir($$PWD/"YAWYSIWYGEE_keywords.h", $$PWD/../include)
-copyToDestDir($$PWD/"TypesetEdit.h", $$PWD/../include)
+copyToDestDir($$PWD/"typesetedit.h", $$PWD/../include)

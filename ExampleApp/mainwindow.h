@@ -83,6 +83,8 @@ private slots:
 
     void on_actionCopy_as_TeX_triggered();
 
+    void on_actionCopy_as_Unicode_triggered();
+
 private:
     void setupSymbolTable();
 

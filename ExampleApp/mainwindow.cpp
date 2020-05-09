@@ -12,6 +12,7 @@
 #include <QtMath>
 #include <QtSvg/QSvgGenerator>
 #include <QMathBranLatex.h>
+#include <QMathBranUnicode.h>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->actionPaste->setVisible(false);
     ui->actionCopy_as_PNG->setVisible(false);
     ui->actionCopy_as_TeX->setVisible(false);
+    ui->actionCopy_as_Unicode->setVisible(false);
 
     //Extra setup for WASM
     QLabel* link = new QLabel(this);
@@ -401,6 +403,20 @@ void MainWindow::printSvgPrompt(){
 }
 
 void MainWindow::on_actionCopy_as_TeX_triggered(){
-    QString latex = MathBran::toLatex(typeset_edit.selectedMathBran());
-    if(!latex.isEmpty()) QGuiApplication::clipboard()->setText(latex);
+    QString math_bran = typeset_edit.selectedMathBran();
+    if(!math_bran.isEmpty()) QGuiApplication::clipboard()->setText(MathBran::toLatex(math_bran));
+}
+
+void MainWindow::on_actionCopy_as_Unicode_triggered(){
+    QString math_bran = typeset_edit.selectedMathBran();
+    if(math_bran.isEmpty()) return;
+
+    if(!MathBran::canConvertToUnicode(math_bran)){
+        QMessageBox messageBox;
+        messageBox.warning(nullptr, "Warning", "Selected text cannot be converted to unicode.");
+        messageBox.setFixedSize(500, 200);
+        return;
+    }
+
+    QGuiApplication::clipboard()->setText(MathBran::toUnicode(math_bran));
 }

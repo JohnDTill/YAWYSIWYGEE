@@ -177,6 +177,7 @@
     <addaction name="actionCopy"/>
     <addaction name="actionCopy_as_PNG"/>
     <addaction name="actionCopy_as_TeX"/>
+    <addaction name="actionCopy_as_Unicode"/>
     <addaction name="actionPaste"/>
    </widget>
    <addaction name="menuFile"/>
@@ -670,6 +671,11 @@
   <action name="actionCopy_as_TeX">
    <property name="text">
     <string>Copy as TeX</string>
+   </property>
+  </action>
+  <action name="actionCopy_as_Unicode">
+   <property name="text">
+    <string>Copy as Unicode</string>
    </property>
   </action>
  </widget>

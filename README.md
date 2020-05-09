@@ -41,4 +41,8 @@ Thanks to:
 * Alexander Lange, developer of the Quivira font, which has exceptional unicode coverage and is generously donated to the public domain. (http://quivira-font.com/)
 * My data structures and OO instructor Mark Boshart.
 * Bob Nystrom, whose book CraftingInterpreters provides amazingly accessible lessons on parsing, among other language topics. (http://www.craftinginterpreters.com/)
+* Creators of various unicode tools which were invaluable while coding this
+  * https://www.unicodeit.net/ by Sven Kreiss and Kyle Cranmer.
+  * https://www.branah.com/unicode-converter
+  * Various excellent Wikipedia articles with tables
 * The Qt Company.

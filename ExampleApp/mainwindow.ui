@@ -53,7 +53,7 @@
        <number>1</number>
       </property>
       <property name="columnCount">
-       <number>12</number>
+       <number>10</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
@@ -77,8 +77,6 @@
        <number>5</number>
       </attribute>
       <row/>
-      <column/>
-      <column/>
       <column/>
       <column/>
       <column/>
@@ -194,6 +192,8 @@
    </property>
    <property name="font">
     <font>
+     <family>YAWYSIWYGEE_Glyphs</family>
+     <pointsize>24</pointsize>
      <stylestrategy>PreferDefault</stylestrategy>
     </font>
    </property>
@@ -381,291 +381,220 @@
    </property>
   </action>
   <action name="actionFraction">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/frac.ico</normaloff>:/Toolbar/frac.ico</iconset>
-   </property>
    <property name="text">
-    <string>Frac</string>
+    <string>D</string>
    </property>
    <property name="toolTip">
     <string>\frac</string>
    </property>
   </action>
   <action name="actionMatrix">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/mat.ico</normaloff>:/Toolbar/mat.ico</iconset>
-   </property>
    <property name="text">
-    <string>Mat</string>
+    <string>E</string>
    </property>
    <property name="toolTip">
     <string>\mat{rows}{cols}</string>
    </property>
   </action>
   <action name="actionCases">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/cases.ico</normaloff>:/Toolbar/cases.ico</iconset>
-   </property>
    <property name="text">
-    <string>Cases</string>
+    <string>F</string>
    </property>
    <property name="toolTip">
     <string>\cases</string>
    </property>
   </action>
   <action name="actionBinom">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/binom.ico</normaloff>:/Toolbar/binom.ico</iconset>
-   </property>
    <property name="text">
-    <string>Binom</string>
+    <string>G</string>
    </property>
    <property name="toolTip">
     <string>\binom{n}{k}</string>
    </property>
   </action>
   <action name="actionLim">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/lim.ico</normaloff>:/Toolbar/lim.ico</iconset>
-   </property>
    <property name="text">
-    <string>Lim</string>
+    <string>H</string>
    </property>
    <property name="toolTip">
     <string>\lim{var}{to}</string>
    </property>
   </action>
   <action name="actionRoot">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/root.ico</normaloff>:/Toolbar/root.ico</iconset>
-   </property>
    <property name="text">
-    <string>Root</string>
+    <string>I</string>
    </property>
    <property name="toolTip">
     <string>\root{arg}</string>
    </property>
   </action>
   <action name="actionBigint">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/bigint.ico</normaloff>:/Toolbar/bigint.ico</iconset>
-   </property>
    <property name="text">
-    <string>Int</string>
+    <string>c</string>
    </property>
    <property name="toolTip">
     <string>\int</string>
    </property>
   </action>
   <action name="actionBigsum">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/bigsum.ico</normaloff>:/Toolbar/bigsum.ico</iconset>
-   </property>
    <property name="text">
-    <string>Sum</string>
+    <string>∑</string>
    </property>
    <property name="toolTip">
     <string>\sum</string>
    </property>
   </action>
   <action name="actionSubscript">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/subscript.ico</normaloff>:/Toolbar/subscript.ico</iconset>
-   </property>
    <property name="text">
-    <string>subscript</string>
+    <string>A</string>
    </property>
    <property name="toolTip">
     <string>\_{subscript}</string>
    </property>
   </action>
   <action name="actionSuperscript">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/superscript.ico</normaloff>:/Toolbar/superscript.ico</iconset>
-   </property>
    <property name="text">
-    <string>superscript</string>
+    <string>B</string>
    </property>
    <property name="toolTip">
     <string>\^{superscript}</string>
    </property>
   </action>
   <action name="actionDualscript">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/dualscript.ico</normaloff>:/Toolbar/dualscript.ico</iconset>
-   </property>
    <property name="text">
-    <string>dualscript</string>
+    <string>C</string>
    </property>
    <property name="toolTip">
     <string>\_^{subscript}{superscript}</string>
    </property>
   </action>
   <action name="actionAccentarrow">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentarrow.ico</normaloff>:/Toolbar/accentarrow.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentarrow</string>
+    <string>J</string>
    </property>
    <property name="toolTip">
     <string>\vec</string>
    </property>
   </action>
   <action name="actionAccentbar">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentbar.ico</normaloff>:/Toolbar/accentbar.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentbar</string>
+    <string>K</string>
    </property>
    <property name="toolTip">
     <string>\bar</string>
    </property>
   </action>
   <action name="actionAccentbreve">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentbreve.ico</normaloff>:/Toolbar/accentbreve.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentbreve</string>
+    <string>L</string>
    </property>
    <property name="toolTip">
     <string>\breve</string>
    </property>
   </action>
   <action name="actionAccentdot">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentdot.ico</normaloff>:/Toolbar/accentdot.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentdot</string>
+    <string>M</string>
    </property>
    <property name="toolTip">
     <string>\dot</string>
    </property>
   </action>
   <action name="actionAccentddot">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentddot.ico</normaloff>:/Toolbar/accentddot.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentddot</string>
+    <string>N</string>
    </property>
    <property name="toolTip">
     <string>\ddot</string>
    </property>
   </action>
   <action name="actionAccentdddot">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accentdddot.ico</normaloff>:/Toolbar/accentdddot.ico</iconset>
-   </property>
    <property name="text">
-    <string>accentdddot</string>
+    <string>O</string>
    </property>
    <property name="toolTip">
     <string>\dddot</string>
    </property>
   </action>
   <action name="actionAccenthat">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accenthat.ico</normaloff>:/Toolbar/accenthat.ico</iconset>
-   </property>
    <property name="text">
-    <string>accenthat</string>
+    <string>P</string>
    </property>
    <property name="toolTip">
     <string>\hat</string>
    </property>
   </action>
   <action name="actionAccenttilde">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/accenttilde.ico</normaloff>:/Toolbar/accenttilde.ico</iconset>
-   </property>
    <property name="text">
-    <string>accenttilde</string>
+    <string>Q</string>
    </property>
    <property name="toolTip">
     <string>\tilde</string>
    </property>
   </action>
   <action name="actionGroupnorm">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingnorm.ico</normaloff>:/Toolbar/groupingnorm.ico</iconset>
-   </property>
    <property name="text">
-    <string>groupnorm</string>
+    <string>‖x‖</string>
    </property>
    <property name="toolTip">
     <string>\norm</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Quivira</family>
+    </font>
+   </property>
   </action>
   <action name="actionGroupingabs">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingabs.ico</normaloff>:/Toolbar/groupingabs.ico</iconset>
-   </property>
    <property name="text">
-    <string>groupingabs</string>
+    <string>|x|</string>
    </property>
    <property name="toolTip">
     <string>\abs</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Quivira</family>
+    </font>
+   </property>
   </action>
   <action name="actionGroupingceil">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingceil.ico</normaloff>:/Toolbar/groupingceil.ico</iconset>
-   </property>
    <property name="text">
-    <string>groupingceil</string>
+    <string>⌈x⌉</string>
    </property>
    <property name="toolTip">
     <string>\ceil</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Quivira</family>
+    </font>
+   </property>
   </action>
   <action name="actionGroupingfloor">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/groupingfloor.ico</normaloff>:/Toolbar/groupingfloor.ico</iconset>
-   </property>
    <property name="text">
-    <string>groupingfloor</string>
+    <string>⌊x⌋</string>
    </property>
    <property name="toolTip">
     <string>\floor</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Quivira</family>
+    </font>
+   </property>
   </action>
   <action name="actionEval">
-   <property name="icon">
-    <iconset resource="example_resource.qrc">
-     <normaloff>:/Toolbar/eval.ico</normaloff>:/Toolbar/eval.ico</iconset>
-   </property>
    <property name="text">
-    <string>eval</string>
+    <string>R</string>
    </property>
    <property name="toolTip">
     <string>\eval</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>YAWYSIWYGEE_Glyphs</family>
+    </font>
    </property>
   </action>
   <action name="actionCopy_as_TeX">
@@ -680,8 +609,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="example_resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

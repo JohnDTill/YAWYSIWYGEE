@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QMessageBox>
 #include <QTableWidgetItem>
@@ -19,6 +20,12 @@ MainWindow::MainWindow(QWidget* parent) :
     ui(new Ui::MainWindow){
     ui->setupUi(this);
     setCentralWidget(&typeset_edit);
+
+    int id = QFontDatabase::addApplicationFont(":/Font/YAWYSIWYGEE_Glyphs.otf");
+    Q_ASSERT(id!=-1);
+    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+    QFont glyph_font = QFont(family);
+    glyph_font.setPointSize(22);
 
     #ifdef __EMSCRIPTEN__
     //WASM cannot access clipboard without ctrl-c/v/x press; GUI buttons don't work
@@ -49,24 +56,24 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(&typeset_edit, SIGNAL(undoAvailable(bool)), ui->actionUndo, SLOT(setEnabled(bool)));
     connect(&typeset_edit, SIGNAL(redoAvailable(bool)), ui->actionRedo, SLOT(setEnabled(bool)));
 
+    QAction* accents[8] = {ui->actionAccentarrow, ui->actionAccentbar, ui->actionAccentbreve,
+                           ui->actionAccentdot, ui->actionAccentddot, ui->actionAccentdddot,
+                           ui->actionAccenthat, ui->actionAccenttilde};
+
     ui->mainToolBar->insertWidget(ui->actionFraction, ui->toolButton);
-    ui->toolButton->addAction(ui->actionAccentarrow);
-    ui->toolButton->addAction(ui->actionAccentbar);
-    ui->toolButton->addAction(ui->actionAccentbreve);
-    ui->toolButton->addAction(ui->actionAccentdot);
-    ui->toolButton->addAction(ui->actionAccentddot);
-    ui->toolButton->addAction(ui->actionAccentdddot);
-    ui->toolButton->addAction(ui->actionAccenthat);
-    ui->toolButton->addAction(ui->actionAccenttilde);
+    for(QAction* accent : accents) ui->toolButton->addAction(accent);
     ui->toolButton->setDefaultAction(ui->actionAccentarrow);
 
+    QAction* groups[5] = {ui->actionGroupingabs, ui->actionGroupnorm, ui->actionGroupingceil,
+                          ui->actionGroupingfloor, ui->actionEval};
+
     ui->mainToolBar->addWidget(ui->groupButton);
-    ui->groupButton->addAction(ui->actionGroupingabs);
-    ui->groupButton->addAction(ui->actionGroupnorm);
-    ui->groupButton->addAction(ui->actionGroupingceil);
-    ui->groupButton->addAction(ui->actionGroupingfloor);
-    ui->groupButton->addAction(ui->actionEval);
+    for(QAction* group : groups) ui->groupButton->addAction(group);
     ui->groupButton->setDefaultAction(ui->actionGroupnorm);
+
+    ui->mainToolBar->setFont(glyph_font);
+    for(QAction* accent : accents) accent->setFont(glyph_font);
+    for(QAction* group : groups) group->setFont(glyph_font);
 
     setupSymbolTable();
 }

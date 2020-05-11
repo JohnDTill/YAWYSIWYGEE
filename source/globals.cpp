@@ -33,7 +33,6 @@ void Globals::initGlobals(){
     initResources();
     int id = QFontDatabase::addApplicationFont(":/Font/Quivira.otf");
     Q_ASSERT(id!=-1);
-
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont default_font = QFont(family);
 

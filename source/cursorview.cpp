@@ -60,16 +60,6 @@ void CursorView::update(const Cursor& cursor){
     cursor.text->setTextCursor(cursor.cursor);
     cursor.text->setFocus();
 
-    Line* lL;
-    Line* lR;
-    if(cursor.forward()){
-        lL = &cursor.anchor_text->parent->getLine();
-        lR = &cursor.text->parent->getLine();
-    }else{
-        lL = &cursor.text->parent->getLine();
-        lR = &cursor.anchor_text->parent->getLine();
-    }
-
     cursor.doc.clearSelection();
     cursor.text->parent->getLine().setSelected(true);
     if(cursor.hasSelection()){

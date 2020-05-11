@@ -28,6 +28,7 @@ QFontMetrics Globals::font_metrics[] = {QFontMetrics(Globals::fonts[0]),
                                         QFontMetrics(Globals::fonts[2])};
 
 QSvgRenderer Globals::int_Quivira[6];
+QFont Globals::glyph_font;
 
 void Globals::initGlobals(){
     initResources();
@@ -66,4 +67,10 @@ void Globals::initGlobals(){
     int_Quivira[3].load(QString(":/Font/oint_Quivira.svg"));
     int_Quivira[4].load(QString(":/Font/oiint_Quivira.svg"));
     int_Quivira[5].load(QString(":/Font/oiiint_Quivira.svg"));
+
+    id = QFontDatabase::addApplicationFont(":/Font/YAWYSIWYGEE_Glyphs.otf");
+    Q_ASSERT(id!=-1);
+    family = QFontDatabase::applicationFontFamilies(id).at(0);
+    glyph_font = QFont(family);
+    glyph_font.setPointSize(18);
 }

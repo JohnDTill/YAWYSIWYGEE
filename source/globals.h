@@ -32,6 +32,7 @@ class Globals{
         static void initGlobals();
 
         static QSvgRenderer int_Quivira[6];
+        static QFont glyph_font;
 };
 
 #endif // GLOBALS_H

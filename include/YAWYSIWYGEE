@@ -1,1 +1,2 @@
 #include "typesetedit.h"
+#include "typesettoolbar.h"

@@ -58,11 +58,11 @@
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>30</number>
-      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>5</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>30</number>
       </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>false</bool>
@@ -70,11 +70,11 @@
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>30</number>
-      </attribute>
       <attribute name="verticalHeaderMinimumSectionSize">
        <number>5</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>30</number>
       </attribute>
       <row/>
       <column/>
@@ -123,7 +123,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>28</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -182,53 +182,6 @@
    <addaction name="menuEdit"/>
    <addaction name="menuDebug"/>
    <addaction name="menuWindow"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="font">
-    <font>
-     <family>YAWYSIWYGEE_Glyphs</family>
-     <pointsize>24</pointsize>
-     <stylestrategy>PreferDefault</stylestrategy>
-    </font>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>48</width>
-     <height>48</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionSubscript"/>
-   <addaction name="actionSuperscript"/>
-   <addaction name="actionDualscript"/>
-   <addaction name="actionFraction"/>
-   <addaction name="actionMatrix"/>
-   <addaction name="actionCases"/>
-   <addaction name="actionBinom"/>
-   <addaction name="actionLim"/>
-   <addaction name="actionRoot"/>
-   <addaction name="actionBigsum"/>
-   <addaction name="actionBigint"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSave_As">
@@ -378,223 +331,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
-   </property>
-  </action>
-  <action name="actionFraction">
-   <property name="text">
-    <string>D</string>
-   </property>
-   <property name="toolTip">
-    <string>\frac</string>
-   </property>
-  </action>
-  <action name="actionMatrix">
-   <property name="text">
-    <string>E</string>
-   </property>
-   <property name="toolTip">
-    <string>\mat{rows}{cols}</string>
-   </property>
-  </action>
-  <action name="actionCases">
-   <property name="text">
-    <string>F</string>
-   </property>
-   <property name="toolTip">
-    <string>\cases</string>
-   </property>
-  </action>
-  <action name="actionBinom">
-   <property name="text">
-    <string>G</string>
-   </property>
-   <property name="toolTip">
-    <string>\binom{n}{k}</string>
-   </property>
-  </action>
-  <action name="actionLim">
-   <property name="text">
-    <string>H</string>
-   </property>
-   <property name="toolTip">
-    <string>\lim{var}{to}</string>
-   </property>
-  </action>
-  <action name="actionRoot">
-   <property name="text">
-    <string>I</string>
-   </property>
-   <property name="toolTip">
-    <string>\root{arg}</string>
-   </property>
-  </action>
-  <action name="actionBigint">
-   <property name="text">
-    <string>c</string>
-   </property>
-   <property name="toolTip">
-    <string>\int</string>
-   </property>
-  </action>
-  <action name="actionBigsum">
-   <property name="text">
-    <string>∑</string>
-   </property>
-   <property name="toolTip">
-    <string>\sum</string>
-   </property>
-  </action>
-  <action name="actionSubscript">
-   <property name="text">
-    <string>A</string>
-   </property>
-   <property name="toolTip">
-    <string>\_{subscript}</string>
-   </property>
-  </action>
-  <action name="actionSuperscript">
-   <property name="text">
-    <string>B</string>
-   </property>
-   <property name="toolTip">
-    <string>\^{superscript}</string>
-   </property>
-  </action>
-  <action name="actionDualscript">
-   <property name="text">
-    <string>C</string>
-   </property>
-   <property name="toolTip">
-    <string>\_^{subscript}{superscript}</string>
-   </property>
-  </action>
-  <action name="actionAccentarrow">
-   <property name="text">
-    <string>J</string>
-   </property>
-   <property name="toolTip">
-    <string>\vec</string>
-   </property>
-  </action>
-  <action name="actionAccentbar">
-   <property name="text">
-    <string>K</string>
-   </property>
-   <property name="toolTip">
-    <string>\bar</string>
-   </property>
-  </action>
-  <action name="actionAccentbreve">
-   <property name="text">
-    <string>L</string>
-   </property>
-   <property name="toolTip">
-    <string>\breve</string>
-   </property>
-  </action>
-  <action name="actionAccentdot">
-   <property name="text">
-    <string>M</string>
-   </property>
-   <property name="toolTip">
-    <string>\dot</string>
-   </property>
-  </action>
-  <action name="actionAccentddot">
-   <property name="text">
-    <string>N</string>
-   </property>
-   <property name="toolTip">
-    <string>\ddot</string>
-   </property>
-  </action>
-  <action name="actionAccentdddot">
-   <property name="text">
-    <string>O</string>
-   </property>
-   <property name="toolTip">
-    <string>\dddot</string>
-   </property>
-  </action>
-  <action name="actionAccenthat">
-   <property name="text">
-    <string>P</string>
-   </property>
-   <property name="toolTip">
-    <string>\hat</string>
-   </property>
-  </action>
-  <action name="actionAccenttilde">
-   <property name="text">
-    <string>Q</string>
-   </property>
-   <property name="toolTip">
-    <string>\tilde</string>
-   </property>
-  </action>
-  <action name="actionGroupnorm">
-   <property name="text">
-    <string>‖x‖</string>
-   </property>
-   <property name="toolTip">
-    <string>\norm</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Quivira</family>
-    </font>
-   </property>
-  </action>
-  <action name="actionGroupingabs">
-   <property name="text">
-    <string>|x|</string>
-   </property>
-   <property name="toolTip">
-    <string>\abs</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Quivira</family>
-    </font>
-   </property>
-  </action>
-  <action name="actionGroupingceil">
-   <property name="text">
-    <string>⌈x⌉</string>
-   </property>
-   <property name="toolTip">
-    <string>\ceil</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Quivira</family>
-    </font>
-   </property>
-  </action>
-  <action name="actionGroupingfloor">
-   <property name="text">
-    <string>⌊x⌋</string>
-   </property>
-   <property name="toolTip">
-    <string>\floor</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Quivira</family>
-    </font>
-   </property>
-  </action>
-  <action name="actionEval">
-   <property name="text">
-    <string>R</string>
-   </property>
-   <property name="toolTip">
-    <string>\eval</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>YAWYSIWYGEE_Glyphs</family>
-    </font>
    </property>
   </action>
   <action name="actionCopy_as_TeX">

@@ -42,7 +42,8 @@ SOURCES += \
     construct/root.cpp \
     construct/script.cpp \
     construct/underscriptedword.cpp \
-    typesetscene.cpp
+    typesetscene.cpp \
+    typesettoolbar.cpp
 
 HEADERS += \
     YAWYSIWYGEE \
@@ -82,7 +83,8 @@ HEADERS += \
     construct/script.h \
     construct/underscriptedword.h \
     typesetscene.h \
-    YAWYSIWYGEE_keywords.h
+    YAWYSIWYGEE_keywords.h \
+    typesettoolbar.h
 
 
 # Default rules for deployment.
@@ -113,3 +115,4 @@ defineTest(copyToDestDir) {
 copyToDestDir($$PWD/"YAWYSIWYGEE", $$PWD/../include)
 copyToDestDir($$PWD/"YAWYSIWYGEE_keywords.h", $$PWD/../include)
 copyToDestDir($$PWD/"typesetedit.h", $$PWD/../include)
+copyToDestDir($$PWD/"typesettoolbar.h", $$PWD/../include)

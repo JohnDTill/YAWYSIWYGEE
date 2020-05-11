@@ -20,12 +20,12 @@ MainWindow::MainWindow(QWidget* parent) :
     ui(new Ui::MainWindow){
     ui->setupUi(this);
     setCentralWidget(&typeset_edit);
-
-    int id = QFontDatabase::addApplicationFont(":/Font/YAWYSIWYGEE_Glyphs.otf");
-    Q_ASSERT(id!=-1);
-    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
-    QFont glyph_font = QFont(family);
-    glyph_font.setPointSize(22);
+    TypesetToolbar* toolbar = new TypesetToolbar(this);
+    connect(toolbar, SIGNAL(clickSymbol(QString)), &typeset_edit, SLOT(insertPlainText(const QString&)));
+    connect(toolbar, SIGNAL(clickMathBran(QString)), &typeset_edit, SLOT(insertMathBran(const QString&)));
+    connect(toolbar, SIGNAL(clickEnclosingMathBran(QString, QString)),
+            this, SLOT(enclosedMathBranButton(QString, QString)));
+    addToolBar(toolbar);
 
     #ifdef __EMSCRIPTEN__
     //WASM cannot access clipboard without ctrl-c/v/x press; GUI buttons don't work
@@ -55,27 +55,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(&typeset_edit, SIGNAL(undoAvailable(bool)), ui->actionUndo, SLOT(setEnabled(bool)));
     connect(&typeset_edit, SIGNAL(redoAvailable(bool)), ui->actionRedo, SLOT(setEnabled(bool)));
-
-    QAction* accents[8] = {ui->actionAccentarrow, ui->actionAccentbar, ui->actionAccentbreve,
-                           ui->actionAccentdot, ui->actionAccentddot, ui->actionAccentdddot,
-                           ui->actionAccenthat, ui->actionAccenttilde};
-
-    ui->mainToolBar->insertWidget(ui->actionFraction, ui->toolButton);
-    for(QAction* accent : accents) ui->toolButton->addAction(accent);
-    ui->toolButton->setDefaultAction(ui->actionAccentarrow);
-
-    QAction* groups[5] = {ui->actionGroupingabs, ui->actionGroupnorm, ui->actionGroupingceil,
-                          ui->actionGroupingfloor, ui->actionEval};
-
-    ui->mainToolBar->addWidget(ui->groupButton);
-    for(QAction* group : groups) ui->groupButton->addAction(group);
-    ui->groupButton->setDefaultAction(ui->actionGroupnorm);
-
-    ui->mainToolBar->setFont(glyph_font);
-    for(QAction* accent : accents) accent->setFont(glyph_font);
-    for(QAction* group : groups) group->setFont(glyph_font);
-
-    setupSymbolTable();
 }
 
 MainWindow::~MainWindow(){
@@ -159,187 +138,6 @@ void MainWindow::on_actionChalkboard_triggered(){
 
 void MainWindow::on_actionCopy_as_PNG_triggered(){
     typeset_edit.copyPng();
-}
-
-void MainWindow::on_actionFraction_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜f⏴⏵⏴⏵");
-    else typeset_edit.insertMathBran("⁜f⏴" + selection + "⏵⏴⏵");
-}
-
-void MainWindow::on_actionMatrix_triggered(){
-    typeset_edit.insertMathBran("⁜⊞⏴2⏵⏴2⏵");
-}
-
-void MainWindow::on_actionCases_triggered(){
-    typeset_edit.insertMathBran("⁜c⏴⏵⏴⏵⏴⏵⏴⏵");
-}
-
-void MainWindow::on_actionBinom_triggered(){
-    typeset_edit.insertMathBran("⁜b⏴n⏵⏴k⏵");
-}
-
-void MainWindow::on_actionLim_triggered(){
-    typeset_edit.insertMathBran("⁜l⏴⏵⏴⏵");
-}
-
-void MainWindow::on_actionRoot_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜√⏴⏵");
-    else typeset_edit.insertMathBran("⁜√⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionBigint_triggered(){
-    typeset_edit.insertMathBran("⁜∫");
-}
-
-void MainWindow::on_actionBigsum_triggered(){
-    typeset_edit.insertMathBran("⁜∑");
-}
-
-void MainWindow::insertChar(QTableWidgetItem* item){
-    if(item->text().isEmpty()) return;
-    typeset_edit.insertPlainText(item->text());
-}
-
-void MainWindow::on_actionSubscript_triggered(){
-    typeset_edit.insertMathBran("⁜_⏴⏵");
-}
-
-void MainWindow::on_actionSuperscript_triggered(){
-    typeset_edit.insertMathBran("⁜^⏴⏵");
-}
-
-void MainWindow::on_actionDualscript_triggered(){
-    typeset_edit.insertMathBran("⁜Δ⏴⏵⏴⏵");
-}
-
-void MainWindow::on_actionAccentarrow_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜→⏴⏵");
-    else typeset_edit.insertMathBran("⁜→⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccentbar_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ā⏴⏵");
-    else typeset_edit.insertMathBran("⁜ā⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccentbreve_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ă⏴⏵");
-    else typeset_edit.insertMathBran("⁜ă⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccentdot_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ȧ⏴⏵");
-    else typeset_edit.insertMathBran("⁜ȧ⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccentddot_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ä⏴⏵");
-    else typeset_edit.insertMathBran("⁜ä⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccentdddot_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⋯⏴⏵");
-    else typeset_edit.insertMathBran("⁜⋯⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccenthat_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜â⏴⏵");
-    else typeset_edit.insertMathBran("⁜â⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionAccenttilde_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜ã⏴⏵");
-    else typeset_edit.insertMathBran("⁜ã⏴" + selection + "⏵");
-}
-
-void MainWindow::on_toolButton_triggered(QAction* action){
-    ui->toolButton->setDefaultAction(action);
-}
-
-void MainWindow::on_actionGroupnorm_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜‖⏴⏵");
-    else typeset_edit.insertMathBran("⁜‖⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionGroupingabs_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜|⏴⏵");
-    else typeset_edit.insertMathBran("⁜|⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionGroupingceil_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⌈⏴⏵");
-    else typeset_edit.insertMathBran("⁜⌈⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionGroupingfloor_triggered(){
-    QString selection = typeset_edit.selectedMathBran();
-    if(selection.contains('\n')) typeset_edit.insertMathBran("⁜⌊⏴⏵");
-    else typeset_edit.insertMathBran("⁜⌊⏴" + selection + "⏵");
-}
-
-void MainWindow::on_actionEval_triggered(){
-    typeset_edit.insertMathBran("⁜┊⏴a⏵⏴b⏵");
-}
-
-void MainWindow::on_groupButton_triggered(QAction* action){
-    ui->groupButton->setDefaultAction(action);
-}
-
-#include <YAWYSIWYGEE_keywords.h>
-void MainWindow::setupSymbolTable(){
-    QWidget* spacer = new QWidget();
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    ui->mainToolBar->insertWidget(ui->actionSubscript, ui->tableWidget);
-    ui->mainToolBar->insertWidget(ui->actionSubscript, spacer);
-
-    QFont table_font = typeset_edit.font();
-    table_font.setPixelSize(24);
-    ui->tableWidget->setFont(table_font);
-
-    int row = 0;
-    int col = 0;
-    int cols = ui->tableWidget->columnCount();
-
-    std::pair<QString, QString> keywords[] = YAWYSIWYGEE_KEYWORDS;
-
-    for(auto pair : keywords){
-        if(col >= cols){
-            row++;
-            col = 0;
-            ui->tableWidget->insertRow(row);
-        }
-
-        QTableWidgetItem* item = new QTableWidgetItem(pair.second);
-        item->setFlags(item->flags() & ~Qt::ItemFlag::ItemIsEditable);
-        item->setToolTip('\\' + pair.first);
-        ui->tableWidget->setItem(row,col,item);
-
-        col++;
-    }
-
-    //Make empty entries uneditable
-    for(int i = col; i < cols; i++){
-        QTableWidgetItem* item = new QTableWidgetItem("");
-        item->setFlags(item->flags() & ~Qt::ItemFlag::ItemIsEditable);
-        ui->tableWidget->setItem(row,i,item);
-    }
-
-    connect(ui->tableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(insertChar(QTableWidgetItem*)));
-
-    ui->tableWidget->setFocusPolicy(Qt::NoFocus);
 }
 
 void MainWindow::load(QString filename){
@@ -445,4 +243,10 @@ void MainWindow::on_actionCopy_as_Unicode_triggered(){
     }
 
     QGuiApplication::clipboard()->setText(MathBran::toUnicode(math_bran));
+}
+
+void MainWindow::enclosedMathBranButton(QString l, QString r){
+    QString selected = typeset_edit.selectedMathBran();
+    if(selected.contains('\n')) typeset_edit.insertMathBran(l + r);
+    else typeset_edit.insertMathBran(l + selected + r);
 }

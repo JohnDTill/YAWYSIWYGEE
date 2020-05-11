@@ -37,12 +37,9 @@ private slots:
     void on_actionSave_As_triggered();
     void on_actionPrint_triggered();
     NO_RETURN(void on_actionExit_triggered())
-
     void on_actionUndo_triggered();
     void on_actionRedo_triggered();
-
     void on_actionLoad_Test_txt_triggered();
-
     void on_actionZoom_In_triggered();
     void on_actionZoom_Out_triggered();
     void on_actionReset_Zoom_triggered();
@@ -50,45 +47,11 @@ private slots:
     void on_actionVanilla_triggered();
     void on_actionChalkboard_triggered();
     void on_actionCopy_as_PNG_triggered();
-
-    void on_actionFraction_triggered();
-    void on_actionMatrix_triggered();
-    void on_actionCases_triggered();
-    void on_actionBinom_triggered();
-    void on_actionLim_triggered();
-    void on_actionRoot_triggered();
-    void on_actionBigint_triggered();
-    void on_actionBigsum_triggered();
-
-    void insertChar(QTableWidgetItem* item);
-
-    void on_actionSubscript_triggered();
-    void on_actionSuperscript_triggered();
-    void on_actionDualscript_triggered();
-    void on_actionAccentarrow_triggered();
-    void on_actionAccentbar_triggered();
-    void on_actionAccentbreve_triggered();
-    void on_actionAccentdot_triggered();
-    void on_actionAccentddot_triggered();
-    void on_actionAccentdddot_triggered();
-    void on_actionAccenthat_triggered();
-    void on_actionAccenttilde_triggered();
-
-    void on_toolButton_triggered(QAction *arg1);
-    void on_actionGroupnorm_triggered();
-    void on_actionGroupingabs_triggered();
-    void on_actionGroupingceil_triggered();
-    void on_actionGroupingfloor_triggered();
-    void on_actionEval_triggered();
-    void on_groupButton_triggered(QAction *arg1);
-
     void on_actionCopy_as_TeX_triggered();
-
     void on_actionCopy_as_Unicode_triggered();
+    void enclosedMathBranButton(QString l, QString r);
 
 private:
-    void setupSymbolTable();
-
     void load(QString filename);
     void loadPrompt();
     void save();

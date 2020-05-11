@@ -42,7 +42,7 @@ static ushort parseDimension(const QString& source, int& curr){
     Q_ASSERT(curr < source.size());
     bool success;
     ushort val = source.midRef(dim_start, curr - dim_start).toUShort(&success);
-    Q_ASSERT(success && val > 0 || val <= 255);
+    Q_ASSERT(success && val > 0 && val <= 255);
     curr++;
 
     return val;

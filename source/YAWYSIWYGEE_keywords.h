@@ -273,3 +273,5 @@
     { "zeta" , "ζ" },\
     { "Zeta" , "Ζ" },\
 }
+
+#define YAWYSIWYGEE_NUM_KEYWORDS 269

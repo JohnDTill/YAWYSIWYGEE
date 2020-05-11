@@ -673,6 +673,8 @@ static const QHash<QString, std::pair<QString, QString> > construct_map = {
     {"frac", {MB_FRACTION, "⏴⏵⏴⏵"}},
     {"ceil", {MB_GROUPING_CEIL, "⏴⏵"}},
     {"floor", {MB_GROUPING_FLOOR, "⏴⏵"}},
+    {"()", {MB_GROUPING_PARENTHESIS, "⏴⏵"}},
+    {"[]", {MB_GROUPING_BRACKETS, "⏴⏵"}},
     {"eval", {MB_EVALSCRIPT, "⏴a⏵⏴b⏵"}},
     {"abs", {MB_GROUPING_BARS, "⏴⏵"}},
     {"norm", {MB_GROUPING_DOUBLE_BARS, "⏴⏵"}},

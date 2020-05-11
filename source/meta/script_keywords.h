@@ -57,7 +57,9 @@ int processKeywords(){
 
     for(KeywordEntry e : rows)
         out << "    { \"" << e.keyword << "\" , \"" << e.symbol << "\" },\\\n";
-    out << "}\n";
+    out << "}\n"
+           "\n"
+           "#define YAWYSIWYGEE_NUM_KEYWORDS " << rows.size() << "\n";
 
     //Cleanup
     file.close();

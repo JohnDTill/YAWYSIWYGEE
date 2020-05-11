@@ -77,6 +77,8 @@ MainWindow::~MainWindow(){
 
 void MainWindow::on_actionNew_triggered(){
     typeset_edit.clear();
+    save_path.clear();
+    setWindowTitle("YAWYSIWYGEE");
 }
 
 void MainWindow::on_actionLoad_triggered(){
@@ -109,6 +111,7 @@ void MainWindow::on_actionRedo_triggered(){
 
 void MainWindow::on_actionLoad_Test_txt_triggered(){
     load(":/test.txt");
+    save_path.clear();
 }
 
 void MainWindow::on_actionZoom_In_triggered(){
@@ -345,21 +348,30 @@ void MainWindow::load(QString filename){
     QTextStream in(&file);
     in.setCodec("UTF-8");
 
-    typeset_edit.setMathBran(in.readAll());
+    QString math_bran = in.readAll();
+    if(!MathBran::isWellFormed(math_bran)){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "Error", "\"" + filename + "\" contains invalid MathBran code.");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+    typeset_edit.setMathBran(math_bran);
+
+    QFileInfo file_info(file);
+    typeset_edit.setDocumentTitle(file_info.fileName());
+    setWindowTitle("YAWYSIWYGEE - \"" + file_info.fileName() + '"');
+    save_path = filename;
 }
 
 void MainWindow::loadPrompt(){
-    QString file_name = QFileDialog::getOpenFileName(nullptr, tr("Load File"),
-                                "./",
-                                tr("Text (*.txt)"));
-
-    if(file_name.isEmpty()) return;
-    else load(file_name);
+    QString path = QFileDialog::getOpenFileName(nullptr, tr("Load File"), "./", tr("Text (*.txt)"));
+    if(path.isEmpty()) return;
+    else load(path);
 }
 
 void MainWindow::save(){
-    if(typeset_edit.documentTitle().isEmpty()) savePrompt();
-    else saveAs(typeset_edit.documentTitle());
+    if(save_path.isEmpty()) savePrompt();
+    else saveAs(save_path);
 }
 
 void MainWindow::saveAs(QString save_path){
@@ -375,11 +387,16 @@ void MainWindow::saveAs(QString save_path){
     QTextStream out(&file);
     out.setCodec("UTF-8");
     out << typeset_edit.toMathBran();
+
+    QFileInfo file_info(file);
+    typeset_edit.setDocumentTitle(file_info.fileName());
+    setWindowTitle("YAWYSIWYGEE - \"" + file_info.fileName() + '"');
+    this->save_path = save_path;
 }
 
 void MainWindow::savePrompt(){
     QString title = typeset_edit.documentTitle();
-    QString prompt_name = title.isEmpty() ? "untitled" : typeset_edit.documentTitle() + ".svg";
+    QString prompt_name = title.isEmpty() ? "untitled.txt" : typeset_edit.documentTitle();
     QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Save File"),
                                 prompt_name,
                                 tr("Text (*.txt)"));
@@ -389,7 +406,9 @@ void MainWindow::savePrompt(){
 
 void MainWindow::printSvgPrompt(){
     QString title = typeset_edit.documentTitle();
-    QString prompt_name = title.isEmpty() ? "untitled" : typeset_edit.documentTitle() + ".svg";
+    QString prompt_name = title.isEmpty() ?
+                          "untitled.svg" :
+                          typeset_edit.documentTitle().split('.').front() + ".svg";
     QString file_name = QFileDialog::getSaveFileName(nullptr, tr("Export PDF"),
                                 prompt_name,
                                 tr("SVG (*.svg)"));

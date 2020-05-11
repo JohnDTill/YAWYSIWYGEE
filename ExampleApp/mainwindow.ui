@@ -58,11 +58,11 @@
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>5</number>
-      </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>5</number>
       </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>false</bool>
@@ -70,11 +70,11 @@
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
       </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>5</number>
-      </attribute>
       <attribute name="verticalHeaderDefaultSectionSize">
        <number>30</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>5</number>
       </attribute>
       <row/>
       <column/>
@@ -125,7 +125,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>31</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow{
 private:
     Ui::MainWindow* ui;
     TypesetEdit typeset_edit;
+    QString save_path;
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);

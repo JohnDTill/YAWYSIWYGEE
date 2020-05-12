@@ -145,8 +145,7 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
         case Qt::Key_Up: cursor->moveToPreviousLine(); break;
         case Qt::Key_Home: cursor->moveToStartOfLine(); break;
         case Qt::Key_End: cursor->moveToEndOfLine(); break;
-        case Qt::Key_Home+Ctrl: cursor->moveToStartOfDocument(); break;
-        case Qt::Key_End+Ctrl: cursor->moveToEndOfDocument(); break;
+        case Qt::Key_Home+Ctrl: cursor->moveToStartOfDocument(); break; case Qt::Key_End+Ctrl: cursor->moveToEndOfDocument(); break;
         case Qt::Key_Right+Shift: cursor->selectNextChar(); break;
         case Qt::Key_Left+Shift: cursor->selectPreviousChar(); break;
         case Qt::Key_Right+CtrlShift: cursor->selectNextWord(); break;
@@ -170,6 +169,7 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
             #endif
         case Qt::Key_V+Ctrl: if(allow_write) cursor->paste(); break;
         default:
+            if(e->modifiers().testFlag(Qt::ControlModifier)) return;
             QString text = e->text();
             if(allow_write && !text.isEmpty() && text.front().isPrint()) cursor->keystroke(text.front());
     }

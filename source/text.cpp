@@ -41,6 +41,7 @@ Text::~Text(){
 
 bool Text::verify(){
     for(Text* t : all_texts){
+        if(!t->isVisible()) continue;
         if(t->next && t->next->prev != t) return false;
         if(t->prev && t->prev->next != t) return false;
     }

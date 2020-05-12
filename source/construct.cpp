@@ -29,6 +29,7 @@ Construct::~Construct(){
 
 bool Construct::verify(){
     for(Construct* c : all_constructs){
+        if(!c->isVisible()) continue;
         if(!c->next || c->next->prev != c) return false;
         if(!c->prev || c->prev->next != c) return false;
     }

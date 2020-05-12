@@ -105,7 +105,7 @@ void TypesetToolbar::setupMisc(){
     addAction(new TypesetAction("F", "\\cases", "⁜c⏴⏵⏴⏵⏴⏵⏴⏵", this));
     addAction(new TypesetAction("G", "\\binom{n}{k}", "⁜b⏴n⏵⏴k⏵", this));
     addAction(new TypesetAction("H", "\\lim{var}{to}", "⁜l⏴⏵⏴⏵", this));
-    addAction(new EnclosedTypesetAction("I", "\\root", "⁜√⏴", "⏵⏴⏵", this));
+    addAction(new EnclosedTypesetAction("I", "\\root", "⁜√⏴", "⏵", this));
 }
 
 void TypesetToolbar::setupBigSymbols(){

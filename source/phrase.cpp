@@ -31,6 +31,7 @@ Phrase::~Phrase(){
 
 bool Phrase::verify(){
     for(Phrase* p : all_phrases){
+        if(!p->isVisible()) continue;
         if(p->front->prev != nullptr) return false;
         if(p->back->next != nullptr) return false;
 

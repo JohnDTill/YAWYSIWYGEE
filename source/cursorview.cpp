@@ -60,6 +60,8 @@ void CursorView::update(const Cursor& cursor){
     cursor.text->setTextCursor(cursor.cursor);
     cursor.text->setFocus();
 
+    tL_old = tR_old = cursor.text;
+
     cursor.doc.clearSelection();
     cursor.text->parent->getLine().setSelected(true);
     if(cursor.hasSelection()){
@@ -70,8 +72,6 @@ void CursorView::update(const Cursor& cursor){
             QTextCursor c = cursor.anchor_cursor;
             c.setPosition(cursor.cursor.position(), QTextCursor::KeepAnchor);
             cursor.text->setTextCursor(c);
-
-            tL_old = tR_old = cursor.anchor_text;
         }
     }
 }
@@ -169,7 +169,7 @@ void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCurs
         cL.movePosition(QTextCursor::End);
         cL.setPosition(pL, QTextCursor::KeepAnchor);
         tL->setTextCursor(cL);
-        tL->clearFocus();
+        if(tL_old != tL) tL->clearFocus();
     }
     tL_old = tL;
 

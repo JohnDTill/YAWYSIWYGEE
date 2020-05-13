@@ -14,14 +14,10 @@ SOURCES += \
 SOURCES += \
     ../source/algorithm.cpp \
     ../source/command/deletechar.cpp \
-    ../source/command/deletemultiline.cpp \
-    ../source/command/deletephrase.cpp \
-    ../source/command/deletetext.cpp \
-    ../source/command/evalmultiline.cpp \
-    ../source/command/evalphrase.cpp \
+    ../source/command/multilinecommand.cpp \
+    ../source/command/phrasecommand.cpp \
     ../source/command/insertchar.cpp \
-    ../source/command/insertmultiline.cpp \
-    ../source/command/inserttext.cpp \
+    ../source/command/textcommand.cpp \
     ../source/construct.cpp \
     ../source/construct/group.cpp \
     ../source/cursor.cpp \
@@ -53,14 +49,10 @@ HEADERS += \
     ../source/algorithm.h \
     ../source/command/commands.h \
     ../source/command/deletechar.h \
-    ../source/command/deletemultiline.h \
-    ../source/command/deletephrase.h \
-    ../source/command/deletetext.h \
-    ../source/command/evalmultiline.h \
-    ../source/command/evalphrase.h \
+    ../source/command/multilinecommand.h \
+    ../source/command/phrasecommand.h \
     ../source/command/insertchar.h \
-    ../source/command/insertmultiline.h \
-    ../source/command/inserttext.h \
+    ../source/command/textcommand.h \
     ../source/construct.h \
     ../source/construct/constructs.h \
     ../source/construct/group.h \

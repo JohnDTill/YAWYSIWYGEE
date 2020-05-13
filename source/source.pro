@@ -2,6 +2,7 @@ QT += core gui svg widgets
 
 TEMPLATE = lib
 DEFINES += QT_DEPRECATED_WARNINGS
+#DEFINES += YAWYSIWYGEE_TEST
 CONFIG += c++11
 CONFIG += staticlib
 DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib
@@ -10,14 +11,10 @@ TARGET = YAWYSIWYGEE
 SOURCES += \
     algorithm.cpp \
     command/deletechar.cpp \
-    command/deletemultiline.cpp \
-    command/deletephrase.cpp \
-    command/deletetext.cpp \
-    command/evalmultiline.cpp \
-    command/evalphrase.cpp \
     command/insertchar.cpp \
-    command/insertmultiline.cpp \
-    command/inserttext.cpp \
+    command/multilinecommand.cpp \
+    command/phrasecommand.cpp \
+    command/textcommand.cpp \
     construct.cpp \
     construct/group.cpp \
     cursor.cpp \
@@ -50,14 +47,10 @@ HEADERS += \
     algorithm.h \
     command/commands.h \
     command/deletechar.h \
-    command/deletemultiline.h \
-    command/deletephrase.h \
-    command/deletetext.h \
-    command/evalmultiline.h \
-    command/evalphrase.h \
     command/insertchar.h \
-    command/insertmultiline.h \
-    command/inserttext.h \
+    command/multilinecommand.h \
+    command/phrasecommand.h \
+    command/textcommand.h \
     construct.h \
     construct/constructs.h \
     construct/group.h \

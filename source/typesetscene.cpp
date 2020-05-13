@@ -62,6 +62,12 @@ TypesetScene::~TypesetScene(){
         curr = curr->prev;
         prev->deletePostorder();
     }
+
+    #ifdef YAWYSIWYGEE_TEST
+    Q_ASSERT(Text::allFreed());
+    Q_ASSERT(Construct::allFreed());
+    Q_ASSERT(Phrase::allFreed());
+    #endif
 }
 
 void TypesetScene::setLineNumbersVisible(bool show){
@@ -175,6 +181,12 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
     }
 
     cv->update(*cursor);
+
+    #ifdef YAWYSIWYGEE_TEST
+    Q_ASSERT(Text::verify());
+    Q_ASSERT(Construct::verify());
+    Q_ASSERT(Phrase::verify());
+    #endif
 }
 
 void TypesetScene::mousePressEvent(QGraphicsSceneMouseEvent* e){

@@ -627,28 +627,22 @@ qreal Cursor::x(){
 
 QUndoCommand* Cursor::deleteSelection(){
     if(text==anchor_text){
-        return forward()
-            ? new DeleteText(*this, text, anchor_cursor, cursor)
-            : new DeleteText(*this, text, cursor, anchor_cursor);
+        return TextCommand::remove(*this, text, cursor, anchor_cursor);
     }else if(text->parent == anchor_text->parent){
-        return forward()
-            ? new DeletePhrase(*this, anchor_text, anchor_cursor, text, cursor)
-            : new DeletePhrase(*this, text, cursor, anchor_text, anchor_cursor);
+        return PhraseCommand::remove(*this, text, cursor, anchor_text, anchor_cursor);
     }else{
-        return forward()
-            ? new DeleteMultiline(*this, doc, anchor_text, anchor_cursor, text, cursor)
-            : new DeleteMultiline(*this, doc, text, cursor, anchor_text, anchor_cursor);
+        return MultilineCommand::remove(*this, doc, text, cursor, anchor_text, anchor_cursor);
     }
 }
 
 QUndoCommand* Cursor::insert(const QString& str){
-    if(str.contains('\n')) return new InsertMultiline(*this, doc, str, text, cursor);
-    else return new InsertText(*this, str, text, cursor);
+    if(str.contains('\n')) return MultilineCommand::insert(*this, doc, str, text, cursor);
+    else return TextCommand::insert(*this, str, text, cursor);
 }
 
 QUndoCommand* Cursor::evaluate(const QString& source){
-    if(source.contains('\n')) return new EvalMultiline(*this, doc, source, text, cursor);
-    else return new EvalPhrase(*this, source, text, cursor);
+    if(source.contains('\n')) return MultilineCommand::eval(*this, doc, source, text, cursor);
+    else return PhraseCommand::eval(*this, source, text, cursor);
 }
 
 //Could use compile-time hash tables

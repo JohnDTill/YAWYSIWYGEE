@@ -16,6 +16,7 @@
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
+#include <QDebug>
 static std::list<Text*> all_texts;
 #endif
 
@@ -42,11 +43,21 @@ Text::~Text(){
 bool Text::verify(){
     for(Text* t : all_texts){
         if(!t->isVisible()) continue;
-        if(t->next && t->next->prev != t) return false;
-        if(t->prev && t->prev->next != t) return false;
+        if(t->next && t->next->prev != t){
+            qDebug() << "Text \"" << t->toPlainText() << "\" next does not recognize this as prev";
+            return false;
+        }
+        if(t->prev && t->prev->next != t){
+            qDebug() << "Text \"" << t->toPlainText() << "\" prev does not recognize this as next";
+            return false;
+        }
     }
 
     return true;
+}
+
+bool Text::allFreed(){
+    return all_texts.empty();
 }
 #endif
 

@@ -25,6 +25,7 @@ public:
     #ifdef YAWYSIWYGEE_TEST
     virtual ~Text() override;
     static bool verify();
+    static bool allFreed();
     #endif
     bool isEmpty() const;
     void setParentPhrase(Phrase* parent);

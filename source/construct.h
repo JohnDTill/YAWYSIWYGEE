@@ -21,6 +21,7 @@ public:
     #ifdef YAWYSIWYGEE_TEST
     virtual ~Construct() override;
     static bool verify();
+    static bool allFreed();
     #endif
     qreal h() const;
     virtual void deletePostorder() = 0;

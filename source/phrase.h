@@ -23,6 +23,7 @@ public:
     #ifdef YAWYSIWYGEE_TEST
     virtual ~Phrase() override;
     static bool verify();
+    static bool allFreed();
     #endif
     qreal h() const;
     void select();

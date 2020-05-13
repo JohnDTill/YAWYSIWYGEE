@@ -5,6 +5,7 @@
 
 #ifdef YAWYSIWYGEE_TEST
 #include <list>
+#include <QDebug>
 static std::list<Phrase*> all_phrases;
 #endif
 
@@ -32,19 +33,41 @@ Phrase::~Phrase(){
 bool Phrase::verify(){
     for(Phrase* p : all_phrases){
         if(!p->isVisible()) continue;
-        if(p->front->prev != nullptr) return false;
-        if(p->back->next != nullptr) return false;
+        if(p->front->prev != nullptr){
+            qDebug() << "Phrase front \"" << p->front->toPlainText() << "\" has a prev";
+            return false;
+        }
+        if(p->back->next != nullptr){
+            qDebug() << "Phrase with front \"" << p->front->toPlainText() << '"';
+            qDebug() << "Phrase back \"" << p->back->toPlainText() << "\" has a next";
+            return false;
+        }
 
         Text* t = p->front;
-        if(t->parent != p) return false;
+        if(t->parent != p){
+            qDebug() << "Phrase front \"" << t->toPlainText() << "\" does not have phrase as parent";
+            return false;
+        }
         for(Construct* c = p->front->next; c; c = t->next){
             t = c->next;
-            if(t->parent != p) return false;
+            if(t->parent != p){
+                qDebug() << "Phrase text \"" << t->toPlainText() << "\" does not have phrase as parent";
+                return false;
+            }
         }
-        if(p->back != t) return false;
+        if(p->back != t){
+            qDebug() << "Phrase with front \"" << p->front->toPlainText() << '"';
+            qDebug() << "Phrase back is \"" << p->back->toPlainText() << "\", but iteration found \""
+                     << t->toPlainText() << "\" as last text";
+            return false;
+        }
     }
 
     return true;
+}
+
+bool Phrase::allFreed(){
+    return all_phrases.empty();
 }
 #endif
 

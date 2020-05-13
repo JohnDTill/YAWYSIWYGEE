@@ -36,6 +36,10 @@ bool Construct::verify(){
 
     return true;
 }
+
+bool Construct::allFreed(){
+    return all_constructs.empty();
+}
 #endif
 
 qreal Construct::h() const{

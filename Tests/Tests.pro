@@ -30,7 +30,7 @@ SOURCES += \
     ../source/subphrase.cpp \
     ../source/text.cpp \
     ../source/typesetedit.cpp \
-    ../source/command/commandlist.cpp \
+    ../source/command/paircommand.cpp \
     ../source/construct/accent.cpp \
     ../source/construct/bigqchar.cpp \
     ../source/construct/binomial.cpp \
@@ -65,7 +65,7 @@ HEADERS += \
     ../source/subphrase.h \
     ../source/text.h \
     ../source/typesetedit.h \
-    ../source/command/commandlist.h \
+    ../source/command/paircommand.h \
     ../source/construct/accent.h \
     ../source/construct/bigqchar.h \
     ../source/construct/binomial.h \

@@ -6,6 +6,6 @@
 #include "phrasecommand.h"
 #include "insertchar.h"
 #include "textcommand.h"
-#include "commandlist.h"
+#include "paircommand.h"
 
 #endif // COMMANDS_H

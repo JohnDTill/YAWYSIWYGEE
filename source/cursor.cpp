@@ -338,20 +338,17 @@ void Cursor::paste(){
 
 void Cursor::paste(const QString& str){
     if(hasSelection()){
-        //DO THIS - constructors depend on document state, so joining QUndoCommands is difficult
-        std::vector<QUndoCommand*> commands;
-        commands.push_back( deleteSelection() );
-        commands[0]->redo();
+        QUndoCommand* deletion = deleteSelection();
+        deletion->redo(); //Deletion changes line connections, so consolidateLeft() is not enough
+        QUndoCommand* insertion;
         if(MathBran::containsConstruct(str) && MathBran::isWellFormed(str)){
-            commands.push_back(evaluate(str));
+            insertion = evaluate(str);
         }else{
             QString unescape = str;
-            commands.push_back(insert(MathBran::removeEscapes(unescape)));
+            insertion = insert(MathBran::removeEscapes(unescape));
         }
-        commands[1]->redo();
-        commands[1]->undo();
-        commands[0]->undo();
-        doc.undo_stack->push( new CommandList(commands) );
+        deletion->undo();
+        doc.undo_stack->push( new PairCommand(deletion, insertion) );
     }else{
         if(MathBran::containsConstruct(str) && MathBran::isWellFormed(str)){
             doc.undo_stack->push(evaluate(str));
@@ -364,12 +361,9 @@ void Cursor::paste(const QString& str){
 
 void Cursor::keystroke(const QChar& c){
     if(hasSelection()){
-        std::vector<QUndoCommand*> commands;
-        commands.push_back( deleteSelection() );
-        commands[0]->redo();
-        commands.push_back( new InsertChar(*this, c, text, cursor) );
-        commands[0]->undo();
-        doc.undo_stack->push( new CommandList(commands) );
+        QUndoCommand* deletion = deleteSelection();
+        consolidateLeft();
+        doc.undo_stack->push( new PairCommand(deletion, new InsertChar(*this, c, text, cursor)) );
         return;
     }
 
@@ -385,10 +379,9 @@ void Cursor::keystroke(const QChar& c){
                 requires_new_command = false;
             }
         }else if(last->text() == "L"){
-            const CommandList* list_command = static_cast<const CommandList*>(last);
-            if(list_command->commands.back()->text() == "C"){
-                InsertChar* insert_command =
-                        static_cast<InsertChar*>(list_command->commands.back());
+            const PairCommand* pair_command = static_cast<const PairCommand*>(last);
+            if(pair_command->second->text() == "C"){
+                InsertChar* insert_command = static_cast<InsertChar*>(pair_command->second);
                 if(text == insert_command->t && cursor.position() == insert_command->pR){
                     insert_command->addChar(c);
                     requires_new_command = false;

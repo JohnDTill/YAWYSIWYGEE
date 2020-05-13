@@ -13,6 +13,7 @@ SOURCES += \
     command/deletechar.cpp \
     command/insertchar.cpp \
     command/multilinecommand.cpp \
+    command/paircommand.cpp \
     command/phrasecommand.cpp \
     command/textcommand.cpp \
     construct.cpp \
@@ -27,7 +28,6 @@ SOURCES += \
     subphrase.cpp \
     text.cpp \
     typesetedit.cpp \
-    command/commandlist.cpp \
     construct/accent.cpp \
     construct/bigqchar.cpp \
     construct/binomial.cpp \
@@ -49,6 +49,7 @@ HEADERS += \
     command/deletechar.h \
     command/insertchar.h \
     command/multilinecommand.h \
+    command/paircommand.h \
     command/phrasecommand.h \
     command/textcommand.h \
     construct.h \
@@ -63,7 +64,6 @@ HEADERS += \
     subphrase.h \
     text.h \
     typesetedit.h \
-    command/commandlist.h \
     construct/accent.h \
     construct/bigqchar.h \
     construct/binomial.h \

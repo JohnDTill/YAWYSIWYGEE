@@ -22,7 +22,7 @@ QUndoCommand* MultilineCommand::insert(Cursor& cursor, TypesetScene& doc, const 
     #endif
 
     uint8_t script_level = t->getScriptLevel();
-    uint32_t line_num = t->parent->getLine().line_num + 1;
+    uint32_t line_num = t->parent->getLine().line_num;
     Text* text = new Text(script_level, lines[0]);
     Line* li = new Line(text, text, line_num++);
     Line* l = li;

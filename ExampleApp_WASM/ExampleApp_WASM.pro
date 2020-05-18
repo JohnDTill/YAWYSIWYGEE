@@ -45,7 +45,9 @@ SOURCES += \
     ../source/construct/script.cpp \
     ../source/construct/underscriptedword.cpp \
     ../source/typesetscene.cpp \
-    ../source/typesettoolbar.cpp
+    ../source/typesettoolbar.cpp \
+    ../source/YAWYSIWYGEE_keywords.cpp \
+    ../source/YAWYSIWYGEE_commands.cpp
 
 HEADERS += \
     ../source/YAWYSIWYGEE \
@@ -82,7 +84,8 @@ HEADERS += \
     ../source/construct/underscriptedword.h \
     ../source/typesetscene.h \
     ../source/typesettoolbar.h \
-    ../source/YAWYSIWYGEE_keywords.h
+    ../source/YAWYSIWYGEE_keywords.h \
+    ../source/YAWYSIWYGEE_commands.h
 
 RESOURCES += ../source/qtypesetobjectresource.qrc
 

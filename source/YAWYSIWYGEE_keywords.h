@@ -56,12 +56,6 @@
     { "delta" , "δ" },\
     { "Delta" , "Δ" },\
     { "diameter" , "⌀" },\
-    { "dicei" , "⚀" },\
-    { "diceii" , "⚁" },\
-    { "diceiii" , "⚂" },\
-    { "diceiv" , "⚃" },\
-    { "dicev" , "⚄" },\
-    { "dicevi" , "⚅" },\
     { "digamma" , "ϝ" },\
     { "Digamma" , "Ϝ" },\
     { "div" , "÷" },\
@@ -95,7 +89,7 @@
     { "geqq" , "≧" },\
     { "gg" , "≫" },\
     { "ggg" , "⋙" },\
-    { "gimel" , "ℷ " },\
+    { "gimel" , "ℷ" },\
     { "H" , "ℍ" },\
     { "ham" , "ℋ" },\
     { "Im" , "ℑ" },\
@@ -118,7 +112,7 @@
     { "lceil" , "⌈" },\
     { "leftarrow" , "←" },\
     { "Leftarrow" , "⇐" },\
-    { "Leftrightarrow" , "↔" },\
+    { "leftrightarrow" , "↔" },\
     { "Leftrightarrow" , "⇔" },\
     { "leq" , "≤" },\
     { "leqq" , "≦" },\
@@ -142,7 +136,7 @@
     { "nabla" , "∇" },\
     { "napprox" , "≉" },\
     { "natural" , "♮" },\
-    { "ncong" , "≇ " },\
+    { "ncong" , "≇" },\
     { "ne" , "≠" },\
     { "neg" , "¬" },\
     { "neq" , "≠" },\
@@ -171,7 +165,6 @@
     { "oslash" , "⊘" },\
     { "otimes" , "⊗" },\
     { "P" , "ℙ" },\
-    { "P" , "¶ " },\
     { "partial" , "∂" },\
     { "perp" , "⊥" },\
     { "phi" , "ϕ" },\
@@ -215,13 +208,13 @@
     { "sinewave" , "∿" },\
     { "sphericalangle" , "∢" },\
     { "sqcap" , "⊓" },\
-    { "sqcup" , "⊔ " },\
-    { "sqsubset" , "⊏ " },\
+    { "sqcup" , "⊔" },\
+    { "sqsubset" , "⊏" },\
     { "sqsubseteq" , "⊑" },\
     { "sqsupset" , "⊐" },\
     { "sqsupseteq" , "⊒" },\
     { "subset" , "⊂" },\
-    { "Subset" , "⋐ " },\
+    { "Subset" , "⋐" },\
     { "subsetcirc" , "⟃" },\
     { "subseteq" , "⊆" },\
     { "succ" , "≻" },\
@@ -274,4 +267,9 @@
     { "Zeta" , "Ζ" },\
 }
 
-#define YAWYSIWYGEE_NUM_KEYWORDS 269
+#define YAWYSIWYGEE_NUM_KEYWORDS 262
+
+class QString;
+namespace Keywords {
+QString lookup(const QString& key);
+}

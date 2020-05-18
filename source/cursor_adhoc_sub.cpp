@@ -51,6 +51,7 @@ void Cursor::checkForSubstitution(const QChar& c){
                 case 8707: cursor.clearSelection(); keystroke(QChar(8708)); break;
                 case 8834: cursor.clearSelection(); keystroke(QChar(8836)); break;
                 case 60: cursor.clearSelection(); keystroke(QChar(8814)); break;
+                case 62: cursor.clearSelection(); keystroke(QChar(8815)); break;
                 case 8801: cursor.clearSelection(); keystroke(QChar(8802)); break;
                 case 8776: cursor.clearSelection(); keystroke(QChar(8777)); break;
                 case 8773: cursor.clearSelection(); keystroke(QChar(8775)); break;

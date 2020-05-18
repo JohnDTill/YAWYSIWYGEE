@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include <YAWYSIWYGEE>
-#include <QTableWidgetItem>
 
 #ifdef _MSC_VER
 #define NO_RETURN(method) \

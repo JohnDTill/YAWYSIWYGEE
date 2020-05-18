@@ -8,6 +8,7 @@
 #include "parser.h"
 #include "subphrase.h"
 #include "text.h"
+#include "YAWYSIWYGEE_commands.h"
 #include "YAWYSIWYGEE_keywords.h"
 #include "command/commands.h"
 #include "MathBran/include/QMathBran.h"
@@ -638,51 +639,6 @@ QUndoCommand* Cursor::evaluate(const QString& source){
     else return PhraseCommand::eval(*this, source, text, cursor);
 }
 
-//Could use compile-time hash tables
-static const QHash<QString, QString> keywords = YAWYSIWYGEE_KEYWORDS;
-static const QHash<QString, std::pair<QString, QString> > construct_map = {
-    {"vec", {MB_ACCENT_ARROW, "⏴⏵"}},
-    {"breve", {MB_ACCENT_BREVE, "⏴⏵"}},
-    {"dddot", {MB_ACCENT_TRIPLE_DOTS, "⏴⏵"}},
-    {"ddot", {MB_ACCENT_DOUBLE_DOTS, "⏴⏵"}},
-    {"dot", {MB_ACCENT_DOT, "⏴⏵"}},
-    {"hat", {MB_ACCENT_HAT, "⏴⏵"}},
-    {"bar", {MB_ACCENT_BAR, "⏴⏵"}},
-    {"tilde", {MB_ACCENT_TILDE, "⏴⏵"}},
-    {"sum", {MB_SUMMATION, ""}},
-    {"prod", {MB_PRODUCT, ""}},
-    {"coprod", {MB_COPRODUCT, ""}},
-    {"bigcap", {MB_INTERSECTION, ""}},
-    {"bigcup", {MB_UNION, ""}},
-    {"biguplus",{MB_UNION_PLUS, ""}},
-    {"binom", {MB_BINOMIAL_COEFFICIENTS, "⏴n⏵⏴k⏵"}},
-    {"cases", {MB_CASES, "⏴⏵⏴⏵⏴⏵⏴⏵"}},
-    {"frac", {MB_FRACTION, "⏴⏵⏴⏵"}},
-    {"ceil", {MB_GROUPING_CEIL, "⏴⏵"}},
-    {"floor", {MB_GROUPING_FLOOR, "⏴⏵"}},
-    {"()", {MB_GROUPING_PARENTHESIS, "⏴⏵"}},
-    {"[]", {MB_GROUPING_BRACKETS, "⏴⏵"}},
-    {"eval", {MB_EVALSCRIPT, "⏴a⏵⏴b⏵"}},
-    {"abs", {MB_GROUPING_BARS, "⏴⏵"}},
-    {"norm", {MB_GROUPING_DOUBLE_BARS, "⏴⏵"}},
-    {"iiint", {MB_TRIPLE_INTEGRAL, ""}},
-    {"iint", {MB_DOUBLE_INTEGRAL, ""}},
-    {"int", {MB_INTEGRAL, ""}},
-    {"oint", {MB_CONTOUR_INTEGRAL, ""}},
-    {"oiint", {MB_CLOSED_SURFACE_INTEGRAL, ""}},
-    {"oiiint", {MB_CLOSED_VOLUME_INTEGRAL, ""}},
-    {"mat", {MB_MATRIX, "⏴3⏵⏴3⏵"}},
-    {"sqrt", {MB_ROOT, "⏴⏵"}},
-    {"_^", {MB_DUALSCRIPT, "⏴⏵⏴⏵"}},
-    {"^", {MB_SUPERSCRIPT, "⏴⏵"}},
-    {"_", {MB_SUBSCRIPT, "⏴⏵"}},
-    {"max", {MB_UNDERSCRIPTED_MAX, "⏴⏵"}},
-    {"min", {MB_UNDERSCRIPTED_MIN, "⏴⏵"}},
-    {"sup", {MB_UNDERSCRIPTED_SUP, "⏴⏵"}},
-    {"inf", {MB_UNDERSCRIPTED_INF, "⏴⏵"}},
-    {"lim", {MB_LIMIT, "⏴⏵⏴⏵"}}
-};
-
 void Cursor::checkSlashSub(){
     if(cursor.position() > 1 && text->toPlainText().at(cursor.position()-2) == '}'){
         checkComplexSlashSub();
@@ -700,15 +656,15 @@ void Cursor::checkSlashSub(){
                 temp_cursor.movePosition(QTextCursor::Right);
                 temp_cursor.setPosition(word_end, QTextCursor::KeepAnchor);
                 QString key = temp_cursor.selectedText();
-                auto symbol_lookup = keywords.find(key);
-                if(symbol_lookup != keywords.end()){
+                QString symbol = Keywords::lookup(key);
+                if(!symbol.isEmpty()){
                     anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                    paste(symbol_lookup.value());
+                    paste(symbol);
                 }else{
-                    auto construct_lookup = construct_map.find(key);
-                    if(construct_lookup != construct_map.end()){
+                    QString construct = Commands::lookup(key);
+                    if(!construct.isEmpty()){
                         anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                        paste(MB_CONSTRUCT_SYMBOL + construct_lookup.value().first + construct_lookup.value().second);
+                        paste(MB_CONSTRUCT_SYMBOL + construct);
                     }
                 }
 
@@ -767,13 +723,13 @@ void Cursor::checkComplexSlashSub(){
                     c.movePosition(QTextCursor::Right);
                     c.setPosition(word_end, QTextCursor::KeepAnchor);
                     QString key = c.selectedText();
-                    auto symbol_lookup = keywords.find(key);
-                    if(symbol_lookup != keywords.end()){
-                        converted.prepend(symbol_lookup.value());
+                    QString symbol = Keywords::lookup(key);
+                    if(!symbol.isEmpty()){
+                        converted.prepend(symbol);
                     }else{
-                        auto construct_lookup = construct_map.find(key);
-                        if(construct_lookup != construct_map.end()){
-                            converted.prepend(MB_CONSTRUCT_SYMBOL + construct_lookup.value().first);
+                        QString construct = Commands::lookup(key);
+                        if(!construct.isEmpty()){
+                            converted.prepend(MB_CONSTRUCT_SYMBOL + construct.front());
                         }else{
                             converted.prepend(key);
                         }

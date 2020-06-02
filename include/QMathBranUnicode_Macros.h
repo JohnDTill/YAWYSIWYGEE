@@ -24,6 +24,8 @@
 	case 97: \
 	case 101: \
 	case 104: \
+	case 105: \
+	case 106: \
 	case 107: \
 	case 108: \
 	case 109: \
@@ -61,6 +63,8 @@
 	case 97: out << QChar(8336); break; \
 	case 101: out << QChar(8337); break; \
 	case 104: out << QChar(8341); break; \
+	case 105: out << QChar(7522); break; \
+	case 106: out << QChar(11388); break; \
 	case 107: out << QChar(8342); break; \
 	case 108: out << QChar(8343); break; \
 	case 109: out << QChar(8344); break; \

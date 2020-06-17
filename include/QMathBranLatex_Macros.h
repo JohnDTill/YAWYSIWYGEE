@@ -2,56 +2,77 @@
 //This file is generated from subfolder "meta".
 //Changes to this file must be made in the meta project.
 
-#define MATHBRAN_LATEX_KEYWORDS {\
-    { "arccos" , "arccos" },\
-    { "arccot" , "arccot" },\
-    { "arccsc" , "arccsc" },\
-    { "arcsec" , "arcsec" },\
-    { "arcsin" , "arcsin" },\
-    { "arctan" , "arctan" },\
-    { "cos" , "cos" },\
-    { "cot" , "cot" },\
-    { "csc" , "csc" },\
-    { "det" , "det" },\
-    { "exp" , "exp" },\
-    { "lim" , "lim" },\
-    { "ln" , "ln" },\
-    { "log" , "log" },\
-    { "max" , "max" },\
-    { "min" , "min" },\
-    { "sec" , "sec" },\
-    { "sin" , "sin" },\
-    { "tan" , "tan" },\
+#define MATHBRAN_LATEX_KEYWORD_LOOKUP_DEFINITION \
+static void searchKeyword(const QString& source, QString::size_type& curr, QTextStream& out){ \
+    QString::size_type start = curr-1; \
+    while(curr < source.size() && isLetter(source[curr])) curr++; \
+\
+    int range = curr-start; \
+    QStringRef str = source.midRef(start, range); \
+    if(range >= 2 && range <= 6){ \
+        uint8_t hash = 1; \
+        for(int i = 0; i < range; i++) hash += source[start+i].unicode()*(i+75); \
+\
+        switch(hash){ \
+            case 102: if(str=="arccos") out << '\\'; break; \
+            case 220: if(str=="arcsin") out << '\\'; break; \
+            case 178: if(str=="arctan") out << '\\'; break; \
+            case 63: if(str=="arg") out << '\\'; break; \
+            case 141: if(str=="cos") out << '\\'; break; \
+            case 61: if(str=="cosh") out << '\\'; break; \
+            case 218: if(str=="cot") out << '\\'; break; \
+            case 138: if(str=="coth") out << '\\'; break; \
+            case 237: if(str=="csc") out << '\\'; break; \
+            case 68: if(str=="deg") out << '\\'; break; \
+            case 45: if(str=="det") out << '\\'; break; \
+            case 66: if(str=="dim") out << '\\'; break; \
+            case 232: if(str=="exp") out << '\\'; break; \
+            case 166: if(str=="gcd") out << '\\'; break; \
+            case 54: if(str=="hom") out << '\\'; break; \
+            case 26: if(str=="inf") out << '\\'; break; \
+            case 160: if(str=="ker") out << '\\'; break; \
+            case 57: if(str=="lg") out << '\\'; break; \
+            case 154: if(str=="lim") out << '\\'; break; \
+            case 106: if(str=="liminf") out << '\\'; break; \
+            case 191: if(str=="limsup") out << '\\'; break; \
+            case 77: if(str=="ln") out << '\\'; break; \
+            case 148: if(str=="log") out << '\\'; break; \
+            case 212: if(str=="max") out << '\\'; break; \
+            case 50: if(str=="min") out << '\\'; break; \
+            case 73: if(str=="Pr") out << '\\'; break; \
+            case 117: if(str=="sec") out << '\\'; break; \
+            case 244: if(str=="sin") out << '\\'; break; \
+            case 164: if(str=="sinh") out << '\\'; break; \
+            case 30: if(str=="sup") out << '\\'; break; \
+            case 223: if(str=="tan") out << '\\'; break; \
+            case 143: if(str=="tanh") out << '\\'; break; \
+        } \
+    } \
+\
+    out << str; \
 }
 
 #define MATHBRAN_LATEX_SYMBOLS \
     case 123:\
         out << "\\{";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 125:\
         out << "\\}";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 38:\
         out << "\\&";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 35:\
         out << "\\#";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 37:\
         out << "\\%";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 8214:\
         out << "\\|";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 36:\
         out << "\\$";\
-        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
     case 8944:\
         out << "\\adots";\
@@ -1083,6 +1104,88 @@
         break;\
     case 918:\
         out << "\\Zeta";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+
+#define MATHBRAN_LATEX_SYMBOLS_32BIT \
+    case 57304:\
+        out << "\\mathbb{0}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57305:\
+        out << "\\mathbb{1}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57306:\
+        out << "\\mathbb{2}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57307:\
+        out << "\\mathbb{3}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57308:\
+        out << "\\mathbb{4}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57309:\
+        out << "\\mathbb{5}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57310:\
+        out << "\\mathbb{6}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57311:\
+        out << "\\mathbb{7}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57312:\
+        out << "\\mathbb{8}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 57313:\
+        out << "\\mathbb{9}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56633:\
+        out << "\\mathbb{B}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56635:\
+        out << "\\mathbb{D}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56636:\
+        out << "\\mathbb{E}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56637:\
+        out << "\\mathbb{F}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56641:\
+        out << "\\mathbb{J}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56646:\
+        out << "\\mathbb{O}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56650:\
+        out << "\\mathbb{S}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56651:\
+        out << "\\mathbb{T}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56652:\
+        out << "\\mathbb{U}";\
+        if(curr < source.size() && isLetter(source[curr])) out << "{}";\
+        break;\
+    case 56608:\
+        out << "\\mathfrak{c}";\
         if(curr < source.size() && isLetter(source[curr])) out << "{}";\
         break;\
 

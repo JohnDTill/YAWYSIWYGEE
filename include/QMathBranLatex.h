@@ -136,7 +136,7 @@ static void writeLatexConstruct(const QString& source, QString::size_type& curr,
             out << '}';
             break;
         case MB_USHORT_EVALSCRIPT:
-            out << "\bigg\rvert_{";
+            out << "\\bigg\\rvert_{";
             writeLatexSubphrase(source, curr, out);
             out << "}^{";
             writeLatexSubphrase(source, curr, out);
@@ -348,23 +348,18 @@ static bool isPrintableASCII(const QChar& c){
     return c >= 32 && c <= 126;
 }
 
-static const QHash<QString, QString> keywords = MATHBRAN_LATEX_KEYWORDS;
-
-static void searchKeyword(const QString& source, QString::size_type& curr, QTextStream& out){
-    QString::size_type start = curr-1;
-    while(curr < source.size() && isPrintableASCII(source[curr])) curr++;
-
-    QString str = source.mid(start, curr-start);
-    auto keyword_lookup = keywords.find(str);
-
-    if(keyword_lookup == keywords.end()) out << str;
-    else out << '\\' << keyword_lookup.value();
-}
+MATHBRAN_LATEX_KEYWORD_LOOKUP_DEFINITION
 
 static void switchLatexChar(const QString& source, QString::size_type& curr, QTextStream& out){
     QChar c = source[curr++];
     switch (c.unicode()) {
         MATHBRAN_LATEX_SYMBOLS
+        case 55349:
+            switch(source[curr++].unicode()){
+                MATHBRAN_LATEX_SYMBOLS_32BIT
+                default: out << QChar(55349); //55349 is code for '�'
+            }
+            break;
         case '\n':
             out << "\\\\\n"; break;
         case MB_USHORT_CONSTRUCT_SYMBOL:

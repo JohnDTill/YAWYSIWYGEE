@@ -3,10 +3,8 @@
 
 #include "construct.h"
 #include <QUndoCommand>
-
 class Integral_S;
 class Integral_SN;
-class SvgIntegral;
 
 class Integral : public TerminalConstruct{
     Q_OBJECT
@@ -14,7 +12,6 @@ class Integral : public TerminalConstruct{
 private:
     const QChar ch;
     const bool allow_superscript;
-    SvgIntegral* integral;
 
 public:
     Integral(QChar qchar, bool allow_superscript = true);
@@ -52,7 +49,6 @@ private:
     const QChar ch;
     const bool allow_superscript;
     qreal wi;
-    SvgIntegral* integral;
 
 public:
     Integral_S(QChar qchar, SubPhrase* subscript = nullptr, bool allow_superscript = true);
@@ -107,7 +103,6 @@ private:
     const QChar ch;
     qreal wi;
     qreal yi;
-    SvgIntegral* integral;
 
 public:
     Integral_SN(QChar qchar, SubPhrase* subscript = nullptr, SubPhrase* superscript = nullptr);

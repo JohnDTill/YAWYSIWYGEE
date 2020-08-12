@@ -1,13 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Font/Quivira.otf</file>
-	<file>Font/YAWYSIWYGEE_Glyphs.otf</file>
-        <file>Font/int_Quivira.svg</file>
-        <file>Font/iint_Quivira.svg</file>
-        <file>Font/iiint_Quivira.svg</file>
-        <file>Font/oint_Quivira.svg</file>
-        <file>Font/oiint_Quivira.svg</file>
-        <file>Font/oiiint_Quivira.svg</file>
+        <file>Font/YAWYSIWYGEE_Glyphs.otf</file>
         <file>test.txt</file>
     </qresource>
 </RCC>

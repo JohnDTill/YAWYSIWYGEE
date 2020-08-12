@@ -27,8 +27,9 @@ QFontMetrics Globals::font_metrics[] = {QFontMetrics(Globals::fonts[0]),
                                         QFontMetrics(Globals::fonts[1]),
                                         QFontMetrics(Globals::fonts[2])};
 
-QSvgRenderer Globals::int_Quivira[6];
 QFont Globals::glyph_font;
+QFont Globals::bigint_font;
+QFontMetrics Globals::bigint_font_metrics = QFontMetrics(bigint_font);
 
 void Globals::initGlobals(){
     initResources();
@@ -61,16 +62,13 @@ void Globals::initGlobals(){
     Globals::passive_linenum_font_metrics = QFontMetrics(passive_linenum_font);
     Globals::active_linenum_font_metrics = QFontMetrics(active_linenum_font);
 
-    int_Quivira[0].load(QString(":/Font/int_Quivira.svg"));
-    int_Quivira[1].load(QString(":/Font/iint_Quivira.svg"));
-    int_Quivira[2].load(QString(":/Font/iiint_Quivira.svg"));
-    int_Quivira[3].load(QString(":/Font/oint_Quivira.svg"));
-    int_Quivira[4].load(QString(":/Font/oiint_Quivira.svg"));
-    int_Quivira[5].load(QString(":/Font/oiiint_Quivira.svg"));
-
     id = QFontDatabase::addApplicationFont(":/Font/YAWYSIWYGEE_Glyphs.otf");
     Q_ASSERT(id!=-1);
     family = QFontDatabase::applicationFontFamilies(id).at(0);
     glyph_font = QFont(family);
     glyph_font.setPointSize(18);
+
+    bigint_font = glyph_font;
+    bigint_font.setPixelSize(25);
+    bigint_font_metrics = QFontMetrics(bigint_font);
 }

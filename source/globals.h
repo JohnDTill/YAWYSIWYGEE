@@ -10,8 +10,6 @@ class QPen;
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
 
-class QSvgRenderer;
-
 class Globals{
     public:
         static bool vertical_integrals;
@@ -31,8 +29,9 @@ class Globals{
         static QFontMetrics active_linenum_font_metrics;
         static void initGlobals();
 
-        static QSvgRenderer int_Quivira[6];
         static QFont glyph_font;
+        static QFont bigint_font;
+        static QFontMetrics bigint_font_metrics;
 };
 
 #endif // GLOBALS_H

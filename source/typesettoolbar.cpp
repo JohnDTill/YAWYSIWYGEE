@@ -130,12 +130,12 @@ void TypesetToolbar::setupIntegrals(){
     connect(ints, SIGNAL(triggered(QAction*)), ints, SLOT(setDefaultAction(QAction*)));
     addWidget(ints);
 
-    ints->addAction(new TypesetAction("∫", "\\int", "⁜∫", this));
-    ints->addAction(new TypesetAction("∬", "\\iint", "⁜∬", this));
-    ints->addAction(new TypesetAction("∭", "\\iiint", "⁜∭", this));
-    ints->addAction(new TypesetAction("∮", "\\oint", "⁜∮", this));
-    ints->addAction(new TypesetAction("∯", "\\oiint", "⁜∯", this));
-    ints->addAction(new TypesetAction("∰", "\\oiiint", "⁜∰", this));
+    ints->addAction(new TypesetAction("c", "\\int", "⁜∫", this));
+    ints->addAction(new TypesetAction("d", "\\iint", "⁜∬", this));
+    ints->addAction(new TypesetAction("e", "\\iiint", "⁜∭", this));
+    ints->addAction(new TypesetAction("f", "\\oint", "⁜∮", this));
+    ints->addAction(new TypesetAction("g", "\\oiint", "⁜∯", this));
+    ints->addAction(new TypesetAction("h", "\\oiiint", "⁜∰", this));
 
     ints->setDefaultAction(ints->actions().front());
 }

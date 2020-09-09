@@ -5,8 +5,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += YAWYSIWYGEE_TEST
 CONFIG += c++11
 CONFIG += staticlib
-DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib
 TARGET = YAWYSIWYGEE
+
+CONFIG(debug, debug|release) {
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib/debug
+} else {
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_)/../lib/release
+}
 
 SOURCES += \
     algorithm.cpp \

@@ -89,11 +89,11 @@ Line& Line::getLine(){
     return *this;
 }
 
-bool Line::proceeds(Line& l){
+bool Line::preceeds(Line& l){
     return line_num < l.line_num;
 }
 
-bool Line::proceedsInclusive(Line& l){
+bool Line::preceedsInclusive(Line& l){
     return line_num <= l.line_num;
 }
 

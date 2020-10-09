@@ -135,45 +135,49 @@ void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
     painter->setPen(palette().text().color());
 }
 
+#include <QDebug>
 void TypesetScene::keyPressEvent(QKeyEvent* e){
     constexpr int Ctrl = Qt::ControlModifier;
     constexpr int Shift = Qt::ShiftModifier;
     constexpr int CtrlShift = Qt::ControlModifier + Qt::ShiftModifier;
 
-    switch (e->key() + e->modifiers()) {
-        case Qt::Key_Z+Ctrl: if(allow_write) undo_stack->undo(); break;
-        case Qt::Key_Y+Ctrl: if(allow_write) undo_stack->redo(); break;
+    switch (e->key() | e->modifiers()) {
+        case Qt::Key_Z|Ctrl: if(allow_write) undo_stack->undo(); break;
+        case Qt::Key_Y|Ctrl: if(allow_write) undo_stack->redo(); break;
         case Qt::Key_Right: cursor->moveToNextChar(); break;
         case Qt::Key_Left: cursor->moveToPreviousChar(); break;
-        case Qt::Key_Right+Ctrl: cursor->moveToNextWord(); break;
-        case Qt::Key_Left+Ctrl: cursor->moveToPreviousWord(); break;
+        case Qt::Key_Right|Ctrl: cursor->moveToNextWord(); break;
+        case Qt::Key_Left|Ctrl: cursor->moveToPreviousWord(); break;
         case Qt::Key_Down: cursor->moveToNextLine(); break;
         case Qt::Key_Up: cursor->moveToPreviousLine(); break;
         case Qt::Key_Home: cursor->moveToStartOfLine(); break;
         case Qt::Key_End: cursor->moveToEndOfLine(); break;
-        case Qt::Key_Home+Ctrl: cursor->moveToStartOfDocument(); break; case Qt::Key_End+Ctrl: cursor->moveToEndOfDocument(); break;
-        case Qt::Key_Right+Shift: cursor->selectNextChar(); break;
-        case Qt::Key_Left+Shift: cursor->selectPreviousChar(); break;
-        case Qt::Key_Right+CtrlShift: cursor->selectNextWord(); break;
-        case Qt::Key_Left+CtrlShift: cursor->selectPreviousWord(); break;
-        case Qt::Key_Down+Shift: cursor->selectNextLine(); break;
-        case Qt::Key_Up+Shift: cursor->selectPreviousLine(); break;
-        case Qt::Key_Home+Shift: cursor->selectStartOfLine(); break;
-        case Qt::Key_End+Shift: cursor->selectEndOfLine(); break;
-        case Qt::Key_Home+CtrlShift: cursor->selectStartOfDocument(); break;
-        case Qt::Key_End+CtrlShift: cursor->selectEndOfDocument(); break;
-        case Qt::Key_A+Ctrl: selectAll(); break;
+        case Qt::Key_Home|Ctrl: cursor->moveToStartOfDocument(); break;
+        case Qt::Key_End|Ctrl: cursor->moveToEndOfDocument(); break;
+        case Qt::Key_Right|Shift: cursor->selectNextChar(); break;
+        case Qt::Key_Left|Shift: cursor->selectPreviousChar(); break;
+        case Qt::Key_Right|CtrlShift: cursor->selectNextWord(); break;
+        case Qt::Key_Left|CtrlShift: cursor->selectPreviousWord(); break;
+        case Qt::Key_Down|Shift: cursor->selectNextLine(); break;
+        case Qt::Key_Up|Shift: cursor->selectPreviousLine(); break;
+        case Qt::Key_Home|Shift: cursor->selectStartOfLine(); break;
+        case Qt::Key_End|Shift: cursor->selectEndOfLine(); break;
+        case Qt::Key_Home|CtrlShift: cursor->selectStartOfDocument(); break;
+        case Qt::Key_End|CtrlShift: cursor->selectEndOfDocument(); break;
+        case Qt::Key_A|Ctrl: selectAll(); break;
         case Qt::Key_Delete: if(allow_write) cursor->del(); break;
-        case Qt::Key_Delete+Ctrl: if(allow_write) cursor->deleteEndOfWord(); break;
-        case Qt::Key_Backspace+Ctrl: if(allow_write) cursor->deleteStartOfWord(); break;
+        case Qt::Key_Delete|Ctrl: if(allow_write) cursor->deleteEndOfWord(); break;
+        case Qt::Key_Backspace|Ctrl: if(allow_write) cursor->deleteStartOfWord(); break;
         case Qt::Key_Backspace: if(allow_write) cursor->backspace(); break;
         case Qt::Key_Return: if(allow_write) cursor->insertParagraphSeparator(); break;
-        case Qt::Key_Return+Shift: if(allow_write) cursor->insertLineSeparator(); break;
-        case Qt::Key_C+Ctrl: cursor->copy(); break;
+        case Qt::Key_Return|Shift: if(allow_write) cursor->insertLineSeparator(); break;
+        case Qt::Key_Tab: if(allow_write) cursor->tab(); break;
+        case (Qt::Key_Tab|Shift)+1: if(allow_write) cursor->shiftTab(); break;
+        case Qt::Key_C|Ctrl: cursor->copy(); break;
             #ifndef __EMSCRIPTEN__
-        case Qt::Key_X+Ctrl: if(allow_write) cutSelection(); break;
+        case Qt::Key_X|Ctrl: if(allow_write) cutSelection(); break;
             #endif
-        case Qt::Key_V+Ctrl: if(allow_write) cursor->paste(); break;
+        case Qt::Key_V|Ctrl: if(allow_write) cursor->paste(); break;
         default:
             if(e->modifiers().testFlag(Qt::ControlModifier)) return;
             QString text = e->text();

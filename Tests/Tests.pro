@@ -16,6 +16,7 @@ SOURCES += \
     ../source/command/deletechar.cpp \
     ../source/command/multilinecommand.cpp \
     ../source/command/phrasecommand.cpp \
+    ../source/command/indent.cpp \
     ../source/command/insertchar.cpp \
     ../source/command/textcommand.cpp \
     ../source/construct.cpp \

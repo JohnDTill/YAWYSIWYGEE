@@ -44,7 +44,7 @@ QUndoCommand* MultilineCommand::eval(Cursor& cursor, TypesetScene& doc, const QS
 }
 
 QUndoCommand* MultilineCommand::remove(Cursor& cursor, TypesetScene& doc, Text* t, QTextCursor c, Text* at, QTextCursor ac){
-    if(t->parent->getLine().proceeds(at->parent->getLine()))
+    if(t->parent->getLine().preceeds(at->parent->getLine()))
         return new MultilineCommand(cursor, doc, t, c, at, ac);
     else
         return new MultilineCommand(cursor, doc, at, ac, t, c);

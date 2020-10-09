@@ -60,7 +60,7 @@ static void writePhraseBeforeCursor(const Text& t, QTextCursor c, QTextStream& o
 static void writeMultiLine(const Text& tL, QTextCursor cL, const Text& tR, QTextCursor cR, QTextStream& out){
     Q_ASSERT(tL.parent->isLine());
     Q_ASSERT(tR.parent->isLine());
-    Q_ASSERT(tL.parent->getLine().proceeds(tR.parent->getLine()));
+    Q_ASSERT(tL.parent->getLine().preceeds(tR.parent->getLine()));
 
     writePhraseAfterCursor(tL, cL, out);
     out << "\n";

@@ -76,8 +76,12 @@ public:
 
     void setPosition(Text& t, QTextCursor c);
 
+    void tab();
+    void shiftTab();
+
 private:
     bool forward() const;
+    bool inSubphrase() const;
     static QTextCursor moveTextCursorToEnd(const Text& t);
     static QTextCursor moveTextCursorToStart(const Text& t);
     void consolidateToActive();

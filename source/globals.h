@@ -9,6 +9,7 @@ class QPen;
 
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
+static constexpr int spaces_per_tab = 4;
 
 class Globals{
     public:

@@ -25,8 +25,8 @@ public:
     virtual Text* textDown(qreal x) const override final;
     virtual bool isLine() const override final;
     virtual Line& getLine() override final;
-    bool proceeds(Line& l);
-    bool proceedsInclusive(Line& l);
+    bool preceeds(Line& l);
+    bool preceedsInclusive(Line& l);
     virtual void populateMenu(QMenu&) override final;
     virtual void write(QTextStream& out) const override final;
 

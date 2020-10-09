@@ -4,6 +4,7 @@
 #include "deletechar.h"
 #include "multilinecommand.h"
 #include "phrasecommand.h"
+#include "indent.h"
 #include "insertchar.h"
 #include "textcommand.h"
 #include "paircommand.h"

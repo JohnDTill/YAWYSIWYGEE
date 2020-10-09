@@ -14,6 +14,7 @@
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QTextDocument>
 #include <QTextStream>
 
 Cursor::Cursor(TypesetScene& doc)
@@ -482,7 +483,7 @@ void Cursor::lineSelectPoint(QPointF p){
     if(p.y() < bU || p.y() > bL){
         //selection moves
         Line& selected_line = Algorithm::lineAtY(active_line, p.y());
-        bool is_forward = anchor_text->parent->getLine().proceedsInclusive(selected_line);
+        bool is_forward = anchor_text->parent->getLine().preceedsInclusive(selected_line);
 
         if(is_forward){
             if(selected_line.next){
@@ -520,14 +521,94 @@ void Cursor::setPosition(Text& t, QTextCursor c){
     consolidateToActive();
 }
 
+static constexpr qreal tab_grid_size = 25;
+
+#include <QDebug>
+void Cursor::tab(){
+    if(inSubphrase()) return;
+
+    if(!hasSelection()){
+        doc.undo_stack->push(insert(QString(spaces_per_tab, ' ')));
+        return;
+    }
+
+    const bool forw = forward();
+    Text* tl = forw ? anchor_text : text;
+    Text* tr = forw ? text : anchor_text;
+    QTextCursor cl = forw ? anchor_cursor : cursor;
+    const bool reset_cl = cl.position()==0;
+    QTextCursor cr = forw ? cursor : anchor_cursor;
+    Line* ll = &tl->parent->getLine();
+    Line* lr = &tr->parent->getLine();
+
+    if(ll == lr && !(tl == ll->front && tr == ll->back && cl.atStart() && cr.atEnd())){
+        doc.undo_stack->push(deleteSelection());
+        return;
+    }
+
+    Line* end = (cr.atStart() && tr == lr->front) ? lr : lr->next;
+    doc.undo_stack->push(new Indent(*this, ll, end));
+    if(reset_cl) cl.setPosition(0);
+    anchor_text = tl;
+    text = tr;
+    anchor_cursor = cl;
+    cursor = cr;
+}
+
+void Cursor::shiftTab(){
+    if(inSubphrase()) return;
+
+    if(!hasSelection()){
+        QTextDocument* d = text->document();
+        int i = cursor.position()-1;
+        while(i >= 0 && i >= cursor.position()-spaces_per_tab && d->characterAt(i) == ' ') i--;
+
+        if(i+1 != cursor.position()){
+            cursor.setPosition(i+1);
+            doc.undo_stack->push(deleteSelection());
+        }
+
+        return;
+    }
+
+    const bool forw = forward();
+    Text* tl = forw ? anchor_text : text;
+    Text* tr = forw ? text : anchor_text;
+    QTextCursor cl = forw ? anchor_cursor : cursor;
+    QTextCursor cr = forw ? cursor : anchor_cursor;
+    Line* ll = &tl->parent->getLine();
+    Line* lr = &tr->parent->getLine();
+
+    if(ll == lr && !(tl == ll->front && tr == ll->back && cl.atStart() && cr.atEnd())){
+        doc.undo_stack->push(deleteSelection());
+        return;
+    }
+
+    Line* end = (cr.atStart() && tr == lr->front) ? lr : lr->next;
+    Deindent* d = new Deindent(*this, ll, end);
+    if(d->found_spaces){
+        doc.undo_stack->push(d);
+        anchor_text = tl;
+        text = tr;
+        anchor_cursor = cl;
+        cursor = cr;
+    }else{
+        delete d;
+    }
+}
+
 bool Cursor::forward() const{
     if(text == anchor_text) return cursor.position() > anchor_cursor.position();
     else if(text->parent == anchor_text->parent) return text->x() > anchor_text->x();
     else{
         Q_ASSERT(text->parent->isLine());
         Q_ASSERT(anchor_text->parent->isLine());
-        return anchor_text->parent->getLine().proceeds( text->parent->getLine() );
+        return anchor_text->parent->getLine().preceeds( text->parent->getLine() );
     }
+}
+
+bool Cursor::inSubphrase() const{
+    return !text->parent->isLine();
 }
 
 QTextCursor Cursor::moveTextCursorToEnd(const Text& t){

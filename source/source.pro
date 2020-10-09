@@ -16,6 +16,7 @@ CONFIG(debug, debug|release) {
 SOURCES += \
     algorithm.cpp \
     command/deletechar.cpp \
+    command/indent.cpp \
     command/insertchar.cpp \
     command/multilinecommand.cpp \
     command/paircommand.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     algorithm.h \
     command/commands.h \
     command/deletechar.h \
+    command/indent.h \
     command/insertchar.h \
     command/multilinecommand.h \
     command/paircommand.h \

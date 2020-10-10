@@ -13,6 +13,7 @@ SOURCES += \
 
 SOURCES += \
     ../source/algorithm.cpp \
+    ../source/command/alignatsymbol.cpp \
     ../source/command/deletechar.cpp \
     ../source/command/multilinecommand.cpp \
     ../source/command/phrasecommand.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
     ../source/construct/integral.cpp \
     ../source/construct/limit.cpp \
     ../source/construct/matrix.cpp \
+    ../source/construct/padding.cpp \
     ../source/construct/root.cpp \
     ../source/construct/script.cpp \
     ../source/construct/underscriptedword.cpp \

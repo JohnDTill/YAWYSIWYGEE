@@ -2,9 +2,11 @@
 #define ALGORITHM_H
 
 #include <QtGlobal>
+#include <vector>
 class Line;
 class Phrase;
 class Text;
+class QChar;
 class QPointF;
 class QString;
 class QTextCursor;
@@ -20,6 +22,8 @@ namespace Algorithm{
     QString QStringRight(QTextCursor c);
     QString QStringLeft(QTextCursor c);
     QTextCursor textCursorStart(Text* t);
+    std::vector<qreal> findAlignOffsets(const QChar& ch, const Text* tl, QTextCursor cl, const Text* tr, QTextCursor cr);
+
 };
 
 #endif // ALGORITHM_H

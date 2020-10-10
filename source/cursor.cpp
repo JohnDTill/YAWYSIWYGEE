@@ -14,6 +14,7 @@
 #include "MathBran/include/QMathBran.h"
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QMenu>
 #include <QTextDocument>
 #include <QTextStream>
 
@@ -521,9 +522,6 @@ void Cursor::setPosition(Text& t, QTextCursor c){
     consolidateToActive();
 }
 
-static constexpr qreal tab_grid_size = 25;
-
-#include <QDebug>
 void Cursor::tab(){
     if(inSubphrase()) return;
 
@@ -595,6 +593,35 @@ void Cursor::shiftTab(){
     }else{
         delete d;
     }
+}
+
+void Cursor::populateContextMenu(QMenu& menu){
+    std::vector<qreal> offsets = forward() ?
+                                 Algorithm::findAlignOffsets('=', anchor_text, anchor_cursor, text, cursor) :
+                                 Algorithm::findAlignOffsets('=', text, cursor, anchor_text, anchor_cursor);
+    if(!offsets.empty()){
+        QAction* alignAction = menu.addAction("Align at '='");
+        QObject::connect(alignAction,SIGNAL(triggered()),&doc,SLOT(alignAtEquals()));
+    }
+}
+
+void Cursor::alignAtEquals(){
+    const bool frwd = forward();
+    Text* tl = frwd ? anchor_text : text;
+    Text* tr = frwd ? text : anchor_text;
+    QTextCursor cl = frwd ? anchor_cursor : cursor;
+    QTextCursor cr = frwd ? cursor : anchor_cursor;
+
+    std::vector<qreal> offsets = Algorithm::findAlignOffsets('=', tl, cl, tr, cr);
+    if(offsets.empty()) return;
+
+    if(cr.atStart() && tr == tr->parent->front){
+        tr = tr->parent->getLine().prev->back;
+        cr = tr->textCursor();
+        cr.movePosition(QTextCursor::End);
+    }
+
+    doc.undo_stack->push(new AlignAtSymbol(*this, &tl->parent->getLine(), &tr->parent->getLine(), offsets));
 }
 
 bool Cursor::forward() const{

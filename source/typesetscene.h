@@ -80,6 +80,7 @@ public slots:
     void copySelection();
     void paste();
     void selectAll();
+    void alignAtEquals();
 
 #ifdef YAWYSIWYGEE_TEST
 public:

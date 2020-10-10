@@ -173,6 +173,7 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
         case Qt::Key_Return|Shift: if(allow_write) cursor->insertLineSeparator(); break;
         case Qt::Key_Tab: if(allow_write) cursor->tab(); break;
         case (Qt::Key_Tab|Shift)+1: if(allow_write) cursor->shiftTab(); break;
+        case Qt::Key_Equal|Ctrl: if(allow_write) cursor->alignAtEquals(); break;
         case Qt::Key_C|Ctrl: cursor->copy(); break;
             #ifndef __EMSCRIPTEN__
         case Qt::Key_X|Ctrl: if(allow_write) cutSelection(); break;
@@ -227,7 +228,7 @@ void TypesetScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
     if(e->buttons() != Qt::LeftButton) return;
     if( (click_location - e->screenPos()).manhattanLength() < 2 ) return;
 
-    //No selection dragging - I don't know if users appreciate that feature
+    //No selection dragging - I don't know if users appreciate that feature for text editing
 
     if(triple_clicked) cursor->lineSelectPoint(e->scenePos());
     else if(double_clicked) cursor->wordSelectPoint(e->scenePos());
@@ -270,12 +271,15 @@ void TypesetScene::contextClick(QGraphicsSceneMouseEvent* e){
     QMenu menu;
 
     bool clicked_on_selection = cursor->contains(e->scenePos());
-    if(!clicked_on_selection){
+    if(clicked_on_selection){
+        if(allow_write) cursor->populateContextMenu(menu);
+    }else{
         processRightClick(e, menu);
         cv->update(*cursor);
     }
 
     menu.addSeparator();
+
     if(allow_write){
         QAction* undoAction = menu.addAction("Undo");
         QAction* redoAction = menu.addAction("Redo");
@@ -369,5 +373,10 @@ void TypesetScene::paste(){
 
 void TypesetScene::selectAll(){
     cursor->selectAll();
+    updateCursorView();
+}
+
+void TypesetScene::alignAtEquals(){
+    cursor->alignAtEquals();
     updateCursorView();
 }

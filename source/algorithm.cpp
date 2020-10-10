@@ -173,3 +173,71 @@ QTextCursor Algorithm::textCursorStart(Text* t){
 
     return c;
 }
+
+std::vector<qreal> Algorithm::findAlignOffsets(const QChar& ch, const Text* tl, QTextCursor cl, const Text* tr, QTextCursor cr){
+    std::vector<qreal> offsets;
+
+    if(tl == tr) return offsets;
+
+    Line* ll = &tl->parent->getLine();
+    Line* lr = &tr->parent->getLine();
+    if(cr.atStart() && tr == lr->front) lr = lr->prev;
+
+    if(lr == ll) return offsets;
+
+    int i = tl->toPlainText().mid(cl.position()).indexOf(ch);
+    if(i != -1){
+        cl.setPosition(cl.position() + i);
+        offsets.push_back(tl->x() + Algorithm::cursorOffset(*tl, cl));
+    }else{
+        for(;;){
+            if(!tl->next){
+                offsets.clear();
+                return offsets;
+            }
+
+            tl = tl->next->next;
+            i = tl->toPlainText().indexOf(ch);
+            if(i != -1){
+                cl = tl->textCursor();
+                cl.setPosition(i);
+                offsets.push_back(tl->x() + Algorithm::cursorOffset(*tl, cl));
+                break;
+            }
+        }
+    }
+
+    for(Line* l = ll->next; l != lr; l = l->next){
+        for(Text* t = l->front;; t = t->next->next){
+            i = t->toPlainText().indexOf(ch);
+            if(i != -1){
+                cl = t->textCursor();
+                cl.setPosition(i);
+                offsets.push_back(t->x() + Algorithm::cursorOffset(*t, cl));
+                break;
+            }else if(!t->next){
+                offsets.clear();
+                return offsets;
+            }
+        }
+    }
+
+    for(Text* t = lr->front; t != tr; t = t->next->next){
+        i = t->toPlainText().indexOf(ch);
+        if(i != -1){
+            cr = t->textCursor();
+            cr.setPosition(i);
+            offsets.push_back(t->x() + Algorithm::cursorOffset(*t, cr));
+            return offsets;
+        }
+    }
+    i = tr->toPlainText().left(cr.position()).indexOf(ch);
+    if(i != -1){
+        cr.setPosition(i);
+        offsets.push_back(tr->x() + Algorithm::cursorOffset(*tr, cr));
+        return offsets;
+    }else{
+        offsets.clear();
+        return offsets;
+    }
+}

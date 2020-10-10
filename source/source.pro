@@ -15,6 +15,7 @@ CONFIG(debug, debug|release) {
 
 SOURCES += \
     algorithm.cpp \
+    command/alignatsymbol.cpp \
     command/deletechar.cpp \
     command/indent.cpp \
     command/insertchar.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     command/textcommand.cpp \
     construct.cpp \
     construct/group.cpp \
+    construct/padding.cpp \
     cursor.cpp \
     cursor_adhoc_sub.cpp \
     cursorview.cpp \
@@ -53,6 +55,7 @@ SOURCES += \
 HEADERS += \
     YAWYSIWYGEE \
     algorithm.h \
+    command/alignatsymbol.h \
     command/commands.h \
     command/deletechar.h \
     command/indent.h \
@@ -64,6 +67,7 @@ HEADERS += \
     construct.h \
     construct/constructs.h \
     construct/group.h \
+    construct/padding.h \
     cursor.h \
     cursorview.h \
     globals.h \

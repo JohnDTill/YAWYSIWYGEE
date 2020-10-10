@@ -14,8 +14,6 @@ public:
     qreal w; //width
     qreal u; //distance from horizontal to top
     qreal d; //distance from horizontal to bottom
-
-private:
     static constexpr qreal padding_between_elements = 2.5;
 
 public:

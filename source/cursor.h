@@ -10,6 +10,7 @@ class Line;
 class Phrase;
 class SubPhrase;
 class Text;
+class QMenu;
 class QUndoCommand;
 
 class Cursor{
@@ -78,6 +79,9 @@ public:
 
     void tab();
     void shiftTab();
+
+    void populateContextMenu(QMenu& menu);
+    void alignAtEquals();
 
 private:
     bool forward() const;

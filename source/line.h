@@ -5,6 +5,7 @@
 
 class Line : public Phrase{
 public:
+    int type() const override {return UserType + 1;}
     Line* prev = nullptr;
     Line* next = nullptr;
     uint32_t line_num;

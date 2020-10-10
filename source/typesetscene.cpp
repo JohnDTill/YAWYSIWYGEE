@@ -252,14 +252,32 @@ void TypesetScene::processLeftClick(QGraphicsSceneMouseEvent* e){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
-    else if(Text* t = dynamic_cast<Text*>(item)) cursor->clickText(*t, p.x());
-    else if(Construct* c = dynamic_cast<Construct*>(item)) cursor->clickConstruct(*c);
-    else if(SubPhrase* sp = dynamic_cast<SubPhrase*>(item)){
-        if(sp->isEmpty()) cursor->clickText(*sp->front, p.x());
-        else processClickMiss(p);
-    }else{
-        qDebug() << "Invalid item left clicked";
-        processClickMiss(p);
+    else switch (item->type()) {
+        case TEXT:{
+            Q_ASSERT(dynamic_cast<Text*>(item));
+            Text* t = static_cast<Text*>(item);
+            cursor->clickText(*t, p.x());
+            break;
+        }
+        case CONSTRUCT:{
+            Q_ASSERT(dynamic_cast<Construct*>(item));
+            Construct* c = static_cast<Construct*>(item);
+            cursor->clickConstruct(*c);
+            break;
+        }
+        case SUBPHRASE:{
+            Q_ASSERT(dynamic_cast<SubPhrase*>(item));
+            SubPhrase* sp = static_cast<SubPhrase*>(item);
+            if(sp->isEmpty()) cursor->clickText(*sp->front, p.x());
+            else processClickMiss(p);
+            break;
+        }
+        case LINE:
+            Q_ASSERT(dynamic_cast<Line*>(item));
+            processClickMiss(p);
+            break;
+        default:
+            Q_ASSERT(false);
     }
 }
 
@@ -319,21 +337,36 @@ void TypesetScene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
     QPointF p = e->scenePos();
     QGraphicsItem* item = itemAt(p, QTransform());
     if(item==nullptr) processClickMiss(p);
-    else if(Text* t = dynamic_cast<Text*>(item)){
-        cursor->clickText(*t, p.x());
-        t->populateMenu(menu);
-    }else if(Construct* c = dynamic_cast<Construct*>(item)){
-        cursor->clickConstruct(*c);
-        c->populateMenu(menu);
-    }else if(SubPhrase* sp = dynamic_cast<SubPhrase*>(item)){
-        if(sp->isEmpty()){
-            cursor->clickText(*sp->front, p.x());
-            sp->front->populateMenu(menu);
+    else switch (item->type()) {
+        case TEXT:{
+            Q_ASSERT(dynamic_cast<Text*>(item));
+            Text* t = static_cast<Text*>(item);
+            cursor->clickText(*t, p.x());
+            t->populateMenu(menu);
+            break;
         }
-        else processClickMiss(p);
-    }else{
-        qDebug() << "Invalid item right clicked";
-        processClickMiss(p);
+        case CONSTRUCT:{
+            Q_ASSERT(dynamic_cast<Construct*>(item));
+            Construct* c = static_cast<Construct*>(item);
+            c->populateMenu(menu);
+            break;
+        }
+        case SUBPHRASE:{
+            Q_ASSERT(dynamic_cast<SubPhrase*>(item));
+            SubPhrase* sp = static_cast<SubPhrase*>(item);
+            if(sp->isEmpty()){
+                cursor->clickText(*sp->front, p.x());
+                sp->front->populateMenu(menu);
+            }
+            else processClickMiss(p);
+            break;
+        }
+        case LINE:
+            Q_ASSERT(dynamic_cast<Line*>(item));
+            processClickMiss(p);
+            break;
+        default:
+            Q_ASSERT(false);
     }
 }
 

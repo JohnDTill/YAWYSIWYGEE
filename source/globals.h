@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #include "MathBran/include/QMathBran_Macros.h"
+#include <QGraphicsItem>
 #include <QtGlobal>
 class QFont;
 class QFontMetrics;
@@ -10,6 +11,13 @@ class QPen;
 static constexpr qreal line_vspace = 4;
 static constexpr qreal linebox_offet = 10;
 static constexpr int spaces_per_tab = 4;
+
+enum TypesetType{
+    LINE = QGraphicsItem::UserType + 1,
+    SUBPHRASE = QGraphicsItem::UserType + 2,
+    TEXT = QGraphicsItem::UserType + 3,
+    CONSTRUCT = QGraphicsItem::UserType + 4,
+};
 
 class Globals{
     public:

@@ -10,6 +10,7 @@ class QTextStream;
 
 class Construct : public QGraphicsObject{
 public:
+    int type() const override {return UserType + 4;}
     Text* prev = nullptr;
     Text* next = nullptr;
     qreal w; //width

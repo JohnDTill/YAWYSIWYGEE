@@ -7,8 +7,8 @@ class Construct;
 class Phrase;
 
 class Text : public QGraphicsTextItem{
-
 public:
+    int type() const override {return UserType + 3;}
     Phrase* parent = nullptr;
     Construct* next = nullptr;
     Construct* prev = nullptr;

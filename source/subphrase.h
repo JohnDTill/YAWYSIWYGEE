@@ -6,6 +6,7 @@ class Construct;
 
 class SubPhrase : public Phrase{
 public:
+    int type() const override {return UserType + 2;}
     Construct* parent;
     uint16_t child_id; //So this subphrase can communicate with its parent
 

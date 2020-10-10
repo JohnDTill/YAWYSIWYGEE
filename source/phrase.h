@@ -38,6 +38,7 @@ public:
     virtual Line& getLine() = 0;
     virtual void populateMenu(QMenu& menu) = 0;
     virtual void write(QTextStream& out) const = 0;
+    void populateTextPointers(std::vector<Text*>& text_pointers) const;
 
 protected:
     virtual void calculateSize();

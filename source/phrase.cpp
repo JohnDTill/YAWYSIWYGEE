@@ -113,6 +113,14 @@ void Phrase::updateLayout(){
     }
 }
 
+void Phrase::populateTextPointers(std::vector<Text*>& text_pointers) const{
+    for(Text* t = front; t != back; t = t->next->next){
+        text_pointers.push_back(t);
+        t->next->populateTextPointers(text_pointers);
+    }
+    text_pointers.push_back(back);
+}
+
 void Phrase::calculateSize(){
     Text* t = front;
     w = t->w;

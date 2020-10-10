@@ -49,6 +49,7 @@ public:
     void updateCursorView();
     void updateSize();
     void copyAsPng(qreal upscale = 3);
+    std::vector<Text*> getTextPointers() const;
 
 public slots:
     void copySelectionAsPng(qreal upscale = 3);

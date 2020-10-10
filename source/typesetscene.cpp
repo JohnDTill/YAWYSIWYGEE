@@ -115,6 +115,15 @@ void TypesetScene::copyAsPng(qreal upscale){
     QGuiApplication::clipboard()->setImage(image, QClipboard::Clipboard);
 }
 
+std::vector<Text*> TypesetScene::getTextPointers() const{
+    std::vector<Text*> text_pointers;
+
+    for(Line* l = front; l; l = l->next)
+        l->populateTextPointers(text_pointers);
+
+    return text_pointers;
+}
+
 void TypesetScene::copySelectionAsPng(qreal upscale){
     if(!cursor->hasSelection()) return;
 
@@ -135,7 +144,6 @@ void TypesetScene::drawBackground(QPainter* painter, const QRectF& rect){
     painter->setPen(palette().text().color());
 }
 
-#include <QDebug>
 void TypesetScene::keyPressEvent(QKeyEvent* e){
     constexpr int Ctrl = Qt::ControlModifier;
     constexpr int Shift = Qt::ShiftModifier;

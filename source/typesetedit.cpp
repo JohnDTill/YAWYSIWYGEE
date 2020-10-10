@@ -126,12 +126,17 @@ void TypesetEdit::showLineNumbers(bool show){
     scene->setLineNumbersVisible(show);
 }
 
+std::vector<Text*> TypesetEdit::getTextPointers() const{
+    return scene->getTextPointers();
+}
+
 //SLOTS
 void TypesetEdit::clear(){
     delete scene;
     scene = new TypesetScene(!read_only, show_line_numbers);
     scene->setPalette(palette());
     setScene(scene);
+    emit contentsChanged();
 }
 
 void TypesetEdit::copy(){
@@ -161,7 +166,9 @@ void TypesetEdit::paste(){
 }
 
 void TypesetEdit::redo(){
+    if(!scene->undo_stack->canRedo()) return;
     scene->undo_stack->redo();
+    emit contentsChanged();
 }
 
 void TypesetEdit::setMathBran(const QString& text){
@@ -183,7 +190,9 @@ void TypesetEdit::setMathBran(const QString& text){
 }
 
 void TypesetEdit::undo(){
+    if(!scene->undo_stack->canUndo()) return;
     scene->undo_stack->undo();
+    emit contentsChanged();
 }
 
 static constexpr qreal default_scale = 2;
@@ -245,7 +254,7 @@ void TypesetEdit::mouseMoveEvent(QMouseEvent* e){
 
 void TypesetEdit::wheelEvent(QWheelEvent* e){
     if( e->modifiers() == Qt::ControlModifier ){
-        if(e->delta() > 0) zoomIn();
+        if(e->angleDelta().y() > 0) zoomIn();
         else zoomOut();
     }else{
         view->verticalScrollBar()->event(e);
@@ -268,6 +277,7 @@ void TypesetEdit::setScene(TypesetScene* scene){
 
         connect(scene->undo_stack, SIGNAL(canUndoChanged(bool)), this, SLOT(passUndo(bool)));
         connect(scene->undo_stack, SIGNAL(canRedoChanged(bool)), this, SLOT(passRedo(bool)));
+        connect(scene->undo_stack, SIGNAL(indexChanged(int)), this, SLOT(passContentsChanged()));
     }
 }
 
@@ -286,6 +296,10 @@ void TypesetEdit::passUndo(bool available){
 
 void TypesetEdit::passRedo(bool available){
     emit redoAvailable(available);
+}
+
+void TypesetEdit::passContentsChanged(){
+    emit contentsChanged();
 }
 
 TypesetEdit::TypesetView::TypesetView(TypesetEdit* edit)

@@ -2,6 +2,7 @@
 #define TYPESETEDIT_H
 
 #include <QWidget>
+class Text;
 class TypesetScene;
 class QGraphicsItem;
 class QSvgGenerator;
@@ -27,6 +28,7 @@ public:
     void setPalette(const QPalette& palette);
     void setReadOnly(bool ro);
     void showLineNumbers(bool show = true);
+    Q_DECL_DEPRECATED std::vector<Text*> getTextPointers() const;
 
 public slots:
     void clear();
@@ -44,6 +46,7 @@ public slots:
     void zoomReset();
 
 signals:
+    void contentsChanged();
     void redoAvailable(bool available);
     void undoAvailable(bool available);
 
@@ -61,6 +64,7 @@ private slots:
     void ensureFocusedItemVisible(QGraphicsItem* newFocusItem);
     void passUndo(bool available);
     void passRedo(bool available);
+    void passContentsChanged();
 
 private:
     class TypesetView;

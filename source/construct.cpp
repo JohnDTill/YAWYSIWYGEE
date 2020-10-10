@@ -116,6 +116,10 @@ Text* TerminalConstruct::textDown(const SubPhrase*, qreal) const{
     return nullptr; //unreachable
 }
 
+void TerminalConstruct::populateTextPointers(std::vector<Text*>&) const{
+    //DO NOTHING
+}
+
 UnaryConstruct::UnaryConstruct(SubPhrase* c)
     :child(c) {
     if(child==nullptr) child = new SubPhrase();
@@ -156,6 +160,10 @@ Text* UnaryConstruct::textDown(const SubPhrase*, qreal) const{
     return next;
 }
 
+void UnaryConstruct::populateTextPointers(std::vector<Text*>& text_pointers) const{
+    child->populateTextPointers(text_pointers);
+}
+
 BinaryConstruct::BinaryConstruct(SubPhrase* f, SubPhrase* s)
     : first(f),
       second(s) {
@@ -193,6 +201,11 @@ Text* BinaryConstruct::textLeft(const SubPhrase* caller) const{
     return (caller==second) ? first->back : prev;
 }
 
+void BinaryConstruct::populateTextPointers(std::vector<Text*>& text_pointers) const{
+    first->populateTextPointers(text_pointers);
+    second->populateTextPointers(text_pointers);
+}
+
 NaryConstruct::NaryConstruct(const std::vector<SubPhrase*> c)
     : children(c) {
     for(std::vector<SubPhrase*>::size_type i = 0; i < children.size(); i++){
@@ -227,4 +240,8 @@ Text* NaryConstruct::textRight(const SubPhrase* caller) const{
 Text* NaryConstruct::textLeft(const SubPhrase* caller) const{
     uint16_t i = caller->child_id;
     return (i > 0) ? children[i-1]->back : prev;
+}
+
+void NaryConstruct::populateTextPointers(std::vector<Text*>& text_pointers) const{
+    for(SubPhrase* sp : children) sp->populateTextPointers(text_pointers);
 }

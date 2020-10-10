@@ -8,6 +8,7 @@
 #include "parser.h"
 #include "subphrase.h"
 #include "text.h"
+#include "typesetedit.h"
 #include "YAWYSIWYGEE_commands.h"
 #include "YAWYSIWYGEE_keywords.h"
 #include "command/commands.h"
@@ -250,6 +251,7 @@ void Cursor::backspace(){
                 DeleteChar* delete_command = static_cast<DeleteChar*>(const_cast<QUndoCommand*>(last));
                 if(text == delete_command->t && cursor.position() == delete_command->pL){
                     delete_command->removeChar(false);
+                    emit doc.undo_stack->indexChanged(doc.undo_stack->index());
                     return;
                 }
             }
@@ -274,6 +276,7 @@ void Cursor::del(){
                 DeleteChar* delete_command = static_cast<DeleteChar*>(const_cast<QUndoCommand*>(last));
                 if(text == delete_command->t && cursor.position() == delete_command->pL){
                     delete_command->removeChar(true);
+                    emit doc.undo_stack->indexChanged(doc.undo_stack->index());
                     return;
                 }
             }
@@ -379,6 +382,7 @@ void Cursor::keystroke(const QChar& c){
             InsertChar* insert_command = static_cast<InsertChar*>(const_cast<QUndoCommand*>(last));
             if(text == insert_command->t && cursor.position() == insert_command->pR){
                 insert_command->addChar(c);
+                emit doc.undo_stack->indexChanged(doc.undo_stack->index());
                 requires_new_command = false;
             }
         }else if(last->text() == "L"){
@@ -387,6 +391,7 @@ void Cursor::keystroke(const QChar& c){
                 InsertChar* insert_command = static_cast<InsertChar*>(pair_command->second);
                 if(text == insert_command->t && cursor.position() == insert_command->pR){
                     insert_command->addChar(c);
+                    emit doc.undo_stack->indexChanged(doc.undo_stack->index());
                     requires_new_command = false;
                 }
             }

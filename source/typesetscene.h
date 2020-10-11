@@ -5,6 +5,7 @@
 class Construct;
 class Cursor;
 class CursorView;
+class ErrorView;
 class Line;
 class Text;
 class QMenu;
@@ -20,6 +21,7 @@ public:
     Line* back;
     Cursor* cursor;
     CursorView* cv;
+    ErrorView* ev;
     bool allow_write;
     QUndoStack* undo_stack;
     bool show_line_nums = true;
@@ -73,7 +75,6 @@ private:
     void processLineSelection(qreal y);
     void processClickMiss(QPointF scene_pos);
     void processShiftWordMiss(QPointF scene_pos);
-
     void setCursor(const Cursor& c);
 
 public slots:

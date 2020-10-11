@@ -93,6 +93,7 @@ void MainWindow::on_actionUndo_triggered(){
 
 void MainWindow::on_actionRedo_triggered(){
     typeset_edit.redo();
+    typeset_edit.clearErrors();
 }
 
 void MainWindow::on_actionLoad_Test_txt_triggered(){

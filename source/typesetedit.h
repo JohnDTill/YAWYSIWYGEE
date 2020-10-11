@@ -29,6 +29,8 @@ public:
     void setReadOnly(bool ro);
     void showLineNumbers(bool show = true);
     Q_DECL_DEPRECATED std::vector<Text*> getTextPointers() const;
+    void reportError(Text* tL, int pL, Text* tR, int pR, const QString& msg);
+    void clearErrors();
 
 public slots:
     void clear();

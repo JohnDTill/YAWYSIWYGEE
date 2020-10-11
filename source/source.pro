@@ -29,6 +29,7 @@ SOURCES += \
     cursor.cpp \
     cursor_adhoc_sub.cpp \
     cursorview.cpp \
+    errorview.cpp \
     globals.cpp \
     line.cpp \
     parser.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     construct/padding.h \
     cursor.h \
     cursorview.h \
+    errorview.h \
     globals.h \
     line.h \
     parser.h \

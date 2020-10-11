@@ -2,6 +2,7 @@
 
 #include "cursor.h"
 #include "cursorview.h"
+#include "errorview.h"
 #include "globals.h"
 #include "parser.h"
 #include "typesetscene.h"
@@ -128,6 +129,14 @@ void TypesetEdit::showLineNumbers(bool show){
 
 std::vector<Text*> TypesetEdit::getTextPointers() const{
     return scene->getTextPointers();
+}
+
+void TypesetEdit::reportError(Text* tL, int pL, Text* tR, int pR, const QString& msg){
+    scene->ev->reportError(tL, pL, tR, pR, msg);
+}
+
+void TypesetEdit::clearErrors(){
+    scene->ev->clear();
 }
 
 //SLOTS

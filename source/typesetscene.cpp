@@ -4,6 +4,7 @@
 #include "construct.h"
 #include "cursor.h"
 #include "cursorview.h"
+#include "errorview.h"
 #include "globals.h"
 #include "line.h"
 #include "parser.h"
@@ -46,6 +47,8 @@ TypesetScene::TypesetScene(bool allow_write, bool show_line_numbers, Line* f, Li
     cv = new CursorView(*this);
     cv->update(*cursor);
 
+    ev = new ErrorView();
+
     undo_stack = new QUndoStack();
 }
 
@@ -55,6 +58,7 @@ TypesetScene::~TypesetScene(){
     delete undo_stack;
     delete cursor;
     delete cv;
+    delete ev;
 
     Line* curr = back;
     while(curr){

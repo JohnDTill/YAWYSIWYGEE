@@ -25,6 +25,7 @@ SOURCES += \
     ../source/cursor.cpp \
     ../source/cursor_adhoc_sub.cpp \
     ../source/cursorview.cpp \
+    ../source/errorview.cpp \
     ../source/globals.cpp \
     ../source/line.cpp \
     ../source/parser.cpp \

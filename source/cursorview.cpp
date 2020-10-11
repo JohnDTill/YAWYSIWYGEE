@@ -83,8 +83,6 @@ void CursorView::addMasks(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
 }
 
 void CursorView::addMasksText(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QGuiApplication::palette().highlight();
-
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
     qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
     QRectF rect(xL, 0, xR-xL, tL->parent->h());
@@ -94,8 +92,6 @@ void CursorView::addMasksText(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR
 }
 
 void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QGuiApplication::palette().highlight();
-
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
     qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
     QRectF rect(xL, 0, xR-xL, tL->parent->h());
@@ -123,8 +119,6 @@ void CursorView::addMasksPhrase(Text* tL, QTextCursor cL, Text* tR, QTextCursor 
 }
 
 void CursorView::addMasksMultiline(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR){
-    QBrush highlight = QGuiApplication::palette().highlight();
-
     Line* lL = &tL->parent->getLine();
     Line* lR = &tR->parent->getLine();
 

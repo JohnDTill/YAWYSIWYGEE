@@ -1,10 +1,14 @@
 #include "typesetedit.h"
 
+#include "construct.h"
 #include "cursor.h"
 #include "cursorview.h"
 #include "errorview.h"
 #include "globals.h"
+#include "line.h"
 #include "parser.h"
+#include "subphrase.h"
+#include "text.h"
 #include "typesetscene.h"
 #include "MathBran/include/QMathBran.h"
 #include <QGraphicsItem>
@@ -133,6 +137,35 @@ std::vector<Text*> TypesetEdit::getTextPointers() const{
 
 void TypesetEdit::reportError(Text* tL, int pL, Text* tR, int pR, const QString& msg){
     scene->ev->reportError(tL, pL, tR, pR, msg);
+}
+
+void TypesetEdit::reportError(const QString& mb, int start, int length, const QString& msg){
+    Q_ASSERT(mb == toMathBran());
+    Q_ASSERT(start >= 0);
+    Q_ASSERT(length >= 0);
+    Q_ASSERT(start+length <= mb.length());
+
+    int lL_num = 0;
+    int lL_start = 0;
+    for(int i = 0; i < start; i++){
+        if(mb[i] == '\n'){
+            lL_num++;
+            lL_start = i+1;
+        }
+    }
+
+    int l_span = 0;
+    int lR_start = lL_start;
+    for(int i = start; i < start+length; i++){
+        if(mb[i] == '\n'){
+            l_span++;
+            lR_start = i+1;
+        }
+    }
+    if(start == mb.size()-1) l_span--;
+
+    if(l_span) reportErrorMultiline(mb, lL_num, l_span, lL_start, lR_start, start, length, msg);
+    else reportErrorSameLine(mb, lL_num, lL_start, start, length, msg);
 }
 
 void TypesetEdit::clearErrors(){
@@ -292,6 +325,135 @@ void TypesetEdit::setScene(TypesetScene* scene){
 
 qreal TypesetEdit::heightInScene() const {
     return view->mapToScene(0, view->height()).y() - view->mapToScene(0,0).y();
+}
+
+void TypesetEdit::reportErrorSameLine(const QString& mb,
+                                      int l_num,
+                                      int l_start,
+                                      int start,
+                                      int length,
+                                      const QString& msg){
+    Line* l = scene->front;
+    for(int i = 0; i < l_num; i++) l = l->next;
+
+    Phrase* p = l;
+    Text* tL = l->front;
+    int tL_start = l_start;
+    for(int i = l_start; i < start; i++){
+        if(mb[i] == MB_CONSTRUCT_SYMBOL){
+            i++;
+            if(mb[i] == MB_CONSTRUCT_SYMBOL || mb[i] == MB_OPEN || mb[i] == MB_CLOSE) continue;
+            else if(mb[i] == MB_MATRIX){
+                while(mb[i++] != MB_CLOSE);
+                while(mb[i++] != MB_CLOSE);
+                i-=2;
+            }
+
+            if(tL->next->front()){
+                //Move down
+                i += 2;
+                p = tL->next->front();
+                tL = p->front;
+                tL_start = i;
+                if(i==start) break;
+            }else{
+                //Move across phrase
+                i++;
+                tL = tL->next->next;
+                tL_start = i;
+            }
+        }
+
+        if(mb[i] == MB_CLOSE){
+            //Move across construct or up
+            i++;
+            if(mb[i] == MB_OPEN) i++;
+            SubPhrase* sp = static_cast<SubPhrase*>(p);
+            tL = sp->parent->textRight(sp);
+            tL_start = i;
+            p = tL->parent;
+        }
+    }
+
+
+    Text* tR = tL;
+    int tR_start = tL_start;
+    for(int i = tL_start; i < start+length; i++){
+        if(mb[i] == MB_CONSTRUCT_SYMBOL){
+            i++;
+            if(mb[i] == MB_CONSTRUCT_SYMBOL || mb[i] == MB_OPEN || mb[i] == MB_CLOSE) continue;
+            i += 2;
+            int level = 1;
+            while(level || mb[i+1] == MB_OPEN){
+                if(mb[i] == MB_CLOSE) level--;
+                else if(mb[i] == MB_OPEN) level++;
+
+                i++;
+            }
+
+            tR = tR->next->next;
+            tR_start = i+1;
+        }
+    }
+
+    reportError(tL, start-tL_start, tR, start+length-tR_start, msg);
+}
+
+void TypesetEdit::reportErrorMultiline(const QString& mb,
+                                       int lL_num,
+                                       int l_span,
+                                       int lL_start,
+                                       int lR_start,
+                                       int start,
+                                       int length,
+                                       const QString& msg){
+    Line* lL = scene->front;
+    for(int i = 0; i < lL_num; i++) lL = lL->next;
+    Line* lR = lL;
+    for(int i = 0; i < l_span; i++) lR = lR->next;
+
+    //Using the given information, find the appropriate text in the tree
+    Text* tL = lL->front;
+    int tL_start = lL_start;
+    for(int i = lL_start; i < start; i++){
+        if(mb[i] == MB_CONSTRUCT_SYMBOL){
+            i++;
+            if(mb[i] == MB_CONSTRUCT_SYMBOL || mb[i] == MB_OPEN || mb[i] == MB_CLOSE) continue;
+            i += 2;
+            int level = 1;
+            while(level || mb[i+1] == MB_OPEN){
+                if(mb[i] == MB_CLOSE) level--;
+                else if(mb[i] == MB_OPEN) level++;
+
+                i++;
+            }
+
+            tL = tL->next->next;
+            tL_start = i+1;
+        }
+    }
+
+    Text* tR = lR->front;
+    int tR_start = lR_start;
+    for(int i = lR_start; i < start; i++){
+        if(mb[i] == MB_CONSTRUCT_SYMBOL){
+            i++;
+            if(mb[i] == MB_CONSTRUCT_SYMBOL || mb[i] == MB_OPEN || mb[i] == MB_CLOSE) continue;
+            i += 2;
+            int level = 1;
+            while(level || mb[i+1] == MB_OPEN){
+                if(mb[i] == MB_CLOSE) level--;
+                else if(mb[i] == MB_OPEN) level++;
+
+                i++;
+            }
+
+            tR = tR->next->next;
+            tR_start = i+1;
+        }
+    }
+
+    reportError(tL, start-tL_start, tR, start+length-tR_start, msg);
 }
 
 //Private slots

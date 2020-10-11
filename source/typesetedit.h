@@ -29,8 +29,9 @@ public:
     void setReadOnly(bool ro);
     void showLineNumbers(bool show = true);
     Q_DECL_DEPRECATED std::vector<Text*> getTextPointers() const;
-    void reportError(Text* tL, int pL, Text* tR, int pR, const QString& msg);
-    void clearErrors();
+    Q_DECL_DEPRECATED void reportError(Text* tL, int pL, Text* tR, int pR, const QString& msg);
+    Q_DECL_DEPRECATED void reportError(const QString& mb, int start, int length, const QString& msg);
+    Q_DECL_DEPRECATED void clearErrors();
 
 public slots:
     void clear();
@@ -61,6 +62,20 @@ private:
     TypesetScene* scene;
     void setScene(TypesetScene* scene);
     qreal heightInScene() const;
+    void reportErrorSameLine(const QString& mb,
+                             int l_num,
+                             int l_start,
+                             int start,
+                             int length,
+                             const QString& msg);
+    void reportErrorMultiline(const QString& mb,
+                              int lL_num,
+                              int l_span,
+                              int lL_start,
+                              int lR_start,
+                              int start,
+                              int length,
+                              const QString& msg);
 
 private slots:
     void ensureFocusedItemVisible(QGraphicsItem* newFocusItem);

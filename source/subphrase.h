@@ -10,7 +10,7 @@ public:
     Construct* parent;
     uint16_t child_id; //So this subphrase can communicate with its parent
 
-private:
+public:
     static constexpr int empty_box_height = 19;
     static constexpr int empty_box_width = 12;
     static constexpr qreal padding = 1;

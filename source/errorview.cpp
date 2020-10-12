@@ -7,6 +7,7 @@
 #include "globals.h"
 #include "line.h"
 #include "phrase.h"
+#include "subphrase.h"
 #include "text.h"
 #include <QGuiApplication>
 #include <QStyleOptionGraphicsItem>
@@ -62,6 +63,7 @@ void ErrorView::reportError(Text* tL, int pL, Text* tR, int pR, const QString& m
 void ErrorView::addMasksText(Text* tL, QTextCursor cL, Text* tR, QTextCursor cR, const QString& msg){
     qreal xL = tL->x() + Algorithm::cursorOffset(*tL, cL);
     qreal xR = tR->x() + Algorithm::cursorOffset(*tR, cR);
+    if(tL == tR && cR.atStart() && !tL->parent->isLine()) xR = xL + SubPhrase::empty_box_width;
     QRectF rect(xL, 0, xR-xL, tL->parent->h());
     ErrorMask* item = new ErrorMask(rect, msg);
     masks.push_back(item);

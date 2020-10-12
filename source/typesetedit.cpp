@@ -346,31 +346,26 @@ void TypesetEdit::reportErrorSameLine(const QString& mb,
             else if(mb[i] == MB_MATRIX){
                 while(mb[i++] != MB_CLOSE);
                 while(mb[i++] != MB_CLOSE);
-                i-=2;
+                i--;
             }
 
             if(tL->next->front()){
                 //Move down
-                i += 2;
                 p = tL->next->front();
                 tL = p->front;
-                tL_start = i;
-                if(i==start) break;
+                tL_start = ++i;
             }else{
                 //Move across phrase
-                i++;
                 tL = tL->next->next;
                 tL_start = i;
             }
-        }
-
-        if(mb[i] == MB_CLOSE){
+        }else if(mb[i] == MB_CLOSE){
             //Move across construct or up
-            i++;
-            if(mb[i] == MB_OPEN) i++;
+            if(i+1 < mb.size() && mb[i+1] == MB_OPEN) i++;
+            Q_ASSERT(p->type() == SUBPHRASE);
             SubPhrase* sp = static_cast<SubPhrase*>(p);
             tL = sp->parent->textRight(sp);
-            tL_start = i;
+            tL_start = i+1;
             p = tL->parent;
         }
     }

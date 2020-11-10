@@ -184,7 +184,11 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
         case Qt::Key_Return: if(allow_write) cursor->insertParagraphSeparator(); break;
         case Qt::Key_Return|Shift: if(allow_write) cursor->insertLineSeparator(); break;
         case Qt::Key_Tab: if(allow_write) cursor->tab(); break;
-        case (Qt::Key_Tab|Shift)+1: if(allow_write) cursor->shiftTab(); break;
+        #ifdef __EMSCRIPTEN__
+        case Qt::Key_Tab|Shift: if(allow_write) cursor->shiftTab(); break;
+        #else
+        case (Qt::Key_Tab|Shift)+1: if(allow_write) cursor->shiftTab(); break; //+1 offset glitch
+        #endif
         case Qt::Key_Equal|Ctrl: if(allow_write) cursor->alignAtEquals(); break;
         case Qt::Key_C|Ctrl: cursor->copy(); break;
             #ifndef __EMSCRIPTEN__

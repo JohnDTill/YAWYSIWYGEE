@@ -15,16 +15,20 @@ HEADERS += ../ExampleApp/mainwindow.h
 
 SOURCES += \
     ../source/algorithm.cpp \
+    ../source/command/alignatsymbol.cpp \
     ../source/command/deletechar.cpp \
+    ../source/command/indent.cpp \
     ../source/command/multilinecommand.cpp \
     ../source/command/phrasecommand.cpp \
     ../source/command/insertchar.cpp \
     ../source/command/textcommand.cpp \
     ../source/construct.cpp \
     ../source/construct/group.cpp \
+    ../source/construct/padding.cpp \
     ../source/cursor.cpp \
     ../source/cursor_adhoc_sub.cpp \
     ../source/cursorview.cpp \
+    ../source/errorview.cpp \
     ../source/globals.cpp \
     ../source/line.cpp \
     ../source/parser.cpp \

@@ -118,13 +118,11 @@ QTextCursor Algorithm::getCursorAtSetpoint(const Text& t, qreal x){
 Line& Algorithm::lineAtY(Line& start, qreal y){
     Line* l = nullptr;
     if(start.scenePos().y() < y){
-        for(l = &start; l->next; l = l->next){
+        for(l = &start; l->next; l = l->next)
             if(l->next->scenePos().y() > y) return *l;
-        }
     }else{
-        for(l = &start; l->prev; l = l->prev){
+        for(l = &start; l->prev; l = l->prev)
             if(l->scenePos().y() < y) return *l;
-        }
     }
 
     return *l;

@@ -69,7 +69,7 @@ void Superscript::addSubscript(){
     out << MB_OPEN << MB_CLOSE;
     superscript->write(out);
     c->clickConstruct(*this);
-    c->paste(str);
+    c->insert(str);
 }
 #undef superscript
 
@@ -131,7 +131,7 @@ void Subscript::addSuperscript(){
     subscript->write(out);
     out << MB_OPEN << MB_CLOSE;
     c->clickConstruct(*this);
-    c->paste(str);
+    c->insert(str);
 }
 #undef subscript
 
@@ -222,7 +222,7 @@ void Dualscript::removeSuperscript(){
     out << MB_CONSTRUCT_SYMBOL << '_';
     subscript->write(out);
     c->clickConstruct(*this);
-    c->paste(str);
+    c->insert(str);
 }
 
 void Dualscript::removeSubscript(){
@@ -232,7 +232,7 @@ void Dualscript::removeSubscript(){
     out << MB_CONSTRUCT_SYMBOL << '^';
     superscript->write(out);
     c->clickConstruct(*this);
-    c->paste(str);
+    c->insert(str);
 }
 
 #undef superscript

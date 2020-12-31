@@ -14,7 +14,11 @@
 static constexpr qreal subscript_ratio = 0.8;
 static constexpr qreal subscript_offset = -6;
 static constexpr qreal superscript_ratio = 0.8;
+#ifdef __EMSCRIPTEN__
+static constexpr qreal hi = 29;
+#else
 static constexpr qreal hi = 27;
+#endif
 static constexpr int offset = 8747 - 99;
 
 Integral::Integral(QChar qchar, bool allow_superscript)

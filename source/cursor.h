@@ -14,7 +14,8 @@ class QMenu;
 class QUndoCommand;
 
 class Cursor{
-private:
+public:
+//private:
     TypesetScene& doc;
     Text* anchor_text;
     QTextCursor anchor_cursor;
@@ -60,7 +61,7 @@ public:
     void copy() const;
     void cut();
     void paste();
-    void paste(const QString& str);
+    void insert(const QString& str);
     void keystroke(const QChar& c);
 
     void clickText(Text& t, qreal x);
@@ -103,8 +104,8 @@ private:
     void clearSetpoint();
     qreal updateSetpoint();
     qreal x();
-    QUndoCommand* deleteSelection();
-    QUndoCommand* insert(const QString& str);
+    QUndoCommand* makeDeleteCmd();
+    QUndoCommand* makeInsertCmd(const QString& str);
     QUndoCommand* evaluate(const QString& source);
     void checkForSubstitution(const QChar& c);
     void checkSlashSub();

@@ -237,11 +237,11 @@ void Cursor::selectAll(){
 }
 
 void Cursor::backspace(){
-    if(hasSelection()) doc.undo_stack->push(deleteSelection());
+    if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     else if(cursor.atStart() && (text->prev || !text->parent->isLine())) selectPreviousChar();
     else if(cursor.atStart() && text->parent->getLine().prev){
         selectPreviousChar();
-        doc.undo_stack->push( deleteSelection() );
+        doc.undo_stack->push( makeDeleteCmd() );
     }
     else if(!cursor.atStart()){
         int index = doc.undo_stack->index() - 1;
@@ -262,11 +262,11 @@ void Cursor::backspace(){
 }
 
 void Cursor::del(){
-    if(hasSelection()) doc.undo_stack->push(deleteSelection());
+    if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     else if(cursor.atEnd() && (text->next || !text->parent->isLine())) selectNextChar();
     else if(cursor.atEnd() && text->parent->getLine().next){
         selectNextChar();
-        doc.undo_stack->push( deleteSelection() );
+        doc.undo_stack->push( makeDeleteCmd() );
     }
     else if(!cursor.atEnd()){
         int index = doc.undo_stack->index() - 1;
@@ -287,25 +287,25 @@ void Cursor::del(){
 }
 
 void Cursor::deleteEndOfWord(){
-    if(hasSelection()) doc.undo_stack->push(deleteSelection());
+    if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     else if(cursor.atEnd() && (text->next || !text->parent->isLine())) selectNextChar();
     else{
         selectNextWord();
-        if(hasSelection()) doc.undo_stack->push(deleteSelection());
+        if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     }
 }
 
 void Cursor::deleteStartOfWord(){
-    if(hasSelection()) doc.undo_stack->push(deleteSelection());
+    if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     else if(cursor.atStart() && (text->prev || !text->parent->isLine())) selectPreviousChar();
     else{
         selectPreviousWord();
-        if(hasSelection()) doc.undo_stack->push(deleteSelection());
+        if(hasSelection()) doc.undo_stack->push(makeDeleteCmd());
     }
 }
 
 void Cursor::insertParagraphSeparator(){
-    doc.undo_stack->push( insert("\n") );
+    doc.undo_stack->push( makeInsertCmd("\n") );
 }
 
 QString Cursor::selectedCode() const{
@@ -339,19 +339,19 @@ void Cursor::cut(){
 }
 
 void Cursor::paste(){
-    paste(QGuiApplication::clipboard()->text());
+    insert(QGuiApplication::clipboard()->text());
 }
 
-void Cursor::paste(const QString& str){
+void Cursor::insert(const QString& str){
     if(hasSelection()){
-        QUndoCommand* deletion = deleteSelection();
+        QUndoCommand* deletion = makeDeleteCmd();
         deletion->redo(); //Deletion changes line connections, so consolidateLeft() is not enough
         QUndoCommand* insertion;
         if(MathBran::containsConstruct(str) && MathBran::isWellFormed(str)){
             insertion = evaluate(str);
         }else{
             QString unescape = str;
-            insertion = insert(MathBran::removeEscapes(unescape));
+            insertion = makeInsertCmd(MathBran::removeEscapes(unescape));
         }
         deletion->undo();
         doc.undo_stack->push( new PairCommand(deletion, insertion) );
@@ -360,14 +360,14 @@ void Cursor::paste(const QString& str){
             doc.undo_stack->push(evaluate(str));
         }else{
             QString unescape = str;
-            doc.undo_stack->push(insert(MathBran::removeEscapes(unescape)));
+            doc.undo_stack->push(makeInsertCmd(MathBran::removeEscapes(unescape)));
         }
     }
 }
 
 void Cursor::keystroke(const QChar& c){
     if(hasSelection()){
-        QUndoCommand* deletion = deleteSelection();
+        QUndoCommand* deletion = makeDeleteCmd();
         consolidateLeft();
         doc.undo_stack->push( new PairCommand(deletion, new InsertChar(*this, c, text, cursor)) );
         return;
@@ -481,7 +481,7 @@ void Cursor::lineSelectPoint(QPointF p){
 
     bool was_forward = forward();
     Line& l = text->parent->getLine();
-    Line& active_line = l.next && was_forward ? *l.next : l;
+    Line& active_line = was_forward ? ((text == l.front) ? *l.prev : l) : l;
 
     qreal bU = active_line.scenePos().y() - line_vspace*3/4;
     qreal bL = bU + active_line.h() + line_vspace*3/2;
@@ -531,7 +531,7 @@ void Cursor::tab(){
     if(inSubphrase()) return;
 
     if(!hasSelection()){
-        doc.undo_stack->push(insert(QString(spaces_per_tab, ' ')));
+        doc.undo_stack->push(makeInsertCmd(QString(spaces_per_tab, ' ')));
         return;
     }
 
@@ -545,7 +545,7 @@ void Cursor::tab(){
     Line* lr = &tr->parent->getLine();
 
     if(ll == lr && !(tl == ll->front && tr == ll->back && cl.atStart() && cr.atEnd())){
-        doc.undo_stack->push(deleteSelection());
+        doc.undo_stack->push(makeDeleteCmd());
         return;
     }
 
@@ -568,7 +568,7 @@ void Cursor::shiftTab(){
 
         if(i+1 != cursor.position()){
             cursor.setPosition(i+1);
-            doc.undo_stack->push(deleteSelection());
+            doc.undo_stack->push(makeDeleteCmd());
         }
 
         return;
@@ -583,7 +583,7 @@ void Cursor::shiftTab(){
     Line* lr = &tr->parent->getLine();
 
     if(ll == lr && !(tl == ll->front && tr == ll->back && cl.atStart() && cr.atEnd())){
-        doc.undo_stack->push(deleteSelection());
+        doc.undo_stack->push(makeDeleteCmd());
         return;
     }
 
@@ -732,7 +732,7 @@ qreal Cursor::x(){
     return text->scenePos().x() + Algorithm::cursorOffset(*text, cursor);
 }
 
-QUndoCommand* Cursor::deleteSelection(){
+QUndoCommand* Cursor::makeDeleteCmd(){
     if(text==anchor_text){
         return TextCommand::remove(*this, text, cursor, anchor_cursor);
     }else if(text->parent == anchor_text->parent){
@@ -742,7 +742,7 @@ QUndoCommand* Cursor::deleteSelection(){
     }
 }
 
-QUndoCommand* Cursor::insert(const QString& str){
+QUndoCommand* Cursor::makeInsertCmd(const QString& str){
     if(str.contains('\n')) return MultilineCommand::insert(*this, doc, str, text, cursor);
     else return TextCommand::insert(*this, str, text, cursor);
 }
@@ -772,12 +772,12 @@ void Cursor::checkSlashSub(){
                 QString symbol = Keywords::lookup(key);
                 if(!symbol.isEmpty()){
                     anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                    paste(symbol);
+                    insert(symbol);
                 }else{
                     QString construct = Commands::lookup(key);
                     if(!construct.isEmpty()){
                         anchor_cursor.setPosition(temp_cursor.anchor() - 1);
-                        paste(MB_CONSTRUCT_SYMBOL + construct);
+                        insert(MB_CONSTRUCT_SYMBOL + construct);
                     }
                 }
 
@@ -855,7 +855,7 @@ void Cursor::checkComplexSlashSub(){
                         if(MathBran::isWellFormed(converted)){
                             anchor_text = t;
                             anchor_cursor = c;
-                            paste(converted);
+                            insert(converted);
                         }
 
                         return;

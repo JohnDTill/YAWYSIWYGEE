@@ -194,12 +194,12 @@ void TypesetEdit::cut(){
 }
 
 void TypesetEdit::insertMathBran(const QString& text){
-    scene->cursor->paste(text);
+    scene->cursor->insert(text);
     scene->cv->update(*scene->cursor);
 }
 
 void TypesetEdit::insertPlainText(const QString& text){
-    scene->cursor->paste(text);
+    scene->cursor->insert(text);
     scene->cv->update(*scene->cursor);
 }
 

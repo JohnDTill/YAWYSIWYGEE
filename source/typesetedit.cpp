@@ -29,6 +29,7 @@ private:
 public:
     TypesetView(TypesetEdit* edit);
     void keyPressEventQGraphicsView(QKeyEvent* e);
+    void ensureCursorVisible();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e) override final;
@@ -311,8 +312,10 @@ void TypesetEdit::setScene(TypesetScene* scene){
     if(scene){
         connect(scene->undo_stack, SIGNAL(canUndoChanged(bool)), this, SLOT(passUndo(bool)));
         connect(scene->undo_stack, SIGNAL(canRedoChanged(bool)), this, SLOT(passRedo(bool)));
-        connect(scene->undo_stack, SIGNAL(indexChanged(int)), this, SLOT(passContentsChanged()));
+        connect(scene->undo_stack, SIGNAL(indexChanged(int)), this, SLOT(passContentsChanged()));      
     }
+
+    view->ensureCursorVisible();
 }
 
 qreal TypesetEdit::heightInScene() const {
@@ -463,6 +466,11 @@ void TypesetEdit::TypesetView::keyPressEventQGraphicsView(QKeyEvent* e){
     QGraphicsView::keyPressEvent(e);
 }
 
+void TypesetEdit::TypesetView::ensureCursorVisible(){
+    QLineF line = edit->scene->getCursorLine();
+    ensureVisible(line.x1(), line.y1(), 1, line.dy(), 30, 15);
+}
+
 void TypesetEdit::TypesetView::keyPressEvent(QKeyEvent* e){
     edit->keyPressEvent(e);
 
@@ -483,8 +491,7 @@ void TypesetEdit::TypesetView::mousePressEvent(QMouseEvent* e){
     horizontalScrollBar()->update();
     verticalScrollBar()->setValue(cached_scrollbar_y);
     verticalScrollBar()->update();
-    QLineF line = edit->scene->getCursorLine();
-    ensureVisible(line.x1(), line.y1(), 1, line.dy(), 30, 15);
+    ensureCursorVisible();
 }
 
 void TypesetEdit::TypesetView::mouseMoveEvent(QMouseEvent* e){

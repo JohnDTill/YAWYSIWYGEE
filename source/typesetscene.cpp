@@ -216,10 +216,11 @@ void TypesetScene::keyPressEvent(QKeyEvent* e){
 
 void TypesetScene::mousePressEvent(QGraphicsSceneMouseEvent* e){
     double_clicked = false;
+    bool was_triple = triple_clicked;
     triple_clicked = false;
 
     if(e->buttons() == Qt::LeftButton){
-        triple_clicked = testTripleClick(e->screenPos());
+        triple_clicked = !was_triple && testTripleClick(e->screenPos());
         click_location = e->screenPos();
 
         if(e->scenePos().x() < -linebox_offet) processLineSelection(e->scenePos().y());
@@ -261,7 +262,7 @@ bool TypesetScene::testTripleClick(QPointF click_location) const{
     //Qt does not support triple-click detection out of the box,
     //so this defines a workaround based on timing and travel
 
-    QPointF deviation = click_location - click_location;
+    QPointF deviation = this->click_location - click_location;
     qreal L1_norm = deviation.x() + deviation.y();
 
     return L1_norm < allowed_triple_click_travel &&
@@ -368,6 +369,7 @@ void TypesetScene::processRightClick(QGraphicsSceneMouseEvent* e, QMenu& menu){
         case CONSTRUCT:{
             Q_ASSERT(dynamic_cast<Construct*>(item));
             Construct* c = static_cast<Construct*>(item);
+            cursor->clickConstruct(*c);
             c->populateMenu(menu);
             break;
         }

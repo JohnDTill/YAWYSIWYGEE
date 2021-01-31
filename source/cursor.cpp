@@ -629,6 +629,15 @@ void Cursor::alignAtEquals(){
     doc.undo_stack->push(new AlignAtSymbol(*this, &tl->parent->getLine(), &tr->parent->getLine(), offsets));
 }
 
+QLineF Cursor::getCursorLine()
+{
+    const qreal cursor_x = x();
+    const qreal cursor_y = text->parent->scenePos().y();
+    const qreal cursor_h = text->parent->h();
+
+    return QLineF(cursor_x, cursor_y, cursor_x, cursor_y+cursor_h);
+}
+
 bool Cursor::forward() const{
     if(text == anchor_text) return cursor.position() > anchor_cursor.position();
     else if(text->parent == anchor_text->parent) return text->x() > anchor_text->x();

@@ -84,6 +84,8 @@ public:
     void populateContextMenu(QMenu& menu);
     void alignAtEquals();
 
+    QLineF getCursorLine();
+
 private:
     bool forward() const;
     bool inSubphrase() const;

@@ -78,7 +78,6 @@ private:
                               const QString& msg);
 
 private slots:
-    void ensureFocusedItemVisible(QGraphicsItem* newFocusItem);
     void passUndo(bool available);
     void passRedo(bool available);
     void passContentsChanged();

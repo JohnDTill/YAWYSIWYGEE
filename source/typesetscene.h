@@ -52,6 +52,7 @@ public:
     void updateSize();
     void copyAsPng(qreal upscale = 3);
     std::vector<Text*> getTextPointers() const;
+    QLineF getCursorLine();
 
 public slots:
     void copySelectionAsPng(qreal upscale = 3);

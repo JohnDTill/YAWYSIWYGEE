@@ -32,6 +32,7 @@ public:
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e) override final;
+    virtual void mousePressEvent(QMouseEvent* e) override final;
     virtual void mouseMoveEvent(QMouseEvent* e) override final;
     virtual void wheelEvent(QWheelEvent* event) override final;
 };
@@ -40,7 +41,6 @@ TypesetEdit::TypesetEdit(QWidget* parent)
     : QWidget(parent) {
     Globals::initGlobals();
 
-    setMouseTracking(true);
     view = new TypesetView(this);
     view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOn);
@@ -305,18 +305,10 @@ void TypesetEdit::wheelEvent(QWheelEvent* e){
 
 //Private functions
 void TypesetEdit::setScene(TypesetScene* scene){
-    if(view->scene()){
-        disconnect(view->scene(), SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
-                   this, SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
-    }
-
     scene->setPalette(palette());
     view->setScene(scene);
 
     if(scene){
-        connect(scene, SIGNAL(focusItemChanged(QGraphicsItem*,QGraphicsItem*,Qt::FocusReason)),
-                this, SLOT(ensureFocusedItemVisible(QGraphicsItem*)));
-
         connect(scene->undo_stack, SIGNAL(canUndoChanged(bool)), this, SLOT(passUndo(bool)));
         connect(scene->undo_stack, SIGNAL(canRedoChanged(bool)), this, SLOT(passRedo(bool)));
         connect(scene->undo_stack, SIGNAL(indexChanged(int)), this, SLOT(passContentsChanged()));
@@ -452,10 +444,6 @@ void TypesetEdit::reportErrorMultiline(const QString& mb,
 }
 
 //Private slots
-void TypesetEdit::ensureFocusedItemVisible(QGraphicsItem* newFocusItem){
-    if(newFocusItem) view->ensureVisible(newFocusItem, 30, 15);
-}
-
 void TypesetEdit::passUndo(bool available){
     emit undoAvailable(available);
 }
@@ -482,6 +470,21 @@ void TypesetEdit::TypesetView::keyPressEvent(QKeyEvent* e){
     qDebug() << "keyPressEvent(new QKeyEvent(QEvent::KeyPress,"
              << e->key() << " ," << e->modifiers() << "));";
     #endif
+
+    QLineF line = edit->scene->getCursorLine();
+    ensureVisible(line.x1(), line.y1(), 1, line.dy(), 30, 15);
+}
+
+void TypesetEdit::TypesetView::mousePressEvent(QMouseEvent* e){
+    int cached_scrollbar_x = horizontalScrollBar()->value();
+    int cached_scrollbar_y = verticalScrollBar()->value();
+    QGraphicsView::mousePressEvent(e);
+    horizontalScrollBar()->setValue(cached_scrollbar_x);
+    horizontalScrollBar()->update();
+    verticalScrollBar()->setValue(cached_scrollbar_y);
+    verticalScrollBar()->update();
+    QLineF line = edit->scene->getCursorLine();
+    ensureVisible(line.x1(), line.y1(), 1, line.dy(), 30, 15);
 }
 
 void TypesetEdit::TypesetView::mouseMoveEvent(QMouseEvent* e){

@@ -128,6 +128,10 @@ std::vector<Text*> TypesetScene::getTextPointers() const{
     return text_pointers;
 }
 
+QLineF TypesetScene::getCursorLine(){
+    return cursor->getCursorLine();
+}
+
 void TypesetScene::copySelectionAsPng(qreal upscale){
     if(!cursor->hasSelection()) return;
 

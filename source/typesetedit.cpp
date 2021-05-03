@@ -36,6 +36,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* e) override final;
     virtual void mouseMoveEvent(QMouseEvent* e) override final;
     virtual void wheelEvent(QWheelEvent* event) override final;
+    virtual void contextMenuEvent(QContextMenuEvent*) override final{/*DO NOTHING*/}
 };
 
 TypesetEdit::TypesetEdit(QWidget* parent)

@@ -1,4 +1,5 @@
 # YAWYSIWYGEE
+This story arc has reached its conclusion, but the adventure continues with YAWYSIWYGEE 2: [Forscape](https://github.com/JohnDTill/Forscape)!
 ## Yet Another WYSIWYG Equation Editor
 #### Yet Another What-you-see-is-what-you-get Equation Editor
 
